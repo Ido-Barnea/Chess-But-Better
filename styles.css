@@ -1,0 +1,47 @@
+#board-display {
+    width: 640px;
+    height: 640px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.square {
+    height: 80px;
+    width: 80px;
+    position: relative;
+}
+
+.square svg {
+    height: 70px;
+    width: 70px;
+    margin: 5px;
+    position: relative;
+    z-index: -1;
+}
+
+path {
+    position: relative;
+    z-index: -2;
+}
+
+.piece {
+    position: relative;
+    z-index: 1;
+}
+
+.beige {
+    background-color: burlywood;
+}
+
+.brown {
+    background-color: brown;
+}
+
+.black {
+    fill: black;
+}
+
+.white {
+    fill: white;
+}
