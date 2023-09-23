@@ -16,7 +16,7 @@ class Pawn {
         if (isSquareOccupied(target)) {
             const oponent = color === 'white' ? 'black' : 'white';
             // Make sure the other piece belongs to the current player's oponent.
-            if (target.firstChild.classList.contains(oponent)) {
+            if (target.classList.contains(oponent)) {
                 return absoluteDeltaY === 1 && absoluteDeltaX === 1;
             }
         }
