@@ -23,7 +23,7 @@ class Pawn {
 
         // Pawns can have an initial two-square move.
         if ((color === 'white' && coordinates[1] == 6) || (color === 'black' && coordinates[1] == 1)) {
-            return (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0
+            return (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0;
         }
 
         // Pawns move one square forward.

@@ -10,6 +10,7 @@ const numberOfPlayers = 2;
 let player = 'white';
 let roundCounter = 1;
 let turnCounter = 0;
+let isPiecesDropOffTheBoardActive = false;
 
 var board = [
     'r', 'b', 'n', 'q', 'k', 'n', 'b', 'r',
@@ -23,6 +24,10 @@ var board = [
 ]
 
 function initializeBoard(_board) {
+    activeRules.forEach((rule) => {
+        if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
+    });
+
     _board.forEach((_, index) => {
         // Create square elements and set their attributes
         const square = createSquare(index);
@@ -49,7 +54,6 @@ function createSquare(index) {
 
     // Add starting pieces
     const piece = createPiece(board[index]);
-    console.log();
     if (piece !== null) {
         square.appendChild(piece);
     }
@@ -121,6 +125,10 @@ function addDragAndDropListeners() {
         square.addEventListener('dragover', dragOver);
         square.addEventListener('drop', dragDrop);
     });
+
+    // Support pieces falling off the board
+    document.body.addEventListener('dragover', dragOver);
+    document.body.addEventListener('drop', dragOffTheBoard);
 }
 
 // Initialize the board and add event listeners
@@ -161,6 +169,13 @@ function dragDrop(e) {
 
 function dragOver(e) {
     e.preventDefault();
+}
+
+function dragOffTheBoard(e) {
+    if (isPiecesDropOffTheBoardActive) {
+        fellOffTheBoard = draggedElement;
+        endTurn();
+    }
 }
 
 function isAllowedToMove() {
@@ -215,7 +230,6 @@ function attemptToMove(coordinates, targetCoordinates, stepX, stepY, limit) {
     while ((coordinates[0] !== targetCoordinates[0] || coordinates[1] !== targetCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
-        console.log(target);
         if (isSquareOccupied(target.firstChild || target)) {
             return false;
         }
@@ -229,12 +243,19 @@ function attemptToMove(coordinates, targetCoordinates, stepX, stepY, limit) {
 }
 
 function endTurn() {
-    player = player === 'white' ? 'black' : 'white';
-    turnCounter++;
+    player = player === 'white' ? 'black' : 'white'; // Switch players
+    turnCounter++; // Advance turn counter
+
+    // Check if a round has passed
     if (turnCounter % numberOfPlayers === 0) {
         turnCounter = 0;
         roundCounter++;
-        roundCounterDisplay.textContent = roundCounter;
+        roundCounterDisplay.textContent = roundCounter; // Update information
     }
-    playerDisplay.textContent = player;
+    playerDisplay.textContent = player; // Update information
+
+    // Check if any rule is triggered
+    activeRules.forEach((rule) => {
+        rule.apply(board);
+    });
 }
