@@ -14,6 +14,7 @@ class Rule {
                 console.log(`${currentPlayer} received XP for revealing a new rule: ${this.description}`);
                 const player = getCurrentPlayer();
                 player.xp++;
+                this.isSecret = false;
             }
         }
     }
@@ -43,7 +44,6 @@ const activeRules = [
             console.log(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
             fellOffTheBoard.remove();
             fellOffTheBoard = null;
-            this.isSecret = false;
         }
     ),
     new Rule(
@@ -58,7 +58,6 @@ const activeRules = [
             const player = getCurrentPlayer();
             player.xp++;
             isFirstKill = false;
-            this.isSecret = false;
         }
     ),
     new Rule(
@@ -73,7 +72,6 @@ const activeRules = [
             const player = getCurrentPlayer();
             player.xp++;
             deathTrigger = false;
-            this.isSecret = false;
         }
     ),
     new Rule(
@@ -86,9 +84,8 @@ const activeRules = [
         (board) => {
             console.log(`${currentPlayer} attacked his own piece and has to pay compensations.`);
             const _player = getCurrentPlayer();
-            _player.gold -= 1;
+            _player.gold--;
             isFriendlyFire = false;
-            this.isSecret = false;
         }
     ),
     new Rule(
@@ -104,7 +101,28 @@ const activeRules = [
                 console.log(`${player.color} gained XP.`);
                 player.xp++;
             });
-            this.isSecret = false;
+        }
+    ),
+    new Rule(
+        5,
+        "Empty pockets.",
+        true,
+        (board) => {
+            let isInDebt = false;
+            players.forEach((player) => {
+                if (player.color === currentPlayer && player.gold < 0) {
+                    isInDebt = true;
+                }
+            });
+            return isInDebt;
+        },
+        (board) => {
+            players.forEach((player) => {
+                if (player.color === currentPlayer && player.gold < 0) {
+                    console.log(`${player.color} is in debt. They lose XP for not handling money properly.`);
+                    player.xp--;
+                }
+            });
         }
     )
 ];
