@@ -157,11 +157,12 @@ function onDragDrop(e) {
 
     // Check if there is another piece on the targeted square.
     if (isSquareOccupied(target)) {
-        // Make sure the other piece belongs to the current player's oponent.
+        console.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${currentPlayer} ${draggedElement.id}.`);
         if (isSquareOccupiedByEnemy(target)) {
             killEnemyPiece(target);
         } else {
-            return;
+            isFriendlyFire = true;
+            killEnemyPiece(target);
         }
     } else {
         console.log(`${currentPlayer} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
@@ -257,8 +258,6 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
     while ((coordinates[0] !== destinationCoordinates[0] || coordinates[1] !== destinationCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
-        console.log(destinationCoordinates);
-        console.log(target);
         // Check if any square along the piece's path is occupied (not including the destination square)
         if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') != destinationCoordinates) {
             return false;
@@ -273,7 +272,6 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
 }
 
 function killEnemyPiece(target) {
-    console.log(`${currentPlayer === 'white' ? 'black' : 'white'} ${target.id} was killed by ${currentPlayer} ${draggedElement.id}.`);
     target.parentNode.append(draggedElement);
     target.remove();
     deathCounter++;

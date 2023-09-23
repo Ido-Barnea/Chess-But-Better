@@ -21,6 +21,8 @@ let isFirstKill = true;
 let deathCounter = 0;
 let deathTrigger = false;
 
+let isFriendlyFire = false;
+
 // Rules lists
 const inactiveRules = [];
 const activeRules = [
@@ -41,7 +43,7 @@ const activeRules = [
     ),
     new Rule(
         1,
-        "First Blood Bonus: The first to kill gets 2 XP.",
+        "First Blood Bonus: The first to kill gets an extra XP.",
         true,
         (board) => {
             return deathCounter > 0 && isFirstKill;
@@ -68,10 +70,28 @@ const activeRules = [
             players.forEach((player) => {
                 if (player.color === currentPlayer) {
                     player.xp += 1;
-                    console.log(`${currentPlayer} received a bonus.`);
+                    console.log(`${currentPlayer} received a bonus for killing another piece.`);
                 }
             });
             deathTrigger = false;
+            this.isSecret = false;
+        }
+    ),
+    new Rule(
+        2,
+        "Friendly Fire! Players can attack their own pieces.",
+        true,
+        (board) => {
+            return isFriendlyFire;
+        },
+        (board) => {
+            players.forEach((player) => {
+                if (player.color === currentPlayer) {
+                    player.gold -= 1;
+                    console.log(`${currentPlayer} attacked his own piece and has to pay compensations.`);
+                }
+            });
+            isFriendlyFire = false;
             this.isSecret = false;
         }
     )
