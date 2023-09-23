@@ -181,14 +181,14 @@ function isAllowedToMove() {
     return draggedElement.classList.contains(currentPlayer);
 }
 
-function isSquareOccupied(targetSquare) {
-    return targetSquare.classList.contains('piece');
+function isSquareOccupied(target) {
+    return target.classList.contains('piece');
 }
 
-function isSquareOccupiedByEnemy(targetSquare) {
-    if (!isSquareOccupied(targetSquare)) return false;
+function isSquareOccupiedByEnemy(target) {
+    if (!isSquareOccupied(target)) return false;
     const oponent = currentPlayer === 'white' ? 'black' : 'white';
-    return targetSquare.firstChild.classList.contains(oponent);
+    return target.classList.contains(oponent);
 }
 
 function isValidMove(target) {
@@ -241,7 +241,8 @@ function attemptToMove(coordinates, targetCoordinates, stepX, stepY, limit) {
     return true;
 }
 
-function killEnemyPiece() {
+function killEnemyPiece(target) {
+    console.log(`${currentPlayer === 'white' ? 'black' : 'white'} ${target.id} was killed by ${currentPlayer} ${draggedElement.id}.`);
     target.parentNode.append(draggedElement);
     target.remove();
     hasAnyoneDied = true;

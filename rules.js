@@ -32,7 +32,7 @@ const activeRules = [
         },
         (board) => {
             const color = fellOffTheBoard.classList.contains('white') ? 'white' : 'black';
-            console.log('A ' + color + ' ' + fellOffTheBoard.id + ' fell off the board.');
+            console.log(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
             fellOffTheBoard.remove();
             fellOffTheBoard = null;
             this.isSecret = false;
@@ -49,7 +49,7 @@ const activeRules = [
             players.forEach((player) => {
                 if (player.color === currentPlayer) {
                     player.xp += 2;
-                    console.log(currentPlayer + ' has made First Blood and received a bonus.');
+                    console.log(`${currentPlayer} has made First Blood and received a bonus.`);
                 }
             });
             isFirstKill = false;
