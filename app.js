@@ -37,6 +37,8 @@ function initializeBoard(_board) {
     // Display initial information
     playerDisplay.textContent = currentPlayer;
     roundCounterDisplay.textContent = roundCounter;
+    infoDisplay.textContent += `White: ${players[0].xp} XP; ${players[0].gold} Gold.`;
+    infoDisplay.textContent += `| Black: ${players[1].xp} XP; ${players[1].gold} Gold.`;
 }
 
 function createSquare(index) {
@@ -284,6 +286,10 @@ function endTurn() {
     activeRules.forEach((rule) => {
         rule.apply(board);
     });
+
+    infoDisplay.textContent = '';
+    infoDisplay.textContent += `White: ${players[0].xp} XP; ${players[0].gold} Gold.`;
+    infoDisplay.textContent += `| Black: ${players[1].xp} XP; ${players[1].gold} Gold.`;
 
     currentPlayer = currentPlayer === 'white' ? 'black' : 'white'; // Switch players
     turnCounter++; // Advance turn counter
