@@ -256,7 +256,9 @@ function attemptToMove(coordinates, targetCoordinates, stepX, stepY, limit) {
     while ((coordinates[0] !== targetCoordinates[0] || coordinates[1] !== targetCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
-        if (isSquareOccupied(target.firstChild || target)) {
+        console.log(targetCoordinates);
+        console.log(target);
+        if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') != targetCoordinates) {
             return false;
         }
         
