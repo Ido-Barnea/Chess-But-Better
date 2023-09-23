@@ -67,7 +67,7 @@ const activeRules = [
             return deathTrigger;
         },
         (board) => {
-            console.log(`${currentPlayer} received a bonus for killing another piece.`);
+            console.log(`${currentPlayer} received XP for killing another piece.`);
             gainXP();
             deathTrigger = false;
             this.isSecret = false;
@@ -75,28 +75,33 @@ const activeRules = [
     ),
     new Rule(
         3,
-        "Friendly Fire! Players can attack their own pieces.",
+        "Friendly Fire! Players can attack their own pieces (for a price).",
         true,
         (board) => {
             return isFriendlyFire;
         },
         (board) => {
-            players.forEach((player) => {
-                if (player.color === currentPlayer) {
-                    player.gold -= 1;
-                    console.log(`${currentPlayer} attacked his own piece and has to pay compensations.`);
-                }
-            });
+            console.log(`${currentPlayer} attacked his own piece and has to pay compensations.`);
+            const _player = getCurrentPlayer();
+            _player.gold -= 1;
             isFriendlyFire = false;
             this.isSecret = false;
         }
     )
 ];
 
-function gainXP() {
-    players.forEach((player) => {
-        if (player.color === currentPlayer) {
-            player.xp += 1;
+function getCurrentPlayer() {
+    let player = null;
+    players.forEach((_player) => {
+        if (_player.color === currentPlayer) {
+            player = _player;
         }
     });
+
+    return player;
+}
+
+function gainXP() {
+    const _player = getCurrentPlayer();
+    _player.xp += 1;
 }
