@@ -164,6 +164,7 @@ function onDragDrop(e) {
             return;
         }
     } else {
+        console.log(`${currentPlayer} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
         target.append(draggedElement);
     }
 
