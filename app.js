@@ -12,14 +12,14 @@ let roundCounter = 1;
 let turnCounter = 0;
 
 var board = [
-    rookResource, bishopResource, knightResource, queenResource, kingResource, knightResource, bishopResource, rookResource,
-    pawnResource, pawnResource, pawnResource, pawnResource, pawnResource, pawnResource, pawnResource, pawnResource,
+    'r', 'b', 'n', 'q', 'k', 'n', 'b', 'r',
+    'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p',
     '', '',  '', '', '', '', '', '',
     '', '',  '', '', '', '', '', '',
     '', '',  '', '', '', '', '', '',
     '', '',  '', '', '', '', '', '',
-    pawnResource, pawnResource, pawnResource, pawnResource, pawnResource, pawnResource, pawnResource, pawnResource,
-    rookResource, bishopResource, knightResource, queenResource, kingResource, knightResource, bishopResource, rookResource,
+    'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P',
+    'R', 'B', 'N', 'Q', 'K', 'N', 'B', 'R',
 ]
 
 function initializeBoard(_board) {
@@ -48,10 +48,11 @@ function createSquare(index) {
     square.classList.add(backgroundColor);
 
     // Add starting pieces
-    square.innerHTML = board[index];
-
-    // Tint pieces
-    tintPiece(square.firstChild, index);
+    const piece = createPiece(board[index]);
+    console.log();
+    if (piece !== null) {
+        square.appendChild(piece);
+    }
 
     return square;
 }
@@ -62,12 +63,54 @@ function getBackgroundColor(column, row) {
     return isEvenRow ? (isEvenColumn ? 'beige' : 'brown') : (isEvenColumn ? 'brown' : 'beige');
 }
 
-function tintPiece(piece, index) {
-    if (index < 16) {
-        piece.firstChild.classList.add('black');
-    }
-    if (index > 47) {
-        piece.firstChild.classList.add('white');
+function createPiece(piece) {
+    if (piece == '') return null;
+
+    const pieceElement = document.createElement('div');
+    pieceElement.classList.add('piece');
+    pieceElement.setAttribute('draggable', true);
+    pieceElement.setAttribute('id', getPieceType(piece));
+
+    // Add class for the piece color
+    pieceElement.classList.add(getPieceColor(piece));
+
+    // Set the inner HTML to the piece character
+    pieceElement.innerHTML = getPieceResource(piece);
+
+    return pieceElement;
+}
+
+function getPieceColor(piece) {
+    return piece.toLowerCase() == piece ? 'black' : 'white';
+}
+
+function getPieceType(piece) {
+    return piece;
+}
+
+function getPieceResource(piece) {
+    switch (piece.toLowerCase()) {
+        case 'p': {
+            return pawnResource;
+        }
+        case 'b': {
+            return bishopResource;
+        }
+        case 'n': {
+            return knightResource;
+        }
+        case 'r': {
+            return rookResource;
+        }
+        case 'q': {
+            return queenResource;
+        }
+        case 'k': {
+            return kingResource;
+        }
+        default: {
+            return '';
+        }
     }
 }
 
@@ -121,8 +164,7 @@ function dragOver(e) {
 }
 
 function isAllowedToMove() {
-    const target = draggedElement.firstChild;
-    return target.classList.contains(player);
+    return draggedElement.classList.contains(player);
 }
 
 function isSquareOccupied(targetSquare) {
@@ -136,30 +178,30 @@ function isSquareOccupiedByEnemy(targetSquare) {
 }
 
 function isValidMove(target) {
-    const piece = draggedElement.id;
+    const piece = draggedElement.id.toLowerCase();
     const _coordinates = draggedElement.parentNode.getAttribute('square-id');
     const _targetCoordinates = target.getAttribute('square-id') || target.parentNode.getAttribute('square-id'); // Either an empty square or a piece occuping a square
 
     const coordinates = [Number(_coordinates[0]), Number(_coordinates[2])];
     const targetCoordinates = [Number(_targetCoordinates[0]), Number(_targetCoordinates[2])];
-
+    
     switch (piece) {
-        case 'pawn': {
+        case 'p': {
             return Pawn.isValidMove(coordinates, targetCoordinates, player, target);
         }
-        case 'bishop': {
+        case 'b': {
             return Bishop.isValidMove(coordinates, targetCoordinates);
         }
-        case 'knight': {
+        case 'n': {
             return Knight.isValidMove(coordinates, targetCoordinates);
         }
-        case 'rook': {
+        case 'r': {
             return Rook.isValidMove(coordinates, targetCoordinates);
         }
-        case 'queen': {
+        case 'q': {
             return Queen.isValidMove(coordinates, targetCoordinates);
         }
-        case 'king': {
+        case 'k': {
             return King.isValidMove(coordinates, targetCoordinates);
         }
         default: {
@@ -173,6 +215,7 @@ function attemptToMove(coordinates, targetCoordinates, stepX, stepY, limit) {
     while ((coordinates[0] !== targetCoordinates[0] || coordinates[1] !== targetCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
+        console.log(target);
         if (isSquareOccupied(target.firstChild || target)) {
             return false;
         }

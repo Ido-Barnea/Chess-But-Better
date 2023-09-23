@@ -28,8 +28,6 @@ class Pawn {
 
         // Pawns move one square forward.
         return absoluteDeltaY === 1 && absoluteDeltaX === 0;
-
-        return true;
     }
 }
 
@@ -83,7 +81,7 @@ class Queen {
         const absoluteDeltaY = Math.abs(targetCoordinates[1] - coordinates[1]);
 
         // Queens can move vertically, horizontally or diagonally.
-        if ((absoluteDeltaY + absoluteDeltaX === Math.abs(absoluteDeltaY - absoluteDeltaX)) || absoluteDeltaY === absoluteDeltaX) {
+        if ((coordinates[1] === targetCoordinates[1] || coordinates[0] === targetCoordinates[0]) || absoluteDeltaY === absoluteDeltaX) {
             return attemptToMove(coordinates, targetCoordinates, stepX, stepY, -1);
         }
 
@@ -94,7 +92,7 @@ class Queen {
 class King {
     static isValidMove(coordinates, targetCoordinates) {
         const stepX = (targetCoordinates[0] > coordinates[0]) ? 1 : (targetCoordinates[0] < coordinates[0]) ? -1 : 0;
-            const stepY = (targetCoordinates[1] > coordinates[1]) ? 1 : (targetCoordinates[1] < coordinates[1]) ? -1 : 0;
+        const stepY = (targetCoordinates[1] > coordinates[1]) ? 1 : (targetCoordinates[1] < coordinates[1]) ? -1 : 0;
 
         const absoluteDeltaX = Math.abs(targetCoordinates[0] - coordinates[0]);
         const absoluteDeltaY = Math.abs(targetCoordinates[1] - coordinates[1]);
