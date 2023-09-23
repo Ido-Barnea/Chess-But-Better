@@ -30,12 +30,16 @@ path {
     z-index: 1;
 }
 
-.beige {
+.beige-background {
     background-color: burlywood;
 }
 
-.brown {
+.brown-background {
     background-color: brown;
+}
+
+.light-gray-background {
+    background-color: #e6e6e6;
 }
 
 .black {

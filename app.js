@@ -64,7 +64,7 @@ function createSquare(index) {
 function getBackgroundColor(column, row) {
     const isEvenColumn = column % 2 === 0;
     const isEvenRow = row % 2 === 0;
-    return isEvenRow ? (isEvenColumn ? 'beige' : 'brown') : (isEvenColumn ? 'brown' : 'beige');
+    return isEvenRow ? (isEvenColumn ? 'beige-background' : 'brown-background') : (isEvenColumn ? 'brown-background' : 'beige-background');
 }
 
 function createPiece(piece) {
@@ -121,13 +121,15 @@ function getPieceResource(piece) {
 function addDragAndDropListeners() {
     const squares = document.querySelectorAll('#board-display .square');
     squares.forEach((square) => {
-        square.addEventListener('dragstart', dragStart);
-        square.addEventListener('dragover', dragOver);
-        square.addEventListener('drop', dragDrop);
+        square.addEventListener('dragstart', onDragStart);
+        square.addEventListener('dragover', onDragOver);
+        square.addEventListener('drop', onDragDrop);
+        square.addEventListener('mouseover', onMouseOver);
+        square.addEventListener('mouseout', onMouseOut);
     });
 
     // Support pieces falling off the board
-    document.body.addEventListener('dragover', dragOver);
+    document.body.addEventListener('dragover', onDragOver);
     document.body.addEventListener('drop', dragOffTheBoard);
 }
 
@@ -139,13 +141,13 @@ addDragAndDropListeners();
 
 let draggedElement;
 
-function dragStart(e) {
+function onDragStart(e) {
     if (e.target.classList.contains('piece')) {
         draggedElement = e.target;
     }
 }
 
-function dragDrop(e) {
+function onDragDrop(e) {
     e.stopPropagation();
     const target = e.target;
     if (!isAllowedToMove()) return;
@@ -166,8 +168,30 @@ function dragDrop(e) {
     endTurn();
 }
 
-function dragOver(e) {
+function onDragOver(e) {
     e.preventDefault();
+}
+
+function handleMouseEvents(e, shouldAddClass) {
+    let target = e.target;
+    if (target.parentNode.classList.contains('square')) {
+        target = target.parentNode;
+    }
+    if (target.classList.contains('square')) {
+        if (shouldAddClass) {
+            target.classList.add('light-gray-background');
+        } else {
+            target.classList.remove('light-gray-background');
+        }
+    }
+}
+
+function onMouseOver(e) {
+    handleMouseEvents(e, true);
+}
+
+function onMouseOut(e) {
+    handleMouseEvents(e, false);
 }
 
 function dragOffTheBoard(e) {
