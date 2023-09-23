@@ -202,6 +202,7 @@ function dragOffTheBoard(e) {
     if (isPiecesDropOffTheBoardActive && isAllowedToMove()) {
         fellOffTheBoard = draggedElement;
         deathCounter++;
+        deathTrigger = true;
         endTurn();
     }
 }

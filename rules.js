@@ -10,6 +10,10 @@ class Rule {
     apply(board) {
         if (this.condition(board)) {
             this.action(board);
+            if (this.isSecret) {
+                console.log(`${currentPlayer} received XP for revealing a new rule: ${this.description}`);
+                gainXP();
+            }
         }
     }
 }
@@ -49,12 +53,8 @@ const activeRules = [
             return deathCounter > 0 && isFirstKill;
         },
         (board) => {
-            players.forEach((player) => {
-                if (player.color === currentPlayer) {
-                    player.xp += 1;
-                    console.log(`${currentPlayer} has made First Blood and received a bonus.`);
-                }
-            });
+            console.log(`${currentPlayer} has made First Blood and received a bonus.`);
+            gainXP();
             isFirstKill = false;
             this.isSecret = false;
         }
@@ -67,18 +67,14 @@ const activeRules = [
             return deathTrigger;
         },
         (board) => {
-            players.forEach((player) => {
-                if (player.color === currentPlayer) {
-                    player.xp += 1;
-                    console.log(`${currentPlayer} received a bonus for killing another piece.`);
-                }
-            });
+            console.log(`${currentPlayer} received a bonus for killing another piece.`);
+            gainXP();
             deathTrigger = false;
             this.isSecret = false;
         }
     ),
     new Rule(
-        2,
+        3,
         "Friendly Fire! Players can attack their own pieces.",
         true,
         (board) => {
@@ -96,3 +92,11 @@ const activeRules = [
         }
     )
 ];
+
+function gainXP() {
+    players.forEach((player) => {
+        if (player.color === currentPlayer) {
+            player.xp += 1;
+        }
+    });
+}
