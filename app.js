@@ -1,17 +1,15 @@
+// Constants
 const boardDisplay = document.querySelector('#board-display');
 const playerDisplay = document.querySelector('#player-display');
 const roundCounterDisplay = document.querySelector('#round-counter-display');
 const infoDisplay = document.querySelector('#info-display');
-
 const boardWidth = 8;
-
-let turnOf = 'white';
-playerDisplay.textContent = turnOf;
-
 const numberOfPlayers = 2;
+
+// Variables
+let turnOf = 'white';
 let roundCounter = 1;
 let turnCounter = 0;
-roundCounterDisplay.textContent = roundCounter;
 
 var board = [
     rookResource, bishopResource, knightResource, queenResource, kingResource, knightResource, bishopResource, rookResource,
@@ -25,54 +23,71 @@ var board = [
 ]
 
 function initializeBoard(_board) {
-    _board.forEach((piece, index) => {
-        const square = document.createElement('div')
-        square.classList.add('square');
+    _board.forEach((_, index) => {
+        // Create square elements and set their attributes
+        const square = createSquare(index);
+        boardDisplay.appendChild(square);
+    });
 
-        // Determine the row and column of the square based on its index.
-        const row = Math.floor(index / boardWidth);
-        const column = index % boardWidth;
+    // Display initial information
+    playerDisplay.textContent = turnOf;
+    roundCounterDisplay.textContent = roundCounter;
+}
 
-        square.setAttribute('square-id', [column, row]);
+function createSquare(index) {
+    const square = document.createElement('div');
+    square.classList.add('square');
 
-        // Use row and column information to decide the color.
-        const isEvenRow = row % 2 === 0;
-        const isEvencolumn = column % 2 === 0;
-        const backgroundColorClass = isEvenRow ? (isEvencolumn ? 'beige' : 'brown') : (isEvencolumn ? 'brown' : 'beige')
-        
-        // Add the calculated class to the square.
-        square.classList.add(backgroundColorClass);
+    // Calculate row and column based on index
+    const row = Math.floor(index / boardWidth);
+    const column = index % boardWidth;
+    square.setAttribute('square-id', [column, row]);
 
-        // Add starting pieces.
-        square.innerHTML = piece;
+    // Determine background color class
+    const backgroundColor = getBackgroundColor(column, row);
+    square.classList.add(backgroundColor);
 
-        // Set pieces draggable.
-        square.firstChild?.setAttribute('draggable', true);
+    // Add starting pieces
+    square.innerHTML = board[index];
 
-        // Tint black pieces.
-        if (index < 16) {
-            square.firstChild.firstChild.classList.add('black');
-        }
+    // Set pieces draggable
+    square.firstChild?.setAttribute('draggable', true);
 
-        // Tint white pieces.
-        if (index > 47) {
-            square.firstChild.firstChild.classList.add('white');
-        }
-        
-        boardDisplay.append(square);
+    // Tint pieces
+    tintPiece(square.firstChild, index);
+
+    return square;
+}
+
+function getBackgroundColor(column, row) {
+    const isEvenColumn = column % 2 === 0;
+    const isEvenRow = row % 2 === 0;
+    return isEvenRow ? (isEvenColumn ? 'beige' : 'brown') : (isEvenColumn ? 'brown' : 'beige');
+}
+
+function tintPiece(piece, index) {
+    if (index < 16) {
+        piece.firstChild.classList.add('black');
+    }
+    if (index > 47) {
+        piece.firstChild.classList.add('white');
+    }
+}
+
+function addDragAndDropListeners() {
+    const squares = document.querySelectorAll('#board-display .square');
+    squares.forEach((square) => {
+        square.addEventListener('dragstart', dragStart);
+        square.addEventListener('dragover', dragOver);
+        square.addEventListener('drop', dragDrop);
     });
 }
 
+// Initialize the board and add event listeners
 initializeBoard(board);
+addDragAndDropListeners();
 
 
-// Listen for drag/drop events.
-const squares = document.querySelectorAll('#board-display .square');
-squares.forEach((square) => {
-    square.addEventListener('dragstart', dragStart);
-    square.addEventListener('dragover', dragOver);
-    square.addEventListener('drop', dragDrop);
-});
 
 let draggedElement;
 
