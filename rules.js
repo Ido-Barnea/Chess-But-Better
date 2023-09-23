@@ -12,7 +12,8 @@ class Rule {
             this.action(board);
             if (this.isSecret) {
                 console.log(`${currentPlayer} received XP for revealing a new rule: ${this.description}`);
-                gainXP();
+                const player = getCurrentPlayer();
+                player.xp++;
             }
         }
     }
@@ -54,7 +55,8 @@ const activeRules = [
         },
         (board) => {
             console.log(`${currentPlayer} has made First Blood and received a bonus.`);
-            gainXP();
+            const player = getCurrentPlayer();
+            player.xp++;
             isFirstKill = false;
             this.isSecret = false;
         }
@@ -68,7 +70,8 @@ const activeRules = [
         },
         (board) => {
             console.log(`${currentPlayer} received XP for killing another piece.`);
-            gainXP();
+            const player = getCurrentPlayer();
+            player.xp++;
             deathTrigger = false;
             this.isSecret = false;
         }
@@ -87,6 +90,22 @@ const activeRules = [
             isFriendlyFire = false;
             this.isSecret = false;
         }
+    ),
+    new Rule(
+        4,
+        "With age comes wisdom.",
+        true,
+        (board) => {
+            return roundCounter === 20;
+        },
+        (board) => {
+            console.log(`Children of war, you have grown old. Each player gains XP.`);
+            players.forEach((player) => {
+                console.log(`${player.color} gained XP.`);
+                player.xp++;
+            });
+            this.isSecret = false;
+        }
     )
 ];
 
@@ -99,9 +118,4 @@ function getCurrentPlayer() {
     });
 
     return player;
-}
-
-function gainXP() {
-    const _player = getCurrentPlayer();
-    _player.xp += 1;
 }
