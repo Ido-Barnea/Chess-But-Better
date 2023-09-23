@@ -1,5 +1,5 @@
 class Pawn {
-    static isValidMove(coordinates, destinationCoordinates, color, target) {
+    static isValidMove(coordinates, destinationCoordinates, currentPlayer, target) {
         const deltaX = destinationCoordinates[0] - coordinates[0];
         const deltaY = destinationCoordinates[1] - coordinates[1];
 
@@ -7,14 +7,14 @@ class Pawn {
         const absoluteDeltaY = Math.abs(deltaY);
 
         // Make sure pawn does not move backwards.
-        if ((color === 'white' && deltaY > 0) || (color === 'black' && deltaY < 0)) {
+        if ((currentPlayer.color === 'white' && deltaY > 0) || (currentPlayer.color === 'black' && deltaY < 0)) {
             return false;
         }
         
         // Pawns attack diagonally.
         // Check if there is another piece on the targeted square.
         if (isSquareOccupied(target)) {
-            const oponent = color === 'white' ? 'black' : 'white';
+            const oponent = currentPlayer.color === 'white' ? 'black' : 'white';
             // Make sure the other piece belongs to the current player's oponent.
             if (target.classList.contains(oponent)) {
                 return absoluteDeltaY === 1 && absoluteDeltaX === 1;
@@ -22,7 +22,7 @@ class Pawn {
         }
 
         // Pawns can have an initial two-square move.
-        if ((color === 'white' && coordinates[1] == 6) || (color === 'black' && coordinates[1] == 1)) {
+        if ((currentPlayer.color === 'white' && coordinates[1] == 6) || (currentPlayer.color === 'black' && coordinates[1] == 1)) {
             return (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0;
         }
 

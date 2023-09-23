@@ -11,8 +11,8 @@ class Rule {
         if (this.condition(board)) {
             this.action(board);
             if (this.isSecret) {
-                console.log(`${currentPlayer} received XP for revealing a new rule: ${this.description}`);
                 const player = getCurrentPlayer();
+                console.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
                 player.xp++;
                 this.isSecret = false;
             }
@@ -54,8 +54,8 @@ const activeRules = [
             return deathCounter > 0 && isFirstKill;
         },
         (board) => {
-            console.log(`${currentPlayer} has made First Blood and received a bonus.`);
             const player = getCurrentPlayer();
+            console.log(`${player.color} has made First Blood and received a bonus.`);
             player.xp++;
             isFirstKill = false;
         }
@@ -68,8 +68,8 @@ const activeRules = [
             return deathTrigger;
         },
         (board) => {
-            console.log(`${currentPlayer} received XP for killing another piece.`);
             const player = getCurrentPlayer();
+            console.log(`${player.color} received XP for killing another piece.`);
             player.xp++;
             deathTrigger = false;
         }
@@ -82,9 +82,9 @@ const activeRules = [
             return isFriendlyFire;
         },
         (board) => {
-            console.log(`${currentPlayer} attacked his own piece and has to pay compensations.`);
-            const _player = getCurrentPlayer();
-            _player.gold--;
+            const player = getCurrentPlayer();
+            console.log(`${player.color} attacked his own piece and has to pay compensations.`);
+            player.gold--;
             isFriendlyFire = false;
         }
     ),
@@ -110,7 +110,7 @@ const activeRules = [
         (board) => {
             let isInDebt = false;
             players.forEach((player) => {
-                if (player.color === currentPlayer && player.gold < 0) {
+                if (player === players[currentPlayerIndex] && player.gold < 0) {
                     isInDebt = true;
                 }
             });
@@ -118,7 +118,7 @@ const activeRules = [
         },
         (board) => {
             players.forEach((player) => {
-                if (player.color === currentPlayer && player.gold < 0) {
+                if (player === players[currentPlayerIndex] && player.gold < 0) {
                     console.log(`${player.color} is in debt. They lose XP for not handling money properly.`);
                     player.xp--;
                 }
@@ -130,7 +130,7 @@ const activeRules = [
 function getCurrentPlayer() {
     let player = null;
     players.forEach((_player) => {
-        if (_player.color === currentPlayer) {
+        if (_player === players[currentPlayerIndex]) {
             player = _player;
         }
     });

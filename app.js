@@ -7,7 +7,7 @@ const boardWidth = 8;
 const players = [new Player('white', 0, 0), new Player('black', 0, 0)];
 
 // Variables
-let currentPlayer = 'white';
+let currentPlayerIndex = 0;
 let roundCounter = 1;
 let turnCounter = 0;
 let isPiecesDropOffTheBoardActive = false;
@@ -35,7 +35,7 @@ function initializeBoard(_board) {
     });
 
     // Display initial information
-    playerDisplay.textContent = currentPlayer;
+    playerDisplay.textContent = players[currentPlayerIndex].color;
     roundCounterDisplay.textContent = roundCounter;
     infoDisplay.textContent += `White: ${players[0].xp} XP; ${players[0].gold} Gold.`;
     infoDisplay.textContent += `| Black: ${players[1].xp} XP; ${players[1].gold} Gold.`;
@@ -159,7 +159,7 @@ function onDragDrop(e) {
 
     // Check if there is another piece on the targeted square.
     if (isSquareOccupied(target)) {
-        console.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${currentPlayer} ${draggedElement.id}.`);
+        console.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
         if (isSquareOccupiedByEnemy(target)) {
             killEnemyPiece(target);
         } else {
@@ -167,7 +167,7 @@ function onDragDrop(e) {
             killEnemyPiece(target);
         }
     } else {
-        console.log(`${currentPlayer} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
+        console.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
         target.append(draggedElement);
     }
 
@@ -210,7 +210,7 @@ function dragOffTheBoard(e) {
 }
 
 function isAllowedToMove() {
-    return draggedElement.classList.contains(currentPlayer);
+    return draggedElement.classList.contains(players[currentPlayerIndex].color);
 }
 
 function isSquareOccupied(target) {
@@ -219,8 +219,8 @@ function isSquareOccupied(target) {
 
 function isSquareOccupiedByEnemy(target) {
     if (!isSquareOccupied(target)) return false;
-    const oponent = currentPlayer === 'white' ? 'black' : 'white';
-    return target.classList.contains(oponent);
+    const oponent = currentPlayerIndex === 0 ? players[1] : players[0];
+    return target.classList.contains(oponent.color);
 }
 
 function isValidMove(target) {
@@ -233,7 +233,7 @@ function isValidMove(target) {
     
     switch (piece) {
         case 'p': {
-            return Pawn.isValidMove(coordinates, destinationCoordinates, currentPlayer, target);
+            return Pawn.isValidMove(coordinates, destinationCoordinates, players[currentPlayerIndex], target);
         }
         case 'b': {
             return Bishop.isValidMove(coordinates, destinationCoordinates);
@@ -291,7 +291,7 @@ function endTurn() {
     infoDisplay.textContent += `White: ${players[0].xp} XP; ${players[0].gold} Gold.`;
     infoDisplay.textContent += `| Black: ${players[1].xp} XP; ${players[1].gold} Gold.`;
 
-    currentPlayer = currentPlayer === 'white' ? 'black' : 'white'; // Switch players
+    currentPlayerIndex = Number(!currentPlayerIndex); // Switch players
     turnCounter++; // Advance turn counter
 
     // Check if a round has passed
@@ -300,5 +300,5 @@ function endTurn() {
         roundCounter++;
         roundCounterDisplay.textContent = roundCounter; // Update information
     }
-    playerDisplay.textContent = currentPlayer; // Update information
+    playerDisplay.textContent = players[currentPlayerIndex].color; // Update information
 }
