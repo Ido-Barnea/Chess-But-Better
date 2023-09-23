@@ -1,7 +1,7 @@
 class Pawn {
-    static isValidMove(coordinates, targetCoordinates, color, target) {
-        const deltaX = targetCoordinates[0] - coordinates[0];
-        const deltaY = targetCoordinates[1] - coordinates[1];
+    static isValidMove(coordinates, destinationCoordinates, color, target) {
+        const deltaX = destinationCoordinates[0] - coordinates[0];
+        const deltaY = destinationCoordinates[1] - coordinates[1];
 
         const absoluteDeltaX = Math.abs(deltaX);
         const absoluteDeltaY = Math.abs(deltaY);
@@ -32,16 +32,16 @@ class Pawn {
 }
 
 class Bishop {
-    static isValidMove(coordinates, targetCoordinates) {
-        const stepX = (targetCoordinates[0] > coordinates[0]) ? 1 : -1;
-        const stepY = (targetCoordinates[1] > coordinates[1]) ? 1 : -1;
+    static isValidMove(coordinates, destinationCoordinates) {
+        const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : -1;
+        const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : -1;
 
-        const absoluteDeltaX = Math.abs(targetCoordinates[0] - coordinates[0]);
-        const absoluteDeltaY = Math.abs(targetCoordinates[1] - coordinates[1]);
+        const absoluteDeltaX = Math.abs(destinationCoordinates[0] - coordinates[0]);
+        const absoluteDeltaY = Math.abs(destinationCoordinates[1] - coordinates[1]);
 
         // Bishops can only move diagonally.
         if (absoluteDeltaY === absoluteDeltaX) {
-            return attemptToMove(coordinates, targetCoordinates, stepX, stepY, -1);
+            return attemptToMove(coordinates, destinationCoordinates, stepX, stepY, -1);
         }
 
         return false;
@@ -49,13 +49,13 @@ class Bishop {
 }
 
 class Rook {
-    static isValidMove(coordinates, targetCoordinates) {
-        const stepX = (targetCoordinates[0] > coordinates[0]) ? 1 : (targetCoordinates[0] < coordinates[0]) ? -1 : 0;
-        const stepY = (targetCoordinates[1] > coordinates[1]) ? 1 : (targetCoordinates[1] < coordinates[1]) ? -1 : 0;
+    static isValidMove(coordinates, destinationCoordinates) {
+        const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : (destinationCoordinates[0] < coordinates[0]) ? -1 : 0;
+        const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;
 
         // Rooks can move either vertically or horizontally but not both at the same.
-        if (coordinates[1] === targetCoordinates[1] || coordinates[0] === targetCoordinates[0]) {
-            return attemptToMove(coordinates, targetCoordinates, stepX, stepY, -1);
+        if (coordinates[1] === destinationCoordinates[1] || coordinates[0] === destinationCoordinates[0]) {
+            return attemptToMove(coordinates, destinationCoordinates, stepX, stepY, -1);
         }
 
         return false;
@@ -63,9 +63,9 @@ class Rook {
 }
 
 class Knight {
-    static isValidMove(coordinates, targetCoordinates) {
-        const absoluteDeltaX = Math.abs(targetCoordinates[0] - coordinates[0]);
-        const absoluteDeltaY = Math.abs(targetCoordinates[1] - coordinates[1]);
+    static isValidMove(coordinates, destinationCoordinates) {
+        const absoluteDeltaX = Math.abs(destinationCoordinates[0] - coordinates[0]);
+        const absoluteDeltaY = Math.abs(destinationCoordinates[1] - coordinates[1]);
 
         // Knights can move two squares in any direction and one square to the side. 
         return absoluteDeltaY * absoluteDeltaX === 2;
@@ -73,16 +73,16 @@ class Knight {
 }
 
 class Queen {
-    static isValidMove(coordinates, targetCoordinates) {
-        const stepX = (targetCoordinates[0] > coordinates[0]) ? 1 : (targetCoordinates[0] < coordinates[0]) ? -1 : 0;
-        const stepY = (targetCoordinates[1] > coordinates[1]) ? 1 : (targetCoordinates[1] < coordinates[1]) ? -1 : 0;
+    static isValidMove(coordinates, destinationCoordinates) {
+        const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : (destinationCoordinates[0] < coordinates[0]) ? -1 : 0;
+        const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;
 
-        const absoluteDeltaX = Math.abs(targetCoordinates[0] - coordinates[0]);
-        const absoluteDeltaY = Math.abs(targetCoordinates[1] - coordinates[1]);
+        const absoluteDeltaX = Math.abs(destinationCoordinates[0] - coordinates[0]);
+        const absoluteDeltaY = Math.abs(destinationCoordinates[1] - coordinates[1]);
 
         // Queens can move vertically, horizontally or diagonally.
-        if ((coordinates[1] === targetCoordinates[1] || coordinates[0] === targetCoordinates[0]) || absoluteDeltaY === absoluteDeltaX) {
-            return attemptToMove(coordinates, targetCoordinates, stepX, stepY, -1);
+        if ((coordinates[1] === destinationCoordinates[1] || coordinates[0] === destinationCoordinates[0]) || absoluteDeltaY === absoluteDeltaX) {
+            return attemptToMove(coordinates, destinationCoordinates, stepX, stepY, -1);
         }
 
         return false;
@@ -90,16 +90,16 @@ class Queen {
 }
 
 class King {
-    static isValidMove(coordinates, targetCoordinates) {
-        const stepX = (targetCoordinates[0] > coordinates[0]) ? 1 : (targetCoordinates[0] < coordinates[0]) ? -1 : 0;
-        const stepY = (targetCoordinates[1] > coordinates[1]) ? 1 : (targetCoordinates[1] < coordinates[1]) ? -1 : 0;
+    static isValidMove(coordinates, destinationCoordinates) {
+        const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : (destinationCoordinates[0] < coordinates[0]) ? -1 : 0;
+        const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;
 
-        const absoluteDeltaX = Math.abs(targetCoordinates[0] - coordinates[0]);
-        const absoluteDeltaY = Math.abs(targetCoordinates[1] - coordinates[1]);
+        const absoluteDeltaX = Math.abs(destinationCoordinates[0] - coordinates[0]);
+        const absoluteDeltaY = Math.abs(destinationCoordinates[1] - coordinates[1]);
 
         // King can only move one step but in any direction.
         if (absoluteDeltaY === 1 || absoluteDeltaX === 1) {
-            return attemptToMove(coordinates, targetCoordinates, stepX, stepY, 1);
+            return attemptToMove(coordinates, destinationCoordinates, stepX, stepY, 1);
         }
 
         return false;

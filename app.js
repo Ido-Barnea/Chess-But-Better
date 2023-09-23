@@ -224,26 +224,26 @@ function isValidMove(target) {
     const _targetCoordinates = target.getAttribute('square-id') || target.parentNode.getAttribute('square-id'); // Either an empty square or a piece occuping a square
 
     const coordinates = [Number(_coordinates[0]), Number(_coordinates[2])];
-    const targetCoordinates = [Number(_targetCoordinates[0]), Number(_targetCoordinates[2])];
+    const destinationCoordinates = [Number(_targetCoordinates[0]), Number(_targetCoordinates[2])];
     
     switch (piece) {
         case 'p': {
-            return Pawn.isValidMove(coordinates, targetCoordinates, currentPlayer, target);
+            return Pawn.isValidMove(coordinates, destinationCoordinates, currentPlayer, target);
         }
         case 'b': {
-            return Bishop.isValidMove(coordinates, targetCoordinates);
+            return Bishop.isValidMove(coordinates, destinationCoordinates);
         }
         case 'n': {
-            return Knight.isValidMove(coordinates, targetCoordinates);
+            return Knight.isValidMove(coordinates, destinationCoordinates);
         }
         case 'r': {
-            return Rook.isValidMove(coordinates, targetCoordinates);
+            return Rook.isValidMove(coordinates, destinationCoordinates);
         }
         case 'q': {
-            return Queen.isValidMove(coordinates, targetCoordinates);
+            return Queen.isValidMove(coordinates, destinationCoordinates);
         }
         case 'k': {
-            return King.isValidMove(coordinates, targetCoordinates);
+            return King.isValidMove(coordinates, destinationCoordinates);
         }
         default: {
             return false;
@@ -251,14 +251,15 @@ function isValidMove(target) {
     }
 }
 
-function attemptToMove(coordinates, targetCoordinates, stepX, stepY, limit) {
+function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit) {
     let limitCounter = 0;
-    while ((coordinates[0] !== targetCoordinates[0] || coordinates[1] !== targetCoordinates[1]) && limitCounter !== limit) {
+    while ((coordinates[0] !== destinationCoordinates[0] || coordinates[1] !== destinationCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
-        console.log(targetCoordinates);
+        console.log(destinationCoordinates);
         console.log(target);
-        if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') != targetCoordinates) {
+        // Check if any square along the piece's path is occupied (not including the destination square)
+        if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') != destinationCoordinates) {
             return false;
         }
         
