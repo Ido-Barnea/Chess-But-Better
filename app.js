@@ -65,6 +65,8 @@ function getBackgroundColor(column, row) {
     const isEvenColumn = column % 2 === 0;
     const isEvenRow = row % 2 === 0;
     return isEvenRow ? (isEvenColumn ? 'beige-background' : 'brown-background') : (isEvenColumn ? 'brown-background' : 'beige-background');
+    //return isEvenRow ? (isEvenColumn ? 'dark-orange-background' : 'dark-red-background') : (isEvenColumn ? 'dark-red-background' : 'dark-orange-background'); Hell
+    //return isEvenRow ? (isEvenColumn ? 'water-background' : 'blue-background') : (isEvenColumn ? 'blue-background' : 'water-background'); Heaven
 }
 
 function createPiece(piece) {
@@ -197,6 +199,7 @@ function onMouseOut(e) {
 function dragOffTheBoard(e) {
     if (isPiecesDropOffTheBoardActive && isAllowedToMove()) {
         fellOffTheBoard = draggedElement;
+        deathCounter++;
         endTurn();
     }
 }
@@ -269,10 +272,16 @@ function killEnemyPiece(target) {
     console.log(`${currentPlayer === 'white' ? 'black' : 'white'} ${target.id} was killed by ${currentPlayer} ${draggedElement.id}.`);
     target.parentNode.append(draggedElement);
     target.remove();
-    hasAnyoneDied = true;
+    deathCounter++;
+    deathTrigger = true;
 }
 
 function endTurn() {
+    // Check if any rule is triggered
+    activeRules.forEach((rule) => {
+        rule.apply(board);
+    });
+
     currentPlayer = currentPlayer === 'white' ? 'black' : 'white'; // Switch players
     turnCounter++; // Advance turn counter
 
@@ -283,9 +292,4 @@ function endTurn() {
         roundCounterDisplay.textContent = roundCounter; // Update information
     }
     playerDisplay.textContent = currentPlayer; // Update information
-
-    // Check if any rule is triggered
-    activeRules.forEach((rule) => {
-        rule.apply(board);
-    });
 }

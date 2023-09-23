@@ -38,6 +38,22 @@ path {
     background-color: brown;
 }
 
+.dark-red-background {
+    background-color: #5f0505;
+}
+
+.blue-background {
+    background-color: #0DA5CE;
+}
+
+.water-background {
+    background-color: #CEF0F9;
+}
+
+.dark-orange-background {
+    background-color: #7f3b08;
+}
+
 .light-gray-background {
     background-color: #e6e6e6;
 }

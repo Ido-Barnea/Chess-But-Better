@@ -18,7 +18,8 @@ class Rule {
 let fellOffTheBoard;
 
 let isFirstKill = true;
-let hasAnyoneDied = false;
+let deathCounter = 0;
+let deathTrigger = false;
 
 // Rules lists
 const inactiveRules = [];
@@ -43,16 +44,34 @@ const activeRules = [
         "First Blood Bonus: The first to kill gets 2 XP.",
         true,
         (board) => {
-            return hasAnyoneDied && isFirstKill;
+            return deathCounter > 0 && isFirstKill;
         },
         (board) => {
             players.forEach((player) => {
                 if (player.color === currentPlayer) {
-                    player.xp += 2;
+                    player.xp += 1;
                     console.log(`${currentPlayer} has made First Blood and received a bonus.`);
                 }
             });
             isFirstKill = false;
+            this.isSecret = false;
+        }
+    ),
+    new Rule(
+        2,
+        "Players gain XP on a kill.",
+        true,
+        (board) => {
+            return deathTrigger;
+        },
+        (board) => {
+            players.forEach((player) => {
+                if (player.color === currentPlayer) {
+                    player.xp += 1;
+                    console.log(`${currentPlayer} received a bonus.`);
+                }
+            });
+            deathTrigger = false;
             this.isSecret = false;
         }
     )
