@@ -4,10 +4,10 @@ const playerDisplay = document.querySelector('#player-display');
 const roundCounterDisplay = document.querySelector('#round-counter-display');
 const infoDisplay = document.querySelector('#info-display');
 const boardWidth = 8;
-const numberOfPlayers = 2;
+const players = [new Player('white', 0, 0), new Player('black', 0, 0)];
 
 // Variables
-let player = 'white';
+let currentPlayer = 'white';
 let roundCounter = 1;
 let turnCounter = 0;
 let isPiecesDropOffTheBoardActive = false;
@@ -35,7 +35,7 @@ function initializeBoard(_board) {
     });
 
     // Display initial information
-    playerDisplay.textContent = player;
+    playerDisplay.textContent = currentPlayer;
     roundCounterDisplay.textContent = roundCounter;
 }
 
@@ -155,8 +155,7 @@ function dragDrop(e) {
     if (isSquareOccupied(target)) {
         // Make sure the other piece belongs to the current player's oponent.
         if (isSquareOccupiedByEnemy(target)) {
-            target.parentNode.append(draggedElement);
-            target.remove();
+            killEnemyPiece(target);
         } else {
             return;
         }
@@ -179,7 +178,7 @@ function dragOffTheBoard(e) {
 }
 
 function isAllowedToMove() {
-    return draggedElement.classList.contains(player);
+    return draggedElement.classList.contains(currentPlayer);
 }
 
 function isSquareOccupied(targetSquare) {
@@ -188,7 +187,7 @@ function isSquareOccupied(targetSquare) {
 
 function isSquareOccupiedByEnemy(targetSquare) {
     if (!isSquareOccupied(targetSquare)) return false;
-    const oponent = player === 'white' ? 'black' : 'white';
+    const oponent = currentPlayer === 'white' ? 'black' : 'white';
     return targetSquare.firstChild.classList.contains(oponent);
 }
 
@@ -202,7 +201,7 @@ function isValidMove(target) {
     
     switch (piece) {
         case 'p': {
-            return Pawn.isValidMove(coordinates, targetCoordinates, player, target);
+            return Pawn.isValidMove(coordinates, targetCoordinates, currentPlayer, target);
         }
         case 'b': {
             return Bishop.isValidMove(coordinates, targetCoordinates);
@@ -242,17 +241,23 @@ function attemptToMove(coordinates, targetCoordinates, stepX, stepY, limit) {
     return true;
 }
 
+function killEnemyPiece() {
+    target.parentNode.append(draggedElement);
+    target.remove();
+    hasAnyoneDied = true;
+}
+
 function endTurn() {
-    player = player === 'white' ? 'black' : 'white'; // Switch players
+    currentPlayer = currentPlayer === 'white' ? 'black' : 'white'; // Switch players
     turnCounter++; // Advance turn counter
 
     // Check if a round has passed
-    if (turnCounter % numberOfPlayers === 0) {
+    if (turnCounter % players.length === 0) {
         turnCounter = 0;
         roundCounter++;
         roundCounterDisplay.textContent = roundCounter; // Update information
     }
-    playerDisplay.textContent = player; // Update information
+    playerDisplay.textContent = currentPlayer; // Update information
 
     // Check if any rule is triggered
     activeRules.forEach((rule) => {
