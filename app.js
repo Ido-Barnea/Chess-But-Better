@@ -171,7 +171,7 @@ function dragOver(e) {
 }
 
 function dragOffTheBoard(e) {
-    if (isPiecesDropOffTheBoardActive) {
+    if (isPiecesDropOffTheBoardActive && isAllowedToMove()) {
         fellOffTheBoard = draggedElement;
         endTurn();
     }
