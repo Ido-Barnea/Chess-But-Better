@@ -159,7 +159,7 @@ function onDragDrop(e) {
 
     // Check if there is another piece on the targeted square.
     if (isSquareOccupied(target)) {
-        console.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
+        LogMessage(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
         if (isSquareOccupiedByEnemy(target)) {
             killEnemyPiece(target);
         } else {
@@ -167,7 +167,7 @@ function onDragDrop(e) {
             killEnemyPiece(target);
         }
     } else {
-        console.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
+        LogMessage(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
         target.append(draggedElement);
     }
 
@@ -301,4 +301,19 @@ function endTurn() {
         roundCounterDisplay.textContent = roundCounter; // Update information
     }
     playerDisplay.textContent = players[currentPlayerIndex].color; // Update information
+}
+
+function LogMessage(message) 
+{
+    
+    // Log the message to the console
+    console.log(message)
+
+    // Store the message in the logs array and post it to logs text;
+    document.getElementById("logs").innerHTML = ""
+    logs.push(message)
+    for(i=0; i<logs.length; i++)
+    {
+        document.getElementById("logs").innerHTML += logs[i] + '<br />'
+    }
 }

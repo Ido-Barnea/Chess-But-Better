@@ -12,7 +12,7 @@ class Rule {
             this.action(board);
             if (this.isSecret) {
                 const player = getCurrentPlayer();
-                console.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
+                LogMessage(`${player.color} received XP for revealing a new rule: ${this.description}`);
                 player.xp++;
                 this.isSecret = false;
             }
@@ -29,6 +29,8 @@ let deathTrigger = false;
 
 let isFriendlyFire = false;
 
+const logs = []
+
 // Rules lists
 const inactiveRules = [];
 const activeRules = [
@@ -41,7 +43,7 @@ const activeRules = [
         },
         (board) => {
             const color = fellOffTheBoard.classList.contains('white') ? 'white' : 'black';
-            console.log(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
+            LogMessage(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
             fellOffTheBoard.remove();
             fellOffTheBoard = null;
         }
@@ -55,7 +57,7 @@ const activeRules = [
         },
         (board) => {
             const player = getCurrentPlayer();
-            console.log(`${player.color} has made First Blood and received a bonus.`);
+            LogMessage(`${player.color} has made First Blood and received a bonus.`);
             player.xp++;
             isFirstKill = false;
         }
@@ -69,7 +71,7 @@ const activeRules = [
         },
         (board) => {
             const player = getCurrentPlayer();
-            console.log(`${player.color} received XP for killing another piece.`);
+            LogMessage(`${player.color} received XP for killing another piece.`);
             player.xp++;
             deathTrigger = false;
         }
@@ -83,7 +85,7 @@ const activeRules = [
         },
         (board) => {
             const player = getCurrentPlayer();
-            console.log(`${player.color} attacked his own piece and has to pay compensations.`);
+            LogMessage(`${player.color} attacked his own piece and has to pay compensations.`);
             player.gold--;
             isFriendlyFire = false;
         }
@@ -96,9 +98,9 @@ const activeRules = [
             return roundCounter === 20;
         },
         (board) => {
-            console.log(`Children of war, you have grown old. Each player gains XP.`);
+            LogMessage(`Children of war, you have grown old. Each player gains XP.`);
             players.forEach((player) => {
-                console.log(`${player.color} gained XP.`);
+                LogMessage(`${player.color} gained XP.`);
                 player.xp++;
             });
         }
@@ -119,7 +121,7 @@ const activeRules = [
         (board) => {
             players.forEach((player) => {
                 if (player === players[currentPlayerIndex] && player.gold < 0) {
-                    console.log(`${player.color} is in debt. They lose XP for not handling money properly.`);
+                    LogMessage(`${player.color} is in debt. They lose XP for not handling money properly.`);
                     player.xp--;
                 }
             });
@@ -136,4 +138,19 @@ function getCurrentPlayer() {
     });
 
     return player;
+}
+
+function LogMessage(message) 
+{
+    
+    // Log the message to the console
+    console.log(message)
+
+    // Store the message in the logs array and post it to logs text;
+    document.getElementById("logs").innerHTML = ""
+    logs.push(message)
+    for(i=0; i<logs.length; i++)
+    {
+        document.getElementById("logs").innerHTML += logs[i] + '<br />'
+    }
 }
