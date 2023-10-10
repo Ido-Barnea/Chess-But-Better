@@ -1,21 +1,8 @@
 class Logger {
-    constructor() {
-      this.logs = [];
-    }
-  
-    log(message) 
+    static log(message) 
     {
-    
         // Log the message to the console
-        console.log(message)
-    
-        // Store the message in the logs array and post it to logs text;
-        document.getElementById("logs").innerHTML = ""
-        logs.push(message)
-        for(i=0; i<logs.length; i++)
-        {
-            document.getElementById("logs").innerHTML += logs[i] + '<br />'
-        }
+        console.log(message);
+        document.getElementById("logs").innerHTML += message + "<br />";
     }
-} 
-//cannot use, import or reference this class in any other javascript file...
+}
