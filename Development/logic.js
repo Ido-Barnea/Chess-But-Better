@@ -41,7 +41,7 @@ function move(target) {
 }
 
 function isValidMove(target) {
-    const piece = draggedElement.id.toLowerCase();
+    const piece = draggedElement.id;
     const _coordinates = draggedElement.parentNode.getAttribute('square-id');
     const _targetCoordinates = target.getAttribute('square-id') || target.parentNode.getAttribute('square-id'); // Either an empty square or a piece occuping a square
 
@@ -49,22 +49,22 @@ function isValidMove(target) {
     const destinationCoordinates = [Number(_targetCoordinates[0]), Number(_targetCoordinates[2])];
     
     switch (piece) {
-        case 'p': {
+        case 'Pawn': {
             return Pawn.isValidMove(coordinates, destinationCoordinates, players[currentPlayerIndex], target);
         }
-        case 'b': {
+        case 'Bishop': {
             return Bishop.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'n': {
+        case 'Knight': {
             return Knight.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'r': {
+        case 'Rook': {
             return Rook.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'q': {
+        case 'Queen': {
             return Queen.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'k': {
+        case 'King': {
             return King.isValidMove(coordinates, destinationCoordinates);
         }
         default: {
@@ -110,7 +110,7 @@ function dragOffTheBoard(e) {
 function endTurn() {
     // Check if any rule is triggered
     activeRules.forEach((rule) => {
-        rule.apply(board);
+        rule.apply();
     });
 
     infoDisplay.textContent = '';

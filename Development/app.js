@@ -5,7 +5,7 @@ const roundCounterDisplay = document.querySelector('#round-counter-display');
 const infoDisplay = document.querySelector('#info-display');
 
 function addDragAndDropListeners() {
-    const squares = document.querySelectorAll('#board-display .square');
+    const squares = document.querySelectorAll('.square');
     squares.forEach((square) => {
         square.addEventListener('dragstart', onDragStart);
         square.addEventListener('dragover', onDragOver);
@@ -18,10 +18,6 @@ function addDragAndDropListeners() {
     document.body.addEventListener('dragover', onDragOver);
     document.body.addEventListener('drop', dragOffTheBoard);
 }
-
-// Initialize the board and add event listeners
-initializeBoard(board);
-addDragAndDropListeners();
 
 let draggedElement;
 function onDragStart(e) {
@@ -60,3 +56,8 @@ function onMouseOver(e) {
 function onMouseOut(e) {
     handleMouseEvents(e, false);
 }
+
+// Initialize the board
+initializeBoard();
+// Add event listeners
+addDragAndDropListeners();
