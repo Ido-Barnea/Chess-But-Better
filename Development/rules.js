@@ -7,9 +7,9 @@ class Rule {
         this.action = action;
     }
 
-    apply(board) {
-        if (this.condition(board)) {
-            this.action(board);
+    apply() {
+        if (this.condition()) {
+            this.action();
             if (this.isSecret) {
                 const player = getCurrentPlayer();
                 Logger.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
@@ -28,6 +28,7 @@ let deathCounter = 0;
 let deathTrigger = false;
 
 let isFriendlyFire = false;
+
 // Rules lists
 const inactiveRules = [];
 const activeRules = [
@@ -35,10 +36,10 @@ const activeRules = [
         0,
         "Pieces can fall off the board.",
         true,
-        (board) => {
+        () => {
             return fellOffTheBoard != null;
         },
-        (board) => {
+        () => {
             const color = fellOffTheBoard.classList.contains('white') ? 'white' : 'black';
             Logger.log(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
             fellOffTheBoard.remove();
@@ -49,10 +50,10 @@ const activeRules = [
         1,
         "First Blood Bonus: The first to kill gets an extra XP.",
         true,
-        (board) => {
+        () => {
             return deathCounter > 0 && isFirstKill;
         },
-        (board) => {
+        () => {
             const player = getCurrentPlayer();
             Logger.log(`${player.color} has made First Blood and received a bonus.`);
             player.xp++;
@@ -63,10 +64,10 @@ const activeRules = [
         2,
         "Players gain XP on a kill.",
         true,
-        (board) => {
+        () => {
             return deathTrigger;
         },
-        (board) => {
+        () => {
             const player = getCurrentPlayer();
             Logger.log(`${player.color} received XP for killing another piece.`);
             player.xp++;
@@ -77,10 +78,10 @@ const activeRules = [
         3,
         "Friendly Fire! Players can attack their own pieces (for a price).",
         true,
-        (board) => {
+        () => {
             return isFriendlyFire;
         },
-        (board) => {
+        () => {
             const player = getCurrentPlayer();
             Logger.log(`${player.color} attacked his own piece and has to pay compensations.`);
             player.gold--;
@@ -91,10 +92,10 @@ const activeRules = [
         4,
         "With age comes wisdom.",
         true,
-        (board) => {
+        () => {
             return roundCounter === 20;
         },
-        (board) => {
+        () => {
             Logger.log(`Children of war, you have grown old. Each player gains XP.`);
             players.forEach((player) => {
                 Logger.log(`${player.color} gained XP.`);
@@ -106,7 +107,7 @@ const activeRules = [
         5,
         "Empty pockets.",
         true,
-        (board) => {
+        () => {
             let isInDebt = false;
             players.forEach((player) => {
                 if (player === players[currentPlayerIndex] && player.gold < 0) {
@@ -115,7 +116,7 @@ const activeRules = [
             });
             return isInDebt;
         },
-        (board) => {
+        () => {
             players.forEach((player) => {
                 if (player === players[currentPlayerIndex] && player.gold < 0) {
                     Logger.log(`${player.color} is in debt. They lose XP for not handling money properly.`);
