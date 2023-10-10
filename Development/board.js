@@ -5,16 +5,25 @@ function initializeBoard() {
     activeRules.forEach((rule) => {
         if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
     });
-    
     let boardTop = document.getElementById("board-top");
     let boardSide = document.getElementById("board-side");
-    
+    let bigboard = document.getElementById("big-board");
+
     //numbers
     for(let column = 0; column < boardWidth; column++){
-        const number = createNumber([column]);
-        boardTop.appendChild(number);
+        const numbersquare = createNumber([column]);
+        boardTop.appendChild(numbersquare);
     }
 
+    for (let row = 0; row < boardWidth; row++) {
+        for (let column = 0; column < boardWidth; column++) {
+            if(column == 0)
+            {
+                const numbersquare = createNumber([row]);
+                boardSide.appendChild(numbersquare);
+            }
+        }
+    }
     //squares
     for (let row = 0; row < boardWidth; row++) {
         for (let column = 0; column < boardWidth; column++) {
@@ -22,12 +31,6 @@ function initializeBoard() {
             const square = createSquare([column, row]);
             boardDisplay.appendChild(square);
         }
-    }
-
-    //numbers
-    for(let row = 0; row < boardWidth; row++){
-        const number = createNumber([row]);
-        boardSide.appendChild(number);
     }
 
     pieces.forEach((piece) => {
@@ -59,12 +62,14 @@ function createSquare(position) {
 }
 
 function createNumber(position) {
+    const numbersquare = document.createElement('div');
+    numbersquare.classList.add("numbersquare");
     const number = document.createElement('p');
     number.classList.add("boardNumber");
-    
     number.innerHTML = position;
-    
-    return number;
+    numbersquare.appendChild(number)
+
+    return numbersquare;
 }
 
 function getBackgroundColor(position) {
