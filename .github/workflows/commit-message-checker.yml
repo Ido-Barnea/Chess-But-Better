@@ -1,0 +1,21 @@
+name: '[🎨] Commit message checker'
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Commit Type
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '\[\#\d+\] .+'
+          flags: 'gm'
+          error: 'Your first line has to contain an issue number like "[#42]".'
