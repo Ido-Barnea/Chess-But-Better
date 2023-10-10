@@ -1,39 +1,5 @@
 // Constants
 const boardWidth = 8;
-const pieces = [
-    new Rook([0,0], players[1]),
-    new Bishop([1, 0], players[1]),
-    new Knight([2, 0], players[1]),
-    new Queen([3, 0], players[1]),
-    new King([4, 0], players[1]),
-    new Knight([5, 0], players[1]),
-    new Bishop([6, 0], players[1]),
-    new Rook([7, 0], players[1]),
-    new Pawn([0,1], players[1]),
-    new Pawn([1, 1], players[1]),
-    new Pawn([2, 1], players[1]),
-    new Pawn([3, 1], players[1]),
-    new Pawn([4, 1], players[1]),
-    new Pawn([5, 1], players[1]),
-    new Pawn([6, 1], players[1]),
-    new Pawn([7, 1], players[1]),
-    new Pawn([0,6], players[0]),
-    new Pawn([1, 6], players[0]),
-    new Pawn([2, 6], players[0]),
-    new Pawn([3, 6], players[0]),
-    new Pawn([4, 6], players[0]),
-    new Pawn([5, 6], players[0]),
-    new Pawn([6, 6], players[0]),
-    new Pawn([7, 6], players[0]),
-    new Rook([0,7], players[0]),
-    new Bishop([1, 7], players[0]),
-    new Knight([2, 7], players[0]),
-    new Queen([3, 7], players[0]),
-    new King([4, 7], players[0]),
-    new Knight([5, 7], players[0]),
-    new Bishop([6, 7], players[0]),
-    new Rook([7, 7], players[0]),
-]
 
 function initializeBoard() {
     activeRules.forEach((rule) => {

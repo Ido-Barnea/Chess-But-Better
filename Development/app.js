@@ -28,7 +28,7 @@ function onDragStart(e) {
 
 function onDragDrop(e) {
     e.stopPropagation();
-    move(e.target);
+    actOnTurn(e.target);
 }
 
 function onDragOver(e) {
