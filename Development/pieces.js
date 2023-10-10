@@ -1,4 +1,17 @@
-class Pawn {
+class Piece {
+    constructor(position, player, resource, name) {
+        this.position = position;
+        this.player = player;
+        this.resource = resource;
+        this.name = name;
+    }
+}
+
+class Pawn extends Piece {
+    constructor(position, player) {
+        super(position, player, pawnResource, 'Pawn');
+    }
+
     static isValidMove(coordinates, destinationCoordinates, currentPlayer, target) {
         const deltaX = destinationCoordinates[0] - coordinates[0];
         const deltaY = destinationCoordinates[1] - coordinates[1];
@@ -31,7 +44,11 @@ class Pawn {
     }
 }
 
-class Bishop {
+class Bishop extends Piece {
+    constructor(position, player) {
+        super(position, player, bishopResource, 'Bishop');
+    }
+
     static isValidMove(coordinates, destinationCoordinates) {
         const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : -1;
         const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : -1;
@@ -48,7 +65,11 @@ class Bishop {
     }
 }
 
-class Rook {
+class Rook extends Piece {
+    constructor(position, player) {
+        super(position, player, rookResource, 'Rook');
+    }
+
     static isValidMove(coordinates, destinationCoordinates) {
         const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : (destinationCoordinates[0] < coordinates[0]) ? -1 : 0;
         const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;
@@ -62,7 +83,11 @@ class Rook {
     }
 }
 
-class Knight {
+class Knight extends Piece {
+    constructor(position, player) {
+        super(position, player, knightResource, 'Knight');
+    }
+
     static isValidMove(coordinates, destinationCoordinates) {
         const absoluteDeltaX = Math.abs(destinationCoordinates[0] - coordinates[0]);
         const absoluteDeltaY = Math.abs(destinationCoordinates[1] - coordinates[1]);
@@ -72,7 +97,11 @@ class Knight {
     }
 }
 
-class Queen {
+class Queen extends Piece {
+    constructor(position, player) {
+        super(position, player, queenResource, 'Queen');
+    }
+
     static isValidMove(coordinates, destinationCoordinates) {
         const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : (destinationCoordinates[0] < coordinates[0]) ? -1 : 0;
         const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;
@@ -89,7 +118,11 @@ class Queen {
     }
 }
 
-class King {
+class King extends Piece {
+    constructor(position, player) {
+        super(position, player, kingResource, 'King');
+    }
+
     static isValidMove(coordinates, destinationCoordinates) {
         const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : (destinationCoordinates[0] < coordinates[0]) ? -1 : 0;
         const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;

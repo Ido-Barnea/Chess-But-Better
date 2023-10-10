@@ -1,5 +1,39 @@
 // Constants
 const players = [new Player('white', 0, 0), new Player('black', 0, 0)];
+const pieces = [
+    new Rook([0,0], players[1]),
+    new Bishop([1, 0], players[1]),
+    new Knight([2, 0], players[1]),
+    new Queen([3, 0], players[1]),
+    new King([4, 0], players[1]),
+    new Knight([5, 0], players[1]),
+    new Bishop([6, 0], players[1]),
+    new Rook([7, 0], players[1]),
+    new Pawn([0,1], players[1]),
+    new Pawn([1, 1], players[1]),
+    new Pawn([2, 1], players[1]),
+    new Pawn([3, 1], players[1]),
+    new Pawn([4, 1], players[1]),
+    new Pawn([5, 1], players[1]),
+    new Pawn([6, 1], players[1]),
+    new Pawn([7, 1], players[1]),
+    new Pawn([0,6], players[0]),
+    new Pawn([1, 6], players[0]),
+    new Pawn([2, 6], players[0]),
+    new Pawn([3, 6], players[0]),
+    new Pawn([4, 6], players[0]),
+    new Pawn([5, 6], players[0]),
+    new Pawn([6, 6], players[0]),
+    new Pawn([7, 6], players[0]),
+    new Rook([0,7], players[0]),
+    new Bishop([1, 7], players[0]),
+    new Knight([2, 7], players[0]),
+    new Queen([3, 7], players[0]),
+    new King([4, 7], players[0]),
+    new Knight([5, 7], players[0]),
+    new Bishop([6, 7], players[0]),
+    new Rook([7, 7], players[0]),
+]
 
 // Variables
 let currentPlayerIndex = 0;
@@ -21,27 +55,25 @@ function isSquareOccupiedByEnemy(target) {
     return target.classList.contains(oponent.color);
 }
 
-function move(target) {
+function actOnTurn(target) {
     if (!isAllowedToMove()) return;
     if (!isValidMove(target)) return;
 
     // Check if there is another piece on the targeted square.
     if (isSquareOccupied(target)) {
-        console.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
         if (!isSquareOccupiedByEnemy(target)) {
             isFriendlyFire = true;
         }
-        killEnemyPiece(target);
+        killEnemyPieceAndMove(target);
     } else {
-        console.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
-        target.append(draggedElement);
+        move(target);
     }
 
     endTurn();
 }
 
 function isValidMove(target) {
-    const piece = draggedElement.id.toLowerCase();
+    const piece = draggedElement.id;
     const _coordinates = draggedElement.parentNode.getAttribute('square-id');
     const _targetCoordinates = target.getAttribute('square-id') || target.parentNode.getAttribute('square-id'); // Either an empty square or a piece occuping a square
 
@@ -49,22 +81,22 @@ function isValidMove(target) {
     const destinationCoordinates = [Number(_targetCoordinates[0]), Number(_targetCoordinates[2])];
     
     switch (piece) {
-        case 'p': {
+        case 'Pawn': {
             return Pawn.isValidMove(coordinates, destinationCoordinates, players[currentPlayerIndex], target);
         }
-        case 'b': {
+        case 'Bishop': {
             return Bishop.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'n': {
+        case 'Knight': {
             return Knight.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'r': {
+        case 'Rook': {
             return Rook.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'q': {
+        case 'Queen': {
             return Queen.isValidMove(coordinates, destinationCoordinates);
         }
-        case 'k': {
+        case 'King': {
             return King.isValidMove(coordinates, destinationCoordinates);
         }
         default: {
@@ -91,11 +123,19 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
     return true;
 }
 
-function killEnemyPiece(target) {
+function killEnemyPieceAndMove(target) {
+    console.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
     target.parentNode.append(draggedElement);
     target.remove();
     deathCounter++;
     deathTrigger = true;
+}
+
+function move(target) {
+    console.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
+    const piece = pieces.find((piece) => piece.position == draggedElement.parentNode.getAttribute('square-id')); // Get piece object
+    target.append(draggedElement); // Move piece's element
+    piece.position = draggedElement.parentNode.getAttribute('square-id').split(','); // Update piece's position
 }
 
 function dragOffTheBoard(e) {
@@ -110,7 +150,7 @@ function dragOffTheBoard(e) {
 function endTurn() {
     // Check if any rule is triggered
     activeRules.forEach((rule) => {
-        rule.apply(board);
+        rule.apply();
     });
 
     infoDisplay.textContent = '';
