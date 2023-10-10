@@ -1,9 +1,37 @@
+body
+{
+    height: 100%;
+    overflow: hidden;
+}
+
 #board-display {
     width: 640px;
     height: 640px;
     display: flex;
     flex-wrap: wrap;
     margin: auto;
+}
+
+#board-top {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    letter-spacing: 71px;
+    left: 35%;
+}
+
+#board-side
+{
+    position: absolute;
+    left: 31.5%;
+    top: 55px;
+    line-height: 62px;
+}
+
+.boardNumber
+{
+    font-size: large;
+    font-weight: bold;
 }
 
 .square {

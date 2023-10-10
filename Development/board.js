@@ -5,13 +5,29 @@ function initializeBoard() {
     activeRules.forEach((rule) => {
         if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
     });
+    
+    let boardTop = document.getElementById("board-top");
+    let boardSide = document.getElementById("board-side");
+    
+    //numbers
+    for(let column = 0; column < boardWidth; column++){
+        const number = createNumber([column]);
+        boardTop.appendChild(number);
+    }
 
+    //squares
     for (let row = 0; row < boardWidth; row++) {
         for (let column = 0; column < boardWidth; column++) {
             // Create square elements and set their attributes
             const square = createSquare([column, row]);
             boardDisplay.appendChild(square);
         }
+    }
+
+    //numbers
+    for(let row = 0; row < boardWidth; row++){
+        const number = createNumber([row]);
+        boardSide.appendChild(number);
     }
 
     pieces.forEach((piece) => {
@@ -40,6 +56,15 @@ function createSquare(position) {
     square.classList.add(backgroundColor);
 
     return square;
+}
+
+function createNumber(position) {
+    const number = document.createElement('p');
+    number.classList.add("boardNumber");
+    
+    number.innerHTML = position;
+    
+    return number;
 }
 
 function getBackgroundColor(position) {
