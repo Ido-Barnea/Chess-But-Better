@@ -124,7 +124,7 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
 }
 
 function killEnemyPieceAndMove(target) {
-    console.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
+    Logger.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
     target.parentNode.append(draggedElement);
     target.remove();
     deathCounter++;
@@ -132,7 +132,7 @@ function killEnemyPieceAndMove(target) {
 }
 
 function move(target) {
-    console.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
+    Logger.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
     const piece = pieces.find((piece) => piece.position == draggedElement.parentNode.getAttribute('square-id')); // Get piece object
     target.append(draggedElement); // Move piece's element
     piece.position = draggedElement.parentNode.getAttribute('square-id').split(','); // Update piece's position

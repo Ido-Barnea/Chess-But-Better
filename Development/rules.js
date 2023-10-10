@@ -12,7 +12,7 @@ class Rule {
             this.action();
             if (this.isSecret) {
                 const player = getCurrentPlayer();
-                console.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
+                Logger.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
                 player.xp++;
                 this.isSecret = false;
             }
@@ -41,7 +41,7 @@ const activeRules = [
         },
         () => {
             const color = fellOffTheBoard.classList.contains('white') ? 'white' : 'black';
-            console.log(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
+            Logger.log(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
             fellOffTheBoard.remove();
             fellOffTheBoard = null;
         }
@@ -55,7 +55,7 @@ const activeRules = [
         },
         () => {
             const player = getCurrentPlayer();
-            console.log(`${player.color} has made First Blood and received a bonus.`);
+            Logger.log(`${player.color} has made First Blood and received a bonus.`);
             player.xp++;
             isFirstKill = false;
         }
@@ -69,7 +69,7 @@ const activeRules = [
         },
         () => {
             const player = getCurrentPlayer();
-            console.log(`${player.color} received XP for killing another piece.`);
+            Logger.log(`${player.color} received XP for killing another piece.`);
             player.xp++;
             deathTrigger = false;
         }
@@ -83,7 +83,7 @@ const activeRules = [
         },
         () => {
             const player = getCurrentPlayer();
-            console.log(`${player.color} attacked his own piece and has to pay compensations.`);
+            Logger.log(`${player.color} attacked his own piece and has to pay compensations.`);
             player.gold--;
             isFriendlyFire = false;
         }
@@ -96,9 +96,9 @@ const activeRules = [
             return roundCounter === 20;
         },
         () => {
-            console.log(`Children of war, you have grown old. Each player gains XP.`);
+            Logger.log(`Children of war, you have grown old. Each player gains XP.`);
             players.forEach((player) => {
-                console.log(`${player.color} gained XP.`);
+                Logger.log(`${player.color} gained XP.`);
                 player.xp++;
             });
         }
@@ -119,7 +119,7 @@ const activeRules = [
         () => {
             players.forEach((player) => {
                 if (player === players[currentPlayerIndex] && player.gold < 0) {
-                    console.log(`${player.color} is in debt. They lose XP for not handling money properly.`);
+                    Logger.log(`${player.color} is in debt. They lose XP for not handling money properly.`);
                     player.xp--;
                 }
             });

@@ -65,3 +65,21 @@ path {
 .white {
     fill: white;
 }
+
+#logbox
+{
+    position: absolute;
+    padding: 0.5%;
+    right: 0;
+    bottom: 0;
+    width: 25%;
+    height: calc(25% - 6px);
+    border: 3px solid black;
+    overflow-x: none;
+    overflow-y: auto;
+}
+
+#logs
+{
+    color: black;
+}
