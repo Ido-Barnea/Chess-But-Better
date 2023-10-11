@@ -5,25 +5,21 @@ function initializeBoard() {
     activeRules.forEach((rule) => {
         if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
     });
-    let boardTop = document.getElementById("board-top");
-    let boardSide = document.getElementById("board-side");
-    let bigboard = document.getElementById("big-board");
+    const boardBottom = document.getElementById("board-bottom");
+    const boardSide = document.getElementById("board-side");
 
-    //numbers
-    for(let column = 0; column < boardWidth; column++){
-        const numbersquare = createNumber([column]);
-        boardTop.appendChild(numbersquare);
+    //letters
+    const letters = ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    for(let column = 0; column < boardWidth + 1; column++) {
+        const squareNumber = createNotation(letters[column]);
+        boardBottom.appendChild(squareNumber);
     }
 
-    for (let row = 0; row < boardWidth; row++) {
-        for (let column = 0; column < boardWidth; column++) {
-            if(column == 0)
-            {
-                const numbersquare = createNumber([row]);
-                boardSide.appendChild(numbersquare);
-            }
-        }
+    for (let row = boardWidth; row > 0; row--) {
+        const squareNumber = createNotation(row);
+        boardSide.appendChild(squareNumber);
     }
+
     //squares
     for (let row = 0; row < boardWidth; row++) {
         for (let column = 0; column < boardWidth; column++) {
@@ -61,15 +57,15 @@ function createSquare(position) {
     return square;
 }
 
-function createNumber(position) {
-    const numbersquare = document.createElement('div');
-    numbersquare.classList.add("numbersquare");
+function createNotation(position) {
+    const squareNumber = document.createElement('div');
+    squareNumber.classList.add("square-number");
     const number = document.createElement('p');
-    number.classList.add("boardNumber");
+    number.classList.add("board-number");
     number.innerHTML = position;
-    numbersquare.appendChild(number)
+    squareNumber.appendChild(number)
 
-    return numbersquare;
+    return squareNumber;
 }
 
 function getBackgroundColor(position) {

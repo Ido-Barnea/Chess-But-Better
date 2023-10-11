@@ -132,7 +132,9 @@ function killEnemyPieceAndMove(target) {
 }
 
 function move(target) {
-    Logger.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
+    const prevPos = Logger.convertPosition(draggedElement.parentNode.getAttribute('square-id'));
+    const currPos = Logger.convertPosition(target.getAttribute('square-id'))
+    Logger.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${prevPos}) to (${currPos}).`);
     const piece = pieces.find((piece) => piece.position == draggedElement.parentNode.getAttribute('square-id')); // Get piece object
     target.append(draggedElement); // Move piece's element
     piece.position = draggedElement.parentNode.getAttribute('square-id').split(','); // Update piece's position

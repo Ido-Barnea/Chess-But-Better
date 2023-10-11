@@ -4,7 +4,7 @@ body
     overflow: hidden;
 }
 
-#big-board 
+#board-container
 {
     width: 720px;
     height: 720px;
@@ -20,19 +20,18 @@ body
     flex-wrap: wrap;
     position: relative;
     right: 0;
+    float: right;
     top: 0;
 }
 
-#board-top {
+#board-bottom {
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Horizontal centering */
     align-items: center; /* Vertical centering */
-    width: 640px;
+    width: 720px;
     height: 80px;
     position: relative;
-    top: 0;
-    right: 0;
 }
 
 #board-side
@@ -45,11 +44,12 @@ body
     align-items: center; /* Vertical centering */
     left: 0;
     top: 0;
+    float: left;
     width: 80px;
     height: 640px;
 }
 
-.boardNumber
+.board-number
 {
     text-align: center;
     font-size: large;
@@ -70,7 +70,7 @@ body
     z-index: -1;
 }
 
-.numbersquare 
+.square-number
 {
     height: 80px;
     width: 80px;
