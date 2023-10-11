@@ -29,6 +29,7 @@ function onDragStart(e) {
 function onDragDrop(e) {
     e.stopPropagation();
     actOnTurn(e.target);
+    isCastling = false;
 }
 
 function onDragOver(e) {

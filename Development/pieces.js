@@ -4,6 +4,7 @@ class Piece {
         this.player = player;
         this.resource = resource;
         this.name = name;
+        this.hasMoved = false;
     }
 }
 
@@ -35,7 +36,7 @@ class Pawn extends Piece {
         }
 
         // Pawns can have an initial two-square move.
-        if ((currentPlayer.color === 'white' && coordinates[1] == 6) || (currentPlayer.color === 'black' && coordinates[1] == 1)) {
+        if (!this.hasMoved) {
             return (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0;
         }
 
@@ -127,12 +128,27 @@ class King extends Piece {
         const stepX = (destinationCoordinates[0] > coordinates[0]) ? 1 : (destinationCoordinates[0] < coordinates[0]) ? -1 : 0;
         const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;
 
-        const absoluteDeltaX = Math.abs(destinationCoordinates[0] - coordinates[0]);
-        const absoluteDeltaY = Math.abs(destinationCoordinates[1] - coordinates[1]);
+        const deltaX = destinationCoordinates[0] - coordinates[0];
+        const deltaY = destinationCoordinates[1] - coordinates[1];
+
+        const absoluteDeltaX = Math.abs(deltaX);
+        const absoluteDeltaY = Math.abs(deltaY);
 
         // King can only move one step but in any direction.
-        if (absoluteDeltaY === 1 || absoluteDeltaX === 1) {
+        if (absoluteDeltaX === 1 || absoluteDeltaY === 1) {
             return attemptToMove(coordinates, destinationCoordinates, stepX, stepY, 1);
+        }
+
+        // Check for castling
+        if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) { // Moved two squares horizontally and didn't move before
+            isCastling = true;
+            if (stepX === 2) { // Kingside castling
+                return attemptToMove(coordinates, destinationCoordinates, stepX, stepY, 2);
+            } else { // Queenside castling
+                // Queenside castling needs to check an extra square
+                const _destinationCoordinates = [destinationCoordinates[0] - 1, destinationCoordinates[1]];
+                return attemptToMove(coordinates, _destinationCoordinates, stepX, stepY, 3);
+            }
         }
 
         return false;
