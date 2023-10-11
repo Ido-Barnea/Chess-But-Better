@@ -6,7 +6,7 @@ function initializeBoard() {
         if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
     });
 
-    document.documentElement.style.setProperty('--square-side', `calc(${boardWidth * 10}px)`);
+    document.documentElement.style.setProperty('--square-side', `calc(${boardWidth * 0.5}vw)`);
 
     const boardBottom = document.getElementById("board-bottom");
     const boardSide = document.getElementById("board-left");
