@@ -20,6 +20,8 @@ class Pawn extends Piece {
         const absoluteDeltaX = Math.abs(deltaX);
         const absoluteDeltaY = Math.abs(deltaY);
 
+        const stepY = (destinationCoordinates[1] > coordinates[1]) ? 1 : (destinationCoordinates[1] < coordinates[1]) ? -1 : 0;
+
         // Make sure pawn does not move backwards.
         if ((currentPlayer.color === 'white' && deltaY > 0) || (currentPlayer.color === 'black' && deltaY < 0)) {
             return false;
@@ -36,8 +38,8 @@ class Pawn extends Piece {
         }
 
         // Pawns can have an initial two-square move.
-        if (!this.hasMoved) {
-            return (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0;
+        if (!this.hasMoved && (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0) {
+            return attemptToMove(coordinates, destinationCoordinates, 0, stepY, 2);
         }
 
         // Pawns move one square forward.

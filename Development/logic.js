@@ -113,17 +113,21 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
     while ((coordinates[0] !== destinationCoordinates[0] || coordinates[1] !== destinationCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
+
         // Check if any square along the piece's path is occupied (not including the destination square)
-        if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') !== destinationCoordinates) {
+        const targetSquarePosition = target.getAttribute('square-id').split(',');
+        if (isSquareOccupied(target.firstChild || target) &&
+            targetSquarePosition[0] != destinationCoordinates[0] &&
+            targetSquarePosition[1] != destinationCoordinates[1]
+        ) {
             return false;
         }
-        
         coordinates[0] += stepX;
         coordinates[1] += stepY;
         limitCounter++;
     }
 
-    return true;
+    return coordinates[0] === destinationCoordinates[0] && coordinates[1] === destinationCoordinates[1];
 }
 
 function MoveAndKillEnemyPiece(target) {
