@@ -58,6 +58,7 @@ function onMouseOut(e) {
     handleMouseEvents(e, false);
 }
 
+Logger.log('Game started!');
 // Initialize the board
 initializeBoard();
 // Add event listeners

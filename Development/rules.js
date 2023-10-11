@@ -15,6 +15,9 @@ class Rule {
                 Logger.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
                 player.xp++;
                 this.isSecret = false;
+
+                const rulesContainer = document.getElementById('rules-container');
+                rulesContainer.innerHTML += `<p>${this.id}) ${this.description}</p>`
             }
         }
     }
