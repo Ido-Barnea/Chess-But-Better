@@ -1,12 +1,11 @@
 class Logger {
     static log(message) 
     {
-        const logbox = document.getElementById("logbox");
-        // Log the message to the console
-        console.log(message);
-        document.getElementById("logs").innerHTML += message + "<br />";
+        const logBox = document.getElementById("log-box");
+        logBox.innerHTML += `<p>${message}</p>`; // Add message to logBox
+        console.log(message); // Print message to the console
         //scroll the logbox to the last log;
-        logbox.scrollTop = logbox.scrollHeight;
+        logBox.scrollTop = logBox.scrollHeight;
     }
     
     static convertPosition(position)
