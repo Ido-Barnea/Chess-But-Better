@@ -40,6 +40,7 @@ let currentPlayerIndex = 0;
 let roundCounter = 1;
 let turnCounter = 0;
 let isPiecesDropOffTheBoardActive = false;
+let isCastling = false;
 
 function isAllowedToMove() {
     return draggedElement.classList.contains(players[currentPlayerIndex].color);
@@ -49,10 +50,9 @@ function isSquareOccupied(target) {
     return target.classList.contains('piece');
 }
 
-function isSquareOccupiedByEnemy(target) {
+function isSquareOccupiedByAlly(target) {
     if (!isSquareOccupied(target)) return false;
-    const oponent = currentPlayerIndex === 0 ? players[1] : players[0];
-    return target.classList.contains(oponent.color);
+    return target.classList.contains(players[currentPlayerIndex].color);
 }
 
 function actOnTurn(target) {
@@ -61,12 +61,15 @@ function actOnTurn(target) {
 
     // Check if there is another piece on the targeted square.
     if (isSquareOccupied(target)) {
-        if (!isSquareOccupiedByEnemy(target)) {
+        if (isSquareOccupiedByAlly(target)) {
             isFriendlyFire = true;
         }
-        killEnemyPieceAndMove(target);
+        MoveAndKillEnemyPiece(target);
     } else {
-        move(target);
+        if (isCastling) {
+            castle(target);
+        }
+        move(draggedElement, target);
     }
 
     endTurn();
@@ -110,6 +113,7 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
     while ((coordinates[0] !== destinationCoordinates[0] || coordinates[1] !== destinationCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
+        console.log(target);
         // Check if any square along the piece's path is occupied (not including the destination square)
         if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') != destinationCoordinates) {
             return false;
@@ -123,7 +127,7 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
     return true;
 }
 
-function killEnemyPieceAndMove(target) {
+function MoveAndKillEnemyPiece(target) {
     Logger.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
     const piece = pieces.find((piece) => piece.position == draggedElement.parentNode.getAttribute('square-id')); // Get piece object
     target.parentNode.append(draggedElement);
@@ -134,12 +138,37 @@ function killEnemyPieceAndMove(target) {
     deathTrigger = true;
 }
 
-function move(target) {
-    Logger.log(`${players[currentPlayerIndex].color} ${draggedElement.id} moved from (${draggedElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
-    const piece = pieces.find((piece) => piece.position == draggedElement.parentNode.getAttribute('square-id')); // Get piece object
-    target.append(draggedElement); // Move piece's element
-    piece.position = draggedElement.parentNode.getAttribute('square-id').split(','); // Update piece's position
+function move(pieceElement, target) {
+    Logger.log(`${players[currentPlayerIndex].color} ${pieceElement.id} moved from (${pieceElement.parentNode.getAttribute('square-id')}) to (${target.getAttribute('square-id')}).`);
+    const piece = pieces.find((piece) => piece.position == pieceElement.parentNode.getAttribute('square-id')); // Get piece object
+    target.append(pieceElement); // Move piece's element
+    piece.position = pieceElement.parentNode.getAttribute('square-id').split(','); // Update piece's position
     piece.hasMoved = true;
+}
+
+function castle(target) {
+    const possibleRooks = pieces.filter((piece) => {
+        return piece.player === players[currentPlayerIndex] &&
+            !piece.hasMoved &&
+            piece.name === 'Rook';
+    });
+
+    const targetXPosition = Number(target.getAttribute('square-id').split(',')[0]);
+    const kingSquare = draggedElement.parentNode;
+    const kingPosition = kingSquare.getAttribute('square-id').split(',');
+    const kingXPosition = Number(kingPosition[0]);
+    const kingYPosition = Number(kingPosition[1]);
+
+    const deltaX = targetXPosition - kingXPosition;
+
+    // Depends on if it's Kingside or Queenside castling
+    const rookFilter = (piece) => deltaX > 0 ? piece.position[0] > targetXPosition : piece.position[0] < targetXPosition;
+    const rook = possibleRooks.find(rookFilter);
+
+    const rookElement = document.querySelector(`[square-id="${rook.position}"]`).firstChild;
+    const rookTargetPosition = [deltaX > 0 ? targetXPosition - 1 : targetXPosition + 1, kingYPosition];
+    const rookTarget = document.querySelector(`[square-id="${rookTargetPosition}"]`);
+    move(rookElement, rookTarget);
 }
 
 function dragOffTheBoard(e) {
