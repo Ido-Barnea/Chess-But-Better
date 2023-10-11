@@ -113,9 +113,8 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
     while ((coordinates[0] !== destinationCoordinates[0] || coordinates[1] !== destinationCoordinates[1]) && limitCounter !== limit) {
         const nextPosition = [coordinates[0] + stepX, coordinates[1] + stepY];
         const target = document.querySelector(`[square-id="${nextPosition}"]`);
-        console.log(target);
         // Check if any square along the piece's path is occupied (not including the destination square)
-        if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') != destinationCoordinates) {
+        if (isSquareOccupied(target.firstChild || target) && target.getAttribute('square-id') !== destinationCoordinates) {
             return false;
         }
         
