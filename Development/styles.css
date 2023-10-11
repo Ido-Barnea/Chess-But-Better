@@ -73,10 +73,22 @@ path {
     right: 0;
     bottom: 0;
     width: 25%;
-    height: calc(25% - 6px);
+    height: 25%;
     border: 3px solid black;
     overflow-x: none;
     overflow-y: auto;
+}
+
+#rules-container {
+    border: 3px solid black;
+    overflow-x: none;
+    overflow-y: auto;
+    padding: 0.5%;
+    position: absolute;
+    height: 50%;
+    width: 25%;
+    top: 0;
+    right: 0;
 }
 
 #logs
