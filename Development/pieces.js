@@ -4,6 +4,7 @@ class Piece {
         this.player = player;
         this.resource = resource;
         this.name = name;
+        this.hasMoved = false;
     }
 }
 
@@ -35,7 +36,7 @@ class Pawn extends Piece {
         }
 
         // Pawns can have an initial two-square move.
-        if ((currentPlayer.color === 'white' && coordinates[1] == 6) || (currentPlayer.color === 'black' && coordinates[1] == 1)) {
+        if (!this.hasMoved) {
             return (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0;
         }
 

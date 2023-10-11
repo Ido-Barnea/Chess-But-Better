@@ -125,8 +125,11 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
 
 function killEnemyPieceAndMove(target) {
     Logger.log(`${target.classList.contains('white') ? 'white' : 'black'} ${target.id} was killed by ${players[currentPlayerIndex].color} ${draggedElement.id}.`);
+    const piece = pieces.find((piece) => piece.position == draggedElement.parentNode.getAttribute('square-id')); // Get piece object
     target.parentNode.append(draggedElement);
     target.remove();
+    piece.position = draggedElement.parentNode.getAttribute('square-id').split(','); // Update piece's position
+    piece.hasMoved = true;
     deathCounter++;
     deathTrigger = true;
 }
@@ -136,6 +139,7 @@ function move(target) {
     const piece = pieces.find((piece) => piece.position == draggedElement.parentNode.getAttribute('square-id')); // Get piece object
     target.append(draggedElement); // Move piece's element
     piece.position = draggedElement.parentNode.getAttribute('square-id').split(','); // Update piece's position
+    piece.hasMoved = true;
 }
 
 function dragOffTheBoard(e) {
