@@ -5,22 +5,23 @@ function initializeBoard() {
     activeRules.forEach((rule) => {
         if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
     });
-    const boardBottom = document.getElementById("board-bottom");
-    const boardSide = document.getElementById("board-side");
 
-    //letters
+    document.documentElement.style.setProperty('--square-side', 'calc(' + boardWidth.toString() +  '* 10px)');
+
+    const boardBottom = document.getElementById("board-bottom");
+    const boardSide = document.getElementById("board-left");
+
     const letters = ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
     for(let column = 0; column < boardWidth + 1; column++) {
-        const squareNumber = createNotation(letters[column]);
-        boardBottom.appendChild(squareNumber);
+        const squareNotation = createNotation(letters[column]);
+        boardBottom.appendChild(squareNotation);
     }
 
     for (let row = boardWidth; row > 0; row--) {
-        const squareNumber = createNotation(row);
-        boardSide.appendChild(squareNumber);
+        const squareNotation = createNotation(row);
+        boardSide.appendChild(squareNotation);
     }
 
-    //squares
     for (let row = 0; row < boardWidth; row++) {
         for (let column = 0; column < boardWidth; column++) {
             // Create square elements and set their attributes
@@ -57,15 +58,15 @@ function createSquare(position) {
     return square;
 }
 
-function createNotation(position) {
-    const squareNumber = document.createElement('div');
-    squareNumber.classList.add("square-number");
-    const number = document.createElement('p');
-    number.classList.add("board-number");
-    number.innerHTML = position;
-    squareNumber.appendChild(number)
+function createNotation(notation) {
+    const squareNotation = document.createElement('div');
+    squareNotation.classList.add("square-notation");
+    const notationElement = document.createElement('p');
+    notationElement.classList.add("board-notation");
+    notationElement.innerHTML = notation;
+    squareNotation.appendChild(notationElement)
 
-    return squareNumber;
+    return squareNotation;
 }
 
 function getBackgroundColor(position) {

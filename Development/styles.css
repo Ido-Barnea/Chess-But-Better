@@ -1,3 +1,8 @@
+:root
+{
+    --square-side: 0;
+}
+
 body
 {
     height: 100%;
@@ -6,16 +11,16 @@ body
 
 #board-container
 {
-    width: 720px;
-    height: 720px;
+    width: calc(var(--square-side) * 9);
+    height: calc(var(--square-side) * 9);
     display: flex;
     flex-wrap: wrap;
     margin: auto;
 }
 
 #board-display {
-    width: 640px;
-    height: 640px;
+    width: calc(var(--square-side) * 8);
+    height: calc(var(--square-side) * 8);
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -29,12 +34,12 @@ body
     flex-wrap: wrap;
     justify-content: center; /* Horizontal centering */
     align-items: center; /* Vertical centering */
-    width: 720px;
-    height: 80px;
+    width: calc(var(--square-side) * 9);
+    height: var(--square-side);
     position: relative;
 }
 
-#board-side
+#board-left
 {
     position: relative;
     display: flex;
@@ -45,11 +50,11 @@ body
     left: 0;
     top: 0;
     float: left;
-    width: 80px;
-    height: 640px;
+    width: var(--square-side);
+    height: calc(var(--square-side) * 8);
 }
 
-.board-number
+.board-notation
 {
     text-align: center;
     font-size: large;
@@ -57,23 +62,23 @@ body
 }
 
 .square {
-    height: 80px;
-    width: 80px;
+    height: var(--square-side);
+    width: var(--square-side);
     position: relative;
 }
 
 .square svg {
-    height: 70px;
-    width: 70px;
+    height: calc(var(--square-side) - 10px);
+    width: calc(var(--square-side) - 10px);
     margin: 5px;
     position: relative;
     z-index: -1;
 }
 
-.square-number
+.square-notation
 {
-    height: 80px;
-    width: 80px;
+    height: var(--square-side);
+    width: var(--square-side);
     position: relative;
 }
 
