@@ -1,4 +1,3 @@
-// Constants
 const boardDisplay = document.querySelector('#board-display');
 const playerDisplay = document.querySelector('#player-display');
 const roundCounterDisplay = document.querySelector('#round-counter-display');

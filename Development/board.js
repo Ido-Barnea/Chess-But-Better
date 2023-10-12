@@ -1,4 +1,3 @@
-// Constants
 const boardWidth = 8;
 const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 

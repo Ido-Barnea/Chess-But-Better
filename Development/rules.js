@@ -11,7 +11,7 @@ class Rule {
         if (this.condition()) {
             this.action();
             if (this.isSecret) {
-                const player = getCurrentPlayer();
+                const player = players[currentPlayerIndex];
                 Logger.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
                 player.xp++;
                 this.isSecret = false;
@@ -23,7 +23,6 @@ class Rule {
     }
 }
 
-// Variables
 let fellOffTheBoard;
 
 let isFirstKill = true;
@@ -57,7 +56,7 @@ const activeRules = [
             return deathCounter > 0 && isFirstKill;
         },
         () => {
-            const player = getCurrentPlayer();
+            const player = players[currentPlayerIndex];
             Logger.log(`${player.color} has made First Blood and received a bonus.`);
             player.xp++;
             isFirstKill = false;
@@ -71,7 +70,7 @@ const activeRules = [
             return deathTrigger;
         },
         () => {
-            const player = getCurrentPlayer();
+            const player = players[currentPlayerIndex];
             Logger.log(`${player.color} received XP for killing another piece.`);
             player.xp++;
             deathTrigger = false;
@@ -85,7 +84,7 @@ const activeRules = [
             return isFriendlyFire;
         },
         () => {
-            const player = getCurrentPlayer();
+            const player = players[currentPlayerIndex];
             Logger.log(`${player.color} attacked his own piece and has to pay compensations.`);
             player.gold--;
             isFriendlyFire = false;
@@ -129,14 +128,3 @@ const activeRules = [
         }
     )
 ];
-
-function getCurrentPlayer() {
-    let player = null;
-    players.forEach((_player) => {
-        if (_player === players[currentPlayerIndex]) {
-            player = _player;
-        }
-    });
-
-    return player;
-}

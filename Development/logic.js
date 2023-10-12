@@ -1,4 +1,3 @@
-// Constants
 const players = [new Player('white', 0, 0), new Player('black', 0, 0)];
 const pieces = [
     new Rook([0,0], players[1]),
@@ -35,7 +34,6 @@ const pieces = [
     new Rook([7, 7], players[0]),
 ]
 
-// Variables
 let currentPlayerIndex = 0;
 let roundCounter = 1;
 let turnCounter = 0;
