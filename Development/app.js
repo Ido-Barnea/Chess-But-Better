@@ -28,7 +28,12 @@ function onDragStart(e) {
 
 function onDragDrop(e) {
     e.stopPropagation();
-    actOnTurn(e.target);
+    let target = e.target;
+    // Make sure target is not a resource
+    while (target.classList.contains('untargetable')) {
+        target = target.parentNode;
+    }
+    actOnTurn(target);
     isCastling = false;
 }
 
