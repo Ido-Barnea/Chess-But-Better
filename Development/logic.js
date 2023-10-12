@@ -117,8 +117,8 @@ function attemptToMove(coordinates, destinationCoordinates, stepX, stepY, limit)
         // Check if any square along the piece's path is occupied (not including the destination square)
         const targetSquarePosition = target.getAttribute('square-id').split(',');
         if (isSquareOccupied(target.firstChild || target) &&
-            targetSquarePosition[0] != destinationCoordinates[0] &&
-            targetSquarePosition[1] != destinationCoordinates[1]
+            (targetSquarePosition[0] != destinationCoordinates[0] ||
+            targetSquarePosition[1] != destinationCoordinates[1])
         ) {
             return false;
         }

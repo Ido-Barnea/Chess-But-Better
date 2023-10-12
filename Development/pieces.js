@@ -144,7 +144,7 @@ class King extends Piece {
         // Check for castling
         if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) { // Moved two squares horizontally and didn't move before
             isCastling = true;
-            if (stepX === 2) { // Kingside castling
+            if (deltaX === 2) { // Kingside castling
                 return attemptToMove(coordinates, destinationCoordinates, stepX, stepY, 2);
             } else { // Queenside castling
                 // Queenside castling needs to check an extra square
