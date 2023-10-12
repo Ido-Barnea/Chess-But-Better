@@ -1,23 +1,71 @@
+:root {
+    --square-size: 80px;
+    --board-squares-per-side: 8;
+    --piece-resource-padding: 12px;
+    --notation-padding: 4px;
+}
+
+#board-container {
+    height: calc(var(--square-size) * (var(--board-squares-per-side) + 1));
+    width: calc(var(--square-size) * (var(--board-squares-per-side) + 1));
+    display: flex;
+    margin-left: 25%;
+}
+
 #board-display {
-    width: 640px;
-    height: 640px;
+    width: calc(var(--square-size) * var(--board-squares-per-side));
+    height: calc(var(--square-size) * var(--board-squares-per-side));
     display: flex;
     flex-wrap: wrap;
-    margin: auto;
+}
+
+#bottom-notations-bar {
+    height: calc(var(--square-size) / 4);
+    margin-top: calc(var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+}
+
+#left-notations-bar {
+    width: calc(var(--square-size) / 4);
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
 }
 
 .square {
-    height: 80px;
-    width: 80px;
+    height: var(--square-size);
+    width: var(--square-size);
     position: relative;
 }
 
 .square svg {
-    height: 70px;
-    width: 70px;
-    margin: 5px;
+    height: calc(var(--square-size) - var(--piece-resource-padding));
+    width: calc(var(--square-size) - var(--piece-resource-padding));
+    margin: calc(var(--piece-resource-padding) / 2);
     position: relative;
-    z-index: -1;
+}
+
+.notation {
+    font-weight: bold;
+    position: relative;
+    font-size: medium;
+    margin: 0;
+    padding: 0;
+}
+
+.notation.number {
+    height: calc(var(--square-size));
+    margin-left: 4px;
+}
+
+.notation.letter {
+    width: calc(var(--square-size) - 4px);
+    margin-right: 4px;
+    text-align: end;
 }
 
 path {
@@ -28,6 +76,30 @@ path {
 .piece {
     position: relative;
     z-index: 1;
+}
+
+#log-box {
+    position: absolute;
+    padding: 0.5%;
+    right: 0;
+    bottom: 0;
+    width: 25%;
+    height: 25%;
+    border: 0.25vw solid black;
+    overflow-x: none;
+    overflow-y: auto;
+}
+
+#rules-container {
+    border: 0.25vw solid black;
+    overflow-x: none;
+    overflow-y: auto;
+    padding: 0.5%;
+    position: absolute;
+    height: 50%;
+    width: 25%;
+    top: 0;
+    right: 0;
 }
 
 .beige-background {
@@ -64,34 +136,4 @@ path {
 
 .white {
     fill: white;
-}
-
-#log-box
-{
-    position: absolute;
-    padding: 0.5%;
-    right: 0;
-    bottom: 0;
-    width: 25%;
-    height: 25%;
-    border: 3px solid black;
-    overflow-x: none;
-    overflow-y: auto;
-}
-
-#rules-container {
-    border: 3px solid black;
-    overflow-x: none;
-    overflow-y: auto;
-    padding: 0.5%;
-    position: absolute;
-    height: 50%;
-    width: 25%;
-    top: 0;
-    right: 0;
-}
-
-#logs
-{
-    color: black;
 }

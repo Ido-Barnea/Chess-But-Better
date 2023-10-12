@@ -1,10 +1,25 @@
 // Constants
 const boardWidth = 8;
+const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
 
 function initializeBoard() {
     activeRules.forEach((rule) => {
         if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
     });
+
+    const boardBottom = document.getElementById("bottom-notations-bar");
+    const boardLeft = document.getElementById("left-notations-bar");
+
+    for(let column = 0; column < boardWidth; column++) {
+        const notation = createNotation(letters[column]);
+        boardBottom.appendChild(notation);
+    }
+
+    for (let row = boardWidth; row > 0; row--) {
+        const notation = createNotation(row);
+        boardLeft.appendChild(notation);
+    }
 
     for (let row = 0; row < boardWidth; row++) {
         for (let column = 0; column < boardWidth; column++) {
@@ -40,6 +55,15 @@ function createSquare(position) {
     square.classList.add(backgroundColor);
 
     return square;
+}
+
+function createNotation(notation) {
+    const notationElement = document.createElement('p');
+    notationElement.classList.add('notation');
+    notationElement.classList.add(letters.includes(notation) ? 'letter' : 'number');
+    notationElement.innerHTML = notation;
+
+    return notationElement;
 }
 
 function getBackgroundColor(position) {
