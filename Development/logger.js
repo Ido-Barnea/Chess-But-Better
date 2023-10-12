@@ -1,27 +1,19 @@
 class Logger {
     static log(message) 
     {
-        const logBox = document.getElementById("log-box");
-        logBox.innerHTML += `<p>> ${message}</p>`;
-        //scroll the logbox to the last log;
-        logBox.scrollTop = logBox.scrollHeight;
+        const logsContainer = document.getElementById("logs-container");
+        logsContainer.innerHTML += `<p>> ${message}</p>`;
+        //Scroll to the last log;
+        logsContainer.scrollTop = logsContainer.scrollHeight;
     }
     
     static convertPosition(position)
     {
         const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-        const numbers = []
-        let counter = 0;
+        const numbers = [8, 7, 6, 5, 4, 3, 2, 1];
 
-        for(let i = boardWidth; i > 0; i--)
-        {
-            numbers[counter] = i;
-            counter++;
-        }
-
-        let posX = letters[parseInt(position[0])];
-        let posY = numbers[parseInt(position[2])];
-
-        return posX + "," + posY;
+        let x = letters[parseInt(position[0])];
+        let y = numbers[parseInt(position[2])];
+        return `${x},${y}`;
     }
 }
