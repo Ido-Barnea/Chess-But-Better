@@ -1,90 +1,71 @@
-body
-{
-    height: 100%;
-    overflow: hidden;
+:root {
+    --square-size: 80px;
+    --board-squares-per-side: 8;
+    --piece-resource-padding: 12px;
+    --notation-padding: 4px;
 }
 
-p
-{
-    font-size: 2vh;
-}
-
-h2
-{
-    font-size: 2.5vh;
-}
-
-#board-container
-{
-    width: calc(var(--square-side) * 9);
-    height: calc(var(--square-side) * 9);
+#board-container {
+    height: calc(var(--square-size) * (var(--board-squares-per-side) + 1));
+    width: calc(var(--square-size) * (var(--board-squares-per-side) + 1));
     display: flex;
-    flex-wrap: wrap;
-    margin: auto;
+    margin-left: 25%;
 }
 
 #board-display {
-    width: calc(var(--square-side) * 8);
-    height: calc(var(--square-side) * 8);
+    width: calc(var(--square-size) * var(--board-squares-per-side));
+    height: calc(var(--square-size) * var(--board-squares-per-side));
     display: flex;
     flex-wrap: wrap;
-    position: relative;
-    right: 0;
-    float: right;
-    top: 0;
 }
 
-#board-bottom {
+#bottom-notations-bar {
+    height: calc(var(--square-size) / 4);
+    margin-top: calc(var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Horizontal centering */
-    align-items: center; /* Vertical centering */
-    width: calc(var(--square-side) * 9);
-    height: var(--square-side);
-    position: relative;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
 }
 
-#board-left
-{
-    position: relative;
+#left-notations-bar {
+    width: calc(var(--square-size) / 4);
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
-    justify-content: center; /* Horizontal centering */
-    align-items: center; /* Vertical centering */
-    left: 0;
-    top: 0;
-    float: left;
-    width: var(--square-side);
-    height: calc(var(--square-side) * 8);
-}
-
-.board-notation
-{
-    text-align: center;
-    font-size: 2.5vh;
-    font-weight: bold;
+    position: absolute;
+    z-index: 1;
 }
 
 .square {
-    height: var(--square-side);
-    width: var(--square-side);
+    height: var(--square-size);
+    width: var(--square-size);
     position: relative;
 }
 
 .square svg {
-    height: calc(var(--square-side) - 0.5vw);
-    width: calc(var(--square-side) - 0.5vw);
-    margin: 0.25vw;
+    height: calc(var(--square-size) - var(--piece-resource-padding));
+    width: calc(var(--square-size) - var(--piece-resource-padding));
+    margin: calc(var(--piece-resource-padding) / 2);
     position: relative;
-    z-index: -1;
 }
 
-.square-notation
-{
-    height: var(--square-side);
-    width: var(--square-side);
+.notation {
+    font-weight: bold;
     position: relative;
+    font-size: medium;
+    margin: 0;
+    padding: 0;
+}
+
+.notation.number {
+    height: calc(var(--square-size));
+    margin-left: 4px;
+}
+
+.notation.letter {
+    width: calc(var(--square-size) - 4px);
+    margin-right: 4px;
+    text-align: end;
 }
 
 path {
@@ -95,6 +76,30 @@ path {
 .piece {
     position: relative;
     z-index: 1;
+}
+
+#log-box {
+    position: absolute;
+    padding: 0.5%;
+    right: 0;
+    bottom: 0;
+    width: 25%;
+    height: 25%;
+    border: 0.25vw solid black;
+    overflow-x: none;
+    overflow-y: auto;
+}
+
+#rules-container {
+    border: 0.25vw solid black;
+    overflow-x: none;
+    overflow-y: auto;
+    padding: 0.5%;
+    position: absolute;
+    height: 50%;
+    width: 25%;
+    top: 0;
+    right: 0;
 }
 
 .beige-background {
@@ -131,34 +136,4 @@ path {
 
 .white {
     fill: white;
-}
-
-#log-box
-{
-    position: absolute;
-    padding: 0.5%;
-    right: 0;
-    bottom: 0;
-    width: 25%;
-    height: 25%;
-    border: 0.25vw solid black;
-    overflow-x: none;
-    overflow-y: auto;
-}
-
-#rules-container {
-    border: 0.25vw solid black;
-    overflow-x: none;
-    overflow-y: auto;
-    padding: 0.5%;
-    position: absolute;
-    height: 50%;
-    width: 25%;
-    top: 0;
-    right: 0;
-}
-
-#logs
-{
-    color: black;
 }

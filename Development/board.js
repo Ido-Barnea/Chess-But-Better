@@ -1,25 +1,24 @@
 // Constants
 const boardWidth = 8;
+const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
 
 function initializeBoard() {
     activeRules.forEach((rule) => {
         if (rule.id === 0) isPiecesDropOffTheBoardActive = true;
     });
 
-    document.documentElement.style.setProperty('--square-side', `calc(${boardWidth * 0.5}vw)`);
+    const boardBottom = document.getElementById("bottom-notations-bar");
+    const boardLeft = document.getElementById("left-notations-bar");
 
-    const boardBottom = document.getElementById("board-bottom");
-    const boardSide = document.getElementById("board-left");
-
-    const letters = ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    for(let column = 0; column < boardWidth + 1; column++) {
-        const squareNotation = createNotation(letters[column]);
-        boardBottom.appendChild(squareNotation);
+    for(let column = 0; column < boardWidth; column++) {
+        const notation = createNotation(letters[column]);
+        boardBottom.appendChild(notation);
     }
 
     for (let row = boardWidth; row > 0; row--) {
-        const squareNotation = createNotation(row);
-        boardSide.appendChild(squareNotation);
+        const notation = createNotation(row);
+        boardLeft.appendChild(notation);
     }
 
     for (let row = 0; row < boardWidth; row++) {
@@ -59,14 +58,12 @@ function createSquare(position) {
 }
 
 function createNotation(notation) {
-    const squareNotation = document.createElement('div');
-    squareNotation.classList.add("square-notation");
     const notationElement = document.createElement('p');
-    notationElement.classList.add("board-notation");
+    notationElement.classList.add('notation');
+    notationElement.classList.add(letters.includes(notation) ? 'letter' : 'number');
     notationElement.innerHTML = notation;
-    squareNotation.appendChild(notationElement)
 
-    return squareNotation;
+    return notationElement;
 }
 
 function getBackgroundColor(position) {
