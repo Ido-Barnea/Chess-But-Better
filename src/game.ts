@@ -7,11 +7,23 @@ const infoDisplay = document.querySelector('#info-display')!;
 
 export function updatePlayersInformation() {
     infoDisplay.textContent = '';
-    infoDisplay.textContent += `Round: ${roundCounter}`;
-    infoDisplay.textContent += 'Players:';
+
+    const roundElement = document.createElement('p');
+    roundElement.innerHTML = `<b>Round:</b> ${roundCounter}`
+    infoDisplay.appendChild(roundElement);
+
+    const playersElement = document.createElement('p');
+    playersElement.innerHTML = '<b>Players:</b>';
+
     players.forEach((player) => {
-        infoDisplay.textContent += `${getCurrentPlayer() === player ? '> ' : ''} ${player.color} Player: ${player.xp} XP; ${player.gold} Gold.`;
+        const playerInformationElement = document.createElement('p');
+        const isCurrentPlayer = getCurrentPlayer() === player;
+        const title = `${isCurrentPlayer ? '> ' : ''} ${player.color} Player:`;
+        playerInformationElement.innerHTML = `${isCurrentPlayer ? '<b>' : ''}${title}${isCurrentPlayer ? '</b>' : ''} ${player.xp} XP; ${player.gold} Gold.`;
+        playersElement.appendChild(playerInformationElement);
     });
+
+    infoDisplay.appendChild(playersElement);
 }
 
 function initializeGame() {

@@ -5,11 +5,15 @@
     --notation-padding: 4px;
 }
 
+body {
+    overflow: hidden;
+}
+
 #board-container {
-    height: calc(var(--square-size) * (var(--board-squares-per-side) + 1));
-    width: calc(var(--square-size) * (var(--board-squares-per-side) + 1));
-    display: flex;
+    height: calc(var(--square-size) * var(--board-squares-per-side));
+    width: calc(var(--square-size) * var(--board-squares-per-side));
     margin-left: 25%;
+    margin-top: 2%;
 }
 
 #board-display {
@@ -19,8 +23,7 @@
     flex-wrap: wrap;
 }
 
-#bottom-notations-bar {
-    height: calc(var(--square-size) / 4);
+#bottom-notations-container {
     margin-top: calc(var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4);
     display: flex;
     flex-direction: row;
@@ -28,7 +31,7 @@
     z-index: 1;
 }
 
-#left-notations-bar {
+#left-notations-container {
     width: calc(var(--square-size) / 4);
     display: flex;
     flex-direction: column;
@@ -68,6 +71,12 @@
     text-align: end;
 }
 
+#info-display {
+    position: absolute;
+    top: 0px;
+    left: 24px;
+}
+
 path {
     position: relative;
     z-index: -2;
@@ -78,7 +87,7 @@ path {
     z-index: 1;
 }
 
-#log-box {
+#logs-container {
     position: absolute;
     padding: 0.5%;
     right: 0;

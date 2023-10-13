@@ -16,7 +16,7 @@ export function initializeBoard() {
     }
 
     for(let column = 0; column < boardWidth; column++) {
-        createNotation(notationsLetters[column]);
+        createNotation((column + 1).toString());
         createNotation(notationsLetters[boardWidth - column - 1]);
     }
 
@@ -30,7 +30,7 @@ export function initializeBoard() {
 function createSquare(position: [number, number]) {
     const squareElement = document.createElement('div');
     squareElement.classList.add('square');
-    squareElement.setAttribute('square-id', position.join('-'));
+    squareElement.setAttribute('square-id', position.join(','));
 
     const backgroundColor = getBackgroundColor(position);
     squareElement.classList.add(backgroundColor);
@@ -72,16 +72,16 @@ function createPieceElement(piece: Piece) {
 }
 
 export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
-    const draggedPieceSquareElement = document.querySelector(`[square-id=${draggedPiece.position.join('-')}]`);
+    const draggedPieceSquareElement = document.querySelector(`[square-id="${draggedPiece.position.join(',')}"]`) as HTMLElement;
     const draggedPieceElement = draggedPieceSquareElement?.firstElementChild as HTMLElement;
 
-    const targetSquareElement = document.querySelector(`[square-id=${targetSquare.position.join('-')}]`) as HTMLElement;
+    const targetSquareElement = document.querySelector(`[square-id="${targetSquare.position.join(',')}"]`) as HTMLElement;
 
     targetSquareElement.appendChild(draggedPieceElement);
 }
 
 export function destroyPieceOnBoard(targetPiece: Piece) {
-    const targetPieceSquareElement = document.querySelector(`[square-id=${targetPiece.position.join('-')}]`);
+    const targetPieceSquareElement = document.querySelector(`[square-id="${targetPiece.position.join(',')}"]`);
     const targetPieceElement = targetPieceSquareElement?.firstElementChild as HTMLElement;
 
     targetPieceElement.remove();

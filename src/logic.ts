@@ -6,12 +6,12 @@ import { activeRules } from "./rules";
 import { updatePlayersInformation } from "./game";
 
 const whitePlayer: Player = {
-    color: 'White',
+    color: 'white',
     xp: 0,
     gold: 0,
 }
 const blackPlayer: Player = {
-    color: 'Black',
+    color: 'black',
     xp: 0,
     gold: 0,
 }
@@ -52,8 +52,8 @@ export let pieces = [
 ]
 
 let currentPlayerIndex = 0;
-export let roundCounter = 1;
 let turnCounter = 0;
+export let roundCounter = 1;
 export let deathCounter = 0;
 
 let isCastling = false;
@@ -67,42 +67,38 @@ export function getCurrentPlayer(): Player {
     return players[currentPlayerIndex];
 }
 
+export function comparePositions(firstPosition: Array<number>, secondPosition: Array<number>): boolean {
+    return firstPosition[0] === secondPosition[0] && firstPosition[1] === secondPosition[1];
+}
+
 export function switchIsCastling() {
     isCastling = !isCastling;
 }
 
 export function getPieceByPosition(position: [number, number]): Piece | undefined {
-    return pieces.find((piece) => piece.position === position);
+    return pieces.find((piece) => comparePositions(position, piece.position));
 }
 
 function convertSquareIdToPosition(squareId: string): [number, number] {
-    return squareId.split('-').map(str => parseInt(str)) as [number, number];
+    return squareId.split(',').map(str => parseInt(str)) as [number, number];
 }
 
 export function onAction(draggedElement: HTMLElement, targetElement: HTMLElement) {
-    const draggedPiece: Piece | undefined = pieces.find((piece) => {
-        const draggedElementParentElement = draggedElement.parentElement as HTMLElement;
-        const draggedElementPosition = convertSquareIdToPosition(draggedElementParentElement.getAttribute('square-id')!);
-        return draggedElementPosition === piece.position;
-    });
+    const draggedElementParentElement = draggedElement.parentElement as HTMLElement;
+    const draggedElementPosition = convertSquareIdToPosition(draggedElementParentElement.getAttribute('square-id')!);
+    const draggedPiece: Piece | undefined = pieces.find((piece) => comparePositions(piece.position, draggedElementPosition));
+
     if (targetElement.classList.contains('piece')) {
         const targetPiece: Piece | undefined = pieces.find((piece) => {
             const targetElementPosition = convertSquareIdToPosition(targetElement.parentElement?.getAttribute('square-id')!);
-            return targetElementPosition === piece.position;
+            return comparePositions(targetElementPosition, piece.position)
         });
         
         actOnTurn(draggedPiece, targetPiece);
     } else {
-        const childPiece: Piece | undefined = pieces.find((piece) => {
-            const targetElementChildPosition = convertSquareIdToPosition(targetElement.firstElementChild?.getAttribute('square-id')!);
-            return targetElementChildPosition === piece.position;
-        });
-
         const targetSquare: Square = {
-            position: convertSquareIdToPosition(targetElement.getAttribute('square-id')!),
-            occupent: childPiece,
-        }
-
+            position: convertSquareIdToPosition(targetElement.getAttribute('square-id')!)
+        };
         actOnTurn(draggedPiece, targetSquare);
     }
 }
@@ -110,10 +106,14 @@ export function onAction(draggedElement: HTMLElement, targetElement: HTMLElement
 export function onFallOffTheBoard(draggedElement: HTMLElement) {
     const draggedPiece: Piece | undefined = pieces.find((piece) => {
         const draggedElementPosition = convertSquareIdToPosition(draggedElement.parentElement?.getAttribute('square-id')!);
-        return draggedElementPosition === piece.position;
+        return comparePositions(draggedElementPosition, piece.position);
     });
+    
+    if (!draggedPiece) return;
+    if (!isAllowedToMove(draggedPiece)) return;
 
-    fellOffTheBoardPiece = draggedPiece ? draggedPiece : undefined;
+    fellOffTheBoardPiece = draggedPiece;
+    endTurn();
 }
 
 function isAllowedToMove(draggedPiece: Piece) {
@@ -180,8 +180,8 @@ function castle(kingPiece: Piece,  targetSquare: Square) {
 function move(draggedPiece: Piece, targetSquare: Square) {
     Logger.logMovement(draggedPiece, targetSquare);
 
-    draggedPiece.position = targetSquare.position;
     movePieceOnBoard(draggedPiece, targetSquare);
+    draggedPiece.position = targetSquare.position;
 }
 
 function endTurn() {
@@ -203,5 +203,8 @@ function endTurn() {
 }
 
 function resetVariables() {
-
+    isCastling = false;
+    isFriendlyFire = false;
+    isPieceKilled = false;
+    fellOffTheBoardPiece = undefined;
 }

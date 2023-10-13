@@ -4,11 +4,12 @@
   "description": "Chess with an added layer of complexity",
   "main": "index.js",
   "scripts": {
-    "start": "tsc --watch"
+    "start": "parcel serve views/index.html --port 8080 --no-cache"
   },
   "author": "Ido Barnea",
   "license": "ISC",
   "devDependencies": {
+    "parcel": "^2.10.0",
     "typescript": "^5.2.2"
   }
 }

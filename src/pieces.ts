@@ -1,6 +1,6 @@
 import { pawnResource, bishopResource, knightResource, rookResource, queenResource, kingResource } from "./resources";
 import { Player } from "./players";
-import { getCurrentPlayer, switchIsCastling, getPieceByPosition } from "./logic";
+import { getCurrentPlayer, switchIsCastling, getPieceByPosition, comparePositions } from "./logic";
 
 interface PieceType {
     position: [number, number],
@@ -28,6 +28,10 @@ export class Piece implements PieceType {
     isValidMove(_: Piece | Square) {
         return false;
     }
+
+    copyPosition(): [number, number] {
+        return Array.from(this.position) as [number, number];
+    }
 }
 
 export type Square = {
@@ -51,15 +55,14 @@ export class Pawn extends Piece {
 
         // Make sure pawn does not move backwards.
         const currentPlayer = getCurrentPlayer();
-        if ((currentPlayer.color === 'White' && deltaY > 0) || (currentPlayer.color === 'Black' && deltaY < 0)) {
+        if ((currentPlayer.color === 'white' && deltaY > 0) || (currentPlayer.color === 'black' && deltaY < 0)) {
             return false;
         }
         
         // Pawns attack diagonally.
-        // Check if there is another piece on the targeted square.
         if ((target as Piece).name !== undefined) {
             const targetPiece = (target as Piece);
-            const oponent = this.player.color === 'White' ? 'Black' : 'White';
+            const oponent = this.player.color === 'white' ? 'black' : 'white';
             // Make sure the other piece belongs to the current player's oponent.
             if (targetPiece.player.color === oponent) {
                 return absoluteDeltaY === 1 && absoluteDeltaX === 1;
@@ -67,8 +70,8 @@ export class Pawn extends Piece {
         }
 
         // Pawns can have an initial two-square move.
-        if (!this.hasMoved && (absoluteDeltaY === 1 || absoluteDeltaY === 2) && absoluteDeltaX === 0) {
-            return validateMove(this.position, target.position, 0, stepY, 2);
+        if (!this.hasMoved && absoluteDeltaY === 2 && absoluteDeltaX === 0) {
+            return validateMove(this.copyPosition(), target.position, 0, stepY, 2);
         }
 
         // Pawns move one square forward.
@@ -90,7 +93,7 @@ export class Bishop extends Piece {
 
         // Bishops can only move diagonally.
         if (absoluteDeltaY === absoluteDeltaX) {
-            return validateMove(this.position, target.position, stepX, stepY, -1);
+            return validateMove(this.copyPosition(), target.position, stepX, stepY, -1);
         }
 
         return false;
@@ -122,7 +125,7 @@ export class Rook extends Piece {
 
         // Rooks can move either vertically or horizontally but not both at the same.
         if (this.position[1] === target.position[1] || this.position[0] === target.position[0]) {
-            return validateMove(this.position, target.position, stepX, stepY, -1);
+            return validateMove(this.copyPosition(), target.position, stepX, stepY, -1);
         }
 
         return false;
@@ -143,7 +146,7 @@ export class Queen extends Piece {
 
         // Queens can move vertically, horizontally or diagonally.
         if ((this.position[1] === target.position[1] || this.position[0] === target.position[0]) || absoluteDeltaY === absoluteDeltaX) {
-            return validateMove(this.position, target.position, stepX, stepY, -1);
+            return validateMove(this.copyPosition(), target.position, stepX, stepY, -1);
         }
 
         return false;
@@ -167,18 +170,18 @@ export class King extends Piece {
 
         // King can only move one step but in any direction.
         if (absoluteDeltaX === 1 || absoluteDeltaY === 1) {
-            return validateMove(this.position, target.position, stepX, stepY, 1);
+            return validateMove(this.copyPosition(), target.position, stepX, stepY, 1);
         }
 
         // Check for castling
         if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) { // Moved two squares horizontally and didn't move before
             switchIsCastling();
             if (deltaX === 2) { // Kingside castling
-                return validateMove(this.position, target.position, stepX, stepY, 2);
+                return validateMove(this.copyPosition(), target.position, stepX, stepY, 2);
             } else { // Queenside castling
                 // Queenside castling needs to check an extra square
                 const targetPosition: [number, number] = [target.position[0] - 1, target.position[1]];
-                return validateMove(this.position, targetPosition, stepX, stepY, 3);
+                return validateMove(this.copyPosition(), targetPosition, stepX, stepY, 3);
             }
         }
 
@@ -199,7 +202,7 @@ function validateMove(
 
         // Check if any square along the piece's path is occupied (not including the destination square)
         const targetPiece = getPieceByPosition(nextPosition);
-        if (targetPiece && nextPosition != targetPosition) {
+        if (targetPiece && !comparePositions(nextPosition, targetPosition)) {
             return false;
         }
 
@@ -208,5 +211,5 @@ function validateMove(
         limitCounter++;
     }
 
-    return position === targetPosition;
+    return comparePositions(position, targetPosition);
 }
