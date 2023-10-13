@@ -5,8 +5,8 @@ export class Logger {
     {
         const logsContainer = document.getElementById("logs-container")!;
         logsContainer.innerHTML += `<p>> ${message}</p>`;
-        //Scroll to the last log;
-        logsContainer.scrollTop = logsContainer.scrollHeight;
+        
+        logsContainer.scrollTop = logsContainer.scrollHeight; // Scroll to the last log
     }
 
     static logMovement(draggedPiece: Piece, targetSquare: Square) {
