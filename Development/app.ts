@@ -2,7 +2,6 @@ import { Logger } from "./logger";
 import { initializeEventListeners, setOnAction, setOnFallOffTheBoard } from "./events";
 import { initializeBoard } from "./board";
 import { onAction, onFallOffTheBoard, getCurrentPlayer, players, roundCounter } from "./logic";
-import { Player } from "./players";
 
 const infoDisplay = document.querySelector('#info-display')!;
 
