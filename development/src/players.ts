@@ -1,5 +1,5 @@
 export type Player = {
-    color: string,
-    xp: number,
-    gold: number,
-}
+  color: string;
+  xp: number;
+  gold: number;
+};
