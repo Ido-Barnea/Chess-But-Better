@@ -18,35 +18,37 @@ export function initializeEventListeners() {
     document.body.addEventListener('drop', onDragOffTheBoard);
 }
 
-function onDragStart(event) {
-    if (event.target.classList.contains('piece')) {
-        draggedElement = event.target;
+function onDragStart(event: Event) {
+    const targetElement = event.target as HTMLElement;
+    if (targetElement.classList.contains('piece')) {
+        draggedElement = event.target as HTMLElement;
     }
 }
 
-function onDragDrop(event) {
+function onDragDrop(event: Event) {
     event.stopPropagation();
-    let targetElement = event.target;
+    let targetElement = event.target as HTMLElement;
     // Make sure target is not a resource
     while (targetElement.classList.contains('untargetable')) {
-        targetElement = targetElement.parentNode;
+        targetElement = targetElement.parentNode as HTMLElement;
     }
 
     triggerOnAction(draggedElement, targetElement);
 }
 
-function onDragOver(event) {
+function onDragOver(event: Event) {
     event.preventDefault();
 }
 
-function onDragOffTheBoard(_) {
+function onDragOffTheBoard(_: Event) {
     triggerOnFallOffTheBoard(draggedElement);
 }
 
-function handleMouseEvents(event, shouldAddClass) {
-    let target = event.target;
-    if (target.parentNode.classList.contains('square')) {
-        target = target.parentNode;
+function handleMouseEvents(event: Event, shouldAddClass: boolean) {
+    let target = event.target as HTMLElement;
+    const targetParentElement = target.parentNode as HTMLElement;
+    if (targetParentElement.classList.contains('square')) {
+        target = target.parentNode as HTMLElement;
     }
     if (target.classList.contains('square')) {
         if (shouldAddClass) {
@@ -57,18 +59,18 @@ function handleMouseEvents(event, shouldAddClass) {
     }
 }
 
-function onMouseOver(event) {
+function onMouseOver(event: Event) {
     handleMouseEvents(event, true);
 }
 
-function onMouseOut(event) {
+function onMouseOut(event: Event) {
     handleMouseEvents(event, false);
 }
 
-export function setOnAction(triggerOnAction: (draggedElement: HTMLElement, targetElement: HTMLElement) => void) {
-    this.triggerOnAction = triggerOnAction;
+export function setOnAction(_triggerOnAction: (draggedElement: HTMLElement, targetElement: HTMLElement) => void) {
+    triggerOnAction = _triggerOnAction;
 }
 
-export function setOnFallOffTheBoard(triggerOnFallOffTheBoard: (draggedElement: HTMLElement) => void) {
-    this.triggerOnFallOffTheBoard = triggerOnFallOffTheBoard;
+export function setOnFallOffTheBoard(_triggerOnFallOffTheBoard: (draggedElement: HTMLElement) => void) {
+    triggerOnFallOffTheBoard = _triggerOnFallOffTheBoard;
 }

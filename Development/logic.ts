@@ -61,7 +61,7 @@ export let isFriendlyFire = false;
 export let isPieceKilled = false;
 export let isFirstKill = true;
 
-export let fellOffTheBoardPiece;
+export let fellOffTheBoardPiece: Piece | undefined;
 
 export function getCurrentPlayer(): Player {
     return players[currentPlayerIndex];
@@ -75,32 +75,31 @@ export function getPieceByPosition(position: [number, number]): Piece | undefine
     return pieces.find((piece) => piece.position === position);
 }
 
-function convertSquareIdToPosition(squareId): [number, number] {
-    return squareId
-        .split('-')
-        .map(str => parseInt(str));
+function convertSquareIdToPosition(squareId: string): [number, number] {
+    return squareId.split('-').map(str => parseInt(str)) as [number, number];
 }
 
 export function onAction(draggedElement: HTMLElement, targetElement: HTMLElement) {
     const draggedPiece: Piece | undefined = pieces.find((piece) => {
-        const draggedElementPosition = convertSquareIdToPosition(draggedElement.parentElement?.getAttribute('square-id'));
+        const draggedElementParentElement = draggedElement.parentElement as HTMLElement;
+        const draggedElementPosition = convertSquareIdToPosition(draggedElementParentElement.getAttribute('square-id')!);
         return draggedElementPosition === piece.position;
     });
     if (targetElement.classList.contains('piece')) {
         const targetPiece: Piece | undefined = pieces.find((piece) => {
-            const targetElementPosition = convertSquareIdToPosition(targetElement.parentElement?.getAttribute('square-id'));
+            const targetElementPosition = convertSquareIdToPosition(targetElement.parentElement?.getAttribute('square-id')!);
             return targetElementPosition === piece.position;
         });
         
         actOnTurn(draggedPiece, targetPiece);
     } else {
         const childPiece: Piece | undefined = pieces.find((piece) => {
-            const targetElementChildPosition = convertSquareIdToPosition(targetElement.firstElementChild?.getAttribute('square-id'));
+            const targetElementChildPosition = convertSquareIdToPosition(targetElement.firstElementChild?.getAttribute('square-id')!);
             return targetElementChildPosition === piece.position;
         });
 
         const targetSquare: Square = {
-            position: convertSquareIdToPosition(targetElement.getAttribute('square-id')),
+            position: convertSquareIdToPosition(targetElement.getAttribute('square-id')!),
             occupent: childPiece,
         }
 
@@ -110,11 +109,11 @@ export function onAction(draggedElement: HTMLElement, targetElement: HTMLElement
 
 export function onFallOffTheBoard(draggedElement: HTMLElement) {
     const draggedPiece: Piece | undefined = pieces.find((piece) => {
-        const draggedElementPosition = convertSquareIdToPosition(draggedElement.parentElement?.getAttribute('square-id'));
+        const draggedElementPosition = convertSquareIdToPosition(draggedElement.parentElement?.getAttribute('square-id')!);
         return draggedElementPosition === piece.position;
     });
 
-    fellOffTheBoardPiece = draggedPiece;
+    fellOffTheBoardPiece = draggedPiece ? draggedPiece : undefined;
 }
 
 function isAllowedToMove(draggedPiece: Piece) {
@@ -168,7 +167,7 @@ function castle(kingPiece: Piece,  targetSquare: Square) {
     const deltaX = targetSquare.position[0] - kingPiece.position[0];
     // Depends on if it's Kingside or Queenside castling
     const isKingsideCastling = deltaX > 0;
-    const rookFilter = (piece) => isKingsideCastling ? piece.position[0] > kingPiece.position[0] : piece.position[0] < kingPiece.position[0];
+    const rookFilter = (piece: Piece) => isKingsideCastling ? piece.position[0] > kingPiece.position[0] : piece.position[0] < kingPiece.position[0];
     const rookPiece = possibleRooks.find(rookFilter);
     if (!rookPiece) return;
 
@@ -200,7 +199,7 @@ function endTurn() {
         roundCounter++;
     }
 
-    updatePlayersInformation(players, roundCounter);
+    updatePlayersInformation();
 }
 
 function resetVariables() {

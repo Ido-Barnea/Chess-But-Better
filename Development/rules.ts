@@ -55,11 +55,11 @@ export const activeRules = [
         "Pieces can fall off the board.",
         true,
         () => {
-            return fellOffTheBoardPiece != null;
+            return fellOffTheBoardPiece ? true : false;
         },
         () => {
-            Logger.log(`A ${fellOffTheBoardPiece.color} ${fellOffTheBoardPiece.name} fell off the board.`);
-            destroyPieceOnBoard(fellOffTheBoardPiece);
+            Logger.log(`A ${fellOffTheBoardPiece!.player.color} ${fellOffTheBoardPiece!.name} fell off the board.`);
+            destroyPieceOnBoard(fellOffTheBoardPiece!);
         }
     ),
     new Rule(

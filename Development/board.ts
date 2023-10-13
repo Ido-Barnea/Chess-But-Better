@@ -1,4 +1,3 @@
-import { updateUI } from "./app";
 import { pieces } from "./logic";
 import { Piece, Square } from "./pieces";
 
@@ -26,8 +25,6 @@ export function initializeBoard() {
         const square = document.querySelectorAll(`[square-id="${piece.position}"]`)[0];
         square.appendChild(pieceElement);
     });
-
-    updateUI('white', -1);
 }
 
 function createSquare(position: [number, number]) {
