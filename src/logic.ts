@@ -3,7 +3,7 @@ import { Piece, Pawn, Bishop, Knight, Rook, Queen, King, Square } from "./pieces
 import { Logger } from "./logger";
 import { movePieceOnBoard, destroyPieceOnBoard } from "./board";
 import { activeRules } from "./rules";
-import { updatePlayersInformation } from "./app";
+import { updatePlayersInformation } from "./game";
 
 const whitePlayer: Player = {
     color: 'White',
