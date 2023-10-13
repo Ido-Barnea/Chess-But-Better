@@ -1,148 +1,150 @@
 :root {
-    --square-size: 80px;
-    --board-squares-per-side: 8;
-    --piece-resource-padding: 12px;
-    --notation-padding: 4px;
+  --square-size: 80px;
+  --board-squares-per-side: 8;
+  --piece-resource-padding: 12px;
+  --notation-padding: 4px;
 }
 
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 #board-container {
-    height: calc(var(--square-size) * var(--board-squares-per-side));
-    width: calc(var(--square-size) * var(--board-squares-per-side));
-    margin-left: 25%;
-    margin-top: 2%;
+  height: calc(var(--square-size) * var(--board-squares-per-side));
+  width: calc(var(--square-size) * var(--board-squares-per-side));
+  margin-left: 25%;
+  margin-top: 2%;
 }
 
 #board-display {
-    width: calc(var(--square-size) * var(--board-squares-per-side));
-    height: calc(var(--square-size) * var(--board-squares-per-side));
-    display: flex;
-    flex-wrap: wrap;
+  width: calc(var(--square-size) * var(--board-squares-per-side));
+  height: calc(var(--square-size) * var(--board-squares-per-side));
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #bottom-notations-container {
-    margin-top: calc(var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4);
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    z-index: 1;
+  margin-top: calc(
+    var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4
+  );
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  z-index: 1;
 }
 
 #left-notations-container {
-    width: calc(var(--square-size) / 4);
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    z-index: 1;
+  width: calc(var(--square-size) / 4);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1;
 }
 
 .square {
-    height: var(--square-size);
-    width: var(--square-size);
-    position: relative;
+  height: var(--square-size);
+  width: var(--square-size);
+  position: relative;
 }
 
 .square svg {
-    height: calc(var(--square-size) - var(--piece-resource-padding));
-    width: calc(var(--square-size) - var(--piece-resource-padding));
-    margin: calc(var(--piece-resource-padding) / 2);
-    position: relative;
+  height: calc(var(--square-size) - var(--piece-resource-padding));
+  width: calc(var(--square-size) - var(--piece-resource-padding));
+  margin: calc(var(--piece-resource-padding) / 2);
+  position: relative;
 }
 
 .notation {
-    font-weight: bold;
-    position: relative;
-    font-size: medium;
-    margin: 0;
-    padding: 0;
+  font-weight: bold;
+  position: relative;
+  font-size: medium;
+  margin: 0;
+  padding: 0;
 }
 
 .notation.number {
-    height: calc(var(--square-size));
-    margin-left: 4px;
+  height: calc(var(--square-size));
+  margin-left: 4px;
 }
 
 .notation.letter {
-    width: calc(var(--square-size) - 4px);
-    margin-right: 4px;
-    text-align: end;
+  width: calc(var(--square-size) - 4px);
+  margin-right: 4px;
+  text-align: end;
 }
 
 #info-display {
-    position: absolute;
-    top: 0px;
-    left: 24px;
+  position: absolute;
+  top: 0px;
+  left: 24px;
 }
 
 path {
-    position: relative;
-    z-index: -2;
+  position: relative;
+  z-index: -2;
 }
 
 .piece {
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
 #logs-container {
-    position: absolute;
-    padding: 0.5%;
-    right: 0;
-    bottom: 0;
-    width: 25%;
-    height: 25%;
-    border: 0.25vw solid black;
-    overflow-x: none;
-    overflow-y: auto;
+  position: absolute;
+  padding: 0.5%;
+  right: 0;
+  bottom: 0;
+  width: 25%;
+  height: 25%;
+  border: 0.25vw solid black;
+  overflow-x: none;
+  overflow-y: auto;
 }
 
 #rules-container {
-    border: 0.25vw solid black;
-    overflow-x: none;
-    overflow-y: auto;
-    padding: 0.5%;
-    position: absolute;
-    height: 50%;
-    width: 25%;
-    top: 0;
-    right: 0;
+  border: 0.25vw solid black;
+  overflow-x: none;
+  overflow-y: auto;
+  padding: 0.5%;
+  position: absolute;
+  height: 50%;
+  width: 25%;
+  top: 0;
+  right: 0;
 }
 
 .beige-background {
-    background-color: burlywood;
+  background-color: burlywood;
 }
 
 .brown-background {
-    background-color: brown;
+  background-color: brown;
 }
 
 .dark-red-background {
-    background-color: #5f0505;
+  background-color: #5f0505;
 }
 
 .blue-background {
-    background-color: #0DA5CE;
+  background-color: #0da5ce;
 }
 
 .water-background {
-    background-color: #CEF0F9;
+  background-color: #cef0f9;
 }
 
 .dark-orange-background {
-    background-color: #7f3b08;
+  background-color: #7f3b08;
 }
 
 .light-gray-background {
-    background-color: #e6e6e6;
+  background-color: #e6e6e6;
 }
 
 .black {
-    fill: black;
+  fill: black;
 }
 
 .white {
-    fill: white;
+  fill: white;
 }

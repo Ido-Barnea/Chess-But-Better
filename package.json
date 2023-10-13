@@ -8,7 +8,9 @@
   "author": "Ido Barnea",
   "license": "ISC",
   "devDependencies": {
+    "nx": "^16.10.0",
     "parcel": "^2.10.0",
+    "prettier": "^3.0.3",
     "typescript": "^5.2.2"
   }
 }
