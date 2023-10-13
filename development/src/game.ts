@@ -2,8 +2,10 @@ import { Logger } from "./logger";
 import { initializeEventListeners, setOnAction, setOnFallOffTheBoard } from "./events";
 import { initializeBoard } from "./board";
 import { onAction, onFallOffTheBoard, getCurrentPlayer, players, roundCounter } from "./logic";
+import { Rule } from "./rules";
 
-const infoDisplay = document.querySelector('#info-display')!;
+const infoDisplay = document.getElementById('info-display')!;
+const rulesContainer = document.getElementById('rules-container')!;
 
 export function updatePlayersInformation() {
     infoDisplay.textContent = '';
@@ -24,6 +26,12 @@ export function updatePlayersInformation() {
     });
 
     infoDisplay.appendChild(playersElement);
+}
+
+export function updateRules(rule: Rule) {
+    const ruleElement = document.createElement('p');
+    ruleElement.innerHTML = `<b>${rule.id}) ${rule.description}</b>`
+    rulesContainer.appendChild(ruleElement);
 }
 
 function initializeGame() {

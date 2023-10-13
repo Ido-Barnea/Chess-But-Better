@@ -10,8 +10,9 @@ import {
 } from "./logic";
 import { Logger } from "./logger";
 import { destroyPieceOnBoard } from "./board";
+import { updateRules } from "./game";
 
-class Rule {
+export class Rule {
     id: number;
     description: string;
     isRevealed: boolean;
@@ -40,9 +41,8 @@ class Rule {
                 Logger.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
                 player.xp++;
                 this.isRevealed = true;
-
-                const rulesContainer = document.getElementById('rules-container');
-                rulesContainer!.innerHTML += `<p>${this.id}) ${this.description}</p>`
+                
+                updateRules(this);
             }
         }
     }
@@ -53,7 +53,7 @@ export const activeRules = [
     new Rule(
         0,
         "Pieces can fall off the board.",
-        true,
+        false,
         () => {
             return fellOffTheBoardPiece ? true : false;
         },
@@ -65,7 +65,7 @@ export const activeRules = [
     new Rule(
         1,
         "First Blood Bonus: The first to kill gets an extra XP.",
-        true,
+        false,
         () => {
             return deathCounter > 0 && isFirstKill;
         },
@@ -78,7 +78,7 @@ export const activeRules = [
     new Rule(
         2,
         "Players gain XP on a kill.",
-        true,
+        false,
         () => {
             return isPieceKilled;
         },
@@ -91,7 +91,7 @@ export const activeRules = [
     new Rule(
         3,
         "Friendly Fire! Players can attack their own pieces (for a price).",
-        true,
+        false,
         () => {
             return isFriendlyFire;
         },
@@ -104,7 +104,7 @@ export const activeRules = [
     new Rule(
         4,
         "With age comes wisdom.",
-        true,
+        false,
         () => {
             return roundCounter === 20;
         },
@@ -119,7 +119,7 @@ export const activeRules = [
     new Rule(
         5,
         "Empty pockets.",
-        true,
+        false,
         () => {
             players.forEach((player) => {
                 if (player === getCurrentPlayer() && player.gold < 0) {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Chess with an added layer of complexity",
   "scripts": {
-    "start": "parcel serve development/views/index.html --port 8080"
+    "start": "parcel serve development/views/index.html --port 8080 --no-cache"
   },
   "author": "Ido Barnea",
   "license": "ISC",
