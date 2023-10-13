@@ -4,7 +4,7 @@
   "description": "Chess with an added layer of complexity",
   "main": "index.js",
   "scripts": {
-    "start": "parcel serve views/index.html --port 8080 --no-cache"
+    "start": "parcel serve development/views/index.html --port 8080"
   },
   "author": "Ido Barnea",
   "license": "ISC",
