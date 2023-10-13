@@ -1,4 +1,4 @@
-name: "[📒] Commit Message Check"
+name: "[📒] Commit Message Checker"
 on:
   pull_request:
     types:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   check-commit-message:
-    name: Check Commit Message
+    name: Check Commit Messages
     runs-on: ubuntu-latest
     steps:
       - name: Get PR Commits
