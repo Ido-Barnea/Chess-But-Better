@@ -1,0 +1,14 @@
+{
+  "name": "chess-but-better",
+  "version": "1.0.0",
+  "description": "Chess with an added layer of complexity",
+  "scripts": {
+    "start": "parcel serve development/views/index.html --port 8080 --no-cache"
+  },
+  "author": "Ido Barnea",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.10.0",
+    "typescript": "^5.2.2"
+  }
+}

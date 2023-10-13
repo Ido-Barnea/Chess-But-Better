@@ -1,58 +1,71 @@
-class Rule {
-    constructor(id, description, isSecret, condition, action) {
+import {
+    getCurrentPlayer,
+    fellOffTheBoardPiece,
+    deathCounter,
+    isFirstKill,
+    isPieceKilled,
+    isFriendlyFire,
+    roundCounter,
+    players,
+} from "./logic";
+import { Logger } from "./logger";
+import { destroyPieceOnBoard } from "./board";
+import { updateRules } from "./game";
+
+export class Rule {
+    id: number;
+    description: string;
+    isRevealed: boolean;
+    triggerCondition: () => boolean;
+    triggerAction: () => void;
+
+    constructor(
+        id: number,
+        description: string,
+        isRevealed: boolean,
+        triggerCondition: () => boolean,
+        triggerAction: () => void,
+    ) {
         this.id = id;
         this.description = description;
-        this.isSecret = isSecret;
-        this.condition = condition;
-        this.action = action;
+        this.isRevealed = isRevealed;
+        this.triggerCondition = triggerCondition;
+        this.triggerAction = triggerAction;
     }
 
     apply() {
-        if (this.condition()) {
-            this.action();
-            if (this.isSecret) {
+        if (this.triggerCondition()) {
+            this.triggerAction();
+            if (!this.isRevealed) {
                 const player = getCurrentPlayer();
                 Logger.log(`${player.color} received XP for revealing a new rule: ${this.description}`);
                 player.xp++;
-                this.isSecret = false;
-
-                const rulesContainer = document.getElementById('rules-container');
-                rulesContainer.innerHTML += `<p>${this.id}) ${this.description}</p>`
+                this.isRevealed = true;
+                
+                updateRules(this);
             }
         }
     }
 }
 
-// Variables
-let fellOffTheBoard;
-
-let isFirstKill = true;
-let deathCounter = 0;
-let deathTrigger = false;
-
-let isFriendlyFire = false;
-
-// Rules lists
 const inactiveRules = [];
-const activeRules = [
+export const activeRules = [
     new Rule(
         0,
         "Pieces can fall off the board.",
-        true,
+        false,
         () => {
-            return fellOffTheBoard != null;
+            return fellOffTheBoardPiece ? true : false;
         },
         () => {
-            const color = fellOffTheBoard.classList.contains('white') ? 'white' : 'black';
-            Logger.log(`A ${color} ${fellOffTheBoard.id} fell off the board.`);
-            fellOffTheBoard.remove();
-            fellOffTheBoard = null;
+            Logger.log(`A ${fellOffTheBoardPiece!.player.color} ${fellOffTheBoardPiece!.name} fell off the board.`);
+            destroyPieceOnBoard(fellOffTheBoardPiece!);
         }
     ),
     new Rule(
         1,
         "First Blood Bonus: The first to kill gets an extra XP.",
-        true,
+        false,
         () => {
             return deathCounter > 0 && isFirstKill;
         },
@@ -60,27 +73,25 @@ const activeRules = [
             const player = getCurrentPlayer();
             Logger.log(`${player.color} has made First Blood and received a bonus.`);
             player.xp++;
-            isFirstKill = false;
         }
     ),
     new Rule(
         2,
         "Players gain XP on a kill.",
-        true,
+        false,
         () => {
-            return deathTrigger;
+            return isPieceKilled;
         },
         () => {
             const player = getCurrentPlayer();
             Logger.log(`${player.color} received XP for killing another piece.`);
             player.xp++;
-            deathTrigger = false;
         }
     ),
     new Rule(
         3,
         "Friendly Fire! Players can attack their own pieces (for a price).",
-        true,
+        false,
         () => {
             return isFriendlyFire;
         },
@@ -88,55 +99,43 @@ const activeRules = [
             const player = getCurrentPlayer();
             Logger.log(`${player.color} attacked his own piece and has to pay compensations.`);
             player.gold--;
-            isFriendlyFire = false;
         }
     ),
     new Rule(
         4,
         "With age comes wisdom.",
-        true,
+        false,
         () => {
             return roundCounter === 20;
         },
         () => {
-            Logger.log(`Children of war, you have grown old. Each player gains XP.`);
+            Logger.log(`Children of war, you have grown old. Each player gains five XP.`);
             players.forEach((player) => {
                 Logger.log(`${player.color} gained XP.`);
-                player.xp++;
+                player.xp += 5;
             });
         }
     ),
     new Rule(
         5,
         "Empty pockets.",
-        true,
+        false,
         () => {
-            let isInDebt = false;
             players.forEach((player) => {
-                if (player === players[currentPlayerIndex] && player.gold < 0) {
-                    isInDebt = true;
+                if (player === getCurrentPlayer() && player.gold < 0) {
+                    return true;
                 }
             });
-            return isInDebt;
+            return false;
         },
         () => {
             players.forEach((player) => {
-                if (player === players[currentPlayerIndex] && player.gold < 0) {
+                if (player === getCurrentPlayer() && player.gold < 0) {
                     Logger.log(`${player.color} is in debt. They lose XP for not handling money properly.`);
                     player.xp--;
+                    return;
                 }
             });
         }
     )
 ];
-
-function getCurrentPlayer() {
-    let player = null;
-    players.forEach((_player) => {
-        if (_player === players[currentPlayerIndex]) {
-            player = _player;
-        }
-    });
-
-    return player;
-}
