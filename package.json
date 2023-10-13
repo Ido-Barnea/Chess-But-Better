@@ -1,0 +1,14 @@
+{
+  "name": "chess-but-better",
+  "version": "1.0.0",
+  "description": "Chess with an added layer of complexity",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc --watch"
+  },
+  "author": "Ido Barnea",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
