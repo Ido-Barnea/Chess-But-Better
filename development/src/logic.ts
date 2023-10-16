@@ -166,11 +166,11 @@ function actOnTurn(
     const targetSquare = target as Square;
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
-
-  endTurn();
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
+  if (targetPiece === draggedPiece) return;
+
   Logger.log(
     `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
   );
@@ -184,6 +184,8 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
   const targetSquare: Square = { position: targetPiece.position };
   move(draggedPiece, targetSquare);
+
+  endTurn();
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
@@ -191,6 +193,8 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
     castle(draggedPiece, targetSquare);
   }
   move(draggedPiece, targetSquare);
+
+  endTurn();
 }
 
 function castle(kingPiece: Piece, targetSquare: Square) {
