@@ -1,5 +1,6 @@
 name: "[📒] Commit Message Checker"
 on:
+  workflow_dispatch:
   pull_request:
     types:
       - opened
