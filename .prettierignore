@@ -9,3 +9,4 @@ assets
 node_modules
 dist
 .parcel-cache
+nx.json
