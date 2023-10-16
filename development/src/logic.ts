@@ -169,7 +169,7 @@ function actOnTurn(
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
-  if(targetPiece === draggedPiece) return;
+  if (targetPiece === draggedPiece) return;
 
   Logger.log(
     `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
