@@ -6,3 +6,6 @@ LICENSE
 .gitignore
 .github
 assets
+node_modules
+dist
+.parcel-cache
