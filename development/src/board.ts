@@ -107,9 +107,9 @@ export function destroyPieceOnBoard(targetPiece: Piece) {
 
 export function highlightSquare(target: HTMLElement, shouldHighlight: boolean) {
   const targetParentElement = target.parentNode as HTMLElement;
-  while (!target.classList.contains('square')) {
+  while (!target.classList.contains("square")) {
     target = target.parentNode as HTMLElement;
-  };
+  }
   if (target.classList.contains("square")) {
     if (shouldHighlight) {
       target.classList.add("light-gray-background");
