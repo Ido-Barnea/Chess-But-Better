@@ -20,6 +20,7 @@ interface PieceType {
   resource: string;
   name: string;
   hasMoved: boolean;
+  board: string;
 }
 
 export class Piece implements PieceType {
@@ -28,18 +29,21 @@ export class Piece implements PieceType {
   resource: string;
   name: string;
   hasMoved: boolean;
+  board: string;
 
   constructor(
     position: [number, number],
     player: Player,
     resource: string,
     name: string,
+    board: string,
   ) {
     this.position = position;
     this.player = player;
     this.resource = resource;
     this.name = name;
     this.hasMoved = false;
+    this.board = board;
   }
 
   isValidMove(_: Piece | Square) {
@@ -58,7 +62,7 @@ export type Square = {
 
 export class Pawn extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, pawnResource, "Pawn");
+    super(position, player, pawnResource, "Pawn", "");
   }
 
   isValidMove(target: Piece | Square) {
@@ -106,7 +110,7 @@ export class Pawn extends Piece {
 
 export class Bishop extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, bishopResource, "Bishop");
+    super(position, player, bishopResource, "Bishop", "");
   }
 
   isValidMove(target: Piece | Square) {
@@ -133,7 +137,7 @@ export class Bishop extends Piece {
 
 export class Knight extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, knightResource, "Knight");
+    super(position, player, knightResource, "Knight", "");
   }
 
   isValidMove(target: Piece | Square) {
@@ -147,7 +151,7 @@ export class Knight extends Piece {
 
 export class Rook extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, rookResource, "Rook");
+    super(position, player, rookResource, "Rook", "");
   }
 
   isValidMove(target: Piece | Square) {
@@ -184,7 +188,7 @@ export class Rook extends Piece {
 
 export class Queen extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, queenResource, "Queen");
+    super(position, player, queenResource, "Queen", "");
   }
 
   isValidMove(target: Piece | Square) {
@@ -225,7 +229,7 @@ export class Queen extends Piece {
 
 export class King extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, kingResource, "King");
+    super(position, player, kingResource, "King", "");
   }
 
   isValidMove(target: Piece | Square) {

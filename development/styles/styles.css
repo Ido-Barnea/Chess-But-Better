@@ -76,12 +76,42 @@ body {
   position: relative;
 }
 
+/* .square-hell
+{
+  height: var(--square-size);
+  width: var(--square-size);
+  position: relative;
+}
+
+.square-heaven
+{
+  height: var(--square-size);
+  width: var(--square-size);
+  position: relative;
+} */
+
 .square svg {
   height: calc(var(--square-size) - var(--piece-resource-padding));
   width: calc(var(--square-size) - var(--piece-resource-padding));
   margin: calc(var(--piece-resource-padding) / 2);
   position: relative;
 }
+
+/* .square-hell svg 
+{
+  height: calc(var(--square-size) - var(--piece-resource-padding));
+  width: calc(var(--square-size) - var(--piece-resource-padding));
+  margin: calc(var(--piece-resource-padding) / 2);
+  position: relative;
+}
+
+.square-heaven svg 
+{
+  height: calc(var(--square-size) - var(--piece-resource-padding));
+  width: calc(var(--square-size) - var(--piece-resource-padding));
+  margin: calc(var(--piece-resource-padding) / 2);
+  position: relative;
+} */
 
 .notation {
   font-weight: bold;

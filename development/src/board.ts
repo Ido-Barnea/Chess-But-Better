@@ -32,6 +32,7 @@ export function initializeBoard() {
   }
 
   pieces.forEach((piece) => {
+    piece.board = "normal";
     const pieceElement = createPieceElement(piece);
     const square = document.querySelectorAll(
       `[square-id="${piece.position}"]`,

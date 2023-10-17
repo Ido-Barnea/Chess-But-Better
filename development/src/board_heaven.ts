@@ -18,20 +18,12 @@ export function initializeHeavenBoard() {
             createSquare([column, row]);
         }
     }
-
-//   pieces.forEach((piece) => {
-//     const pieceElement = createPieceElement(piece);
-//     const square = document.querySelectorAll(
-//       `[square-id="${piece.position}"]`,
-//     )[0];
-//     square.appendChild(pieceElement);
-//   });
 }
 
 function createSquare(position: [number, number]) {
     const squareElement = document.createElement("div");
     squareElement.classList.add("square");
-    squareElement.setAttribute("square-id", position.join(","));
+    squareElement.setAttribute("square-heaven-id", position.join(","));
 
     const backgroundColor = getBackgroundColor(position);
     squareElement.classList.add(backgroundColor);
@@ -51,6 +43,16 @@ function getBackgroundColor(position: [number, number]) {
     : "water-background";
 }
 
+export function spawnHeavenPiece(piece: Piece)
+{
+    piece.board = "heaven";
+    const pieceElement = createPieceElement(piece);
+    const square = document.querySelectorAll(
+      `[square-heaven-id="${piece.position}"]`,
+    )[0];
+    square.appendChild(pieceElement);
+}
+
 function createPieceElement(piece: Piece) {
   const pieceElement = document.createElement("div");
   pieceElement.classList.add("piece");
@@ -64,23 +66,23 @@ function createPieceElement(piece: Piece) {
   return pieceElement;
 }
 
-export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
+export function movePieceOnHeavenBoard(draggedPiece: Piece, targetSquare: Square) {
   const draggedPieceSquareElement = document.querySelector(
-    `[square-id="${draggedPiece.position.join(",")}"]`,
+    `[square-heaven-id="${draggedPiece.position.join(",")}"]`,
   ) as HTMLElement;
   const draggedPieceElement =
     draggedPieceSquareElement?.firstElementChild as HTMLElement;
 
   const targetSquareElement = document.querySelector(
-    `[square-id="${targetSquare.position.join(",")}"]`,
+    `[square-heaven-id="${targetSquare.position.join(",")}"]`,
   ) as HTMLElement;
 
   targetSquareElement.appendChild(draggedPieceElement);
 }
 
-export function destroyPieceOnBoard(targetPiece: Piece) {
+export function destroyPieceOnHeavenBoard(targetPiece: Piece) {
   const targetPieceSquareElement = document.querySelector(
-    `[square-id="${targetPiece.position.join(",")}"]`,
+    `[square-heaven-id="${targetPiece.position.join(",")}"]`,
   );
   const targetPieceElement =
     targetPieceSquareElement?.firstElementChild as HTMLElement;
