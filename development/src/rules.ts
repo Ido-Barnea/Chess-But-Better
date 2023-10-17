@@ -9,7 +9,6 @@ import {
   players,
 } from "./logic";
 import { Logger } from "./logger";
-import { destroyPieceOnBoard } from "./board";
 import { updateRules } from "./game";
 
 export class Rule {

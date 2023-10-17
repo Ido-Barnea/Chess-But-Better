@@ -45,7 +45,7 @@ export function updatePlayersInformation() {
 
 export function updateRules(rule: Rule) {
   const ruleElement = document.createElement("p");
-  ruleElement.innerHTML = `<b>${rule.id}) ${rule.description}</b>`;
+  ruleElement.innerHTML = `<b>${rule.id + 1}) ${rule.description}</b>`;
   rulesContainer.appendChild(ruleElement);
 }
 
