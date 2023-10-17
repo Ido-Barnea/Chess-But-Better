@@ -193,11 +193,14 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
+  let isValidCastling = true;
   if (isCastling) {
-    castle(draggedPiece, targetSquare);
+    isValidCastling = castle(draggedPiece, targetSquare);
   }
 
-  move(draggedPiece, targetSquare);
+  if (isValidCastling) {
+    move(draggedPiece, targetSquare);
+  }
 }
 
 function castle(kingPiece: Piece, targetSquare: Square) {
@@ -217,7 +220,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
       ? piece.position[0] > kingPiece.position[0]
       : piece.position[0] < kingPiece.position[0];
   const rookPiece = possibleRooks.find(rookFilter);
-  if (!rookPiece) return;
+  if (!rookPiece) return false;
 
   const rookPieceTargetPosition: [number, number] = [
     isKingsideCastling
@@ -228,6 +231,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare);
   Logger.log(`${kingPiece.player.color} castled.`);
+  return true;
 }
 
 function move(draggedPiece: Piece, targetSquare: Square) {
