@@ -262,16 +262,17 @@ export class King extends Piece {
     // Check for castling
     if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) {
       // Moved two squares horizontally and didn't move before
-      switchIsCastling();
       if (deltaX === 2) {
         // Kingside castling
-        return validateMove(
+        const isValid = validateMove(
           this.copyPosition(),
           target.position,
           stepX,
           stepY,
           2,
         );
+        if (isValid) switchIsCastling()
+        return isValid;
       } else {
         // Queenside castling
         // Queenside castling needs to check an extra square
@@ -279,13 +280,15 @@ export class King extends Piece {
           target.position[0] - 1,
           target.position[1],
         ];
-        return validateMove(
+        const isValid = validateMove(
           this.copyPosition(),
           targetPosition,
           stepX,
           stepY,
           3,
         );
+        if (isValid) switchIsCastling();
+        return isValid;
       }
     }
 
