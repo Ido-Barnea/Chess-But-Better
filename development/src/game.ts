@@ -5,6 +5,8 @@ import {
   setOnFallOffTheBoard,
 } from "./events";
 import { initializeBoard } from "./board";
+import { initializeHellBoard } from "./board_hell";
+import { initializeHeavenBoard } from "./board_heaven";
 import {
   onAction,
   onFallOffTheBoard,
@@ -51,6 +53,8 @@ export function updateRules(rule: Rule) {
 function initializeGame() {
   Logger.log("Game started!");
   initializeBoard();
+  initializeHellBoard();
+  initializeHeavenBoard();
   initializeEventListeners();
   updatePlayersInformation();
   setOnAction(onAction);

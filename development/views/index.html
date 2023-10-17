@@ -6,13 +6,18 @@
     <link rel="stylesheet" href="../styles/styles.css" />
   </head>
   <body>
-    <div id="board-container">
-      <div id="left-notations-container"></div>
-      <div id="bottom-notations-container"></div>
-      <div id="board-display"></div>
-    </div>
-
+    <div id="boards-container">
+      <select id="board-dropdown">
+        <option value="board-container">normal</option>
+        <option value="board-hell-container">hell</option>
+        <option value="board-heaven-container">heaven</option>
+      </select>
+      <div id="board-container"></div>
+      <div id="board-hell-container"></div>
+      <div id="board-heaven-container"></div>
+    </div>  
     <p id="info-display"></p>
+
 
     <div id="rules-container">
       <h2>Rules</h2>

@@ -9,11 +9,40 @@ body {
   overflow: hidden;
 }
 
+#board-dropdown
+{
+  position: absolute;
+  top: 0;
+}
+
+#boards-container 
+{
+  height: calc(calc(var(--square-size) * var(--board-squares-per-side)));
+  width: calc(var(--square-size) * calc(var(--board-squares-per-side) + 1));
+  overflow-y: scroll;
+  margin-left: 25%;
+  margin-top: 2%;
+}
+
 #board-container {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
-  margin-left: 25%;
-  margin-top: 2%;
+  /* margin-left: 25%;
+  margin-top: 2%; */
+}
+
+#board-hell-container
+{
+  height: calc(var(--square-size) * var(--board-squares-per-side));
+  width: calc(var(--square-size) * var(--board-squares-per-side));
+  /* margin-left: 25%;
+  margin-top: 2%; */
+}
+
+#board-heaven-container
+{
+  height: calc(var(--square-size) * var(--board-squares-per-side));
+  width: calc(var(--square-size) * var(--board-squares-per-side));
 }
 
 #board-display {

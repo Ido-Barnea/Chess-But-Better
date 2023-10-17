@@ -6,6 +6,9 @@ let triggerOnAction: (
 ) => void;
 let triggerOnFallOffTheBoard: (draggedElement: HTMLElement) => void;
 
+const dropdown = document.getElementById("board-dropdown");
+dropdown!.addEventListener("change", handleDropdownChange);
+
 export function initializeEventListeners() {
   const squares = document.querySelectorAll(".square");
   squares.forEach((square) => {
@@ -83,4 +86,19 @@ export function setOnFallOffTheBoard(
   _triggerOnFallOffTheBoard: (draggedElement: HTMLElement) => void,
 ) {
   triggerOnFallOffTheBoard = _triggerOnFallOffTheBoard;
+}
+
+function scrollToBoard(id: string)
+{
+  const targetElement = document.getElementById(id);
+  const boardsContainer = document.getElementById("boards-container");
+  
+    if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+export function handleDropdownChange(event: Event) {
+  const selectedOption = (event.target as HTMLSelectElement).value;
+  scrollToBoard(selectedOption);
 }
