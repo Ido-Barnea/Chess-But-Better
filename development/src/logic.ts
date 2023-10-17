@@ -143,6 +143,11 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   if (!draggedPiece) return;
   if (!isAllowedToMove(draggedPiece)) return;
 
+  pieces = pieces.filter((piece) => piece !== draggedPiece);
+  deathCounter++;
+  isPieceKilled = true;
+  destroyPieceOnBoard(draggedPiece);
+
   fellOffTheBoardPiece = draggedPiece;
   endTurn();
 }
@@ -158,6 +163,7 @@ function actOnTurn(
   if (!draggedPiece || !target) return;
   if (!isAllowedToMove(draggedPiece)) return;
   if (!draggedPiece.isValidMove(target)) return;
+  if (draggedPiece === target) return;
 
   if ((target as Piece).name !== undefined) {
     const targetPiece = target as Piece;
@@ -166,16 +172,16 @@ function actOnTurn(
     const targetSquare = target as Square;
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
+
+  endTurn();
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
-  if (targetPiece === draggedPiece) return;
-
   Logger.log(
     `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
   );
 
-  isFriendlyFire = targetPiece.player === draggedPiece.player;
+  isFriendlyFire = draggedPiece.player === targetPiece.player;
 
   pieces = pieces.filter((piece) => piece !== targetPiece);
   deathCounter++;
@@ -184,17 +190,14 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
   const targetSquare: Square = { position: targetPiece.position };
   move(draggedPiece, targetSquare);
-
-  endTurn();
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   if (isCastling) {
     castle(draggedPiece, targetSquare);
   }
-  move(draggedPiece, targetSquare);
 
-  endTurn();
+  move(draggedPiece, targetSquare);
 }
 
 function castle(kingPiece: Piece, targetSquare: Square) {

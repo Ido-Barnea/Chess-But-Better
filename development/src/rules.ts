@@ -65,7 +65,6 @@ export const activeRules = [
           fellOffTheBoardPiece!.name
         } fell off the board.`,
       );
-      destroyPieceOnBoard(fellOffTheBoardPiece!);
     },
   ),
   new Rule(
