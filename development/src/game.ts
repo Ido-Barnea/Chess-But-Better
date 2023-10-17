@@ -3,8 +3,9 @@ import {
   initializeEventListeners,
   setOnAction,
   setOnFallOffTheBoard,
+  setOnHighlight,
 } from "./events";
-import { initializeBoard } from "./board";
+import { highlightSquare, initializeBoard } from "./board";
 import {
   onAction,
   onFallOffTheBoard,
@@ -55,6 +56,7 @@ function initializeGame() {
   updatePlayersInformation();
   setOnAction(onAction);
   setOnFallOffTheBoard(onFallOffTheBoard);
+  setOnHighlight(highlightSquare);
 }
 
 initializeGame();
