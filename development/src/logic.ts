@@ -142,7 +142,7 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
 
   if (!draggedPiece) return;
   if (!isAllowedToMove(draggedPiece)) return;
-  
+
   pieces = pieces.filter((piece) => piece !== draggedPiece);
   deathCounter++;
   isPieceKilled = true;
