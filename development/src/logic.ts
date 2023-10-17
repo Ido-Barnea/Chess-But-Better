@@ -200,6 +200,8 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
 
   if (isValidCastling) {
     move(draggedPiece, targetSquare);
+  } else {
+    switchIsCastling();
   }
 }
 

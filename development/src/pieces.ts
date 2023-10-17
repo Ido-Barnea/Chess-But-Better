@@ -261,18 +261,18 @@ export class King extends Piece {
 
     // Check for castling
     if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) {
+      let isValid = false;
       // Moved two squares horizontally and didn't move before
       if (deltaX === 2) {
         // Kingside castling
-        const isValid = validateMove(
+        isValid = validateMove(
           this.copyPosition(),
           target.position,
           stepX,
           stepY,
           2,
+          false,
         );
-        if (isValid) switchIsCastling()
-        return isValid;
       } else {
         // Queenside castling
         // Queenside castling needs to check an extra square
@@ -280,16 +280,18 @@ export class King extends Piece {
           target.position[0] - 1,
           target.position[1],
         ];
-        const isValid = validateMove(
+        isValid = validateMove(
           this.copyPosition(),
           targetPosition,
           stepX,
           stepY,
           3,
+          false,
         );
-        if (isValid) switchIsCastling();
-        return isValid;
       }
+
+      if (isValid) switchIsCastling();
+      return isValid;
     }
 
     return false;
@@ -302,6 +304,7 @@ function validateMove(
   stepX: number,
   stepY: number,
   limit: number,
+  allowedToAttackOnLastStep: boolean = true,
 ): boolean {
   let limitCounter = 0;
   while (
@@ -315,7 +318,7 @@ function validateMove(
 
     // Check if any square along the piece's path is occupied (not including the destination square)
     const targetPiece = getPieceByPosition(nextPosition);
-    if (targetPiece && !comparePositions(nextPosition, targetPosition)) {
+    if (targetPiece && (!comparePositions(nextPosition, targetPosition) || !allowedToAttackOnLastStep)) {
       return false;
     }
 
