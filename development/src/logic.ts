@@ -235,6 +235,7 @@ function move(draggedPiece: Piece, targetSquare: Square) {
 
   movePieceOnBoard(draggedPiece, targetSquare);
   draggedPiece.position = targetSquare.position;
+  draggedPiece.hasMoved = true;
 }
 
 function endTurn() {
