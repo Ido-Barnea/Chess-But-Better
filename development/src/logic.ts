@@ -153,7 +153,7 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
 }
 
 function isAllowedToMove(draggedPiece: Piece) {
-  return draggedPiece.player === players[currentPlayerIndex];
+  return draggedPiece.player === getCurrentPlayer();
 }
 
 function actOnTurn(
