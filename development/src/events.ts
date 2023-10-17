@@ -8,6 +8,7 @@ let triggerOnFallOffTheBoard: (draggedElement: HTMLElement) => void;
 
 const dropdown = document.getElementById("board-dropdown");
 dropdown!.addEventListener("change", handleDropdownChange);
+let triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void;
 
 export function initializeEventListeners() {
   const squares = document.querySelectorAll(".square");
@@ -50,19 +51,9 @@ function onDragOffTheBoard(_: Event) {
   triggerOnFallOffTheBoard(draggedElement);
 }
 
-function handleMouseEvents(event: Event, shouldAddClass: boolean) {
+function handleMouseEvents(event: Event, shouldHighlight: boolean) {
   let target = event.target as HTMLElement;
-  const targetParentElement = target.parentNode as HTMLElement;
-  if (targetParentElement.classList.contains("square")) {
-    target = target.parentNode as HTMLElement;
-  }
-  if (target.classList.contains("square")) {
-    if (shouldAddClass) {
-      target.classList.add("light-gray-background");
-    } else {
-      target.classList.remove("light-gray-background");
-    }
-  }
+  triggerOnHighlight(target, shouldHighlight);
 }
 
 function onMouseOver(event: Event) {
@@ -86,6 +77,12 @@ export function setOnFallOffTheBoard(
   _triggerOnFallOffTheBoard: (draggedElement: HTMLElement) => void,
 ) {
   triggerOnFallOffTheBoard = _triggerOnFallOffTheBoard;
+}
+
+export function setOnHighlight(
+  _triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void,
+) {
+  triggerOnHighlight = _triggerOnHighlight;
 }
 
 function scrollToBoard(id: string)

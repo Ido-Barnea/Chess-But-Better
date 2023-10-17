@@ -3,8 +3,9 @@ import {
   initializeEventListeners,
   setOnAction,
   setOnFallOffTheBoard,
+  setOnHighlight,
 } from "./events";
-import { initializeBoard } from "./board";
+import { highlightSquare, initializeBoard } from "./board";
 import { initializeHellBoard } from "./board_hell";
 import { initializeHeavenBoard } from "./board_heaven";
 import {
@@ -46,7 +47,7 @@ export function updatePlayersInformation() {
 
 export function updateRules(rule: Rule) {
   const ruleElement = document.createElement("p");
-  ruleElement.innerHTML = `<b>${rule.id}) ${rule.description}</b>`;
+  ruleElement.innerHTML = `<b>${rule.id + 1}) ${rule.description}</b>`;
   rulesContainer.appendChild(ruleElement);
 }
 
@@ -59,6 +60,7 @@ function initializeGame() {
   updatePlayersInformation();
   setOnAction(onAction);
   setOnFallOffTheBoard(onFallOffTheBoard);
+  setOnHighlight(highlightSquare);
 }
 
 initializeGame();

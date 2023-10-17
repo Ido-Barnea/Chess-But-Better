@@ -9,7 +9,6 @@ import {
   players,
 } from "./logic";
 import { Logger } from "./logger";
-import { destroyPieceOnBoard } from "./board";
 import { updateRules } from "./game";
 
 export class Rule {
@@ -65,7 +64,6 @@ export const activeRules = [
           fellOffTheBoardPiece!.name
         } fell off the board.`,
       );
-      destroyPieceOnBoard(fellOffTheBoardPiece!);
     },
   ),
   new Rule(

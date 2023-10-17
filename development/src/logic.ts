@@ -179,6 +179,11 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   if (!draggedPiece) return;
   if (!isAllowedToMove(draggedPiece)) return;
 
+  pieces = pieces.filter((piece) => piece !== draggedPiece);
+  deathCounter++;
+  isPieceKilled = true;
+  destroyPieceOnBoard(draggedPiece);
+
   fellOffTheBoardPiece = draggedPiece;
   endTurn();
 }
@@ -194,6 +199,7 @@ function actOnTurn(
   if (!draggedPiece || !target) return;
   if (!isAllowedToMove(draggedPiece)) return;
   if (!draggedPiece.isValidMove(target)) return;
+  if (draggedPiece === target) return;
 
   if ((target as Piece).name !== undefined) {
     const targetPiece = target as Piece;
@@ -202,6 +208,8 @@ function actOnTurn(
     const targetSquare = target as Square;
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
+
+  endTurn();
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
@@ -234,18 +242,19 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
   const targetSquare: Square = { position: targetPiece.position };
   move(draggedPiece, targetSquare);
-
-  endTurn();
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
-  //find a way to check that draggedpiece is on same board as target square;
+  let isValidCastling = true;
   if (isCastling) {
-    castle(draggedPiece, targetSquare);
+    isValidCastling = castle(draggedPiece, targetSquare);
   }
-  move(draggedPiece, targetSquare);
 
-  endTurn();
+  if (isValidCastling) {
+    move(draggedPiece, targetSquare);
+  } else {
+    switchIsCastling();
+  }
 }
 
 function castle(kingPiece: Piece, targetSquare: Square) {
@@ -265,7 +274,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
       ? piece.position[0] > kingPiece.position[0]
       : piece.position[0] < kingPiece.position[0];
   const rookPiece = possibleRooks.find(rookFilter);
-  if (!rookPiece) return;
+  if (!rookPiece) return false;
 
   const rookPieceTargetPosition: [number, number] = [
     isKingsideCastling
@@ -276,6 +285,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare);
   Logger.log(`${kingPiece.player.color} castled.`);
+  return true;
 }
 
 function move(draggedPiece: Piece, targetSquare: Square) {
@@ -293,6 +303,7 @@ function move(draggedPiece: Piece, targetSquare: Square) {
     movePieceOnHeavenBoard(draggedPiece, targetSquare);
   }
   draggedPiece.position = targetSquare.position;
+  draggedPiece.hasMoved = true;
 }
 
 function endTurn() {

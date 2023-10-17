@@ -7,6 +7,8 @@
 
 body {
   overflow: hidden;
+  margin: 0;
+  height: 100vh;
 }
 
 #board-dropdown
@@ -27,16 +29,12 @@ body {
 #board-container {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
-  /* margin-left: 25%;
-  margin-top: 2%; */
 }
 
 #board-hell-container
 {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
-  /* margin-left: 25%;
-  margin-top: 2%; */
 }
 
 #board-heaven-container
