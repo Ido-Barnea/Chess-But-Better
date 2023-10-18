@@ -27,12 +27,12 @@ const blackPlayer: Player = {
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
   new Rook([0, 0], players[1]),
-  new Bishop([1, 0], players[1]),
-  new Knight([2, 0], players[1]),
+  new Knight([1, 0], players[1]),
+  new Bishop([2, 0], players[1]),
   new Queen([3, 0], players[1]),
   new King([4, 0], players[1]),
-  new Knight([5, 0], players[1]),
-  new Bishop([6, 0], players[1]),
+  new Bishop([5, 0], players[1]),
+  new Knight([6, 0], players[1]),
   new Rook([7, 0], players[1]),
   new Pawn([0, 1], players[1]),
   new Pawn([1, 1], players[1]),
@@ -51,12 +51,12 @@ export let pieces = [
   new Pawn([6, 6], players[0]),
   new Pawn([7, 6], players[0]),
   new Rook([0, 7], players[0]),
-  new Bishop([1, 7], players[0]),
-  new Knight([2, 7], players[0]),
+  new Knight([1, 7], players[0]),
+  new Bishop([2, 7], players[0]),
   new Queen([3, 7], players[0]),
   new King([4, 7], players[0]),
-  new Knight([5, 7], players[0]),
-  new Bishop([6, 7], players[0]),
+  new Bishop([5, 7], players[0]),
+  new Knight([6, 7], players[0]),
   new Rook([7, 7], players[0]),
 ];
 
