@@ -172,8 +172,6 @@ function actOnTurn(
     const targetSquare = target as Square;
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
-
-  endTurn();
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
@@ -242,6 +240,8 @@ function move(draggedPiece: Piece, targetSquare: Square) {
   movePieceOnBoard(draggedPiece, targetSquare);
   draggedPiece.position = targetSquare.position;
   draggedPiece.hasMoved = true;
+
+  endTurn();
 }
 
 function endTurn() {
