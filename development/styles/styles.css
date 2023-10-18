@@ -9,6 +9,7 @@ body {
   overflow: hidden;
   margin: 0;
   height: 100vh;
+  font-family: system-ui, sans-serif;
 }
 
 #board-container {

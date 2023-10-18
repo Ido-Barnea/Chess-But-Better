@@ -22,21 +22,17 @@ export function updatePlayersInformation() {
   infoDisplay.textContent = "";
 
   const roundElement = document.createElement("p");
-  roundElement.innerHTML = `<b>Round:</b> ${roundCounter}`;
+  roundElement.innerHTML = `Round: ${roundCounter}`;
   infoDisplay.appendChild(roundElement);
 
   const playersElement = document.createElement("p");
-  playersElement.innerHTML = "<b>Players:</b>";
+  playersElement.innerHTML = "Players:";
 
   players.forEach((player) => {
     const playerInformationElement = document.createElement("p");
     const isCurrentPlayer = getCurrentPlayer() === player;
     const title = `${isCurrentPlayer ? "> " : ""} ${player.color} Player:`;
-    playerInformationElement.innerHTML = `${
-      isCurrentPlayer ? "<b>" : ""
-    }${title}${isCurrentPlayer ? "</b>" : ""} ${player.xp} XP; ${
-      player.gold
-    } Gold.`;
+    playerInformationElement.innerHTML = `${title} ${player.xp} XP; ${player.gold} Gold.`;
     playersElement.appendChild(playerInformationElement);
   });
 
