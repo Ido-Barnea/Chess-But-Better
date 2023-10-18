@@ -6,7 +6,7 @@
     "start": "parcel serve development/views/index.html --port 8080 --no-cache"
   },
   "author": "Ido Barnea",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "nx": "^16.10.0",
     "parcel": "^2.10.0",
