@@ -143,10 +143,7 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   if (!draggedPiece) return;
   if (!isAllowedToMove(draggedPiece)) return;
 
-  pieces = pieces.filter((piece) => piece !== draggedPiece);
-  deathCounter++;
-  isPieceKilled = true;
-  destroyPieceOnBoard(draggedPiece);
+  killPiece(draggedPiece);
 
   fellOffTheBoardPiece = draggedPiece;
   endTurn();
@@ -181,10 +178,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
   isFriendlyFire = draggedPiece.player === targetPiece.player;
 
-  pieces = pieces.filter((piece) => piece !== targetPiece);
-  deathCounter++;
-  isPieceKilled = true;
-  destroyPieceOnBoard(targetPiece);
+  killPiece(targetPiece);
 
   const targetSquare: Square = { position: targetPiece.position };
   move(draggedPiece, targetSquare);
@@ -201,6 +195,13 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   } else {
     switchIsCastling();
   }
+}
+
+function killPiece(targetPiece: Piece) {
+  pieces = pieces.filter((piece) => piece !== targetPiece);
+  deathCounter++;
+  isPieceKilled = true;
+  destroyPieceOnBoard(targetPiece);
 }
 
 function castle(kingPiece: Piece, targetSquare: Square) {
