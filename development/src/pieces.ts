@@ -322,7 +322,11 @@ function validateMove(
 
     // Check if any square along the piece's path is occupied (not including the destination square)
     const targetPiece = getPieceByPosition(nextPosition);
-    if (targetPiece && (!comparePositions(nextPosition, targetPosition) || !allowedToAttackOnLastStep)) {
+    if (
+      targetPiece &&
+      (!comparePositions(nextPosition, targetPosition) ||
+        !allowedToAttackOnLastStep)
+    ) {
       return false;
     }
 
