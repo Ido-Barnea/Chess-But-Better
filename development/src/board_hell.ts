@@ -7,6 +7,8 @@ const hellboardContainer = document.querySelector("#board-hell-container")!;
 const boardWidth = 8;
 const notationsLetters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
+const hellBtn = document.getElementById("hellbtn");
+
 export function initializeHellBoard() {
 
     // const leftBoardContainer = document.createElement('div');
@@ -59,7 +61,9 @@ function getBackgroundColor(position: [number, number]) {
 
 export function spawnHellPiece(piece: Piece)
 {
-    piece.board = "hell";
+    hellBtn!.setAttribute("display", "inherit");
+    hellboardContainer!.setAttribute("display", "inherit");
+    
     const pieceElement = createPieceElement(piece);
     const square = document.querySelectorAll(
       `[square-hell-id="${piece.position}"]`,

@@ -7,6 +7,8 @@ const heavenboardContainer = document.querySelector("#board-heaven-container")!;
 const boardWidth = 8;
 const notationsLetters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
+const heavenBtn = document.getElementById("heavenbtn");
+
 export function initializeHeavenBoard() {
     const boardDisplay = document.createElement('div');
     boardDisplay.id = "board-display";
@@ -45,7 +47,8 @@ function getBackgroundColor(position: [number, number]) {
 
 export function spawnHeavenPiece(piece: Piece)
 {
-    piece.board = "heaven";
+    heavenBtn!.setAttribute("display", "inherit");
+    heavenboardContainer!.setAttribute("display", "inherit");
     const pieceElement = createPieceElement(piece);
     const square = document.querySelectorAll(
       `[square-heaven-id="${piece.position}"]`,

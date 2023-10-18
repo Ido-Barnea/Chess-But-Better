@@ -6,7 +6,8 @@
 }
 
 body {
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
   margin: 0;
   height: 100vh;
 }
@@ -35,12 +36,14 @@ body {
 {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
+  display: none;
 }
 
 #board-heaven-container
 {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
+  display: none;
 }
 
 #board-display {
@@ -170,6 +173,29 @@ path {
   width: 25%;
   top: 0;
   right: 0;
+}
+
+.board-button {
+  display: inline-block;
+  padding: 1% 1%;
+  font-size: 1em;
+  font-weight: bold;
+  color: #e6e6e6;
+  background-color: #5f0505;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.board-button:hover {
+  background-color: brown;
+}
+
+.board-button:active {
+  background-color: burlywood;
 }
 
 .beige-background {

@@ -6,8 +6,13 @@ let triggerOnAction: (
 ) => void;
 let triggerOnFallOffTheBoard: (draggedElement: HTMLElement) => void;
 
-const dropdown = document.getElementById("board-dropdown");
-dropdown!.addEventListener("change", handleDropdownChange);
+const normalBtn = document.getElementById("normalbtn");
+normalBtn!.addEventListener("click", handleButtonPress);
+const hellBtn = document.getElementById("hellbtn");
+hellBtn!.addEventListener("click", handleButtonPress);
+const heavenBtn = document.getElementById("heavenbtn");
+heavenBtn!.addEventListener("click", handleButtonPress);
+
 let triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void;
 
 export function initializeEventListeners() {
@@ -95,7 +100,7 @@ function scrollToBoard(id: string)
     }
 }
 
-export function handleDropdownChange(event: Event) {
-  const selectedOption = (event.target as HTMLSelectElement).value;
-  scrollToBoard(selectedOption);
+export function handleButtonPress(event: Event) {
+  const buttonValue = (event.target as HTMLButtonElement).value;
+  scrollToBoard(buttonValue);
 }

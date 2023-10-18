@@ -88,6 +88,30 @@ export function comparePositions(
   );
 }
 
+export function convertSquareIdTypeToBoard(squareidType: string)
+{
+  switch(squareidType)
+  {
+    case "square-hell-id":
+      return "hell";
+    case "square-heaven-id":
+      return "heaven";
+    default:
+      return "normal";
+  }
+}
+
+export function comparePositionsAndBoards( firstPosition: Array<number>,
+  secondPosition: Array<number>, firstBoard:string, secondBoard: string): boolean
+{
+  let isPositions = firstPosition[0] === secondPosition[0] &&
+  firstPosition[1] === secondPosition[1];
+
+  let isBoards = firstBoard === secondBoard;
+
+  return isBoards && isPositions; 
+}
+
 export function switchIsCastling() {
   isCastling = !isCastling;
 }
@@ -96,6 +120,11 @@ export function getPieceByPosition(
   position: [number, number],
 ): Piece | undefined {
   return pieces.find((piece) => comparePositions(position, piece.position));
+}
+
+export function getPieceByPositionAndBoard(position: [number, number], board: string): Piece | undefined
+{
+  return pieces.find((piece) => comparePositionsAndBoards(position, piece.position, board, piece.board));
 }
 
 function convertSquareIdToPosition(squareId: string): [number, number] {
@@ -123,36 +152,48 @@ export function onAction(
     squareidType = "square-heaven-id";
   }
 
-  console.log("has " + squareidType);
-
   const draggedElementPosition = convertSquareIdToPosition(
     draggedElementParentElement.getAttribute(squareidType)!,
   );
   const draggedPiece: Piece | undefined = pieces.find((piece) =>
-    comparePositions(piece.position, draggedElementPosition),
-  );
+    comparePositionsAndBoards(piece.position, draggedElementPosition, piece.board, convertSquareIdTypeToBoard(squareidType)),
+    );
 
   if (targetElement.classList.contains("piece")) {
     const targetPiece: Piece | undefined = pieces.find((piece) => {
       const targetElementPosition = convertSquareIdToPosition(
         targetElement.parentElement?.getAttribute(squareidType)!,
       );
-      return comparePositions(targetElementPosition, piece.position);
+      return comparePositionsAndBoards(targetElementPosition, piece.position, piece.board, convertSquareIdTypeToBoard(squareidType));
     });
 
     actOnTurn(draggedPiece, targetPiece);
   } else {
+    let squareBoard: string;
+    switch(squareidType)
+    {
+      case "square-id":
+        squareBoard = "normal";
+        break;
+      case "square-hell-id":
+        squareBoard = "hell";
+        break;
+      case "square-heaven-id":
+        squareBoard = "heaven";
+        break;
+    }
     const targetSquare: Square = {
       position: convertSquareIdToPosition(
-        targetElement.getAttribute(squareidType)!,
+        targetElement.getAttribute(squareidType)!
       ),
+      board: squareBoard!,
     };
     actOnTurn(draggedPiece, targetSquare);
   }
 }
 
 export function onFallOffTheBoard(draggedElement: HTMLElement) {
-  let squareidType: string;
+  let squareidType: string = "";
 
   if(draggedElement.parentElement?.hasAttribute("square-id"))
   {
@@ -162,30 +203,38 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   {
     squareidType = "square-hell-id";
   }
-  else
+  else if(draggedElement.parentElement?.hasAttribute("square-heaven-id"))
   {
     squareidType = "square-heaven-id";
   }
-
-  console.log("has " + squareidType);
 
   const draggedPiece: Piece | undefined = pieces.find((piece) => {
     const draggedElementPosition = convertSquareIdToPosition(
       draggedElement.parentElement?.getAttribute(squareidType)!,
     );
-    return comparePositions(draggedElementPosition, piece.position);
+    return comparePositionsAndBoards(draggedElementPosition, piece.position, convertSquareIdTypeToBoard(squareidType), piece.board);
   });
 
   if (!draggedPiece) return;
   if (!isAllowedToMove(draggedPiece)) return;
 
-  pieces = pieces.filter((piece) => piece !== draggedPiece);
   deathCounter++;
   isPieceKilled = true;
-  destroyPieceOnBoard(draggedPiece);
-
+  pieces = pieces.filter((piece) => piece !== draggedPiece);
   fellOffTheBoardPiece = draggedPiece;
-  endTurn();
+  
+  switch(draggedPiece.board) //Bug: always trying to destroy on 2 boards instead of just one??
+  {
+    case "normal":
+      destroyPieceOnBoard(draggedPiece);
+      endTurn();
+    case "hell":
+      destroyPieceOnHellBoard(draggedPiece);
+      endTurn();
+    case "heaven":
+      destroyPieceOnHeavenBoard(draggedPiece);
+      endTurn();
+  }
 }
 
 function isAllowedToMove(draggedPiece: Piece) {
@@ -200,49 +249,94 @@ function actOnTurn(
   if (!isAllowedToMove(draggedPiece)) return;
   if (!draggedPiece.isValidMove(target)) return;
   if (draggedPiece === target) return;
+  if (draggedPiece.board !== target.board) {console.log("actOnTurn: " + draggedPiece.name + " not on board: " + target.board); return;}
 
   if ((target as Piece).name !== undefined) {
+    console.log("actOnTurn: target.board = " + target.board)
     const targetPiece = target as Piece;
+    console.log("actOnTurn: targetSquare.board = " + targetPiece.board)
     actOnTurnPieceToPiece(draggedPiece, targetPiece);
   } else {
+    console.log("actOnTurn: target.board = " + target.board)
     const targetSquare = target as Square;
+    console.log("actOnTurn: targetSquare.board = " + targetSquare.board)
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
-  if (targetPiece === draggedPiece) return;
-  if (targetPiece.board !== draggedPiece.board) return;
-
-  Logger.log(
-    `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-  );
-
   isFriendlyFire = targetPiece.player === draggedPiece.player && targetPiece.board === draggedPiece.board;
-
   deathCounter++;
   isPieceKilled = true;
-  if(targetPiece.board === "normal")
+  draggedPiece.hasKilled = true;
+  
+  if(targetPiece.board === "normal" && targetPiece.hasKilled)
   {
+    Logger.log(
+      `A ${targetPiece.player.color} ${targetPiece.name} 
+      was sent to hell by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
+    );
     destroyPieceOnBoard(targetPiece);
+    targetPiece.board = "hell";
+    
+    //if a piece that dies spawns on another piece, that piece needs to be deleted;
+    const duplicatePiece = pieces.find((piece) => 
+      comparePositionsAndBoards(targetPiece.position, piece.position, targetPiece.board, piece.board) && piece != targetPiece);
+    if(duplicatePiece != undefined) 
+    {
+      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
+      pieces = pieces.filter((piece) => piece !== duplicatePiece);
+      destroyPieceOnHellBoard(duplicatePiece);
+    }
+
     spawnHellPiece(targetPiece);
   }
+  
+  else if(targetPiece.board === "normal" && !targetPiece.hasKilled)
+  {
+    Logger.log(
+      `A ${targetPiece.player.color} ${targetPiece.name} 
+      was sent to heaven by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
+    );
+    destroyPieceOnBoard(targetPiece);
+    targetPiece.board = "heaven";
+    
+    //if a piece that dies spawns on another piece, that piece needs to be deleted;
+    const duplicatePiece = pieces.find((piece) => 
+      comparePositionsAndBoards(targetPiece.position, piece.position, targetPiece.board, piece.board) && piece != targetPiece);
+    if(duplicatePiece != undefined) 
+    {
+      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
+      pieces = pieces.filter((piece) => piece !== duplicatePiece);
+      destroyPieceOnHeavenBoard(duplicatePiece);
+    }
+
+    spawnHeavenPiece(targetPiece);
+  }
+
   else if(targetPiece.board === "hell")
   {
+    Logger.log(
+      `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
+    );
     pieces = pieces.filter((piece) => piece !== targetPiece);
     destroyPieceOnHellBoard(targetPiece);
   }
   else if(targetPiece.board === "heaven")
   {
+    Logger.log(
+      `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
+    );
     pieces = pieces.filter((piece) => piece !== targetPiece);
     destroyPieceOnHeavenBoard(targetPiece);
   }
 
-  const targetSquare: Square = { position: targetPiece.position };
+  const targetSquare: Square = { position: targetPiece.position, board: draggedPiece.board };
   move(draggedPiece, targetSquare);
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
+  if(draggedPiece.board !== targetSquare.board) {console.log("actOnTurnPieceToSquare: pieces not on same board! Piece: " + draggedPiece.name + " on" + draggedPiece.board); return;}
   let isValidCastling = true;
   if (isCastling) {
     isValidCastling = castle(draggedPiece, targetSquare);
@@ -280,13 +374,15 @@ function castle(kingPiece: Piece, targetSquare: Square) {
       : targetSquare.position[0] + 1,
     kingPiece.position[1],
   ];
-  const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
+  const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition }; //perhaps buggy because no board provided?
   move(rookPiece, rookPieceTargetSquare);
   Logger.log(`${kingPiece.player.color} castled.`);
   return true;
 }
 
 function move(draggedPiece: Piece, targetSquare: Square) {
+  if(draggedPiece.board !== targetSquare.board) {console.log("move: not same board"); return;}
+
   Logger.logMovement(draggedPiece, targetSquare);
   if(draggedPiece.board === "normal")
   {
