@@ -61,9 +61,9 @@ function getBackgroundColor(position: [number, number]) {
 
 export function spawnHellPiece(piece: Piece)
 {
-    hellBtn!.setAttribute("display", "inherit");
-    hellboardContainer!.setAttribute("display", "inherit");
-    
+    hellBtn!.classList.remove("hidden");
+    hellboardContainer.classList.remove("hidden");
+
     const pieceElement = createPieceElement(piece);
     const square = document.querySelectorAll(
       `[square-hell-id="${piece.position}"]`,

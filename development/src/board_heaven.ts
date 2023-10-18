@@ -47,8 +47,9 @@ function getBackgroundColor(position: [number, number]) {
 
 export function spawnHeavenPiece(piece: Piece)
 {
-    heavenBtn!.setAttribute("display", "inherit");
-    heavenboardContainer!.setAttribute("display", "inherit");
+    heavenBtn!.classList.remove("hidden");
+    heavenboardContainer.classList.remove("hidden");
+    
     const pieceElement = createPieceElement(piece);
     const square = document.querySelectorAll(
       `[square-heaven-id="${piece.position}"]`,
