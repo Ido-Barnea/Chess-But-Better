@@ -168,15 +168,14 @@ path {
   right: 0;
 }
 
-.btn-container
-{
+.btn-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   width: calc(var(--square-size) * var(--board-squares-per-side));
   margin-left: 25%;
-  padding-top: 1%; 
+  padding-top: 1%;
 }
 
 .btn-container button {

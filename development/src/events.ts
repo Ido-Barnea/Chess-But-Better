@@ -93,11 +93,10 @@ export function setOnHighlight(
 function scrollToBoard(id: string) {
   const targetElement = document!.getElementById(id);
   const boardsContainer = document!.getElementById("boards-container");
-  switch(id)
-  {
+  switch (id) {
     case "board-container":
-    console.log("top element"); 
-    boardsContainer!.scrollTop = 0;
+      console.log("top element");
+      boardsContainer!.scrollTop = 0;
     default:
       const elementPosition = targetElement!.offsetTop;
       boardsContainer!.scrollTop = elementPosition;
