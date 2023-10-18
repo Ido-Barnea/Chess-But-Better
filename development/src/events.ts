@@ -90,14 +90,13 @@ export function setOnHighlight(
   triggerOnHighlight = _triggerOnHighlight;
 }
 
-function scrollToBoard(id: string)
-{
+function scrollToBoard(id: string) {
   const targetElement = document.getElementById(id);
   const boardsContainer = document.getElementById("boards-container");
-  
-    if (targetElement) {
-        targetElement.scrollIntoView({ behavior: "smooth" });
-    }
+
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
 export function handleButtonPress(event: Event) {

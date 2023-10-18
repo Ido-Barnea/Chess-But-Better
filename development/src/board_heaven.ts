@@ -10,27 +10,27 @@ const notationsLetters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const heavenBtn = document.getElementById("heavenbtn");
 
 export function initializeHeavenBoard() {
-    const boardDisplay = document.createElement('div');
-    boardDisplay.id = "board-display";
+  const boardDisplay = document.createElement("div");
+  boardDisplay.id = "board-display";
 
-    heavenboardContainer.appendChild(boardDisplay);
-    
-    for (let row = 0; row < boardWidth; row++) {
-        for (let column = 0; column < boardWidth; column++) {
-            createSquare([column, row]);
-        }
+  heavenboardContainer.appendChild(boardDisplay);
+
+  for (let row = 0; row < boardWidth; row++) {
+    for (let column = 0; column < boardWidth; column++) {
+      createSquare([column, row]);
     }
+  }
 }
 
 function createSquare(position: [number, number]) {
-    const squareElement = document.createElement("div");
-    squareElement.classList.add("square");
-    squareElement.setAttribute("square-heaven-id", position.join(","));
+  const squareElement = document.createElement("div");
+  squareElement.classList.add("square");
+  squareElement.setAttribute("square-heaven-id", position.join(","));
 
-    const backgroundColor = getBackgroundColor(position);
-    squareElement.classList.add(backgroundColor);
-    const boardDisplay = heavenboardContainer.children[0];
-    boardDisplay.appendChild(squareElement);
+  const backgroundColor = getBackgroundColor(position);
+  squareElement.classList.add(backgroundColor);
+  const boardDisplay = heavenboardContainer.children[0];
+  boardDisplay.appendChild(squareElement);
 }
 
 function getBackgroundColor(position: [number, number]) {
@@ -45,16 +45,15 @@ function getBackgroundColor(position: [number, number]) {
     : "water-background";
 }
 
-export function spawnHeavenPiece(piece: Piece)
-{
-    heavenBtn!.classList.remove("hidden");
-    heavenboardContainer.classList.remove("hidden");
-    
-    const pieceElement = createPieceElement(piece);
-    const square = document.querySelectorAll(
-      `[square-heaven-id="${piece.position}"]`,
-    )[0];
-    square.appendChild(pieceElement);
+export function spawnHeavenPiece(piece: Piece) {
+  heavenBtn!.classList.remove("hidden");
+  heavenboardContainer.classList.remove("hidden");
+
+  const pieceElement = createPieceElement(piece);
+  const square = document.querySelectorAll(
+    `[square-heaven-id="${piece.position}"]`,
+  )[0];
+  square.appendChild(pieceElement);
 }
 
 function createPieceElement(piece: Piece) {
@@ -70,7 +69,10 @@ function createPieceElement(piece: Piece) {
   return pieceElement;
 }
 
-export function movePieceOnHeavenBoard(draggedPiece: Piece, targetSquare: Square) {
+export function movePieceOnHeavenBoard(
+  draggedPiece: Piece,
+  targetSquare: Square,
+) {
   const draggedPieceSquareElement = document.querySelector(
     `[square-heaven-id="${draggedPiece.position.join(",")}"]`,
   ) as HTMLElement;

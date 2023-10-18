@@ -13,14 +13,12 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-#board-dropdown
-{
+#board-dropdown {
   position: absolute;
   top: 0;
 }
 
-#boards-container 
-{
+#boards-container {
   height: calc(calc(var(--square-size) * var(--board-squares-per-side)));
   width: calc(var(--square-size) * calc(var(--board-squares-per-side) + 1));
   overflow-y: scroll;
@@ -33,14 +31,12 @@ body {
   width: calc(var(--square-size) * var(--board-squares-per-side));
 }
 
-#board-hell-container
-{
+#board-hell-container {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
 }
 
-#board-heaven-container
-{
+#board-heaven-container {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
 }
@@ -70,8 +66,7 @@ body {
   z-index: 1;
 }
 
-.hidden 
-{
+.hidden {
   display: none;
 }
 

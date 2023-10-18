@@ -7,18 +7,18 @@ const boardWidth = 8;
 const notationsLetters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 export function initializeBoard() {
-  const leftBoardContainer = document.createElement('div');
-    leftBoardContainer.id = "left-notations-container";
+  const leftBoardContainer = document.createElement("div");
+  leftBoardContainer.id = "left-notations-container";
 
-    const bottomBoardContainer = document.createElement('div');
-    bottomBoardContainer.id = "bottom-notations-container";
+  const bottomBoardContainer = document.createElement("div");
+  bottomBoardContainer.id = "bottom-notations-container";
 
-    const boardDisplay = document.createElement('div');
-    boardDisplay.id = "board-display";
+  const boardDisplay = document.createElement("div");
+  boardDisplay.id = "board-display";
 
-    boardContainer.appendChild(leftBoardContainer);
-    boardContainer.appendChild(bottomBoardContainer);
-    boardContainer.appendChild(boardDisplay);
+  boardContainer.appendChild(leftBoardContainer);
+  boardContainer.appendChild(bottomBoardContainer);
+  boardContainer.appendChild(boardDisplay);
 
   for (let row = 0; row < boardWidth; row++) {
     for (let column = 0; column < boardWidth; column++) {

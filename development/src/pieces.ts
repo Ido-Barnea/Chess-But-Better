@@ -103,7 +103,14 @@ export class Pawn extends Piece {
 
     // Pawns can have an initial two-square move.
     if (!this.hasMoved && absoluteDeltaY === 2 && absoluteDeltaX === 0) {
-      return validateMove(this.board, this.copyPosition(), target.position, 0, stepY, 2,);
+      return validateMove(
+        this.board,
+        this.copyPosition(),
+        target.position,
+        0,
+        stepY,
+        2,
+      );
     }
 
     // Pawns move one square forward.

@@ -10,41 +10,40 @@ const notationsLetters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const hellBtn = document.getElementById("hellbtn");
 
 export function initializeHellBoard() {
+  // const leftBoardContainer = document.createElement('div');
+  // leftBoardContainer.id = "left-notations-container";
 
-    // const leftBoardContainer = document.createElement('div');
-    // leftBoardContainer.id = "left-notations-container";
+  // const bottomBoardContainer = document.createElement('div');
+  // bottomBoardContainer.id = "bottom-notations-container";
 
-    // const bottomBoardContainer = document.createElement('div');
-    // bottomBoardContainer.id = "bottom-notations-container";
+  const boardDisplay = document.createElement("div");
+  boardDisplay.id = "board-display";
 
-    const boardDisplay = document.createElement('div');
-    boardDisplay.id = "board-display";
+  // hellboardContainer.appendChild(leftBoardContainer);
+  // hellboardContainer.appendChild(bottomBoardContainer);
+  hellboardContainer.appendChild(boardDisplay);
 
-    // hellboardContainer.appendChild(leftBoardContainer);
-    // hellboardContainer.appendChild(bottomBoardContainer);
-    hellboardContainer.appendChild(boardDisplay);
+  // for (let column = 0; column < boardWidth; column++) {
+  //     createNotation((column + 1).toString());
+  //     createNotation(notationsLetters[boardWidth - column - 1]);
+  // }
 
-    // for (let column = 0; column < boardWidth; column++) {
-    //     createNotation((column + 1).toString());
-    //     createNotation(notationsLetters[boardWidth - column - 1]);
-    // }
-    
-    for (let row = 0; row < boardWidth; row++) {
-        for (let column = 0; column < boardWidth; column++) {
-            createSquare([column, row]);
-        }
+  for (let row = 0; row < boardWidth; row++) {
+    for (let column = 0; column < boardWidth; column++) {
+      createSquare([column, row]);
     }
+  }
 }
 
 function createSquare(position: [number, number]) {
-    const squareElement = document.createElement("div");
-    squareElement.classList.add("square");
-    squareElement.setAttribute("square-hell-id", position.join(","));
+  const squareElement = document.createElement("div");
+  squareElement.classList.add("square");
+  squareElement.setAttribute("square-hell-id", position.join(","));
 
-    const backgroundColor = getBackgroundColor(position);
-    squareElement.classList.add(backgroundColor);
-    const boardDisplay = hellboardContainer.children[0];
-    boardDisplay.appendChild(squareElement);
+  const backgroundColor = getBackgroundColor(position);
+  squareElement.classList.add(backgroundColor);
+  const boardDisplay = hellboardContainer.children[0];
+  boardDisplay.appendChild(squareElement);
 }
 
 function getBackgroundColor(position: [number, number]) {
@@ -59,16 +58,15 @@ function getBackgroundColor(position: [number, number]) {
     : "dark-orange-background";
 }
 
-export function spawnHellPiece(piece: Piece)
-{
-    hellBtn!.classList.remove("hidden");
-    hellboardContainer.classList.remove("hidden");
+export function spawnHellPiece(piece: Piece) {
+  hellBtn!.classList.remove("hidden");
+  hellboardContainer.classList.remove("hidden");
 
-    const pieceElement = createPieceElement(piece);
-    const square = document.querySelectorAll(
-      `[square-hell-id="${piece.position}"]`,
-    )[0];
-    square.appendChild(pieceElement);
+  const pieceElement = createPieceElement(piece);
+  const square = document.querySelectorAll(
+    `[square-hell-id="${piece.position}"]`,
+  )[0];
+  square.appendChild(pieceElement);
 }
 
 function createPieceElement(piece: Piece) {
@@ -84,7 +82,10 @@ function createPieceElement(piece: Piece) {
   return pieceElement;
 }
 
-export function movePieceOnHellBoard(draggedPiece: Piece, targetSquare: Square) {
+export function movePieceOnHellBoard(
+  draggedPiece: Piece,
+  targetSquare: Square,
+) {
   const draggedPieceSquareElement = document.querySelector(
     `[square-hell-id="${draggedPiece.position.join(",")}"]`,
   ) as HTMLElement;

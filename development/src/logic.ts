@@ -11,8 +11,16 @@ import {
 } from "./pieces";
 import { Logger } from "./logger";
 import { movePieceOnBoard, destroyPieceOnBoard } from "./board";
-import { movePieceOnHellBoard, destroyPieceOnHellBoard, spawnHellPiece } from "./board_hell";
-import { movePieceOnHeavenBoard, destroyPieceOnHeavenBoard, spawnHeavenPiece } from "./board_heaven";
+import {
+  movePieceOnHellBoard,
+  destroyPieceOnHellBoard,
+  spawnHellPiece,
+} from "./board_hell";
+import {
+  movePieceOnHeavenBoard,
+  destroyPieceOnHeavenBoard,
+  spawnHeavenPiece,
+} from "./board_heaven";
 import { activeRules } from "./rules";
 import { updatePlayersInformation } from "./game";
 
@@ -88,10 +96,8 @@ export function comparePositions(
   );
 }
 
-export function convertSquareIdTypeToBoard(squareidType: string)
-{
-  switch(squareidType)
-  {
+export function convertSquareIdTypeToBoard(squareidType: string) {
+  switch (squareidType) {
     case "square-hell-id":
       return "hell";
     case "square-heaven-id":
@@ -101,15 +107,19 @@ export function convertSquareIdTypeToBoard(squareidType: string)
   }
 }
 
-export function comparePositionsAndBoards( firstPosition: Array<number>,
-  secondPosition: Array<number>, firstBoard:string, secondBoard: string): boolean
-{
-  let isPositions = firstPosition[0] === secondPosition[0] &&
-  firstPosition[1] === secondPosition[1];
+export function comparePositionsAndBoards(
+  firstPosition: Array<number>,
+  secondPosition: Array<number>,
+  firstBoard: string,
+  secondBoard: string,
+): boolean {
+  let isPositions =
+    firstPosition[0] === secondPosition[0] &&
+    firstPosition[1] === secondPosition[1];
 
   let isBoards = firstBoard === secondBoard;
 
-  return isBoards && isPositions; 
+  return isBoards && isPositions;
 }
 
 export function switchIsCastling() {
@@ -122,9 +132,13 @@ export function getPieceByPosition(
   return pieces.find((piece) => comparePositions(position, piece.position));
 }
 
-export function getPieceByPositionAndBoard(position: [number, number], board: string): Piece | undefined
-{
-  return pieces.find((piece) => comparePositionsAndBoards(position, piece.position, board, piece.board));
+export function getPieceByPositionAndBoard(
+  position: [number, number],
+  board: string,
+): Piece | undefined {
+  return pieces.find((piece) =>
+    comparePositionsAndBoards(position, piece.position, board, piece.board),
+  );
 }
 
 function convertSquareIdToPosition(squareId: string): [number, number] {
@@ -139,16 +153,11 @@ export function onAction(
     draggedElement.parentElement as HTMLElement;
   let squareidType: string;
 
-  if(draggedElementParentElement.hasAttribute("square-id"))
-  {
+  if (draggedElementParentElement.hasAttribute("square-id")) {
     squareidType = "square-id";
-  }
-  else if(draggedElementParentElement.hasAttribute("square-hell-id"))
-  {
+  } else if (draggedElementParentElement.hasAttribute("square-hell-id")) {
     squareidType = "square-hell-id";
-  }
-  else
-  {
+  } else {
     squareidType = "square-heaven-id";
   }
 
@@ -156,22 +165,31 @@ export function onAction(
     draggedElementParentElement.getAttribute(squareidType)!,
   );
   const draggedPiece: Piece | undefined = pieces.find((piece) =>
-    comparePositionsAndBoards(piece.position, draggedElementPosition, piece.board, convertSquareIdTypeToBoard(squareidType)),
-    );
+    comparePositionsAndBoards(
+      piece.position,
+      draggedElementPosition,
+      piece.board,
+      convertSquareIdTypeToBoard(squareidType),
+    ),
+  );
 
   if (targetElement.classList.contains("piece")) {
     const targetPiece: Piece | undefined = pieces.find((piece) => {
       const targetElementPosition = convertSquareIdToPosition(
         targetElement.parentElement?.getAttribute(squareidType)!,
       );
-      return comparePositionsAndBoards(targetElementPosition, piece.position, piece.board, convertSquareIdTypeToBoard(squareidType));
+      return comparePositionsAndBoards(
+        targetElementPosition,
+        piece.position,
+        piece.board,
+        convertSquareIdTypeToBoard(squareidType),
+      );
     });
 
     actOnTurn(draggedPiece, targetPiece);
   } else {
     let squareBoard: string;
-    switch(squareidType)
-    {
+    switch (squareidType) {
       case "square-id":
         squareBoard = "normal";
         break;
@@ -184,7 +202,7 @@ export function onAction(
     }
     const targetSquare: Square = {
       position: convertSquareIdToPosition(
-        targetElement.getAttribute(squareidType)!
+        targetElement.getAttribute(squareidType)!,
       ),
       board: squareBoard!,
     };
@@ -195,16 +213,11 @@ export function onAction(
 export function onFallOffTheBoard(draggedElement: HTMLElement) {
   let squareidType: string = "";
 
-  if(draggedElement.parentElement?.hasAttribute("square-id"))
-  {
+  if (draggedElement.parentElement?.hasAttribute("square-id")) {
     squareidType = "square-id";
-  }
-  else if(draggedElement.parentElement?.hasAttribute("square-hell-id"))
-  {
+  } else if (draggedElement.parentElement?.hasAttribute("square-hell-id")) {
     squareidType = "square-hell-id";
-  }
-  else if(draggedElement.parentElement?.hasAttribute("square-heaven-id"))
-  {
+  } else if (draggedElement.parentElement?.hasAttribute("square-heaven-id")) {
     squareidType = "square-heaven-id";
   }
 
@@ -212,7 +225,12 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
     const draggedElementPosition = convertSquareIdToPosition(
       draggedElement.parentElement?.getAttribute(squareidType)!,
     );
-    return comparePositionsAndBoards(draggedElementPosition, piece.position, convertSquareIdTypeToBoard(squareidType), piece.board);
+    return comparePositionsAndBoards(
+      draggedElementPosition,
+      piece.position,
+      convertSquareIdTypeToBoard(squareidType),
+      piece.board,
+    );
   });
 
   if (!draggedPiece) return;
@@ -221,9 +239,10 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   killPiece(draggedPiece);
 
   fellOffTheBoardPiece = draggedPiece;
-  
-  switch(draggedPiece.board) //Bug: always trying to destroy on 2 boards instead of just one??
-  {
+
+  switch (
+    draggedPiece.board //Bug: always trying to destroy on 2 boards instead of just one??
+  ) {
     case "normal":
       destroyPieceOnBoard(draggedPiece);
       endTurn();
@@ -248,90 +267,111 @@ function actOnTurn(
   if (!isAllowedToMove(draggedPiece)) return;
   if (!draggedPiece.isValidMove(target)) return;
   if (draggedPiece === target) return;
-  if (draggedPiece.board !== target.board) {console.log("actOnTurn: " + draggedPiece.name + " not on board: " + target.board); return;}
+  if (draggedPiece.board !== target.board) {
+    console.log(
+      "actOnTurn: " + draggedPiece.name + " not on board: " + target.board,
+    );
+    return;
+  }
 
   if ((target as Piece).name !== undefined) {
-    console.log("actOnTurn: target.board = " + target.board)
+    console.log("actOnTurn: target.board = " + target.board);
     const targetPiece = target as Piece;
-    console.log("actOnTurn: targetSquare.board = " + targetPiece.board)
+    console.log("actOnTurn: targetSquare.board = " + targetPiece.board);
     actOnTurnPieceToPiece(draggedPiece, targetPiece);
   } else {
-    console.log("actOnTurn: target.board = " + target.board)
+    console.log("actOnTurn: target.board = " + target.board);
     const targetSquare = target as Square;
-    console.log("actOnTurn: targetSquare.board = " + targetSquare.board)
+    console.log("actOnTurn: targetSquare.board = " + targetSquare.board);
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
-  isFriendlyFire = targetPiece.player === draggedPiece.player && targetPiece.board === draggedPiece.board;
+  isFriendlyFire =
+    targetPiece.player === draggedPiece.player &&
+    targetPiece.board === draggedPiece.board;
   draggedPiece.hasKilled = true;
-  
-  if(targetPiece.board === "normal" && targetPiece.hasKilled)
-  {
+
+  if (targetPiece.board === "normal" && targetPiece.hasKilled) {
     Logger.log(
       `A ${targetPiece.player.color} ${targetPiece.name} 
       was sent to hell by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-      );
-      destroyPieceOnBoard(targetPiece);
-      targetPiece.board = "hell";
-      
-      //if a piece that dies spawns on another piece, that piece needs to be deleted;
-      const duplicatePiece = pieces.find((piece) => 
-      comparePositionsAndBoards(targetPiece.position, piece.position, targetPiece.board, piece.board) && piece != targetPiece);
-      if(duplicatePiece != undefined) 
-      {
-        console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
-        pieces = pieces.filter((piece) => piece !== duplicatePiece);
-        destroyPieceOnHellBoard(duplicatePiece);
-      }
-      
-      spawnHellPiece(targetPiece);
+    );
+    destroyPieceOnBoard(targetPiece);
+    targetPiece.board = "hell";
+
+    //if a piece that dies spawns on another piece, that piece needs to be deleted;
+    const duplicatePiece = pieces.find(
+      (piece) =>
+        comparePositionsAndBoards(
+          targetPiece.position,
+          piece.position,
+          targetPiece.board,
+          piece.board,
+        ) && piece != targetPiece,
+    );
+    if (duplicatePiece != undefined) {
+      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`);
+      pieces = pieces.filter((piece) => piece !== duplicatePiece);
+      destroyPieceOnHellBoard(duplicatePiece);
     }
-    
-    else if(targetPiece.board === "normal" && !targetPiece.hasKilled)
-    {
-      Logger.log(
-        `A ${targetPiece.player.color} ${targetPiece.name} 
+
+    spawnHellPiece(targetPiece);
+  } else if (targetPiece.board === "normal" && !targetPiece.hasKilled) {
+    Logger.log(
+      `A ${targetPiece.player.color} ${targetPiece.name} 
         was sent to heaven by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-        );
-        destroyPieceOnBoard(targetPiece);
-        targetPiece.board = "heaven";
-    
-        //if a piece that dies spawns on another piece, that piece needs to be deleted;
-        const duplicatePiece = pieces.find((piece) => 
-        comparePositionsAndBoards(targetPiece.position, piece.position, targetPiece.board, piece.board) && piece != targetPiece);
-        if(duplicatePiece != undefined) 
-        {
-          console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
-          pieces = pieces.filter((piece) => piece !== duplicatePiece);
-          destroyPieceOnHeavenBoard(duplicatePiece);
-        }
-        
-        spawnHeavenPiece(targetPiece);
-      }
-      
-      else if(targetPiece.board === "hell")
-      {
-        Logger.log(
-          `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-          );
-          killPiece(targetPiece);
-        }
-  else if(targetPiece.board === "heaven")
-  {
+    );
+    destroyPieceOnBoard(targetPiece);
+    targetPiece.board = "heaven";
+
+    //if a piece that dies spawns on another piece, that piece needs to be deleted;
+    const duplicatePiece = pieces.find(
+      (piece) =>
+        comparePositionsAndBoards(
+          targetPiece.position,
+          piece.position,
+          targetPiece.board,
+          piece.board,
+        ) && piece != targetPiece,
+    );
+    if (duplicatePiece != undefined) {
+      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`);
+      pieces = pieces.filter((piece) => piece !== duplicatePiece);
+      destroyPieceOnHeavenBoard(duplicatePiece);
+    }
+
+    spawnHeavenPiece(targetPiece);
+  } else if (targetPiece.board === "hell") {
+    Logger.log(
+      `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
+    );
+    killPiece(targetPiece);
+  } else if (targetPiece.board === "heaven") {
     Logger.log(
       `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
     );
     killPiece(targetPiece);
   }
 
-  const targetSquare: Square = { position: targetPiece.position, board: draggedPiece.board };
+  const targetSquare: Square = {
+    position: targetPiece.position,
+    board: draggedPiece.board,
+  };
   move(draggedPiece, targetSquare);
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
-  if(draggedPiece.board !== targetSquare.board) {console.log("actOnTurnPieceToSquare: pieces not on same board! Piece: " + draggedPiece.name + " on" + draggedPiece.board); return;}
+  if (draggedPiece.board !== targetSquare.board) {
+    console.log(
+      "actOnTurnPieceToSquare: pieces not on same board! Piece: " +
+        draggedPiece.name +
+        " on" +
+        draggedPiece.board,
+    );
+    return;
+  }
   let isValidCastling = true;
   if (isCastling) {
     isValidCastling = castle(draggedPiece, targetSquare);
@@ -383,19 +423,17 @@ function castle(kingPiece: Piece, targetSquare: Square) {
 }
 
 function move(draggedPiece: Piece, targetSquare: Square) {
-  if(draggedPiece.board !== targetSquare.board) {console.log("move: not same board"); return;}
+  if (draggedPiece.board !== targetSquare.board) {
+    console.log("move: not same board");
+    return;
+  }
 
   Logger.logMovement(draggedPiece, targetSquare);
-  if(draggedPiece.board === "normal")
-  {
+  if (draggedPiece.board === "normal") {
     movePieceOnBoard(draggedPiece, targetSquare);
-  }
-  else if(draggedPiece.board === "hell")
-  {
+  } else if (draggedPiece.board === "hell") {
     movePieceOnHellBoard(draggedPiece, targetSquare);
-  }
-  else if(draggedPiece.board === "heaven")
-  {
+  } else if (draggedPiece.board === "heaven") {
     movePieceOnHeavenBoard(draggedPiece, targetSquare);
   }
   draggedPiece.position = targetSquare.position;
