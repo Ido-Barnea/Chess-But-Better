@@ -87,6 +87,8 @@ path {
 }
 
 .piece {
+  height: var(--square-size);
+  width: var(--square-size);
   position: relative;
   z-index: 1;
 }
