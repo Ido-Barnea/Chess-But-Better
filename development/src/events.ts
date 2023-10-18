@@ -91,12 +91,20 @@ export function setOnHighlight(
 }
 
 function scrollToBoard(id: string) {
-  const targetElement = document.getElementById(id);
-  const boardsContainer = document.getElementById("boards-container");
-
-  if (targetElement) {
-    targetElement.scrollIntoView({ behavior: "smooth" });
+  const targetElement = document!.getElementById(id);
+  const boardsContainer = document!.getElementById("boards-container");
+  switch(id)
+  {
+    case "board-container":
+    console.log("top element"); 
+    boardsContainer!.scrollTop = 0;
+    default:
+      const elementPosition = targetElement!.offsetTop;
+      boardsContainer!.scrollTop = elementPosition;
   }
+  // if (targetElement) {
+  //   targetElement.scrollIntoView({ behavior: "smooth" });
+  // }
 }
 
 export function handleButtonPress(event: Event) {

@@ -6,24 +6,18 @@
 }
 
 body {
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
   margin: 0;
   height: 100vh;
   font-family: system-ui, sans-serif;
 }
 
-#board-dropdown {
-  position: absolute;
-  top: 0;
-}
-
 #boards-container {
   height: calc(calc(var(--square-size) * var(--board-squares-per-side)));
   width: calc(var(--square-size) * calc(var(--board-squares-per-side) + 1));
-  overflow-y: scroll;
+  overflow: hidden;
   margin-left: 25%;
-  margin-top: 2%;
+  /* margin-top: 2%; */
 }
 
 #board-container {
@@ -174,11 +168,22 @@ path {
   right: 0;
 }
 
-.board-button {
+.btn-container
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: calc(var(--square-size) * var(--board-squares-per-side));
+  margin-left: 25%;
+  padding-top: 1%; 
+}
+
+.btn-container button {
   padding: 1% 1%;
-  font-size: 1em;
+  font-size: 0.8vw;
   font-weight: bold;
-  color: #e6e6e6;
+  color: #ffffff;
   background-color: #5f0505;
   border: none;
   border-radius: 5px;
@@ -186,13 +191,16 @@ path {
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 5vw;
 }
 
-.board-button:hover {
+.btn-container button:hover {
   background-color: brown;
 }
 
-.board-button:active {
+.btn-container button:active {
   background-color: burlywood;
 }
 
