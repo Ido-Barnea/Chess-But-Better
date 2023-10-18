@@ -1,12 +1,5 @@
-README.md
-tsconfig.json
-package.json
-package-lock.json
-LICENSE
-.gitignore
-.github
-assets
-node_modules
-dist
-.parcel-cache
+/node_modules
+/dist
+/.parcel-cache
+*.md
 nx.json
