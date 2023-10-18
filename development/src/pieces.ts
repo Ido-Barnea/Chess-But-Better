@@ -98,12 +98,7 @@ export class Pawn extends Piece {
 
     // Pawns attack diagonally.
     if ((target as Piece).name !== undefined) {
-      const targetPiece = target as Piece;
-      const oponent = this.player.color === "white" ? "black" : "white";
-      // Make sure the other piece belongs to the current player's oponent.
-      if (targetPiece.player.color === oponent) {
-        return absoluteDeltaY === 1 && absoluteDeltaX === 1;
-      }
+      return absoluteDeltaY === 1 && absoluteDeltaX === 1;
     }
 
     // Pawns can have an initial two-square move.

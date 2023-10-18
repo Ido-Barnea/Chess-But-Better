@@ -218,9 +218,8 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   if (!draggedPiece) return;
   if (!isAllowedToMove(draggedPiece)) return;
 
-  deathCounter++;
-  isPieceKilled = true;
-  pieces = pieces.filter((piece) => piece !== draggedPiece);
+  killPiece(draggedPiece);
+
   fellOffTheBoardPiece = draggedPiece;
   
   switch(draggedPiece.board) //Bug: always trying to destroy on 2 boards instead of just one??
@@ -266,8 +265,6 @@ function actOnTurn(
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
   isFriendlyFire = targetPiece.player === draggedPiece.player && targetPiece.board === draggedPiece.board;
-  deathCounter++;
-  isPieceKilled = true;
   draggedPiece.hasKilled = true;
   
   if(targetPiece.board === "normal" && targetPiece.hasKilled)
@@ -275,60 +272,58 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
     Logger.log(
       `A ${targetPiece.player.color} ${targetPiece.name} 
       was sent to hell by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-    );
-    destroyPieceOnBoard(targetPiece);
-    targetPiece.board = "hell";
-    
-    //if a piece that dies spawns on another piece, that piece needs to be deleted;
-    const duplicatePiece = pieces.find((piece) => 
+      );
+      destroyPieceOnBoard(targetPiece);
+      targetPiece.board = "hell";
+      
+      //if a piece that dies spawns on another piece, that piece needs to be deleted;
+      const duplicatePiece = pieces.find((piece) => 
       comparePositionsAndBoards(targetPiece.position, piece.position, targetPiece.board, piece.board) && piece != targetPiece);
-    if(duplicatePiece != undefined) 
-    {
-      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
-      pieces = pieces.filter((piece) => piece !== duplicatePiece);
-      destroyPieceOnHellBoard(duplicatePiece);
+      if(duplicatePiece != undefined) 
+      {
+        console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
+        pieces = pieces.filter((piece) => piece !== duplicatePiece);
+        destroyPieceOnHellBoard(duplicatePiece);
+      }
+      
+      spawnHellPiece(targetPiece);
     }
-
-    spawnHellPiece(targetPiece);
-  }
-  
-  else if(targetPiece.board === "normal" && !targetPiece.hasKilled)
-  {
-    Logger.log(
-      `A ${targetPiece.player.color} ${targetPiece.name} 
-      was sent to heaven by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-    );
-    destroyPieceOnBoard(targetPiece);
-    targetPiece.board = "heaven";
     
-    //if a piece that dies spawns on another piece, that piece needs to be deleted;
-    const duplicatePiece = pieces.find((piece) => 
-      comparePositionsAndBoards(targetPiece.position, piece.position, targetPiece.board, piece.board) && piece != targetPiece);
-    if(duplicatePiece != undefined) 
+    else if(targetPiece.board === "normal" && !targetPiece.hasKilled)
     {
-      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
-      pieces = pieces.filter((piece) => piece !== duplicatePiece);
-      destroyPieceOnHeavenBoard(duplicatePiece);
-    }
-
-    spawnHeavenPiece(targetPiece);
-  }
-
-  else if(targetPiece.board === "hell")
-  {
-    Logger.log(
-      `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-    );
-    pieces = pieces.filter((piece) => piece !== targetPiece);
-    destroyPieceOnHellBoard(targetPiece);
-  }
+      Logger.log(
+        `A ${targetPiece.player.color} ${targetPiece.name} 
+        was sent to heaven by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
+        );
+        destroyPieceOnBoard(targetPiece);
+        targetPiece.board = "heaven";
+    
+        //if a piece that dies spawns on another piece, that piece needs to be deleted;
+        const duplicatePiece = pieces.find((piece) => 
+        comparePositionsAndBoards(targetPiece.position, piece.position, targetPiece.board, piece.board) && piece != targetPiece);
+        if(duplicatePiece != undefined) 
+        {
+          console.log(`${duplicatePiece} isn't the same as ${targetPiece}`) 
+          pieces = pieces.filter((piece) => piece !== duplicatePiece);
+          destroyPieceOnHeavenBoard(duplicatePiece);
+        }
+        
+        spawnHeavenPiece(targetPiece);
+      }
+      
+      else if(targetPiece.board === "hell")
+      {
+        Logger.log(
+          `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
+          );
+          killPiece(targetPiece);
+        }
   else if(targetPiece.board === "heaven")
   {
     Logger.log(
       `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
     );
-    pieces = pieces.filter((piece) => piece !== targetPiece);
-    destroyPieceOnHeavenBoard(targetPiece);
+    killPiece(targetPiece);
   }
 
   const targetSquare: Square = { position: targetPiece.position, board: draggedPiece.board };
@@ -347,6 +342,13 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   } else {
     switchIsCastling();
   }
+}
+
+function killPiece(targetPiece: Piece) {
+  pieces = pieces.filter((piece) => piece !== targetPiece);
+  deathCounter++;
+  isPieceKilled = true;
+  destroyPieceOnBoard(targetPiece);
 }
 
 function castle(kingPiece: Piece, targetSquare: Square) {
