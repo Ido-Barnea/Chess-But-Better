@@ -9,12 +9,20 @@ export const OVERWORLD_BOARD_ID = "board-overworld";
 export const HELL_BOARD_ID = "board-hell";
 export const HEAVEN_BOARD_ID = "board-heaven";
 
-export const OVERWORLD_BOARD = document.getElementById(OVERWORLD_BOARD_ID) as HTMLElement;
+export const OVERWORLD_BOARD = document.getElementById(
+  OVERWORLD_BOARD_ID
+) as HTMLElement;
 export const HELL_BOARD = document.getElementById(HELL_BOARD_ID) as HTMLElement;
-export const HEAVEN_BOARD = document.getElementById(HEAVEN_BOARD_ID) as HTMLElement;
+export const HEAVEN_BOARD = document.getElementById(
+  HEAVEN_BOARD_ID
+) as HTMLElement;
 
-const HELL_BOARD_BUTTON = document.getElementById("board-hell-button") as HTMLElement;
-const HEAVEN_BOARD_BUTTON = document.getElementById("board-heaven-button") as HTMLElement;
+const HELL_BOARD_BUTTON = document.getElementById(
+  "board-hell-button"
+) as HTMLElement;
+const HEAVEN_BOARD_BUTTON = document.getElementById(
+  "board-heaven-button"
+) as HTMLElement;
 
 const lightOverworldSquareColor = "beige-background";
 const darkOverworldSquareColor = "brown-background";
@@ -29,11 +37,7 @@ export function initializeBoards() {
     lightOverworldSquareColor,
     darkOverworldSquareColor
   );
-  hell = new ChessBoard(
-    HELL_BOARD,
-    lightHellSquareColor,
-    darkHellSquareColor
-  );
+  hell = new ChessBoard(HELL_BOARD, lightHellSquareColor, darkHellSquareColor);
   heaven = new ChessBoard(
     HEAVEN_BOARD,
     lightHeavenSquareColor,

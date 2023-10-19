@@ -28,7 +28,9 @@ body {
 }
 
 #bottom-notations-container {
-  margin-top: calc(var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4);
+  margin-top: calc(
+    var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4
+  );
   display: flex;
   flex-direction: row;
   position: absolute;

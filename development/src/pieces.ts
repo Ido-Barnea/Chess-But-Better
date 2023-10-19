@@ -109,7 +109,7 @@ export class Pawn extends Piece {
         target.position,
         0,
         stepY,
-        2,
+        2
       );
     }
 
@@ -138,7 +138,7 @@ export class Bishop extends Piece {
         target.position,
         stepX,
         stepY,
-        -1,
+        -1
       );
     }
 
@@ -190,7 +190,7 @@ export class Rook extends Piece {
         target.position,
         stepX,
         stepY,
-        -1,
+        -1
       );
     }
 
@@ -232,7 +232,7 @@ export class Queen extends Piece {
         target.position,
         stepX,
         stepY,
-        -1,
+        -1
       );
     }
 
@@ -273,7 +273,7 @@ export class King extends Piece {
         target.position,
         stepX,
         stepY,
-        1,
+        1
       );
     }
 
@@ -290,7 +290,7 @@ export class King extends Piece {
           stepX,
           stepY,
           2,
-          false,
+          false
         );
       } else {
         // Queenside castling
@@ -306,7 +306,7 @@ export class King extends Piece {
           stepX,
           stepY,
           3,
-          false,
+          false
         );
       }
 
@@ -325,7 +325,7 @@ function validateMove(
   stepX: number,
   stepY: number,
   limit: number,
-  allowedToAttackOnLastStep: boolean = true,
+  allowedToAttackOnLastStep: boolean = true
 ): boolean {
   let limitCounter = 0;
   while (

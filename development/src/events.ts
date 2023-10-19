@@ -7,9 +7,14 @@ let triggerOnAction: (
   targetElement: HTMLElement,
   board: string
 ) => void;
-let triggerOnFallOffTheBoard: (draggedElement: HTMLElement, board: string) => void;
+let triggerOnFallOffTheBoard: (
+  draggedElement: HTMLElement,
+  board: string
+) => void;
 
-const OVERWORLD_BOARD_BUTTON = document.getElementById("board-overworld-button")!;
+const OVERWORLD_BOARD_BUTTON = document.getElementById(
+  "board-overworld-button"
+)!;
 const HELL_BOARD_BUTTON = document.getElementById("board-hell-button")!;
 const HEAVEN_BOARD_BUTTON = document.getElementById("board-heaven-button")!;
 
@@ -90,19 +95,22 @@ export function setOnAction(
     draggedElement: HTMLElement,
     targetElement: HTMLElement,
     board: string
-  ) => void,
+  ) => void
 ) {
   triggerOnAction = _triggerOnAction;
 }
 
 export function setOnFallOffTheBoard(
-  _triggerOnFallOffTheBoard: (draggedElement: HTMLElement, board: string) => void,
+  _triggerOnFallOffTheBoard: (
+    draggedElement: HTMLElement,
+    board: string
+  ) => void
 ) {
   triggerOnFallOffTheBoard = _triggerOnFallOffTheBoard;
 }
 
 export function setOnHighlight(
-  _triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void,
+  _triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void
 ) {
   triggerOnHighlight = _triggerOnHighlight;
 }
@@ -113,7 +121,7 @@ function showBoard(boardId: string) {
   OVERWORLD_BOARD.classList.add("collapsed");
   HELL_BOARD.classList.add("collapsed");
   HEAVEN_BOARD.classList.add("collapsed");
-  
+
   boardElement.classList.remove("collapsed");
 }
 
