@@ -1,0 +1,33 @@
+{
+  "name": "chess-but-better",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "Chess But Better",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "command": "parcel build development/views/index.html"
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["./**/*.ts", "./package.json"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
+      "options": {
+        "jestConfig": "jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
