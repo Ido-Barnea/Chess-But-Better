@@ -10,17 +10,11 @@ import {
   Square,
 } from "./pieces";
 import { Logger } from "./logger";
-import { movePieceOnBoard, destroyPieceOnBoard } from "./board";
 import {
-  movePieceOnHellBoard,
-  destroyPieceOnHellBoard,
-  spawnHellPiece,
-} from "./board_hell";
-import {
-  movePieceOnHeavenBoard,
-  destroyPieceOnHeavenBoard,
-  spawnHeavenPiece,
-} from "./board_heaven";
+  movePieceOnBoard,
+  destroyPieceOnBoard,
+  spawnPieceOnBoard,
+} from "./board";
 import { activeRules } from "./rules";
 import { updatePlayersInformation } from "./game";
 
@@ -239,20 +233,8 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   killPiece(draggedPiece);
 
   fellOffTheBoardPiece = draggedPiece;
-
-  switch (
-    draggedPiece.board //Bug: always trying to destroy on 2 boards instead of just one??
-  ) {
-    case "normal":
-      destroyPieceOnBoard(draggedPiece);
-      endTurn();
-    case "hell":
-      destroyPieceOnHellBoard(draggedPiece);
-      endTurn();
-    case "heaven":
-      destroyPieceOnHeavenBoard(draggedPiece);
-      endTurn();
-  }
+  
+  endTurn();
 }
 
 function isAllowedToMove(draggedPiece: Piece) {
@@ -304,10 +286,10 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
     );
     if (duplicatePiece != undefined) {
       pieces = pieces.filter((piece) => piece !== duplicatePiece);
-      destroyPieceOnHellBoard(duplicatePiece);
+      destroyPieceOnBoard(duplicatePiece);
     }
 
-    spawnHellPiece(targetPiece);
+    spawnPieceOnBoard(targetPiece);
   } else if (targetPiece.board === "normal" && !targetPiece.hasKilled) {
     Logger.log(
       `A ${targetPiece.player.color} ${targetPiece.name} 
@@ -327,10 +309,10 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
     );
     if (duplicatePiece != undefined) {
       pieces = pieces.filter((piece) => piece !== duplicatePiece);
-      destroyPieceOnHeavenBoard(duplicatePiece);
+      destroyPieceOnBoard(duplicatePiece);
     }
 
-    spawnHeavenPiece(targetPiece);
+    spawnPieceOnBoard(targetPiece);
   } else if (targetPiece.board === "hell") {
     Logger.log(
       `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
@@ -406,13 +388,9 @@ function move(draggedPiece: Piece, targetSquare: Square) {
   if (draggedPiece.board !== targetSquare.board) return;
 
   Logger.logMovement(draggedPiece, targetSquare);
-  if (draggedPiece.board === "normal") {
-    movePieceOnBoard(draggedPiece, targetSquare);
-  } else if (draggedPiece.board === "hell") {
-    movePieceOnHellBoard(draggedPiece, targetSquare);
-  } else if (draggedPiece.board === "heaven") {
-    movePieceOnHeavenBoard(draggedPiece, targetSquare);
-  }
+
+  movePieceOnBoard(draggedPiece, targetSquare);
+
   draggedPiece.position = targetSquare.position;
   draggedPiece.hasMoved = true;
 

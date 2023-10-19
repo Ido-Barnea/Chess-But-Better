@@ -5,9 +5,7 @@ import {
   setOnFallOffTheBoard,
   setOnHighlight,
 } from "./events";
-import { highlightSquare, initializeBoard } from "./board";
-import { initializeHellBoard } from "./board_hell";
-import { initializeHeavenBoard } from "./board_heaven";
+import { highlightSquare, initializeBoards } from "./board";
 import {
   onAction,
   onFallOffTheBoard,
@@ -49,9 +47,7 @@ export function updateRules(rule: Rule) {
 
 function initializeGame() {
   Logger.log("Game started!");
-  initializeBoard();
-  initializeHellBoard();
-  initializeHeavenBoard();
+  initializeBoards();
   initializeEventListeners();
   updatePlayersInformation();
   setOnAction(onAction);
