@@ -233,7 +233,7 @@ export function onFallOffTheBoard(draggedElement: HTMLElement) {
   killPiece(draggedPiece);
 
   fellOffTheBoardPiece = draggedPiece;
-  
+
   endTurn();
 }
 
