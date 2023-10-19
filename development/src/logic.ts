@@ -267,22 +267,13 @@ function actOnTurn(
   if (!isAllowedToMove(draggedPiece)) return;
   if (!draggedPiece.isValidMove(target)) return;
   if (draggedPiece === target) return;
-  if (draggedPiece.board !== target.board) {
-    console.log(
-      "actOnTurn: " + draggedPiece.name + " not on board: " + target.board,
-    );
-    return;
-  }
+  if (draggedPiece.board !== target.board) return;
 
   if ((target as Piece).name !== undefined) {
-    console.log("actOnTurn: target.board = " + target.board);
     const targetPiece = target as Piece;
-    console.log("actOnTurn: targetSquare.board = " + targetPiece.board);
     actOnTurnPieceToPiece(draggedPiece, targetPiece);
   } else {
-    console.log("actOnTurn: target.board = " + target.board);
     const targetSquare = target as Square;
-    console.log("actOnTurn: targetSquare.board = " + targetSquare.board);
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
 }
@@ -312,7 +303,6 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
         ) && piece != targetPiece,
     );
     if (duplicatePiece != undefined) {
-      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`);
       pieces = pieces.filter((piece) => piece !== duplicatePiece);
       destroyPieceOnHellBoard(duplicatePiece);
     }
@@ -337,7 +327,6 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
         ) && piece != targetPiece,
     );
     if (duplicatePiece != undefined) {
-      console.log(`${duplicatePiece} isn't the same as ${targetPiece}`);
       pieces = pieces.filter((piece) => piece !== duplicatePiece);
       destroyPieceOnHeavenBoard(duplicatePiece);
     }
@@ -363,15 +352,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
-  if (draggedPiece.board !== targetSquare.board) {
-    console.log(
-      "actOnTurnPieceToSquare: pieces not on same board! Piece: " +
-        draggedPiece.name +
-        " on" +
-        draggedPiece.board,
-    );
-    return;
-  }
+  if (draggedPiece.board !== targetSquare.board) return;
   let isValidCastling = true;
   if (isCastling) {
     isValidCastling = castle(draggedPiece, targetSquare);
@@ -423,10 +404,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
 }
 
 function move(draggedPiece: Piece, targetSquare: Square) {
-  if (draggedPiece.board !== targetSquare.board) {
-    console.log("move: not same board");
-    return;
-  }
+  if (draggedPiece.board !== targetSquare.board) return;
 
   Logger.logMovement(draggedPiece, targetSquare);
   if (draggedPiece.board === "normal") {
