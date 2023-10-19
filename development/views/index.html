@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,14 +6,23 @@
     <link rel="stylesheet" href="../styles/styles.css" />
   </head>
   <body>
-    <div id="board-container">
-      <div id="left-notations-container"></div>
-      <div id="bottom-notations-container"></div>
-      <div id="board-display"></div>
+    <div id="boards-container">
+      <div class="board" id="board-overworld"></div>
+      <div class="board collapsed" id="board-hell"></div>
+      <div class="board collapsed" id="board-heaven"></div>
     </div>
-
     <p id="info-display"></p>
-
+    <div class="boards-buttons-container">
+      <button id="board-hell-button" class="collapsed" value="board-hell">
+        Hell
+      </button>
+      <button id="board-overworld-button" value="board-overworld">
+        Overworld
+      </button>
+      <button id="board-heaven-button" class="collapsed" value="board-heaven">
+        Heaven
+      </button>
+    </div>
     <div id="rules-container">
       <h2>Rules</h2>
     </div>

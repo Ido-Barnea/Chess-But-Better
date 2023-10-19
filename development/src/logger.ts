@@ -1,3 +1,4 @@
+import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from "./board";
 import { Piece, Square } from "./pieces";
 
 export class Logger {
@@ -12,16 +13,13 @@ export class Logger {
     const fromNotation = this.convertPositionToNotation(draggedPiece.position);
     const toNotation = this.convertPositionToNotation(targetSquare.position);
     this.log(
-      `${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`,
+      `${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`
     );
   }
 
   private static convertPositionToNotation(position: [number, number]) {
-    const letters = ["a", "b", "c", "d", "e", "f", "g", "h"];
-    const numbers = [8, 7, 6, 5, 4, 3, 2, 1];
-
-    let x = letters[position[0]];
-    let y = numbers[position[1]];
+    let x = NOTATIONS_LETTERS[position[0]];
+    let y = NOTATIONS_NUMBERS[position[1]];
     return `${x},${y}`;
   }
 }

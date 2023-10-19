@@ -5,7 +5,7 @@ import {
   setOnFallOffTheBoard,
   setOnHighlight,
 } from "./events";
-import { highlightSquare, initializeBoard } from "./board";
+import { highlightSquare, initializeBoards } from "./boards";
 import {
   onAction,
   onFallOffTheBoard,
@@ -47,7 +47,7 @@ export function updateRules(rule: Rule) {
 
 function initializeGame() {
   Logger.log("Game started!");
-  initializeBoard();
+  initializeBoards();
   initializeEventListeners();
   updatePlayersInformation();
   setOnAction(onAction);

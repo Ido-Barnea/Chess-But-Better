@@ -10,9 +10,10 @@ import { Player } from "./players";
 import {
   getCurrentPlayer,
   switchIsCastling,
-  getPieceByPosition,
+  getPieceByPositionAndBoard,
   comparePositions,
 } from "./logic";
+import { OVERWORLD_BOARD_ID } from "./boards";
 
 interface PieceType {
   position: [number, number];
@@ -20,6 +21,8 @@ interface PieceType {
   resource: string;
   name: string;
   hasMoved: boolean;
+  board: string;
+  hasKilled: boolean;
 }
 
 export class Piece implements PieceType {
@@ -27,22 +30,30 @@ export class Piece implements PieceType {
   player: Player;
   resource: string;
   name: string;
+  board: string;
   hasMoved: boolean;
+  hasKilled: boolean;
 
   constructor(
     position: [number, number],
     player: Player,
     resource: string,
-    name: string,
+    name: string
   ) {
     this.position = position;
     this.player = player;
     this.resource = resource;
     this.name = name;
+    this.board = OVERWORLD_BOARD_ID;
     this.hasMoved = false;
+    this.hasKilled = false;
   }
 
   isValidMove(_: Piece | Square) {
+    return false;
+  }
+
+  isValidSpawn(_: Piece | Square) {
     return false;
   }
 
@@ -54,6 +65,7 @@ export class Piece implements PieceType {
 export type Square = {
   position: [number, number];
   occupent?: Piece;
+  board: string;
 };
 
 export class Pawn extends Piece {
@@ -91,7 +103,14 @@ export class Pawn extends Piece {
 
     // Pawns can have an initial two-square move.
     if (!this.hasMoved && absoluteDeltaY === 2 && absoluteDeltaX === 0) {
-      return validateMove(this.copyPosition(), target.position, 0, stepY, 2);
+      return validateMove(
+        this.board,
+        this.copyPosition(),
+        target.position,
+        0,
+        stepY,
+        2
+      );
     }
 
     // Pawns move one square forward.
@@ -114,11 +133,12 @@ export class Bishop extends Piece {
     // Bishops can only move diagonally.
     if (absoluteDeltaY === absoluteDeltaX) {
       return validateMove(
+        this.board,
         this.copyPosition(),
         target.position,
         stepX,
         stepY,
-        -1,
+        -1
       );
     }
 
@@ -165,11 +185,12 @@ export class Rook extends Piece {
       this.position[0] === target.position[0]
     ) {
       return validateMove(
+        this.board,
         this.copyPosition(),
         target.position,
         stepX,
         stepY,
-        -1,
+        -1
       );
     }
 
@@ -206,11 +227,12 @@ export class Queen extends Piece {
       absoluteDeltaY === absoluteDeltaX
     ) {
       return validateMove(
+        this.board,
         this.copyPosition(),
         target.position,
         stepX,
         stepY,
-        -1,
+        -1
       );
     }
 
@@ -246,11 +268,12 @@ export class King extends Piece {
     // King can only move one step but in any direction.
     if (absoluteDeltaX === 1 || absoluteDeltaY === 1) {
       return validateMove(
+        this.board,
         this.copyPosition(),
         target.position,
         stepX,
         stepY,
-        1,
+        1
       );
     }
 
@@ -261,12 +284,13 @@ export class King extends Piece {
       if (deltaX === 2) {
         // Kingside castling
         isValid = validateMove(
+          this.board,
           this.copyPosition(),
           target.position,
           stepX,
           stepY,
           2,
-          false,
+          false
         );
       } else {
         // Queenside castling
@@ -276,12 +300,13 @@ export class King extends Piece {
           target.position[1],
         ];
         isValid = validateMove(
+          this.board,
           this.copyPosition(),
           targetPosition,
           stepX,
           stepY,
           3,
-          false,
+          false
         );
       }
 
@@ -294,12 +319,13 @@ export class King extends Piece {
 }
 
 function validateMove(
+  board: string,
   position: [number, number],
   targetPosition: [number, number],
   stepX: number,
   stepY: number,
   limit: number,
-  allowedToAttackOnLastStep: boolean = true,
+  allowedToAttackOnLastStep: boolean = true
 ): boolean {
   let limitCounter = 0;
   while (
@@ -312,7 +338,7 @@ function validateMove(
     ];
 
     // Check if any square along the piece's path is occupied (not including the destination square)
-    const targetPiece = getPieceByPosition(nextPosition);
+    const targetPiece = getPieceByPositionAndBoard(nextPosition, board);
     if (
       targetPiece &&
       (!comparePositions(nextPosition, targetPosition) ||

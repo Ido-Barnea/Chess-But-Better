@@ -12,16 +12,17 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-#board-container {
-  height: calc(var(--square-size) * var(--board-squares-per-side));
-  width: calc(var(--square-size) * var(--board-squares-per-side));
+#boards-container {
+  height: calc(calc(var(--square-size) * var(--board-squares-per-side)));
+  width: calc(var(--square-size) * calc(var(--board-squares-per-side) + 1));
+  overflow: hidden;
   padding-left: 25%;
   padding-top: 2%;
 }
 
-#board-display {
-  width: calc(var(--square-size) * var(--board-squares-per-side));
+.board {
   height: calc(var(--square-size) * var(--board-squares-per-side));
+  width: calc(var(--square-size) * var(--board-squares-per-side));
   display: flex;
   flex-wrap: wrap;
 }
@@ -42,6 +43,10 @@ body {
   flex-direction: column;
   position: absolute;
   z-index: 1;
+}
+
+.collapsed {
+  display: none;
 }
 
 .square {
@@ -116,6 +121,41 @@ path {
   width: 25%;
   top: 0;
   right: 0;
+}
+
+.boards-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: calc(var(--square-size) * var(--board-squares-per-side));
+  margin-left: 25%;
+  padding-top: 1%;
+}
+
+.boards-buttons-container button {
+  width: 20%;
+  padding: 12px 24px;
+  margin-left: 12px;
+  margin-right: 12px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #5f0505;
+  border: none;
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.boards-buttons-container button:hover {
+  background-color: #940000;
+}
+
+.boards-buttons-container button:active {
+  background-color: burlywood;
 }
 
 .beige-background {
