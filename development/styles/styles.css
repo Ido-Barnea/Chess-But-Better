@@ -16,36 +16,19 @@ body {
   height: calc(calc(var(--square-size) * var(--board-squares-per-side)));
   width: calc(var(--square-size) * calc(var(--board-squares-per-side) + 1));
   overflow: hidden;
-  margin-left: 25%;
-  /* margin-top: 2%; */
+  padding-left: 25%;
+  padding-top: 2%;
 }
 
-#board-container {
+.board {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
-}
-
-#board-hell-container {
-  height: calc(var(--square-size) * var(--board-squares-per-side));
-  width: calc(var(--square-size) * var(--board-squares-per-side));
-}
-
-#board-heaven-container {
-  height: calc(var(--square-size) * var(--board-squares-per-side));
-  width: calc(var(--square-size) * var(--board-squares-per-side));
-}
-
-#board-display {
-  width: calc(var(--square-size) * var(--board-squares-per-side));
-  height: calc(var(--square-size) * var(--board-squares-per-side));
   display: flex;
   flex-wrap: wrap;
 }
 
 #bottom-notations-container {
-  margin-top: calc(
-    var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4
-  );
+  margin-top: calc(var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 4);
   display: flex;
   flex-direction: row;
   position: absolute;
@@ -60,7 +43,7 @@ body {
   z-index: 1;
 }
 
-.hidden {
+.collapsed {
   display: none;
 }
 
@@ -70,42 +53,12 @@ body {
   position: relative;
 }
 
-/* .square-hell
-{
-  height: var(--square-size);
-  width: var(--square-size);
-  position: relative;
-}
-
-.square-heaven
-{
-  height: var(--square-size);
-  width: var(--square-size);
-  position: relative;
-} */
-
 .square svg {
   height: calc(var(--square-size) - var(--piece-resource-padding));
   width: calc(var(--square-size) - var(--piece-resource-padding));
   margin: calc(var(--piece-resource-padding) / 2);
   position: relative;
 }
-
-/* .square-hell svg 
-{
-  height: calc(var(--square-size) - var(--piece-resource-padding));
-  width: calc(var(--square-size) - var(--piece-resource-padding));
-  margin: calc(var(--piece-resource-padding) / 2);
-  position: relative;
-}
-
-.square-heaven svg 
-{
-  height: calc(var(--square-size) - var(--piece-resource-padding));
-  width: calc(var(--square-size) - var(--piece-resource-padding));
-  margin: calc(var(--piece-resource-padding) / 2);
-  position: relative;
-} */
 
 .notation {
   font-weight: bold;
@@ -168,7 +121,7 @@ path {
   right: 0;
 }
 
-.btn-container {
+.boards-buttons-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -178,28 +131,28 @@ path {
   padding-top: 1%;
 }
 
-.btn-container button {
-  padding: 1% 1%;
-  font-size: 0.8vw;
+.boards-buttons-container button {
+  width: 20%;
+  padding: 12px 24px;
+  margin-left: 12px;
+  margin-right: 12px;
+  font-size: 0.85em;
   font-weight: bold;
   color: #ffffff;
   background-color: #5f0505;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-left: 5%;
-  margin-right: 5%;
-  width: 5vw;
+  transition: background-color 0.1s ease;
 }
 
-.btn-container button:hover {
-  background-color: brown;
+.boards-buttons-container button:hover {
+  background-color: #940000;
 }
 
-.btn-container button:active {
+.boards-buttons-container button:active {
   background-color: burlywood;
 }
 
