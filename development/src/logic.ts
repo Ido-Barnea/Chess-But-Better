@@ -316,7 +316,6 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
     destroyPieceOnBoard(targetPiece);
     targetPiece.board = "heaven";
 
-    //if a piece that dies spawns on another piece, that piece needs to be deleted;
     const duplicatePiece = pieces.find(
       (piece) =>
         comparePositionsAndBoards(

@@ -10,23 +10,9 @@ const notationsLetters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const hellBtn = document.getElementById("hellbtn");
 
 export function initializeHellBoard() {
-  // const leftBoardContainer = document.createElement('div');
-  // leftBoardContainer.id = "left-notations-container";
-
-  // const bottomBoardContainer = document.createElement('div');
-  // bottomBoardContainer.id = "bottom-notations-container";
-
   const boardDisplay = document.createElement("div");
   boardDisplay.id = "board-display";
-
-  // hellboardContainer.appendChild(leftBoardContainer);
-  // hellboardContainer.appendChild(bottomBoardContainer);
   hellboardContainer.appendChild(boardDisplay);
-
-  // for (let column = 0; column < boardWidth; column++) {
-  //     createNotation((column + 1).toString());
-  //     createNotation(notationsLetters[boardWidth - column - 1]);
-  // }
 
   for (let row = 0; row < boardWidth; row++) {
     for (let column = 0; column < boardWidth; column++) {

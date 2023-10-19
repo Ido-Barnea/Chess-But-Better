@@ -101,9 +101,6 @@ function scrollToBoard(id: string) {
       const elementPosition = targetElement!.offsetTop;
       boardsContainer!.scrollTop = elementPosition;
   }
-  // if (targetElement) {
-  //   targetElement.scrollIntoView({ behavior: "smooth" });
-  // }
 }
 
 export function handleButtonPress(event: Event) {
