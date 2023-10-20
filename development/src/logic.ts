@@ -20,16 +20,19 @@ import {
 } from './boards';
 import { activeRules } from './rules';
 import { updatePlayersInformation } from './game';
+import { Corpse, Inventory, Item } from './items';
 
 const whitePlayer: Player = {
   color: 'white',
   xp: 0,
   gold: 0,
+  inventory: new Inventory()
 };
 const blackPlayer: Player = {
   color: 'black',
   xp: 0,
   gold: 0,
+  inventory: new Inventory()
 };
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
@@ -173,6 +176,13 @@ export function onAction(
     };
     actOnTurn(draggedPiece, targetSquare);
   }
+
+  players.forEach((player) => {
+    console.log(`${player.color}'s inventory:`);
+    player.inventory.items.forEach(item => {
+      console.log(item);
+    });
+  });
 }
 
 export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
@@ -247,6 +257,9 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
       if (areOnTheSamePosition && !areTheSame) {
         killPiece(piece);
+
+        const corpse = new Corpse(targetPiece);
+        draggedPiece.player.inventory.addItem(corpse, draggedPiece.player);
       }
     });
 
