@@ -1,0 +1,30 @@
+name: "[🎨] Style Checker"
+run-name: '[🎨] Style Checker: ${{ github.ref }}'
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup
+        uses: nrwl/nx-set-shas@v3
+      - name: Check NPM Packages
+        run: npm ci
+      - name: Format Check
+        run: npx nx format:check
+      - name: Lint
+        run: npx nx run-many --target lint
