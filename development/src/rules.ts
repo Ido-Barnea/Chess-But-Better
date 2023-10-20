@@ -56,7 +56,7 @@ export const activeRules = [
     'Pieces can fall off the board.',
     false,
     () => {
-      return fellOffTheBoardPiece ? true : false;
+      return !!fellOffTheBoardPiece;
     },
     () => {
       Logger.log(

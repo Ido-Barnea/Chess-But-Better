@@ -84,8 +84,8 @@ export class Pawn extends Piece {
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     // Make sure pawn does not move backwards.
     const currentPlayer = getCurrentPlayer();
@@ -170,14 +170,14 @@ export class Rook extends Piece {
       target.position[0] > this.position[0]
         ? 1
         : target.position[0] < this.position[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     // Rooks can move either vertically or horizontally but not both at the same.
     if (
@@ -208,14 +208,14 @@ export class Queen extends Piece {
       target.position[0] > this.position[0]
         ? 1
         : target.position[0] < this.position[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     const absoluteDeltaX = Math.abs(target.position[0] - this.position[0]);
     const absoluteDeltaY = Math.abs(target.position[1] - this.position[1]);
@@ -250,14 +250,14 @@ export class King extends Piece {
       target.position[0] > this.position[0]
         ? 1
         : target.position[0] < this.position[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     const deltaX = target.position[0] - this.position[0];
     const deltaY = target.position[1] - this.position[1];

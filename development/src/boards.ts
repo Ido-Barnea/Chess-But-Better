@@ -47,44 +47,44 @@ export function initializeBoards() {
 
 export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
   switch (draggedPiece.board) {
-    case OVERWORLD_BOARD_ID:
-      overworld.movePieceOnBoard(draggedPiece, targetSquare);
-      break;
-    case HELL_BOARD_ID:
-      hell.movePieceOnBoard(draggedPiece, targetSquare);
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.movePieceOnBoard(draggedPiece, targetSquare);
+  case OVERWORLD_BOARD_ID:
+    overworld.movePieceOnBoard(draggedPiece, targetSquare);
+    break;
+  case HELL_BOARD_ID:
+    hell.movePieceOnBoard(draggedPiece, targetSquare);
+    break;
+  case HEAVEN_BOARD_ID:
+    heaven.movePieceOnBoard(draggedPiece, targetSquare);
   }
 }
 
 export function destroyPieceOnBoard(targetPiece: Piece) {
   switch (targetPiece.board) {
-    case OVERWORLD_BOARD_ID:
-      overworld.destroyPieceOnBoard(targetPiece);
-      break;
-    case HELL_BOARD_ID:
-      hell.destroyPieceOnBoard(targetPiece);
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.destroyPieceOnBoard(targetPiece);
-      break;
+  case OVERWORLD_BOARD_ID:
+    overworld.destroyPieceOnBoard(targetPiece);
+    break;
+  case HELL_BOARD_ID:
+    hell.destroyPieceOnBoard(targetPiece);
+    break;
+  case HEAVEN_BOARD_ID:
+    heaven.destroyPieceOnBoard(targetPiece);
+    break;
   }
 }
 
 export function spawnPieceOnBoard(piece: Piece) {
   switch (piece.board) {
-    case HELL_BOARD_ID:
-      hell.spawnPieceOnBoard(piece);
-      HELL_BOARD_BUTTON.classList.remove('collapsed');
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.spawnPieceOnBoard(piece);
-      HEAVEN_BOARD_BUTTON.classList.remove('collapsed');
-      break;
+  case HELL_BOARD_ID:
+    hell.spawnPieceOnBoard(piece);
+    HELL_BOARD_BUTTON.classList.remove('collapsed');
+    break;
+  case HEAVEN_BOARD_ID:
+    heaven.spawnPieceOnBoard(piece);
+    HEAVEN_BOARD_BUTTON.classList.remove('collapsed');
+    break;
 
-    default:
-      return;
+  default:
+    return;
   }
 }
 

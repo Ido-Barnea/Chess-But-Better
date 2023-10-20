@@ -100,8 +100,8 @@ export class ChessBoard implements ChessBoardType {
         ? this.lightSquareColor
         : this.darkSquareColor
       : isEvenColumn
-      ? this.darkSquareColor
-      : this.lightSquareColor;
+        ? this.darkSquareColor
+        : this.lightSquareColor;
   }
 
   createPieceElement(piece: Piece) {
