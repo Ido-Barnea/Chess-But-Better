@@ -149,9 +149,8 @@ export function onAction(
 
     if (targetElement.classList.contains('piece')) {
         const targetPiece: Piece | undefined = pieces.find((piece) => {
-            const targetElementPosition = convertSquareIdToPosition(
-        targetElement.parentElement?.getAttribute('square-id')!
-            );
+            const squareElement = targetElement.parentElement!;
+            const targetElementPosition = convertSquareIdToPosition(squareElement.getAttribute('square-id')!);
             return comparePositionsAndBoards(
                 targetElementPosition,
                 piece.position,
@@ -163,9 +162,7 @@ export function onAction(
         actOnTurn(draggedPiece, targetPiece);
     } else {
         const targetSquare: Square = {
-            position: convertSquareIdToPosition(
-        targetElement.getAttribute('square-id')!
-            ),
+            position: convertSquareIdToPosition(targetElement.getAttribute('square-id')!),
             board: board,
         };
         actOnTurn(draggedPiece, targetSquare);
@@ -174,9 +171,8 @@ export function onAction(
 
 export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
     const draggedPiece: Piece | undefined = pieces.find((piece) => {
-        const draggedElementPosition = convertSquareIdToPosition(
-      draggedElement.parentElement?.getAttribute('square-id')!
-        );
+        const squareElement = draggedElement.parentElement!;
+        const draggedElementPosition = convertSquareIdToPosition(squareElement.getAttribute('square-id')!);
         return comparePositionsAndBoards(
             draggedElementPosition,
             piece.position,
