@@ -1,4 +1,4 @@
-name: "[🎨] Style Checker"
+name: '[🎨] Style Checker'
 run-name: '[🎨] Style Checker: ${{ github.ref }}'
 on:
   workflow_dispatch:
