@@ -13,7 +13,7 @@ export class Logger {
     const fromNotation = this.convertPositionToNotation(draggedPiece.position);
     const toNotation = this.convertPositionToNotation(targetSquare.position);
     this.log(
-      `${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`
+      `${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`,
     );
   }
 

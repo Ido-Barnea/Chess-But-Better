@@ -84,7 +84,7 @@ export function getCurrentPlayer(): Player {
 
 export function comparePositions(
   firstPosition: Array<number>,
-  secondPosition: Array<number>
+  secondPosition: Array<number>,
 ): boolean {
   return (
     firstPosition[0] === secondPosition[0] &&
@@ -96,7 +96,7 @@ export function comparePositionsAndBoards(
   firstPosition: Array<number>,
   secondPosition: Array<number>,
   firstBoard: string,
-  secondBoard: string
+  secondBoard: string,
 ): boolean {
   const arePositionsEqual =
     firstPosition[0] === secondPosition[0] &&
@@ -111,17 +111,17 @@ export function switchIsCastling() {
 }
 
 export function getPieceByPosition(
-  position: [number, number]
+  position: [number, number],
 ): Piece | undefined {
   return pieces.find((piece) => comparePositions(position, piece.position));
 }
 
 export function getPieceByPositionAndBoard(
   position: [number, number],
-  board: string
+  board: string,
 ): Piece | undefined {
   return pieces.find((piece) =>
-    comparePositionsAndBoards(position, piece.position, board, piece.board)
+    comparePositionsAndBoards(position, piece.position, board, piece.board),
   );
 }
 
@@ -132,34 +132,34 @@ function convertSquareIdToPosition(squareId: string): [number, number] {
 export function onAction(
   draggedElement: HTMLElement,
   targetElement: HTMLElement,
-  board: string
+  board: string,
 ) {
   const draggedElementParentElement =
     draggedElement.parentElement as HTMLElement;
 
   const draggedElementPosition = convertSquareIdToPosition(
-    draggedElementParentElement.getAttribute('square-id')!
+    draggedElementParentElement.getAttribute('square-id')!,
   );
   const draggedPiece: Piece | undefined = pieces.find((piece) =>
     comparePositionsAndBoards(
       piece.position,
       draggedElementPosition,
       piece.board,
-      board
-    )
+      board,
+    ),
   );
 
   if (targetElement.classList.contains('piece')) {
     const targetPiece: Piece | undefined = pieces.find((piece) => {
       const squareElement = targetElement.parentElement!;
       const targetElementPosition = convertSquareIdToPosition(
-        squareElement.getAttribute('square-id')!
+        squareElement.getAttribute('square-id')!,
       );
       return comparePositionsAndBoards(
         targetElementPosition,
         piece.position,
         piece.board,
-        board
+        board,
       );
     });
 
@@ -167,7 +167,7 @@ export function onAction(
   } else {
     const targetSquare: Square = {
       position: convertSquareIdToPosition(
-        targetElement.getAttribute('square-id')!
+        targetElement.getAttribute('square-id')!,
       ),
       board: board,
     };
@@ -179,13 +179,13 @@ export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
   const draggedPiece: Piece | undefined = pieces.find((piece) => {
     const squareElement = draggedElement.parentElement!;
     const draggedElementPosition = convertSquareIdToPosition(
-      squareElement.getAttribute('square-id')!
+      squareElement.getAttribute('square-id')!,
     );
     return comparePositionsAndBoards(
       draggedElementPosition,
       piece.position,
       piece.board,
-      board
+      board,
     );
   });
 
@@ -205,7 +205,7 @@ function isAllowedToMove(draggedPiece: Piece) {
 
 function actOnTurn(
   draggedPiece: Piece | undefined,
-  target: Piece | Square | undefined
+  target: Piece | Square | undefined,
 ) {
   if (!draggedPiece || !target) return;
   if (!isAllowedToMove(draggedPiece)) return;
@@ -224,7 +224,7 @@ function actOnTurn(
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
   Logger.log(
-    `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`
+    `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
   );
 
   isFriendlyFire = targetPiece.player === draggedPiece.player;
@@ -241,7 +241,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
         targetPiece.position,
         piece.position,
         targetPiece.board,
-        piece.board
+        piece.board,
       );
       const areTheSame = piece == targetPiece;
 
@@ -253,7 +253,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
     spawnPieceOnBoard(targetPiece);
   } else {
     Logger.log(
-      `A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`
+      `A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
     );
     killPiece(targetPiece);
   }

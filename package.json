@@ -5,8 +5,6 @@
   "scripts": {
     "start": "parcel serve development/views/index.html --port 8080 --no-cache",
     "build": "npx nx run-many --target build",
-    "format": "npx nx format:check",
-    "format-fix": "npx nx format:write",
     "lint": "npx nx run-many --target lint",
     "test": "npx nx run-many --target test"
   },

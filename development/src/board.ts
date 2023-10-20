@@ -19,7 +19,7 @@ export class ChessBoard implements ChessBoardType {
   constructor(
     boardContainer: HTMLElement,
     lightSquareColor: string,
-    darkSquareColor: string
+    darkSquareColor: string,
   ) {
     this.boardElement = boardContainer;
     this.darkSquareColor = darkSquareColor;
@@ -54,7 +54,7 @@ export class ChessBoard implements ChessBoardType {
       pieces.forEach((piece) => {
         const pieceElement = this.createPieceElement(piece);
         const square = document.querySelectorAll(
-          `[square-id="${piece.position}"]`
+          `[square-id="${piece.position}"]`,
         )[0];
         square.appendChild(pieceElement);
       });
@@ -80,13 +80,13 @@ export class ChessBoard implements ChessBoardType {
     if (NOTATIONS_LETTERS.includes(notation)) {
       notationElement.classList.add('letter');
       const bottomBoardContainer = this.boardElement.querySelector(
-        '#bottom-notations-container'
+        '#bottom-notations-container',
       );
       bottomBoardContainer!.appendChild(notationElement);
     } else {
       notationElement.classList.add('number');
       const leftBoardContainer = this.boardElement.querySelector(
-        '#left-notations-container'
+        '#left-notations-container',
       );
       leftBoardContainer!.appendChild(notationElement);
     }
@@ -119,13 +119,13 @@ export class ChessBoard implements ChessBoardType {
 
   movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
     const draggedPieceSquareElement = this.boardElement.querySelector(
-      `[square-id="${draggedPiece.position.join(',')}"]`
+      `[square-id="${draggedPiece.position.join(',')}"]`,
     ) as HTMLElement;
     const draggedPieceElement =
       draggedPieceSquareElement?.firstElementChild as HTMLElement;
 
     const targetSquareElement = this.boardElement.querySelector(
-      `[square-id="${targetSquare.position.join(',')}"]`
+      `[square-id="${targetSquare.position.join(',')}"]`,
     ) as HTMLElement;
 
     targetSquareElement.appendChild(draggedPieceElement);
@@ -133,7 +133,7 @@ export class ChessBoard implements ChessBoardType {
 
   destroyPieceOnBoard(targetPiece: Piece) {
     const targetPieceSquareElement = this.boardElement.querySelector(
-      `[square-id="${targetPiece.position.join(',')}"]`
+      `[square-id="${targetPiece.position.join(',')}"]`,
     );
     const targetPieceElement =
       targetPieceSquareElement?.firstElementChild as HTMLElement;
@@ -144,7 +144,7 @@ export class ChessBoard implements ChessBoardType {
   spawnPieceOnBoard(piece: Piece) {
     const pieceElement = this.createPieceElement(piece);
     const square = this.boardElement.querySelectorAll(
-      `[square-id="${piece.position}"]`
+      `[square-id="${piece.position}"]`,
     )[0];
     square.appendChild(pieceElement);
   }

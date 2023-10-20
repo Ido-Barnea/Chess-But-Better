@@ -22,7 +22,7 @@ export class Rule {
     description: string,
     isRevealed: boolean,
     triggerCondition: () => boolean,
-    triggerAction: () => void
+    triggerAction: () => void,
   ) {
     this.id = id;
     this.description = description;
@@ -37,7 +37,7 @@ export class Rule {
       if (!this.isRevealed) {
         const player = getCurrentPlayer();
         Logger.log(
-          `${player.color} received XP for revealing a new rule: ${this.description}`
+          `${player.color} received XP for revealing a new rule: ${this.description}`,
         );
         player.xp++;
         this.isRevealed = true;
@@ -62,9 +62,9 @@ export const activeRules = [
       Logger.log(
         `A ${fellOffTheBoardPiece!.player.color} ${
           fellOffTheBoardPiece!.name
-        } fell off the board.`
+        } fell off the board.`,
       );
-    }
+    },
   ),
   new Rule(
     1,
@@ -77,7 +77,7 @@ export const activeRules = [
       const player = getCurrentPlayer();
       Logger.log(`${player.color} has made First Blood and received a bonus.`);
       player.xp++;
-    }
+    },
   ),
   new Rule(
     2,
@@ -90,7 +90,7 @@ export const activeRules = [
       const player = getCurrentPlayer();
       Logger.log(`${player.color} received XP for killing another piece.`);
       player.xp++;
-    }
+    },
   ),
   new Rule(
     3,
@@ -102,10 +102,10 @@ export const activeRules = [
     () => {
       const player = getCurrentPlayer();
       Logger.log(
-        `${player.color} attacked his own piece and has to pay compensations.`
+        `${player.color} attacked his own piece and has to pay compensations.`,
       );
       player.gold--;
-    }
+    },
   ),
   new Rule(
     4,
@@ -116,13 +116,13 @@ export const activeRules = [
     },
     () => {
       Logger.log(
-        'Children of war, you have grown old. Each player gains five XP.'
+        'Children of war, you have grown old. Each player gains five XP.',
       );
       players.forEach((player) => {
         Logger.log(`${player.color} gained XP.`);
         player.xp += 5;
       });
-    }
+    },
   ),
   new Rule(
     5,
@@ -140,12 +140,12 @@ export const activeRules = [
       players.forEach((player) => {
         if (player === getCurrentPlayer() && player.gold < 0) {
           Logger.log(
-            `${player.color} is in debt. They lose XP for not handling money properly.`
+            `${player.color} is in debt. They lose XP for not handling money properly.`,
           );
           player.xp--;
           return;
         }
       });
-    }
+    },
   ),
 ];

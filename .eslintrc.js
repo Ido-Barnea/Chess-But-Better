@@ -1,61 +1,52 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2021': true
+  env: {
+    browser: true,
+    es2021: true,
   },
-  'extends': [
+  extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
   ],
-  'overrides': [
+  overrides: [
     {
-      'env': {
-        'node': true
+      env: {
+        node: true,
       },
-      'files': [
-        '.eslintrc.{js,cjs}'
-      ],
-      'parserOptions': {
-        'sourceType': 'script'
-      }
-    }
+      files: ['.eslintrc.{js,cjs}'],
+      parserOptions: {
+        sourceType: 'script',
+      },
+    },
   ],
-  'parser': '@typescript-eslint/parser',
-  'parserOptions': {
-    'ecmaVersion': 'latest',
-    'sourceType': 'module'
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  'plugins': [
-    '@typescript-eslint'
-  ],
-  'rules': {
-    'indent': [
+  plugins: ['@typescript-eslint'],
+  rules: {
+    indent: [
       'error',
-      2
+      2,
+      {
+        SwitchCase: 1,
+        offsetTernaryExpressions: true
+      },
     ],
-    'quotes': [
-      'error',
-      'single'
-    ],
-    'semi': [
-      'error',
-      'always'
-    ],
-    'prefer-const': [
-      'error'
-    ],
+    quotes: ['error', 'single'],
+    semi: ['error', 'always'],
+    'prefer-const': ['error'],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
-        'vars': 'all',
-        'varsIgnorePattern': '_',
-        'argsIgnorePattern': '_',
-        'caughtErrorsIgnorePattern': '_'
-      }
+        vars: 'all',
+        varsIgnorePattern: '_',
+        argsIgnorePattern: '_',
+        caughtErrorsIgnorePattern: '_',
+      },
     ],
-    'no-unneeded-ternary': [
-      'error'
-    ]
-  }
+    'no-unneeded-ternary': ['error'],
+  },
 };
