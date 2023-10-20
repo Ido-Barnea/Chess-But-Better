@@ -1,47 +1,47 @@
-import { ChessBoard } from "./board";
-import { Piece, Square } from "./pieces";
+import { ChessBoard } from './board';
+import { Piece, Square } from './pieces';
 
 let overworld: ChessBoard;
 let hell: ChessBoard;
 let heaven: ChessBoard;
 
-export const OVERWORLD_BOARD_ID = "board-overworld";
-export const HELL_BOARD_ID = "board-hell";
-export const HEAVEN_BOARD_ID = "board-heaven";
+export const OVERWORLD_BOARD_ID = 'board-overworld';
+export const HELL_BOARD_ID = 'board-hell';
+export const HEAVEN_BOARD_ID = 'board-heaven';
 
 export const OVERWORLD_BOARD = document.getElementById(
-  OVERWORLD_BOARD_ID
+  OVERWORLD_BOARD_ID,
 ) as HTMLElement;
 export const HELL_BOARD = document.getElementById(HELL_BOARD_ID) as HTMLElement;
 export const HEAVEN_BOARD = document.getElementById(
-  HEAVEN_BOARD_ID
+  HEAVEN_BOARD_ID,
 ) as HTMLElement;
 
 const HELL_BOARD_BUTTON = document.getElementById(
-  "board-hell-button"
+  'board-hell-button',
 ) as HTMLElement;
 const HEAVEN_BOARD_BUTTON = document.getElementById(
-  "board-heaven-button"
+  'board-heaven-button',
 ) as HTMLElement;
 
-const lightOverworldSquareColor = "beige-background";
-const darkOverworldSquareColor = "brown-background";
-const lightHellSquareColor = "dark-orange-background";
-const darkHellSquareColor = "dark-red-background";
-const lightHeavenSquareColor = "water-background";
-const darkHeavenSquareColor = "blue-background";
+const lightOverworldSquareColor = 'beige-background';
+const darkOverworldSquareColor = 'brown-background';
+const lightHellSquareColor = 'dark-orange-background';
+const darkHellSquareColor = 'dark-red-background';
+const lightHeavenSquareColor = 'water-background';
+const darkHeavenSquareColor = 'blue-background';
 
 export function initializeBoards() {
   overworld = new ChessBoard(
     OVERWORLD_BOARD,
     lightOverworldSquareColor,
-    darkOverworldSquareColor
+    darkOverworldSquareColor,
   );
   hell = new ChessBoard(HELL_BOARD, lightHellSquareColor, darkHellSquareColor);
   heaven = new ChessBoard(
     HEAVEN_BOARD,
     lightHeavenSquareColor,
-    darkHeavenSquareColor
+    darkHeavenSquareColor,
   );
 }
 
@@ -76,11 +76,11 @@ export function spawnPieceOnBoard(piece: Piece) {
   switch (piece.board) {
     case HELL_BOARD_ID:
       hell.spawnPieceOnBoard(piece);
-      HELL_BOARD_BUTTON.classList.remove("collapsed");
+      HELL_BOARD_BUTTON.classList.remove('collapsed');
       break;
     case HEAVEN_BOARD_ID:
       heaven.spawnPieceOnBoard(piece);
-      HEAVEN_BOARD_BUTTON.classList.remove("collapsed");
+      HEAVEN_BOARD_BUTTON.classList.remove('collapsed');
       break;
 
     default:
@@ -89,14 +89,14 @@ export function spawnPieceOnBoard(piece: Piece) {
 }
 
 export function highlightSquare(target: HTMLElement, shouldHighlight: boolean) {
-  while (!target.classList.contains("square")) {
+  while (!target.classList.contains('square')) {
     target = target.parentNode as HTMLElement;
   }
-  if (target.classList.contains("square")) {
+  if (target.classList.contains('square')) {
     if (shouldHighlight) {
-      target.classList.add("light-gray-background");
+      target.classList.add('light-gray-background');
     } else {
-      target.classList.remove("light-gray-background");
+      target.classList.remove('light-gray-background');
     }
   }
 }

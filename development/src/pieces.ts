@@ -5,15 +5,15 @@ import {
   rookResource,
   queenResource,
   kingResource,
-} from "./resources";
-import { Player } from "./players";
+} from './resources';
+import { Player } from './players';
 import {
   getCurrentPlayer,
   switchIsCastling,
   getPieceByPositionAndBoard,
   comparePositions,
-} from "./logic";
-import { OVERWORLD_BOARD_ID } from "./boards";
+} from './logic';
+import { OVERWORLD_BOARD_ID } from './boards';
 
 interface PieceType {
   position: [number, number];
@@ -38,7 +38,7 @@ export class Piece implements PieceType {
     position: [number, number],
     player: Player,
     resource: string,
-    name: string
+    name: string,
   ) {
     this.position = position;
     this.player = player;
@@ -70,7 +70,7 @@ export type Square = {
 
 export class Pawn extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, pawnResource, "Pawn");
+    super(position, player, pawnResource, 'Pawn');
   }
 
   isValidMove(target: Piece | Square) {
@@ -84,14 +84,14 @@ export class Pawn extends Piece {
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     // Make sure pawn does not move backwards.
     const currentPlayer = getCurrentPlayer();
     if (
-      (currentPlayer.color === "white" && deltaY > 0) ||
-      (currentPlayer.color === "black" && deltaY < 0)
+      (currentPlayer.color === 'white' && deltaY > 0) ||
+      (currentPlayer.color === 'black' && deltaY < 0)
     ) {
       return false;
     }
@@ -109,7 +109,7 @@ export class Pawn extends Piece {
         target.position,
         0,
         stepY,
-        2
+        2,
       );
     }
 
@@ -120,7 +120,7 @@ export class Pawn extends Piece {
 
 export class Bishop extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, bishopResource, "Bishop");
+    super(position, player, bishopResource, 'Bishop');
   }
 
   isValidMove(target: Piece | Square) {
@@ -138,7 +138,7 @@ export class Bishop extends Piece {
         target.position,
         stepX,
         stepY,
-        -1
+        -1,
       );
     }
 
@@ -148,7 +148,7 @@ export class Bishop extends Piece {
 
 export class Knight extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, knightResource, "Knight");
+    super(position, player, knightResource, 'Knight');
   }
 
   isValidMove(target: Piece | Square) {
@@ -162,7 +162,7 @@ export class Knight extends Piece {
 
 export class Rook extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, rookResource, "Rook");
+    super(position, player, rookResource, 'Rook');
   }
 
   isValidMove(target: Piece | Square) {
@@ -170,14 +170,14 @@ export class Rook extends Piece {
       target.position[0] > this.position[0]
         ? 1
         : target.position[0] < this.position[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     // Rooks can move either vertically or horizontally but not both at the same.
     if (
@@ -190,7 +190,7 @@ export class Rook extends Piece {
         target.position,
         stepX,
         stepY,
-        -1
+        -1,
       );
     }
 
@@ -200,7 +200,7 @@ export class Rook extends Piece {
 
 export class Queen extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, queenResource, "Queen");
+    super(position, player, queenResource, 'Queen');
   }
 
   isValidMove(target: Piece | Square) {
@@ -208,14 +208,14 @@ export class Queen extends Piece {
       target.position[0] > this.position[0]
         ? 1
         : target.position[0] < this.position[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     const absoluteDeltaX = Math.abs(target.position[0] - this.position[0]);
     const absoluteDeltaY = Math.abs(target.position[1] - this.position[1]);
@@ -232,7 +232,7 @@ export class Queen extends Piece {
         target.position,
         stepX,
         stepY,
-        -1
+        -1,
       );
     }
 
@@ -242,7 +242,7 @@ export class Queen extends Piece {
 
 export class King extends Piece {
   constructor(position: [number, number], player: Player) {
-    super(position, player, kingResource, "King");
+    super(position, player, kingResource, 'King');
   }
 
   isValidMove(target: Piece | Square) {
@@ -250,14 +250,14 @@ export class King extends Piece {
       target.position[0] > this.position[0]
         ? 1
         : target.position[0] < this.position[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position[1] > this.position[1]
         ? 1
         : target.position[1] < this.position[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     const deltaX = target.position[0] - this.position[0];
     const deltaY = target.position[1] - this.position[1];
@@ -273,7 +273,7 @@ export class King extends Piece {
         target.position,
         stepX,
         stepY,
-        1
+        1,
       );
     }
 
@@ -290,7 +290,7 @@ export class King extends Piece {
           stepX,
           stepY,
           2,
-          false
+          false,
         );
       } else {
         // Queenside castling
@@ -306,7 +306,7 @@ export class King extends Piece {
           stepX,
           stepY,
           3,
-          false
+          false,
         );
       }
 
@@ -325,7 +325,7 @@ function validateMove(
   stepX: number,
   stepY: number,
   limit: number,
-  allowedToAttackOnLastStep: boolean = true
+  allowedToAttackOnLastStep = true,
 ): boolean {
   let limitCounter = 0;
   while (

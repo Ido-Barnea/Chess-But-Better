@@ -1,4 +1,5 @@
-name: "[📒] Commit Message Checker"
+name: '[📒] Commit Message Checker'
+run-name: '[📒] Commit Message Checker: ${{ github.ref }}'
 on:
   pull_request:
     types:
@@ -13,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get PR Commits
-        id: "get-pr-commits"
+        id: 'get-pr-commits'
         uses: tim-actions/get-pr-commits@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -22,11 +23,11 @@ jobs:
         with:
           commits: ${{ steps.get-pr-commits.outputs.commits }}
           pattern: '^.{0,75}(\n.*)*$'
-          error: "Subject too long (max 75)"
+          error: 'Subject too long (max 75)'
       - name: Check Syntax
         uses: tim-actions/commit-message-checker-with-regex@v0.3.1
         with:
           commits: ${{ steps.get-pr-commits.outputs.commits }}
           pattern: '\[#\d+\] [a-zA-Z]+|\[trivial\] [a-zA-Z]+|Merge [a-zA-Z]+'
-          error: 'Commit messages must start with an issue number. For example "[#21] MESSAGE"'
-          one_pass_all_pass: "false"
+          error: 'Commit messages must start with an issue number. For example "[#21] MESSAGE" or "[trivial] MESSAGE" or "Merge MESSAGE".'
+          one_pass_all_pass: 'false'
