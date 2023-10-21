@@ -15,8 +15,22 @@ export class Inventory {
 
   removeItem(item: Item) {
     const index = this.items.indexOf(item);
-    delete this.items[index];
-    Logger.log(`${item.name} was destroyed.`);
+    if (index !== -1) {
+      this.items.splice(index, 1);
+      Logger.log(`${item.name} was destroyed.`);
+    }
+  }
+
+  toHTMLElement(): HTMLElement {
+    const inventoryElement = document.createElement('ul');
+    this.items.forEach((item) => {
+      const inventoryItemElement = document.createElement('li');
+      inventoryItemElement.innerHTML = item.name;
+
+      inventoryElement.appendChild(inventoryItemElement);
+    });
+
+    return inventoryElement;
   }
 }
 

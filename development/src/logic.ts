@@ -22,20 +22,10 @@ import {
 } from './boards';
 import { activeRules } from './rules';
 import { updatePlayersInformation } from './game';
-import { Inventory, Item } from './items';
+import { Item, Trap } from './items';
 
-const whitePlayer: Player = {
-  color: 'White',
-  xp: 0,
-  gold: 0,
-  inventory: new Inventory(),
-};
-const blackPlayer: Player = {
-  color: 'Black',
-  xp: 0,
-  gold: 0,
-  inventory: new Inventory(),
-};
+const whitePlayer = new Player('White');
+const blackPlayer = new Player('Black');
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
   new Rook({ position: [0, 0], board: OVERWORLD_BOARD_ID }, players[1]),
@@ -301,6 +291,9 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   }
 
   if (isValidCastling) {
+    const trap = new Trap(draggedPiece.player, draggedPiece.position);
+    draggedPiece.player.inventory.addItem(trap);
+    trap.apply(draggedPiece);
     move(draggedPiece, targetSquare);
   } else {
     switchIsCastling();

@@ -37,9 +37,7 @@ export function updatePlayersInformation() {
     const status = `${title} ${player.xp} XP; ${player.gold} Gold.`;
     statusElement.innerHTML = status;
 
-    const inventoryElement = document.createElement('p');
-    const inventory = `Inventory: ${player.inventory.items}`;
-    inventoryElement.innerHTML = inventory;
+    const inventoryElement = player.inventory.toHTMLElement();
 
     playerInformationElement.appendChild(statusElement);
     playerInformationElement.appendChild(inventoryElement);
