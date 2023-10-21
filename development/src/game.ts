@@ -29,10 +29,21 @@ export function updatePlayersInformation() {
   playersElement.innerHTML = 'Players:';
 
   players.forEach((player) => {
-    const playerInformationElement = document.createElement('p');
+    const playerInformationElement = document.createElement('div');
+
+    const statusElement = document.createElement('p');
     const isCurrentPlayer = getCurrentPlayer() === player;
     const title = `${isCurrentPlayer ? '> ' : ''} ${player.color} Player:`;
-    playerInformationElement.innerHTML = `${title} ${player.xp} XP; ${player.gold} Gold.`;
+    const status = `${title} ${player.xp} XP; ${player.gold} Gold.`;
+    statusElement.innerHTML = status;
+
+    const inventoryElement = document.createElement('p');
+    const inventory = `Inventory: ${player.inventory.items}`;
+    inventoryElement.innerHTML = inventory;
+
+    playerInformationElement.appendChild(statusElement);
+    playerInformationElement.appendChild(inventoryElement);
+
     playersElement.appendChild(playerInformationElement);
   });
 

@@ -132,13 +132,13 @@ export class ChessBoard implements ChessBoardType {
 
   movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
     const draggedPieceSquareElement = this.boardElement.querySelector(
-      `[square-id="${draggedPiece.position.join(',')}"]`,
+      `[square-id="${draggedPiece.position.position.join(',')}"]`,
     ) as HTMLElement;
     const draggedPieceElement =
       draggedPieceSquareElement?.firstElementChild as HTMLElement;
 
     const targetSquareElement = this.boardElement.querySelector(
-      `[square-id="${targetSquare.position.join(',')}"]`,
+      `[square-id="${targetSquare.position.position.join(',')}"]`,
     ) as HTMLElement;
 
     targetSquareElement.appendChild(draggedPieceElement);
@@ -146,7 +146,7 @@ export class ChessBoard implements ChessBoardType {
 
   destroyPieceOnBoard(targetPiece: Piece) {
     const targetPieceSquareElement = this.boardElement.querySelector(
-      `[square-id="${targetPiece.position.join(',')}"]`,
+      `[square-id="${targetPiece.position.position.join(',')}"]`,
     );
     const targetPieceElement =
       targetPieceSquareElement?.firstElementChild as HTMLElement;
@@ -156,7 +156,7 @@ export class ChessBoard implements ChessBoardType {
 
   destroyItemOnBoard(targetItem: Item) {
     const targetItemSquareElement = this.boardElement.querySelector(
-      `[square-id="${targetItem.position!.join(',')}"]`,
+      `[square-id="${targetItem.position.position!.join(',')}"]`,
     );
     const targetItemElement =
       targetItemSquareElement?.firstElementChild as HTMLElement;

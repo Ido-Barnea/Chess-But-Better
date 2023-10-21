@@ -1,7 +1,7 @@
 import { spawnItemOnBoard } from './boards';
 import { Logger } from './logger';
 import { items } from './logic';
-import { Piece } from './pieces';
+import { Piece, Position } from './pieces';
 import { Player } from './players';
 import { trapResource } from './resources';
 
@@ -24,8 +24,7 @@ interface ItemType {
     name: string,
     resource: string,
     player: Player,
-    position: [number, number],
-    board: string,
+    position: Position,
     apply: (piece: Piece) => void;
 }
 
@@ -33,15 +32,13 @@ export class Item implements ItemType {
   name: string;
   resource: string;
   player: Player;
-  position: [number, number];
-  board: string;
+  position: Position;
 
-  constructor(name: string, resource: string, player: Player, position: [number, number], board: string) {
+  constructor(name: string, resource: string, player: Player, position: Position) {
     this.name = name;
     this.resource = resource;
     this.player = player;
     this.position = position;
-    this.board = board;
   }
 
   apply(piece: Piece) {
@@ -50,15 +47,14 @@ export class Item implements ItemType {
 }
 
 export class Trap extends Item {
-  constructor(player: Player, position: [number, number], board: string) {
-    super('trap', trapResource, player, position, board);
+  constructor(player: Player, position: Position) {
+    super('trap', trapResource, player, position);
   }
 
   apply(piece: Piece) {
     Logger.log(`${this.player.color} ${piece.name} placed a ${this.name} on ${piece.position}.`);
 
     this.position = piece.position;
-    this.board = piece.board;
     items.push(this);
 
     spawnItemOnBoard(this);

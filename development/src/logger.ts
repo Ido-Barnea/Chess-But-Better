@@ -10,8 +10,8 @@ export class Logger {
   }
 
   static logMovement(draggedPiece: Piece, targetSquare: Square) {
-    const fromNotation = this.convertPositionToNotation(draggedPiece.position);
-    const toNotation = this.convertPositionToNotation(targetSquare.position);
+    const fromNotation = this.convertPositionToNotation(draggedPiece.position.position);
+    const toNotation = this.convertPositionToNotation(targetSquare.position.position);
     this.log(
       `${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`,
     );

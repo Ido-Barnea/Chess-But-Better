@@ -47,7 +47,7 @@ export function initializeBoards() {
 }
 
 export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
-  switch (draggedPiece.board) {
+  switch (draggedPiece.position.board) {
     case OVERWORLD_BOARD_ID:
       overworld.movePieceOnBoard(draggedPiece, targetSquare);
       break;
@@ -60,7 +60,7 @@ export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
 }
 
 export function destroyPieceOnBoard(targetPiece: Piece) {
-  switch (targetPiece.board) {
+  switch (targetPiece.position.board) {
     case OVERWORLD_BOARD_ID:
       overworld.destroyPieceOnBoard(targetPiece);
       break;
@@ -74,7 +74,7 @@ export function destroyPieceOnBoard(targetPiece: Piece) {
 }
 
 export function destroyItemOnBoard(targetItem: Item) {
-  switch (targetItem.board) {
+  switch (targetItem.position.board) {
     case OVERWORLD_BOARD_ID:
       overworld.destroyItemOnBoard(targetItem);
       break;
@@ -88,7 +88,7 @@ export function destroyItemOnBoard(targetItem: Item) {
 }
 
 export function spawnPieceOnBoard(piece: Piece) {
-  switch (piece.board) {
+  switch (piece.position.board) {
     case HELL_BOARD_ID:
       hell.spawnPieceOnBoard(piece);
       HELL_BOARD_BUTTON.classList.remove('collapsed');
@@ -103,7 +103,7 @@ export function spawnPieceOnBoard(piece: Piece) {
 }
 
 export function spawnItemOnBoard(item: Item) {
-  switch (item.board) {
+  switch (item.position.board) {
     case OVERWORLD_BOARD_ID:
       overworld.spawnItemOnBoard(item);
       break;
