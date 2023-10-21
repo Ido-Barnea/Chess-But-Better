@@ -55,7 +55,7 @@ export class ChessBoard implements ChessBoardType {
       pieces.forEach((piece) => {
         const pieceElement = this.createPieceElement(piece);
         const square = document.querySelectorAll(
-          `[square-id="${piece.position}"]`,
+          `[square-id="${piece.position.position}"]`,
         )[0];
         square.appendChild(pieceElement);
       });
@@ -111,7 +111,7 @@ export class ChessBoard implements ChessBoardType {
     pieceElement.setAttribute('draggable', 'true');
     pieceElement.setAttribute('id', piece.name);
 
-    pieceElement.classList.add(piece.player.color);
+    pieceElement.classList.add(piece.player.color.toLowerCase());
 
     pieceElement.innerHTML = piece.resource;
 

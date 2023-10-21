@@ -25,13 +25,13 @@ import { updatePlayersInformation } from './game';
 import { Inventory, Item } from './items';
 
 const whitePlayer: Player = {
-  color: 'white',
+  color: 'White',
   xp: 0,
   gold: 0,
   inventory: new Inventory(),
 };
 const blackPlayer: Player = {
-  color: 'black',
+  color: 'Black',
   xp: 0,
   gold: 0,
   inventory: new Inventory(),

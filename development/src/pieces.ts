@@ -100,8 +100,8 @@ export class Pawn extends Piece {
     // Make sure pawn does not move backwards.
     const currentPlayer = getCurrentPlayer();
     if (
-      (currentPlayer.color === 'white' && deltaY > 0) ||
-      (currentPlayer.color === 'black' && deltaY < 0)
+      (currentPlayer.color === 'White' && deltaY > 0) ||
+      (currentPlayer.color === 'Black' && deltaY < 0)
     ) {
       return this.position;
     }
