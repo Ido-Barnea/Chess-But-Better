@@ -48,6 +48,11 @@
       }
     ],
     "no-unneeded-ternary": ["error"],
-    "max-len": ["warn"]
+    "max-len": [
+      "warn",
+      {
+        "ignoreComments": true
+      }
+    ]
   }
 }
