@@ -51,8 +51,10 @@
     "max-len": [
       "warn",
       {
-        "ignoreComments": true
+        "ignoreComments": true,
+        "ignoreStrings": true
       }
-    ]
+    ],
+    "comma-dangle": ["error", "always-multiline"]
   }
 }
