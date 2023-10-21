@@ -302,7 +302,7 @@ export class King extends Piece {
         const targetPosition: Position = {
           position: [
             target.position.position[0] - 1,
-            target.position.position[1]
+            target.position.position[1],
           ],
           board: target.position.board,
         };

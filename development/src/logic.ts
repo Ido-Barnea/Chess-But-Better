@@ -28,13 +28,13 @@ const whitePlayer: Player = {
   color: 'white',
   xp: 0,
   gold: 0,
-  inventory: new Inventory()
+  inventory: new Inventory(),
 };
 const blackPlayer: Player = {
   color: 'black',
   xp: 0,
   gold: 0,
-  inventory: new Inventory()
+  inventory: new Inventory(),
 };
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
@@ -122,7 +122,7 @@ export function getPieceByPosition(
 }
 
 export function getPieceByPositionAndBoard(
-  position: Position
+  position: Position,
 ): Piece | undefined {
   return pieces.find((piece) => {
     return comparePositionsAndBoards(position, piece.position);
@@ -143,7 +143,7 @@ export function onAction(
 
   const draggedElementPosition: Position = {
     position: convertSquareIdToPosition(
-      draggedElementParentElement.getAttribute('square-id')!
+      draggedElementParentElement.getAttribute('square-id')!,
     ),
     board: board,
   };
@@ -160,7 +160,7 @@ export function onAction(
       const squareElement = targetElement.parentElement!;
       const targetElementPosition: Position = {
         position:  convertSquareIdToPosition(
-          squareElement.getAttribute('square-id')!
+          squareElement.getAttribute('square-id')!,
         ),
         board: board,
       };
@@ -180,7 +180,7 @@ export function onAction(
 
     const itemPosition: Position = {
       position: convertSquareIdToPosition(
-        squareElement.getAttribute('square-id')!
+        squareElement.getAttribute('square-id')!,
       ),
       board: board,
     };
@@ -194,10 +194,10 @@ export function onAction(
     const targetSquare: Square = {
       position: {
         position: convertSquareIdToPosition(
-          targetElement.getAttribute('square-id')!
+          targetElement.getAttribute('square-id')!,
         ),
         board: board,
-      }
+      },
     };
     actOnTurn(draggedPiece, targetSquare);
   }
@@ -208,14 +208,14 @@ export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
     const squareElement = draggedElement.parentElement!;
     const draggedElementPosition: Position = {
       position: convertSquareIdToPosition(
-        squareElement.getAttribute('square-id')!
+        squareElement.getAttribute('square-id')!,
       ),
       board: board,
     };
 
     return comparePositionsAndBoards(
       draggedElementPosition,
-      piece.position
+      piece.position,
     );
   });
 
