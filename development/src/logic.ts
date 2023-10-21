@@ -22,7 +22,7 @@ import {
 } from './boards';
 import { activeRules } from './rules';
 import { updatePlayersInformation } from './game';
-import { Item, Trap } from './items';
+import { Item } from './items';
 
 const whitePlayer = new Player('White');
 const blackPlayer = new Player('Black');
@@ -291,9 +291,6 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   }
 
   if (isValidCastling) {
-    const trap = new Trap(draggedPiece.player, draggedPiece.position);
-    draggedPiece.player.inventory.addItem(trap);
-    trap.apply(draggedPiece);
     move(draggedPiece, targetSquare);
   } else {
     switchIsCastling();
