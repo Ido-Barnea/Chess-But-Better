@@ -47,6 +47,7 @@
         "caughtErrorsIgnorePattern": "_"
       }
     ],
-    "no-unneeded-ternary": ["error"]
+    "no-unneeded-ternary": ["error"],
+    "max-len": ["warn"]
   }
 }
