@@ -20,7 +20,7 @@ import {
 } from './boards';
 import { activeRules } from './rules';
 import { updatePlayersInformation } from './game';
-import { Corpse, Inventory, Item } from './items';
+import { Inventory, Item, Trap } from './items';
 
 const whitePlayer: Player = {
   color: 'white',
@@ -69,6 +69,8 @@ export let pieces = [
   new Knight([6, 7], players[0]),
   new Rook([7, 7], players[0]),
 ];
+
+export const items: Array<Item> = [];
 
 let currentPlayerIndex = 0;
 let turnCounter = 0;
@@ -176,13 +178,6 @@ export function onAction(
     };
     actOnTurn(draggedPiece, targetSquare);
   }
-
-  players.forEach((player) => {
-    console.log(`${player.color}'s inventory:`);
-    player.inventory.items.forEach(item => {
-      console.log(item);
-    });
-  });
 }
 
 export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
@@ -257,9 +252,6 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
       if (areOnTheSamePosition && !areTheSame) {
         killPiece(piece);
-
-        const corpse = new Corpse(targetPiece);
-        draggedPiece.player.inventory.addItem(corpse, draggedPiece.player);
       }
     });
 
@@ -290,6 +282,10 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   } else {
     switchIsCastling();
   }
+
+  const trap = new Trap(draggedPiece.player);
+  draggedPiece.player.inventory.addItem(trap);
+  trap.apply(draggedPiece);
 }
 
 function killPiece(targetPiece: Piece) {

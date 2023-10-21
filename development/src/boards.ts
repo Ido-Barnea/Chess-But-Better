@@ -1,4 +1,5 @@
 import { ChessBoard } from './board';
+import { Item } from './items';
 import { Piece, Square } from './pieces';
 
 let overworld: ChessBoard;
@@ -82,7 +83,22 @@ export function spawnPieceOnBoard(piece: Piece) {
       heaven.spawnPieceOnBoard(piece);
       HEAVEN_BOARD_BUTTON.classList.remove('collapsed');
       break;
+    default:
+      return;
+  }
+}
 
+export function spawnItemOnBoard(item: Item) {
+  switch (item.board) {
+    case OVERWORLD_BOARD_ID:
+      overworld.spawnItemOnBoard(item);
+      break;
+    case HELL_BOARD_ID:
+      hell.spawnItemOnBoard(item);
+      break;
+    case HEAVEN_BOARD_ID:
+      heaven.spawnItemOnBoard(item);
+      break;
     default:
       return;
   }

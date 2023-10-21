@@ -1,3 +1,4 @@
+import { Item } from './items';
 import { pieces } from './logic';
 import { Piece, Square } from './pieces';
 
@@ -104,7 +105,7 @@ export class ChessBoard implements ChessBoardType {
         : this.lightSquareColor;
   }
 
-  createPieceElement(piece: Piece) {
+  createPieceElement(piece: Piece): HTMLElement {
     const pieceElement = document.createElement('div');
     pieceElement.classList.add('piece');
     pieceElement.setAttribute('draggable', 'true');
@@ -115,6 +116,18 @@ export class ChessBoard implements ChessBoardType {
     pieceElement.innerHTML = piece.resource;
 
     return pieceElement;
+  }
+
+  createItemElement(item: Item): HTMLElement {
+    const itemElement = document.createElement('div');
+    itemElement.classList.add('item');
+    itemElement.setAttribute('id', item.name);
+
+    itemElement.classList.add(item.player.color);
+
+    itemElement.innerHTML = item.resource;
+
+    return itemElement;
   }
 
   movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
@@ -147,5 +160,13 @@ export class ChessBoard implements ChessBoardType {
       `[square-id="${piece.position}"]`,
     )[0];
     square.appendChild(pieceElement);
+  }
+
+  spawnItemOnBoard(item: Item) {
+    const itemElement = this.createItemElement(item);
+    const square = this.boardElement.querySelectorAll(
+      `[square-id="${item.position}"]`,
+    )[0];
+    square.appendChild(itemElement);
   }
 }
