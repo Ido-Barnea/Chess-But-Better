@@ -24,8 +24,8 @@ interface ItemType {
     name: string,
     resource: string,
     player: Player,
-    position?: [number, number],
-    board?: string,
+    position: [number, number],
+    board: string,
     apply: (piece: Piece) => void;
 }
 
@@ -33,10 +33,10 @@ export class Item implements ItemType {
   name: string;
   resource: string;
   player: Player;
-  position?: [number, number];
-  board?: string;
+  position: [number, number];
+  board: string;
 
-  constructor(name: string, resource: string, player: Player, position?: [number, number], board?: string) {
+  constructor(name: string, resource: string, player: Player, position: [number, number], board: string) {
     this.name = name;
     this.resource = resource;
     this.player = player;
@@ -50,8 +50,8 @@ export class Item implements ItemType {
 }
 
 export class Trap extends Item {
-  constructor(player: Player) {
-    super('trap', trapResource, player);
+  constructor(player: Player, position: [number, number], board: string) {
+    super('trap', trapResource, player, position, board);
   }
 
   apply(piece: Piece) {

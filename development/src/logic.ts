@@ -17,10 +17,11 @@ import {
   OVERWORLD_BOARD_ID,
   HELL_BOARD_ID,
   HEAVEN_BOARD_ID,
+  destroyItemOnBoard,
 } from './boards';
 import { activeRules } from './rules';
 import { updatePlayersInformation } from './game';
-import { Inventory, Item, Trap } from './items';
+import { Inventory, Item } from './items';
 
 const whitePlayer: Player = {
   color: 'white',
@@ -70,7 +71,7 @@ export let pieces = [
   new Rook([7, 7], players[0]),
 ];
 
-export const items: Array<Item> = [];
+export let items: Array<Item> = [];
 
 let currentPlayerIndex = 0;
 let turnCounter = 0;
@@ -169,6 +170,21 @@ export function onAction(
     });
 
     actOnTurn(draggedPiece, targetPiece);
+  } else if (targetElement.classList.contains('item')) {
+    let squareElement = targetElement as HTMLElement;
+    while (!squareElement.getAttribute('square-id')) {
+      squareElement = squareElement.parentElement as HTMLElement;
+    }
+
+    const itemPosition = convertSquareIdToPosition(
+      squareElement.getAttribute('square-id')!
+    );
+
+    items.forEach((item) => {
+      if (comparePositions(item.position, itemPosition)) {
+        actOnTurn(draggedPiece, item);
+      }
+    });
   } else {
     const targetSquare: Square = {
       position: convertSquareIdToPosition(
@@ -198,7 +214,6 @@ export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
   if (!isAllowedToMove(draggedPiece)) return;
 
   killPiece(draggedPiece);
-
   fellOffTheBoardPiece = draggedPiece;
 
   endTurn();
@@ -210,15 +225,26 @@ function isAllowedToMove(draggedPiece: Piece) {
 
 function actOnTurn(
   draggedPiece: Piece | undefined,
-  target: Piece | Square | undefined,
+  target: Piece | Square | Item | undefined,
 ) {
   if (!draggedPiece || !target) return;
   if (!isAllowedToMove(draggedPiece)) return;
-  if (!draggedPiece.isValidMove(target)) return;
   if (draggedPiece === target) return;
   if (draggedPiece.board !== target.board) return;
 
-  if ((target as Piece).name !== undefined) {
+  const targetPosition = draggedPiece.validateMove(target);
+  if (
+    !comparePositions(targetPosition, target.position) ||
+    target instanceof Item
+  ) {
+    if (!comparePositions(targetPosition, draggedPiece.position)) {
+      actOnTurnPieceToTrap(draggedPiece, target as Item);
+    }
+
+    return;
+  }
+
+  if (target instanceof Piece) {
     const targetPiece = target as Piece;
     actOnTurnPieceToPiece(draggedPiece, targetPiece);
   } else {
@@ -228,16 +254,14 @@ function actOnTurn(
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
-  Logger.log(
-    `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-  );
+  Logger.log(`A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
 
   isFriendlyFire = targetPiece.player === draggedPiece.player;
   draggedPiece.hasKilled = true;
 
-  if (targetPiece.board === OVERWORLD_BOARD_ID) {
-    destroyPieceOnBoard(targetPiece);
+  destroyPieceOnBoard(targetPiece);
 
+  if (targetPiece.board === OVERWORLD_BOARD_ID) {
     targetPiece.board = targetPiece.hasKilled ? HELL_BOARD_ID : HEAVEN_BOARD_ID;
 
     // If a piece dies and spawns on another piece, the other piece dies permanently.
@@ -257,9 +281,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
     spawnPieceOnBoard(targetPiece);
   } else {
-    Logger.log(
-      `A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-    );
+    Logger.log(`A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
     killPiece(targetPiece);
   }
 
@@ -282,10 +304,20 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   } else {
     switchIsCastling();
   }
+}
 
-  const trap = new Trap(draggedPiece.player);
-  draggedPiece.player.inventory.addItem(trap);
-  trap.apply(draggedPiece);
+function actOnTurnPieceToTrap(draggedPiece: Piece, targetItem: Item) {
+  killPiece(draggedPiece);
+  items = items.filter((item) => item !== targetItem);
+  destroyItemOnBoard(targetItem);
+
+  if (draggedPiece.board === OVERWORLD_BOARD_ID) {
+    draggedPiece.position = targetItem.position;
+    draggedPiece.board = draggedPiece.hasKilled ? HELL_BOARD_ID : HEAVEN_BOARD_ID;
+    spawnPieceOnBoard(draggedPiece);
+  }
+
+  endTurn();
 }
 
 function killPiece(targetPiece: Piece) {

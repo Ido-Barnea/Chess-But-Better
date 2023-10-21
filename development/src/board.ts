@@ -154,6 +154,16 @@ export class ChessBoard implements ChessBoardType {
     targetPieceElement.remove();
   }
 
+  destroyItemOnBoard(targetItem: Item) {
+    const targetItemSquareElement = this.boardElement.querySelector(
+      `[square-id="${targetItem.position!.join(',')}"]`,
+    );
+    const targetItemElement =
+      targetItemSquareElement?.firstElementChild as HTMLElement;
+
+    targetItemElement.remove();
+  }
+
   spawnPieceOnBoard(piece: Piece) {
     const pieceElement = this.createPieceElement(piece);
     const square = this.boardElement.querySelectorAll(

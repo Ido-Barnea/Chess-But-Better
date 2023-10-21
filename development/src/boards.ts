@@ -73,6 +73,20 @@ export function destroyPieceOnBoard(targetPiece: Piece) {
   }
 }
 
+export function destroyItemOnBoard(targetItem: Item) {
+  switch (targetItem.board) {
+    case OVERWORLD_BOARD_ID:
+      overworld.destroyItemOnBoard(targetItem);
+      break;
+    case HELL_BOARD_ID:
+      hell.destroyItemOnBoard(targetItem);
+      break;
+    case HEAVEN_BOARD_ID:
+      heaven.destroyItemOnBoard(targetItem);
+      break;
+  }
+}
+
 export function spawnPieceOnBoard(piece: Piece) {
   switch (piece.board) {
     case HELL_BOARD_ID:

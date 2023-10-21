@@ -12,8 +12,11 @@ import {
   switchIsCastling,
   getPieceByPositionAndBoard,
   comparePositions,
+  items,
+  comparePositionsAndBoards,
 } from './logic';
 import { OVERWORLD_BOARD_ID } from './boards';
+import { Item } from './items';
 
 interface PieceType {
   position: [number, number];
@@ -49,8 +52,8 @@ export class Piece implements PieceType {
     this.hasKilled = false;
   }
 
-  isValidMove(_: Piece | Square) {
-    return false;
+  validateMove(_: Piece | Square | Item): [number, number] {
+    return [-1, -1];
   }
 
   isValidSpawn(_: Piece | Square) {
@@ -73,7 +76,7 @@ export class Pawn extends Piece {
     super(position, player, pawnResource, 'Pawn');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const deltaX = target.position[0] - this.position[0];
     const deltaY = target.position[1] - this.position[1];
 
@@ -93,12 +96,12 @@ export class Pawn extends Piece {
       (currentPlayer.color === 'white' && deltaY > 0) ||
       (currentPlayer.color === 'black' && deltaY < 0)
     ) {
-      return false;
+      return this.position;
     }
 
     // Pawns attack diagonally.
     if ((target as Piece).name !== undefined) {
-      return absoluteDeltaY === 1 && absoluteDeltaX === 1;
+      return absoluteDeltaY === 1 && absoluteDeltaX === 1 ? target.position : this.position;
     }
 
     // Pawns can have an initial two-square move.
@@ -114,7 +117,7 @@ export class Pawn extends Piece {
     }
 
     // Pawns move one square forward.
-    return absoluteDeltaY === 1 && absoluteDeltaX === 0;
+    return absoluteDeltaY === 1 && absoluteDeltaX === 0 ? target.position : this.position;
   }
 }
 
@@ -123,7 +126,7 @@ export class Bishop extends Piece {
     super(position, player, bishopResource, 'Bishop');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const stepX = target.position[0] > this.position[0] ? 1 : -1;
     const stepY = target.position[1] > this.position[1] ? 1 : -1;
 
@@ -142,7 +145,7 @@ export class Bishop extends Piece {
       );
     }
 
-    return false;
+    return this.position;
   }
 }
 
@@ -151,12 +154,12 @@ export class Knight extends Piece {
     super(position, player, knightResource, 'Knight');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const absoluteDeltaX = Math.abs(target.position[0] - this.position[0]);
     const absoluteDeltaY = Math.abs(target.position[1] - this.position[1]);
 
     // Knights can move two squares in any direction and one square to the side.
-    return absoluteDeltaY * absoluteDeltaX === 2;
+    return absoluteDeltaY * absoluteDeltaX === 2 ? target.position : this.position;
   }
 }
 
@@ -165,7 +168,7 @@ export class Rook extends Piece {
     super(position, player, rookResource, 'Rook');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const stepX =
       target.position[0] > this.position[0]
         ? 1
@@ -194,7 +197,7 @@ export class Rook extends Piece {
       );
     }
 
-    return false;
+    return this.position;
   }
 }
 
@@ -203,7 +206,7 @@ export class Queen extends Piece {
     super(position, player, queenResource, 'Queen');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const stepX =
       target.position[0] > this.position[0]
         ? 1
@@ -236,7 +239,7 @@ export class Queen extends Piece {
       );
     }
 
-    return false;
+    return this.position;
   }
 }
 
@@ -245,7 +248,7 @@ export class King extends Piece {
     super(position, player, kingResource, 'King');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const stepX =
       target.position[0] > this.position[0]
         ? 1
@@ -279,11 +282,11 @@ export class King extends Piece {
 
     // Check for castling
     if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) {
-      let isValid = false;
+      let destinationPosition = this.position;
       // Moved two squares horizontally and didn't move before
       if (deltaX === 2) {
         // Kingside castling
-        isValid = validateMove(
+        destinationPosition = validateMove(
           this.board,
           this.copyPosition(),
           target.position,
@@ -299,7 +302,7 @@ export class King extends Piece {
           target.position[0] - 1,
           target.position[1],
         ];
-        isValid = validateMove(
+        destinationPosition = validateMove(
           this.board,
           this.copyPosition(),
           targetPosition,
@@ -310,11 +313,11 @@ export class King extends Piece {
         );
       }
 
-      if (isValid) switchIsCastling();
-      return isValid;
+      if (!comparePositions(destinationPosition, this.position)) switchIsCastling();
+      return destinationPosition;
     }
 
-    return false;
+    return this.position;
   }
 }
 
@@ -326,8 +329,9 @@ function validateMove(
   stepY: number,
   limit: number,
   allowedToAttackOnLastStep = true,
-): boolean {
+): [number, number] {
   let limitCounter = 0;
+  const startingPosition: [number, number] = [position[0], position[1]];
   while (
     (position[0] !== targetPosition[0] || position[1] !== targetPosition[1]) &&
     limitCounter !== limit
@@ -344,7 +348,11 @@ function validateMove(
       (!comparePositions(nextPosition, targetPosition) ||
         !allowedToAttackOnLastStep)
     ) {
-      return false;
+      return startingPosition;
+    }
+
+    if (checkIfPositionContainsTrap(nextPosition, board)) {
+      return nextPosition;
     }
 
     position[0] += stepX;
@@ -352,5 +360,18 @@ function validateMove(
     limitCounter++;
   }
 
-  return comparePositions(position, targetPosition);
+  return comparePositions(position, targetPosition) ? targetPosition : startingPosition;
+}
+
+function checkIfPositionContainsTrap(position: [number, number], board: string): boolean {
+  const item = items.find((item) => comparePositionsAndBoards(position, item.position!, board, item.board!));
+  if (item) {
+    switch (item.name) {
+      case ('trap'): {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
