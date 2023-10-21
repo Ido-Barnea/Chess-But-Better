@@ -167,7 +167,7 @@ export class ChessBoard implements ChessBoardType {
   spawnPieceOnBoard(piece: Piece) {
     const pieceElement = this.createPieceElement(piece);
     const square = this.boardElement.querySelectorAll(
-      `[square-id="${piece.position}"]`,
+      `[square-id="${piece.position.position}"]`,
     )[0];
     square.appendChild(pieceElement);
   }
@@ -175,7 +175,7 @@ export class ChessBoard implements ChessBoardType {
   spawnItemOnBoard(item: Item) {
     const itemElement = this.createItemElement(item);
     const square = this.boardElement.querySelectorAll(
-      `[square-id="${item.position}"]`,
+      `[square-id="${item.position.position}"]`,
     )[0];
     square.appendChild(itemElement);
   }

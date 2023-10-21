@@ -142,9 +142,7 @@ export function onAction(
     draggedElement.parentElement as HTMLElement;
 
   const draggedElementPosition: Position = {
-    position: convertSquareIdToPosition(
-      draggedElementParentElement.getAttribute('square-id')!,
-    ),
+    position: convertSquareIdToPosition(draggedElementParentElement.getAttribute('square-id')!),
     board: board,
   };
 
