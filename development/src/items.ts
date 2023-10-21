@@ -52,7 +52,7 @@ export class Trap extends Item {
   }
 
   apply(piece: Piece) {
-    Logger.log(`${this.player.color} ${piece.name} placed a ${this.name} on ${piece.position}.`);
+    Logger.log(`${this.player.color} ${piece.name} placed a ${this.name} on ${piece.position.position}.`);
 
     this.position = piece.position;
     items.push(this);

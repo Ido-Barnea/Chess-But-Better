@@ -123,7 +123,7 @@ export class ChessBoard implements ChessBoardType {
     itemElement.classList.add('item');
     itemElement.setAttribute('id', item.name);
 
-    itemElement.classList.add(item.player.color);
+    itemElement.classList.add(item.player.color.toLowerCase());
 
     itemElement.innerHTML = item.resource;
 
