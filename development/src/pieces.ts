@@ -12,30 +12,36 @@ import {
   switchIsCastling,
   getPieceByPositionAndBoard,
   comparePositions,
+  items,
+  comparePositionsAndBoards,
 } from './logic';
 import { OVERWORLD_BOARD_ID } from './boards';
+import { Item } from './items';
+
+export type Position = {
+  coordinates: [number, number],
+  board: string,
+}
 
 interface PieceType {
-  position: [number, number];
+  position: Position;
   player: Player;
   resource: string;
   name: string;
   hasMoved: boolean;
-  board: string;
   hasKilled: boolean;
 }
 
 export class Piece implements PieceType {
-  position: [number, number];
+  position: Position;
   player: Player;
   resource: string;
   name: string;
-  board: string;
   hasMoved: boolean;
   hasKilled: boolean;
 
   constructor(
-    position: [number, number],
+    position: Position,
     player: Player,
     resource: string,
     name: string,
@@ -44,67 +50,70 @@ export class Piece implements PieceType {
     this.player = player;
     this.resource = resource;
     this.name = name;
-    this.board = OVERWORLD_BOARD_ID;
     this.hasMoved = false;
     this.hasKilled = false;
   }
 
-  isValidMove(_: Piece | Square) {
-    return false;
+  validateMove(_: Piece | Square | Item): Position {
+    return {
+      coordinates: [-1, -1],
+      board: OVERWORLD_BOARD_ID,
+    };
   }
 
   isValidSpawn(_: Piece | Square) {
     return false;
   }
 
-  copyPosition(): [number, number] {
-    return Array.from(this.position) as [number, number];
+  copyPosition(): Position {
+    return {
+      coordinates: Array.from(this.position.coordinates) as [number, number],
+      board: this.position.board,
+    };
   }
 }
 
 export type Square = {
-  position: [number, number];
+  position: Position;
   occupent?: Piece;
-  board: string;
 };
 
 export class Pawn extends Piece {
-  constructor(position: [number, number], player: Player) {
+  constructor(position: Position, player: Player) {
     super(position, player, pawnResource, 'Pawn');
   }
 
-  isValidMove(target: Piece | Square) {
-    const deltaX = target.position[0] - this.position[0];
-    const deltaY = target.position[1] - this.position[1];
+  validateMove(target: Piece | Square) {
+    const deltaX = target.position.coordinates[0] - this.position.coordinates[0];
+    const deltaY = target.position.coordinates[1] - this.position.coordinates[1];
 
     const absoluteDeltaX = Math.abs(deltaX);
     const absoluteDeltaY = Math.abs(deltaY);
 
     const stepY =
-      target.position[1] > this.position[1]
+      target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
-        : target.position[1] < this.position[1]
+        : target.position.coordinates[1] < this.position.coordinates[1]
           ? -1
           : 0;
 
     // Make sure pawn does not move backwards.
     const currentPlayer = getCurrentPlayer();
     if (
-      (currentPlayer.color === 'white' && deltaY > 0) ||
-      (currentPlayer.color === 'black' && deltaY < 0)
+      (currentPlayer.color === 'White' && deltaY > 0) ||
+      (currentPlayer.color === 'Black' && deltaY < 0)
     ) {
-      return false;
+      return this.position;
     }
 
     // Pawns attack diagonally.
     if ((target as Piece).name !== undefined) {
-      return absoluteDeltaY === 1 && absoluteDeltaX === 1;
+      return absoluteDeltaY === 1 && absoluteDeltaX === 1 ? target.position : this.position;
     }
 
     // Pawns can have an initial two-square move.
     if (!this.hasMoved && absoluteDeltaY === 2 && absoluteDeltaX === 0) {
-      return validateMove(
-        this.board,
+      return simulateMove(
         this.copyPosition(),
         target.position,
         0,
@@ -114,26 +123,25 @@ export class Pawn extends Piece {
     }
 
     // Pawns move one square forward.
-    return absoluteDeltaY === 1 && absoluteDeltaX === 0;
+    return absoluteDeltaY === 1 && absoluteDeltaX === 0 ? target.position : this.position;
   }
 }
 
 export class Bishop extends Piece {
-  constructor(position: [number, number], player: Player) {
+  constructor(position: Position, player: Player) {
     super(position, player, bishopResource, 'Bishop');
   }
 
-  isValidMove(target: Piece | Square) {
-    const stepX = target.position[0] > this.position[0] ? 1 : -1;
-    const stepY = target.position[1] > this.position[1] ? 1 : -1;
+  validateMove(target: Piece | Square) {
+    const stepX = target.position.coordinates[0] > this.position.coordinates[0] ? 1 : -1;
+    const stepY = target.position.coordinates[1] > this.position.coordinates[1] ? 1 : -1;
 
-    const absoluteDeltaX = Math.abs(target.position[0] - this.position[0]);
-    const absoluteDeltaY = Math.abs(target.position[1] - this.position[1]);
+    const absoluteDeltaX = Math.abs(target.position.coordinates[0] - this.position.coordinates[0]);
+    const absoluteDeltaY = Math.abs(target.position.coordinates[1] - this.position.coordinates[1]);
 
     // Bishops can only move diagonally.
     if (absoluteDeltaY === absoluteDeltaX) {
-      return validateMove(
-        this.board,
+      return simulateMove(
         this.copyPosition(),
         target.position,
         stepX,
@@ -142,50 +150,49 @@ export class Bishop extends Piece {
       );
     }
 
-    return false;
+    return this.position;
   }
 }
 
 export class Knight extends Piece {
-  constructor(position: [number, number], player: Player) {
+  constructor(position: Position, player: Player) {
     super(position, player, knightResource, 'Knight');
   }
 
-  isValidMove(target: Piece | Square) {
-    const absoluteDeltaX = Math.abs(target.position[0] - this.position[0]);
-    const absoluteDeltaY = Math.abs(target.position[1] - this.position[1]);
+  validateMove(target: Piece | Square) {
+    const absoluteDeltaX = Math.abs(target.position.coordinates[0] - this.position.coordinates[0]);
+    const absoluteDeltaY = Math.abs(target.position.coordinates[1] - this.position.coordinates[1]);
 
     // Knights can move two squares in any direction and one square to the side.
-    return absoluteDeltaY * absoluteDeltaX === 2;
+    return absoluteDeltaY * absoluteDeltaX === 2 ? target.position : this.position;
   }
 }
 
 export class Rook extends Piece {
-  constructor(position: [number, number], player: Player) {
+  constructor(position: Position, player: Player) {
     super(position, player, rookResource, 'Rook');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const stepX =
-      target.position[0] > this.position[0]
+      target.position.coordinates[0] > this.position.coordinates[0]
         ? 1
-        : target.position[0] < this.position[0]
+        : target.position.coordinates[0] < this.position.coordinates[0]
           ? -1
           : 0;
     const stepY =
-      target.position[1] > this.position[1]
+      target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
-        : target.position[1] < this.position[1]
+        : target.position.coordinates[1] < this.position.coordinates[1]
           ? -1
           : 0;
 
     // Rooks can move either vertically or horizontally but not both at the same.
     if (
-      this.position[1] === target.position[1] ||
-      this.position[0] === target.position[0]
+      this.position.coordinates[1] === target.position.coordinates[1] ||
+      this.position.coordinates[0] === target.position.coordinates[0]
     ) {
-      return validateMove(
-        this.board,
+      return simulateMove(
         this.copyPosition(),
         target.position,
         stepX,
@@ -194,40 +201,39 @@ export class Rook extends Piece {
       );
     }
 
-    return false;
+    return this.position;
   }
 }
 
 export class Queen extends Piece {
-  constructor(position: [number, number], player: Player) {
+  constructor(position: Position, player: Player) {
     super(position, player, queenResource, 'Queen');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const stepX =
-      target.position[0] > this.position[0]
+      target.position.coordinates[0] > this.position.coordinates[0]
         ? 1
-        : target.position[0] < this.position[0]
+        : target.position.coordinates[0] < this.position.coordinates[0]
           ? -1
           : 0;
     const stepY =
-      target.position[1] > this.position[1]
+      target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
-        : target.position[1] < this.position[1]
+        : target.position.coordinates[1] < this.position.coordinates[1]
           ? -1
           : 0;
 
-    const absoluteDeltaX = Math.abs(target.position[0] - this.position[0]);
-    const absoluteDeltaY = Math.abs(target.position[1] - this.position[1]);
+    const absoluteDeltaX = Math.abs(target.position.coordinates[0] - this.position.coordinates[0]);
+    const absoluteDeltaY = Math.abs(target.position.coordinates[1] - this.position.coordinates[1]);
 
     // Queens can move vertically, horizontally or diagonally.
     if (
-      this.position[1] === target.position[1] ||
-      this.position[0] === target.position[0] ||
+      this.position.coordinates[1] === target.position.coordinates[1] ||
+      this.position.coordinates[0] === target.position.coordinates[0] ||
       absoluteDeltaY === absoluteDeltaX
     ) {
-      return validateMove(
-        this.board,
+      return simulateMove(
         this.copyPosition(),
         target.position,
         stepX,
@@ -236,39 +242,38 @@ export class Queen extends Piece {
       );
     }
 
-    return false;
+    return this.position;
   }
 }
 
 export class King extends Piece {
-  constructor(position: [number, number], player: Player) {
+  constructor(position: Position, player: Player) {
     super(position, player, kingResource, 'King');
   }
 
-  isValidMove(target: Piece | Square) {
+  validateMove(target: Piece | Square) {
     const stepX =
-      target.position[0] > this.position[0]
+      target.position.coordinates[0] > this.position.coordinates[0]
         ? 1
-        : target.position[0] < this.position[0]
+        : target.position.coordinates[0] < this.position.coordinates[0]
           ? -1
           : 0;
     const stepY =
-      target.position[1] > this.position[1]
+      target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
-        : target.position[1] < this.position[1]
+        : target.position.coordinates[1] < this.position.coordinates[1]
           ? -1
           : 0;
 
-    const deltaX = target.position[0] - this.position[0];
-    const deltaY = target.position[1] - this.position[1];
+    const deltaX = target.position.coordinates[0] - this.position.coordinates[0];
+    const deltaY = target.position.coordinates[1] - this.position.coordinates[1];
 
     const absoluteDeltaX = Math.abs(deltaX);
     const absoluteDeltaY = Math.abs(deltaY);
 
     // King can only move one step but in any direction.
     if (absoluteDeltaX === 1 || absoluteDeltaY === 1) {
-      return validateMove(
-        this.board,
+      return simulateMove(
         this.copyPosition(),
         target.position,
         stepX,
@@ -279,12 +284,11 @@ export class King extends Piece {
 
     // Check for castling
     if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) {
-      let isValid = false;
+      let destinationPosition = this.position;
       // Moved two squares horizontally and didn't move before
       if (deltaX === 2) {
         // Kingside castling
-        isValid = validateMove(
-          this.board,
+        destinationPosition = simulateMove(
           this.copyPosition(),
           target.position,
           stepX,
@@ -295,12 +299,14 @@ export class King extends Piece {
       } else {
         // Queenside castling
         // Queenside castling needs to check an extra square
-        const targetPosition: [number, number] = [
-          target.position[0] - 1,
-          target.position[1],
-        ];
-        isValid = validateMove(
-          this.board,
+        const targetPosition: Position = {
+          coordinates: [
+            target.position.coordinates[0] - 1,
+            target.position.coordinates[1],
+          ],
+          board: target.position.board,
+        };
+        destinationPosition = simulateMove(
           this.copyPosition(),
           targetPosition,
           stepX,
@@ -310,47 +316,67 @@ export class King extends Piece {
         );
       }
 
-      if (isValid) switchIsCastling();
-      return isValid;
+      if (!comparePositions(destinationPosition, this.position)) {
+        switchIsCastling();
+      }
+      return destinationPosition;
     }
 
-    return false;
+    return this.position;
   }
 }
 
-function validateMove(
-  board: string,
-  position: [number, number],
-  targetPosition: [number, number],
+function simulateMove(
+  position: Position,
+  targetPosition: Position,
   stepX: number,
   stepY: number,
   limit: number,
   allowedToAttackOnLastStep = true,
-): boolean {
+): Position {
   let limitCounter = 0;
+  const startingPosition = position;
   while (
-    (position[0] !== targetPosition[0] || position[1] !== targetPosition[1]) &&
+    (position.coordinates[0] !== targetPosition.coordinates[0] ||
+      position.coordinates[1] !== targetPosition.coordinates[1]) &&
     limitCounter !== limit
   ) {
-    const nextPosition: [number, number] = [
-      position[0] + stepX,
-      position[1] + stepY,
-    ];
+    const nextPosition: Position = {
+      coordinates: [position.coordinates[0] + stepX, position.coordinates[1] + stepY],
+      board: position.board,
+    };
 
     // Check if any square along the piece's path is occupied (not including the destination square)
-    const targetPiece = getPieceByPositionAndBoard(nextPosition, board);
+    const targetPiece = getPieceByPositionAndBoard(nextPosition);
     if (
       targetPiece &&
       (!comparePositions(nextPosition, targetPosition) ||
         !allowedToAttackOnLastStep)
     ) {
-      return false;
+      return startingPosition;
     }
 
-    position[0] += stepX;
-    position[1] += stepY;
+    if (checkIfPositionContainsTrap(nextPosition)) {
+      return nextPosition;
+    }
+
+    position.coordinates[0] += stepX;
+    position.coordinates[1] += stepY;
     limitCounter++;
   }
 
-  return comparePositions(position, targetPosition);
+  return comparePositions(position, targetPosition) ? targetPosition : startingPosition;
+}
+
+function checkIfPositionContainsTrap(position: Position): boolean {
+  const item = items.find((item) => comparePositionsAndBoards(position, item.position));
+  if (item) {
+    switch (item.name) {
+      case ('trap'): {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }

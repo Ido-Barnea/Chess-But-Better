@@ -10,11 +10,9 @@ export class Logger {
   }
 
   static logMovement(draggedPiece: Piece, targetSquare: Square) {
-    const fromNotation = this.convertPositionToNotation(draggedPiece.position);
-    const toNotation = this.convertPositionToNotation(targetSquare.position);
-    this.log(
-      `${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`,
-    );
+    const fromNotation = this.convertPositionToNotation(draggedPiece.position.coordinates);
+    const toNotation = this.convertPositionToNotation(targetSquare.position.coordinates);
+    this.log(`${draggedPiece.player.color} ${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`);
   }
 
   private static convertPositionToNotation(position: [number, number]) {

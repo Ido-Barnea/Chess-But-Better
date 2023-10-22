@@ -12,9 +12,7 @@ let triggerOnFallOffTheBoard: (
   board: string,
 ) => void;
 
-const OVERWORLD_BOARD_BUTTON = document.getElementById(
-  'board-overworld-button',
-)!;
+const OVERWORLD_BOARD_BUTTON = document.getElementById('board-overworld-button')!;
 const HELL_BOARD_BUTTON = document.getElementById('board-hell-button')!;
 const HEAVEN_BOARD_BUTTON = document.getElementById('board-heaven-button')!;
 
