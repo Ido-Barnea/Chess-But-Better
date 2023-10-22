@@ -144,15 +144,15 @@ export function onAction(
   );
 
   if (targetElement.classList.contains('piece')) {
-    const targetPiece: Piece | undefined = pieces.find((piece) => {
-      const squareElement = targetElement.parentElement!;
-      const targetElementPosition: Position = {
-        coordinates:  convertSquareIdToPosition(
+    const squareElement = targetElement.parentElement!;
+    const targetElementPosition: Position = {
+      coordinates: convertSquareIdToPosition(
           squareElement.getAttribute('square-id')!,
-        ),
-        board: board,
-      };
+      ),
+      board: board,
+    };
 
+    const targetPiece: Piece | undefined = pieces.find((piece) => {
       return comparePositionsAndBoards(
         targetElementPosition,
         piece.position,
@@ -251,15 +251,27 @@ function actOnTurn(
 }
 
 function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
-  Logger.log(`A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
-
   isFriendlyFire = targetPiece.player === draggedPiece.player;
   draggedPiece.hasKilled = true;
 
+  deathCounter++;
+  isPieceKilled = true;
   destroyPieceOnBoard(targetPiece);
 
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
-    targetPiece.position.board = targetPiece.hasKilled ? HELL_BOARD_ID : HEAVEN_BOARD_ID;
+    Logger.log(`A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
+
+    if (targetPiece.hasKilled) {
+      targetPiece.position = {
+        coordinates: targetPiece.position.coordinates,
+        board: HELL_BOARD_ID,
+      };
+    } else {
+      targetPiece.position = {
+        coordinates: targetPiece.position.coordinates,
+        board: HEAVEN_BOARD_ID,
+      };
+    }
 
     // If a piece dies and spawns on another piece, the other piece dies permanently.
     pieces.forEach((piece) => {
@@ -267,7 +279,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
         targetPiece.position,
         piece.position,
       );
-      const areTheSame = piece == targetPiece;
+      const areTheSame = piece === targetPiece;
 
       if (areOnTheSamePosition && !areTheSame) {
         killPiece(piece);
@@ -303,7 +315,7 @@ function actOnTurnPieceToTrap(draggedPiece: Piece, targetItem: Item) {
   destroyItemOnBoard(targetItem);
 
   if (draggedPiece.position.board === OVERWORLD_BOARD_ID) {
-    draggedPiece.position = targetItem.position;
+    draggedPiece.position = {...targetItem.position};
     draggedPiece.position.board = draggedPiece.hasKilled ? HELL_BOARD_ID : HEAVEN_BOARD_ID;
     spawnPieceOnBoard(draggedPiece);
   }
@@ -358,7 +370,10 @@ function move(draggedPiece: Piece, targetSquare: Square) {
 
   movePieceOnBoard(draggedPiece, targetSquare);
 
-  draggedPiece.position = targetSquare.position;
+  draggedPiece.position = {
+    ...targetSquare.position,
+    board: draggedPiece.position.board,
+  };
   draggedPiece.hasMoved = true;
 
   endTurn();
