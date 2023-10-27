@@ -11,9 +11,8 @@ import {
   getCurrentPlayer,
   switchIsCastling,
   getPieceByPositionAndBoard,
-  comparePositions,
   items,
-  comparePositionsAndBoards,
+  comparePositions,
 } from './logic';
 import { OVERWORLD_BOARD_ID } from './boards';
 import { Item } from './items';
@@ -369,7 +368,7 @@ function simulateMove(
 }
 
 function checkIfPositionContainsTrap(position: Position): boolean {
-  const item = items.find((item) => comparePositionsAndBoards(position, item.position));
+  const item = items.find((item) => comparePositions(position, item.position));
   if (item) {
     switch (item.name) {
       case ('trap'): {
