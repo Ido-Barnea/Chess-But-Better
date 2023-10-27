@@ -332,10 +332,13 @@ function castle(kingPiece: Piece, targetSquare: Square) {
   const deltaX = targetSquare.position.coordinates[0] - kingPiece.position.coordinates[0];
   // Depends on if it's Kingside or Queenside castling
   const isKingsideCastling = deltaX > 0;
-  const rookFilter = (piece: Piece) =>
-    isKingsideCastling
+  const rookFilter = (piece: Piece) => {
+    const isValidCastling = isKingsideCastling
       ? piece.position.coordinates[0] > kingPiece.position.coordinates[0]
       : piece.position.coordinates[0] < kingPiece.position.coordinates[0];
+    const areOnTheSameBoard = piece.position.board === kingPiece.position.board;
+    return isValidCastling && areOnTheSameBoard;
+  };
   const rookPiece = possibleRooks.find(rookFilter);
   if (!rookPiece) return false;
 
