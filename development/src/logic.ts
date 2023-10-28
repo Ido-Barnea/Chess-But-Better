@@ -24,8 +24,13 @@ import { activeRules } from './rules';
 import { updatePlayersInformation } from './game';
 import { Item } from './items';
 
-const whitePlayer = new Player('White');
-const blackPlayer = new Player('Black');
+export enum PlayerColors {
+  WHITE = 'White',
+  BLACK = 'Black',
+};
+
+const whitePlayer = new Player(PlayerColors.WHITE);
+const blackPlayer = new Player(PlayerColors.BLACK);
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
   new Rook({ coordinates: [0, 0], board: OVERWORLD_BOARD_ID }, players[1]),

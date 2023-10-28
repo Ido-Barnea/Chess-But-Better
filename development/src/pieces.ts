@@ -13,6 +13,7 @@ import {
   getPieceByPositionAndBoard,
   items,
   comparePositions,
+  PlayerColors,
 } from './logic';
 import { OVERWORLD_BOARD_ID } from './boards';
 import { Item } from './items';
@@ -99,8 +100,8 @@ export class Pawn extends Piece {
     // Make sure pawn does not move backwards.
     const currentPlayer = getCurrentPlayer();
     if (
-      (currentPlayer.color === 'White' && deltaY > 0) ||
-      (currentPlayer.color === 'Black' && deltaY < 0)
+      (currentPlayer.color === PlayerColors.WHITE && deltaY > 0) ||
+      (currentPlayer.color === PlayerColors.BLACK && deltaY < 0)
     ) {
       return this.position;
     }
