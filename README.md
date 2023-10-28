@@ -68,25 +68,25 @@ Chess But Better acts as multiple additional layers on top of your average chess
 Clone the project
 
 ```bash
-  git clone https://github.com/Ido-Barnea/Chess-But-Better.git
+git clone https://github.com/Ido-Barnea/Chess-But-Better.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd Chess-But-Better
+cd Chess-But-Better
 ```
 
 Install dependencies
 
 ```bash
-  npm install
+npm install
 ```
 
 Start the server
 
 ```bash
-  npm start
+npm start
 ```
 
 <!-- Contributing -->
