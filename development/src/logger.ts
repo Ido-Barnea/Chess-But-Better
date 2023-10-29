@@ -1,17 +1,17 @@
-import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from "./board";
-import { Piece, Square } from "./pieces";
+import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from './board';
+import { Piece, Square } from './pieces';
 
-const defaultColor = "gray";
-const killColor = "red";
-const ruleColor = "purple";
-const itemColor = "green";
+const defaultColor = 'gray';
+const killColor = 'red';
+const ruleColor = 'purple';
+const itemColor = 'green';
 
 export class Logger {
   static log(message: string, color?: string) {
-    if (!color || color == "") color = defaultColor;
+    if (!color || color == '') color = defaultColor;
 
-    const logsContainer = document.getElementById("logs-container")!;
-    logsContainer.innerHTML += `<p style="color: ${color};">> ${message}</p>`;
+    const logsContainer = document.getElementById('logs-container')!;
+    logsContainer.innerHTML += `<p style='color: ${color};'>> ${message}</p>`;
 
     logsContainer.scrollTop = logsContainer.scrollHeight; // Scroll to the last log
   }

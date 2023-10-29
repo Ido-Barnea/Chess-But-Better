@@ -1,9 +1,9 @@
-import { spawnItemOnBoard } from "./boards";
-import { Logger } from "./logger";
-import { items } from "./logic";
-import { Piece, Position } from "./pieces";
-import { Player } from "./players";
-import { trapResource } from "./resources";
+import { spawnItemOnBoard } from './boards';
+import { Logger } from './logger';
+import { items } from './logic';
+import { Piece, Position } from './pieces';
+import { Player } from './players';
+import { trapResource } from './resources';
 
 export class Inventory {
   items: Array<Item> = [];
@@ -21,9 +21,9 @@ export class Inventory {
   }
 
   toHTMLElement(): HTMLElement {
-    const inventoryElement = document.createElement("ul");
+    const inventoryElement = document.createElement('ul');
     this.items.forEach((item) => {
-      const inventoryItemElement = document.createElement("li");
+      const inventoryItemElement = document.createElement('li');
       inventoryItemElement.innerHTML = item.name;
 
       inventoryElement.appendChild(inventoryItemElement);
@@ -66,7 +66,7 @@ export class Item implements ItemType {
 
 export class Trap extends Item {
   constructor(player: Player, position: Position) {
-    super("trap", trapResource, player, position);
+    super('trap', trapResource, player, position);
   }
 
   apply(piece: Piece) {

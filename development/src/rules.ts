@@ -6,9 +6,9 @@ import {
   isFriendlyFire,
   roundCounter,
   players,
-} from "./logic";
-import { Logger } from "./logger";
-import { updateRules } from "./game";
+} from './logic';
+import { Logger } from './logger';
+import { updateRules } from './game';
 
 export class Rule {
   id: number;
@@ -53,7 +53,7 @@ const inactiveRules = [];
 export const activeRules = [
   new Rule(
     0,
-    "Pieces can fall off the board.",
+    'Pieces can fall off the board.',
     false,
     () => {
       return !!fellOffTheBoardPiece;
@@ -68,7 +68,7 @@ export const activeRules = [
   ),
   new Rule(
     1,
-    "First Blood Bonus: The first to kill gets an extra XP.",
+    'First Blood Bonus: The first to kill gets an extra XP.',
     false,
     () => {
       return deathCounter == 1;
@@ -83,7 +83,7 @@ export const activeRules = [
   ),
   new Rule(
     2,
-    "Players gain XP on a kill.",
+    'Players gain XP on a kill.',
     false,
     () => {
       return isPieceKilled;
@@ -96,7 +96,7 @@ export const activeRules = [
   ),
   new Rule(
     3,
-    "Friendly Fire! Players can attack their own pieces (for a price).",
+    'Friendly Fire! Players can attack their own pieces (for a price).',
     false,
     () => {
       return isFriendlyFire;
@@ -111,14 +111,14 @@ export const activeRules = [
   ),
   new Rule(
     4,
-    "With age comes wisdom.",
+    'With age comes wisdom.',
     false,
     () => {
       return roundCounter === 20;
     },
     () => {
       Logger.logRule(
-        "Children of war, you have grown old. Each player gains five XP.",
+        'Children of war, you have grown old. Each player gains five XP.',
       );
       players.forEach((player) => {
         Logger.logRule(`${player.color} gained XP.`);
@@ -128,7 +128,7 @@ export const activeRules = [
   ),
   new Rule(
     5,
-    "Empty pockets.",
+    'Empty pockets.',
     false,
     () => {
       players.forEach((player) => {

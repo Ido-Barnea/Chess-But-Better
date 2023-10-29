@@ -1,4 +1,4 @@
-import { Player } from "./players";
+import { Player } from './players';
 import {
   Piece,
   Pawn,
@@ -9,8 +9,8 @@ import {
   King,
   Square,
   Position,
-} from "./pieces";
-import { Logger } from "./logger";
+} from './pieces';
+import { Logger } from './logger';
 import {
   movePieceOnBoard,
   destroyPieceOnBoard,
@@ -19,14 +19,14 @@ import {
   HELL_BOARD_ID,
   HEAVEN_BOARD_ID,
   destroyItemOnBoard,
-} from "./boards";
-import { activeRules } from "./rules";
-import { updatePlayersInformation } from "./game";
-import { Item } from "./items";
+} from './boards';
+import { activeRules } from './rules';
+import { updatePlayersInformation } from './game';
+import { Item } from './items';
 
 export enum PlayerColors {
-  WHITE = "White",
-  BLACK = "Black",
+  WHITE = 'White',
+  BLACK = 'Black',
 }
 
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -113,7 +113,7 @@ export function getPieceByPositionAndBoard(
 }
 
 function convertSquareIdToPosition(squareId: string): [number, number] {
-  return squareId.split(",").map((str) => parseInt(str)) as [number, number];
+  return squareId.split(',').map((str) => parseInt(str)) as [number, number];
 }
 
 export function onAction(
@@ -126,7 +126,7 @@ export function onAction(
 
   const draggedElementPosition: Position = {
     coordinates: convertSquareIdToPosition(
-      draggedElementParentElement.getAttribute("square-id")!,
+      draggedElementParentElement.getAttribute('square-id')!,
     ),
     board: board,
   };
@@ -135,11 +135,11 @@ export function onAction(
     comparePositions(piece.position, draggedElementPosition),
   );
 
-  if (targetElement.classList.contains("piece")) {
+  if (targetElement.classList.contains('piece')) {
     const squareElement = targetElement.parentElement!;
     const targetElementPosition: Position = {
       coordinates: convertSquareIdToPosition(
-        squareElement.getAttribute("square-id")!,
+        squareElement.getAttribute('square-id')!,
       ),
       board: board,
     };
@@ -149,15 +149,15 @@ export function onAction(
     });
 
     actOnTurn(draggedPiece, targetPiece);
-  } else if (targetElement.classList.contains("item")) {
+  } else if (targetElement.classList.contains('item')) {
     let squareElement = targetElement as HTMLElement;
-    while (!squareElement.getAttribute("square-id")) {
+    while (!squareElement.getAttribute('square-id')) {
       squareElement = squareElement.parentElement as HTMLElement;
     }
 
     const itemPosition: Position = {
       coordinates: convertSquareIdToPosition(
-        squareElement.getAttribute("square-id")!,
+        squareElement.getAttribute('square-id')!,
       ),
       board: board,
     };
@@ -171,7 +171,7 @@ export function onAction(
     const targetSquare: Square = {
       position: {
         coordinates: convertSquareIdToPosition(
-          targetElement.getAttribute("square-id")!,
+          targetElement.getAttribute('square-id')!,
         ),
         board: board,
       },
@@ -185,7 +185,7 @@ export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
     const squareElement = draggedElement.parentElement!;
     const draggedElementPosition: Position = {
       coordinates: convertSquareIdToPosition(
-        squareElement.getAttribute("square-id")!,
+        squareElement.getAttribute('square-id')!,
       ),
       board: board,
     };
@@ -327,7 +327,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
     return (
       piece.player === getCurrentPlayer() &&
       !piece.hasMoved &&
-      piece.name === "Rook"
+      piece.name === 'Rook'
     );
   });
 
@@ -386,7 +386,7 @@ function endTurn() {
     currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
   turnCounter++;
 
-  console.log("dsadsa");
+  console.log('dsadsa');
 
   if (turnCounter % players.length === 0) {
     turnCounter = 0;

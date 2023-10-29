@@ -5,8 +5,8 @@ import {
   rookResource,
   queenResource,
   kingResource,
-} from "./resources";
-import { Player } from "./players";
+} from './resources';
+import { Player } from './players';
 import {
   getCurrentPlayer,
   switchIsCastling,
@@ -14,9 +14,9 @@ import {
   items,
   comparePositions,
   PlayerColors,
-} from "./logic";
-import { OVERWORLD_BOARD_ID } from "./boards";
-import { Item } from "./items";
+} from './logic';
+import { OVERWORLD_BOARD_ID } from './boards';
+import { Item } from './items';
 
 export type Position = {
   coordinates: [number, number];
@@ -80,7 +80,7 @@ export type Square = {
 
 export class Pawn extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, pawnResource, "Pawn");
+    super(position, player, pawnResource, 'Pawn');
   }
 
   validateMove(target: Piece | Square) {
@@ -96,8 +96,8 @@ export class Pawn extends Piece {
       target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
         : target.position.coordinates[1] < this.position.coordinates[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     // Make sure pawn does not move backwards.
     const currentPlayer = getCurrentPlayer();
@@ -129,7 +129,7 @@ export class Pawn extends Piece {
 
 export class Bishop extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, bishopResource, "Bishop");
+    super(position, player, bishopResource, 'Bishop');
   }
 
   validateMove(target: Piece | Square) {
@@ -162,7 +162,7 @@ export class Bishop extends Piece {
 
 export class Knight extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, knightResource, "Knight");
+    super(position, player, knightResource, 'Knight');
   }
 
   validateMove(target: Piece | Square) {
@@ -182,7 +182,7 @@ export class Knight extends Piece {
 
 export class Rook extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, rookResource, "Rook");
+    super(position, player, rookResource, 'Rook');
   }
 
   validateMove(target: Piece | Square) {
@@ -190,14 +190,14 @@ export class Rook extends Piece {
       target.position.coordinates[0] > this.position.coordinates[0]
         ? 1
         : target.position.coordinates[0] < this.position.coordinates[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
         : target.position.coordinates[1] < this.position.coordinates[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     // Rooks can move either vertically or horizontally but not both at the same.
     if (
@@ -219,7 +219,7 @@ export class Rook extends Piece {
 
 export class Queen extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, queenResource, "Queen");
+    super(position, player, queenResource, 'Queen');
   }
 
   validateMove(target: Piece | Square) {
@@ -227,14 +227,14 @@ export class Queen extends Piece {
       target.position.coordinates[0] > this.position.coordinates[0]
         ? 1
         : target.position.coordinates[0] < this.position.coordinates[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
         : target.position.coordinates[1] < this.position.coordinates[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     const absoluteDeltaX = Math.abs(
       target.position.coordinates[0] - this.position.coordinates[0],
@@ -264,7 +264,7 @@ export class Queen extends Piece {
 
 export class King extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, kingResource, "King");
+    super(position, player, kingResource, 'King');
   }
 
   validateMove(target: Piece | Square) {
@@ -272,14 +272,14 @@ export class King extends Piece {
       target.position.coordinates[0] > this.position.coordinates[0]
         ? 1
         : target.position.coordinates[0] < this.position.coordinates[0]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
     const stepY =
       target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
         : target.position.coordinates[1] < this.position.coordinates[1]
-        ? -1
-        : 0;
+          ? -1
+          : 0;
 
     const deltaX =
       target.position.coordinates[0] - this.position.coordinates[0];
@@ -395,7 +395,7 @@ function checkIfPositionContainsTrap(position: Position): boolean {
   const item = items.find((item) => comparePositions(position, item.position));
   if (item) {
     switch (item.name) {
-      case "trap": {
+      case 'trap': {
         return true;
       }
     }
