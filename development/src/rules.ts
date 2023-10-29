@@ -59,7 +59,7 @@ export const activeRules = [
       return !!fellOffTheBoardPiece;
     },
     () => {
-      Logger.logRule(
+      Logger.logKill(
         `A ${fellOffTheBoardPiece!.player.color} ${
           fellOffTheBoardPiece!.name
         } fell off the board.`,
