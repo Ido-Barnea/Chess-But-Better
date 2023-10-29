@@ -6,9 +6,11 @@ import {
   isFriendlyFire,
   roundCounter,
   players,
-} from './logic';
-import { Logger } from './logger';
-import { updateRules } from './game';
+} from "./logic";
+import { Logger } from "./logger";
+import { updateRules } from "./game";
+
+const logColor = "purple";
 
 export class Rule {
   id: number;
@@ -38,6 +40,7 @@ export class Rule {
         const player = getCurrentPlayer();
         Logger.log(
           `${player.color} received XP for revealing a new rule: ${this.description}`,
+          logColor,
         );
         player.xp++;
         this.isRevealed = true;
@@ -53,7 +56,7 @@ const inactiveRules = [];
 export const activeRules = [
   new Rule(
     0,
-    'Pieces can fall off the board.',
+    "Pieces can fall off the board.",
     false,
     () => {
       return !!fellOffTheBoardPiece;
@@ -63,38 +66,45 @@ export const activeRules = [
         `A ${fellOffTheBoardPiece!.player.color} ${
           fellOffTheBoardPiece!.name
         } fell off the board.`,
+        logColor,
       );
     },
   ),
   new Rule(
     1,
-    'First Blood Bonus: The first to kill gets an extra XP.',
+    "First Blood Bonus: The first to kill gets an extra XP.",
     false,
     () => {
       return deathCounter == 1;
     },
     () => {
       const player = getCurrentPlayer();
-      Logger.log(`${player.color} has made First Blood and received a bonus.`);
+      Logger.log(
+        `${player.color} has made First Blood and received a bonus.`,
+        logColor,
+      );
       player.xp++;
     },
   ),
   new Rule(
     2,
-    'Players gain XP on a kill.',
+    "Players gain XP on a kill.",
     false,
     () => {
       return isPieceKilled;
     },
     () => {
       const player = getCurrentPlayer();
-      Logger.log(`${player.color} received XP for killing another piece.`);
+      Logger.log(
+        `${player.color} received XP for killing another piece.`,
+        logColor,
+      );
       player.xp++;
     },
   ),
   new Rule(
     3,
-    'Friendly Fire! Players can attack their own pieces (for a price).',
+    "Friendly Fire! Players can attack their own pieces (for a price).",
     false,
     () => {
       return isFriendlyFire;
@@ -103,30 +113,32 @@ export const activeRules = [
       const player = getCurrentPlayer();
       Logger.log(
         `${player.color} attacked his own piece and has to pay compensations.`,
+        logColor,
       );
       player.gold--;
     },
   ),
   new Rule(
     4,
-    'With age comes wisdom.',
+    "With age comes wisdom.",
     false,
     () => {
       return roundCounter === 20;
     },
     () => {
       Logger.log(
-        'Children of war, you have grown old. Each player gains five XP.',
+        "Children of war, you have grown old. Each player gains five XP.",
+        logColor,
       );
       players.forEach((player) => {
-        Logger.log(`${player.color} gained XP.`);
+        Logger.log(`${player.color} gained XP.`, logColor);
         player.xp += 5;
       });
     },
   ),
   new Rule(
     5,
-    'Empty pockets.',
+    "Empty pockets.",
     false,
     () => {
       players.forEach((player) => {
@@ -141,6 +153,7 @@ export const activeRules = [
         if (player === getCurrentPlayer() && player.gold < 0) {
           Logger.log(
             `${player.color} is in debt. They lose XP for not handling money properly.`,
+            logColor,
           );
           player.xp--;
           return;

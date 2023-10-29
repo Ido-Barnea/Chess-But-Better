@@ -1,39 +1,39 @@
-import { Logger } from './logger';
+import { Logger } from "./logger";
 import {
   initializeEventListeners,
   setOnAction,
   setOnFallOffTheBoard,
   setOnHighlight,
-} from './events';
-import { highlightSquare, initializeBoards } from './boards';
+} from "./events";
+import { highlightSquare, initializeBoards } from "./boards";
 import {
   onAction,
   onFallOffTheBoard,
   getCurrentPlayer,
   players,
   roundCounter,
-} from './logic';
-import { Rule } from './rules';
+} from "./logic";
+import { Rule } from "./rules";
 
-const infoDisplay = document.getElementById('info-display')!;
-const rulesContainer = document.getElementById('rules-container')!;
+const infoDisplay = document.getElementById("info-display")!;
+const rulesContainer = document.getElementById("rules-container")!;
 
 export function updatePlayersInformation() {
-  infoDisplay.textContent = '';
+  infoDisplay.textContent = "";
 
-  const roundElement = document.createElement('p');
+  const roundElement = document.createElement("p");
   roundElement.innerHTML = `Round: ${roundCounter}`;
   infoDisplay.appendChild(roundElement);
 
-  const playersElement = document.createElement('p');
-  playersElement.innerHTML = 'Players:';
+  const playersElement = document.createElement("p");
+  playersElement.innerHTML = "Players:";
 
   players.forEach((player) => {
-    const playerInformationElement = document.createElement('div');
+    const playerInformationElement = document.createElement("div");
 
-    const statusElement = document.createElement('p');
+    const statusElement = document.createElement("p");
     const isCurrentPlayer = getCurrentPlayer() === player;
-    const title = `${isCurrentPlayer ? '> ' : ''} ${player.color} Player:`;
+    const title = `${isCurrentPlayer ? "> " : ""} ${player.color} Player:`;
     const status = `${title} ${player.xp} XP; ${player.gold} Gold.`;
     statusElement.innerHTML = status;
 
@@ -49,13 +49,13 @@ export function updatePlayersInformation() {
 }
 
 export function updateRules(rule: Rule) {
-  const ruleElement = document.createElement('p');
+  const ruleElement = document.createElement("p");
   ruleElement.innerHTML = `<b>${rule.id + 1}) ${rule.description}</b>`;
   rulesContainer.appendChild(ruleElement);
 }
 
 function initializeGame() {
-  Logger.log('Game started!');
+  Logger.log("Game started!", "black");
   initializeBoards();
   initializeEventListeners();
   updatePlayersInformation();

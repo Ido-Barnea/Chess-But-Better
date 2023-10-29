@@ -1,18 +1,25 @@
-import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from './board';
-import { Piece, Square } from './pieces';
+import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from "./board";
+import { Piece, Square } from "./pieces";
 
 export class Logger {
-  static log(message: string) {
-    const logsContainer = document.getElementById('logs-container')!;
-    logsContainer.innerHTML += `<p>> ${message}</p>`;
+  static log(message: string, color: string) {
+    const logsContainer = document.getElementById("logs-container")!;
+    logsContainer.innerHTML += `<p style="color: ${color};">> ${message}</p>`;
 
     logsContainer.scrollTop = logsContainer.scrollHeight; // Scroll to the last log
   }
 
   static logMovement(draggedPiece: Piece, targetSquare: Square) {
-    const fromNotation = this.convertPositionToNotation(draggedPiece.position.coordinates);
-    const toNotation = this.convertPositionToNotation(targetSquare.position.coordinates);
-    this.log(`${draggedPiece.player.color} ${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`);
+    const fromNotation = this.convertPositionToNotation(
+      draggedPiece.position.coordinates,
+    );
+    const toNotation = this.convertPositionToNotation(
+      targetSquare.position.coordinates,
+    );
+    this.log(
+      `${draggedPiece.player.color} ${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`,
+      "gray",
+    );
   }
 
   private static convertPositionToNotation(position: [number, number]) {

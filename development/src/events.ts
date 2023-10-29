@@ -1,4 +1,4 @@
-import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './boards';
+import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from "./boards";
 
 let draggedElement: HTMLElement;
 
@@ -12,36 +12,38 @@ let triggerOnFallOffTheBoard: (
   board: string,
 ) => void;
 
-const OVERWORLD_BOARD_BUTTON = document.getElementById('board-overworld-button')!;
-const HELL_BOARD_BUTTON = document.getElementById('board-hell-button')!;
-const HEAVEN_BOARD_BUTTON = document.getElementById('board-heaven-button')!;
+const OVERWORLD_BOARD_BUTTON = document.getElementById(
+  "board-overworld-button",
+)!;
+const HELL_BOARD_BUTTON = document.getElementById("board-hell-button")!;
+const HEAVEN_BOARD_BUTTON = document.getElementById("board-heaven-button")!;
 
 let triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void;
 
 export function initializeEventListeners() {
-  const squares = document.querySelectorAll('.square');
+  const squares = document.querySelectorAll(".square");
   // Listen for mouse events
   squares.forEach((square) => {
-    square.addEventListener('dragstart', onDragStart);
-    square.addEventListener('dragover', onDragOver);
-    square.addEventListener('drop', onDragDrop);
-    square.addEventListener('mouseover', onMouseOver);
-    square.addEventListener('mouseout', onMouseOut);
+    square.addEventListener("dragstart", onDragStart);
+    square.addEventListener("dragover", onDragOver);
+    square.addEventListener("drop", onDragDrop);
+    square.addEventListener("mouseover", onMouseOver);
+    square.addEventListener("mouseout", onMouseOut);
   });
 
   // Support pieces falling off the board
-  document.body.addEventListener('dragover', onDragOver);
-  document.body.addEventListener('drop', onDragOffTheBoard);
+  document.body.addEventListener("dragover", onDragOver);
+  document.body.addEventListener("drop", onDragOffTheBoard);
 
   // Listen for boards' buttons clicks
-  OVERWORLD_BOARD_BUTTON.addEventListener('click', handleButtonPress);
-  HELL_BOARD_BUTTON.addEventListener('click', handleButtonPress);
-  HEAVEN_BOARD_BUTTON.addEventListener('click', handleButtonPress);
+  OVERWORLD_BOARD_BUTTON.addEventListener("click", handleButtonPress);
+  HELL_BOARD_BUTTON.addEventListener("click", handleButtonPress);
+  HEAVEN_BOARD_BUTTON.addEventListener("click", handleButtonPress);
 }
 
 function onDragStart(event: Event) {
   const targetElement = event.target as HTMLElement;
-  if (targetElement.classList.contains('piece')) {
+  if (targetElement.classList.contains("piece")) {
     draggedElement = event.target as HTMLElement;
   }
 }
@@ -50,12 +52,12 @@ function onDragDrop(event: Event) {
   event.stopPropagation();
   let targetElement = event.target as HTMLElement;
   // Make sure target is not a resource
-  while (targetElement.classList.contains('untargetable')) {
+  while (targetElement.classList.contains("untargetable")) {
     targetElement = targetElement.parentNode as HTMLElement;
   }
 
   let board = targetElement as HTMLElement;
-  while (!board.classList.contains('board')) {
+  while (!board.classList.contains("board")) {
     board = board.parentNode as HTMLElement;
   }
 
@@ -68,7 +70,7 @@ function onDragOver(event: Event) {
 
 function onDragOffTheBoard(_: Event) {
   let board = draggedElement;
-  while (!board.classList.contains('board')) {
+  while (!board.classList.contains("board")) {
     board = board.parentNode as HTMLElement;
   }
 
@@ -116,11 +118,11 @@ export function setOnHighlight(
 function showBoard(boardId: string) {
   const boardElement = document.getElementById(boardId) as HTMLElement;
 
-  OVERWORLD_BOARD.classList.add('collapsed');
-  HELL_BOARD.classList.add('collapsed');
-  HEAVEN_BOARD.classList.add('collapsed');
+  OVERWORLD_BOARD.classList.add("collapsed");
+  HELL_BOARD.classList.add("collapsed");
+  HEAVEN_BOARD.classList.add("collapsed");
 
-  boardElement.classList.remove('collapsed');
+  boardElement.classList.remove("collapsed");
 }
 
 export function handleButtonPress(event: Event) {

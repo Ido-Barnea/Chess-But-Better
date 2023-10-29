@@ -1,5 +1,5 @@
-name: '[🔨] Checkin'
-run-name: '[🔨] Checkin: ${{ github.ref }}'
+name: "[🔨] Checkin"
+run-name: "[🔨] Checkin: ${{ github.ref }}"
 on:
   workflow_dispatch:
   pull_request:
