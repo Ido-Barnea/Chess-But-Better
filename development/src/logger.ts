@@ -1,12 +1,31 @@
 import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from "./board";
 import { Piece, Square } from "./pieces";
 
+const defaultColor = "gray";
+const killColor = "red";
+const ruleColor = "purple";
+const itemColor = "green";
+
 export class Logger {
-  static log(message: string, color: string) {
+  static log(message: string, color?: string) {
+    if (!color || color == "") color = defaultColor;
+
     const logsContainer = document.getElementById("logs-container")!;
     logsContainer.innerHTML += `<p style="color: ${color};">> ${message}</p>`;
 
     logsContainer.scrollTop = logsContainer.scrollHeight; // Scroll to the last log
+  }
+
+  static logKill(message: string) {
+    this.log(message, killColor);
+  }
+
+  static logRule(message: string) {
+    this.log(message, ruleColor);
+  }
+
+  static logItem(message: string) {
+    this.log(message, itemColor);
   }
 
   static logMovement(draggedPiece: Piece, targetSquare: Square) {
@@ -18,7 +37,6 @@ export class Logger {
     );
     this.log(
       `${draggedPiece.player.color} ${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`,
-      "gray",
     );
   }
 

@@ -5,20 +5,18 @@ import { Piece, Position } from "./pieces";
 import { Player } from "./players";
 import { trapResource } from "./resources";
 
-const logColor = "green";
-
 export class Inventory {
   items: Array<Item> = [];
   addItem(item: Item) {
     this.items.push(item);
-    Logger.log(`${item.player.color} received a ${item.name}.`, logColor);
+    Logger.logItem(`${item.player.color} received a ${item.name}.`);
   }
 
   removeItem(item: Item) {
     const index = this.items.indexOf(item);
     if (index !== -1) {
       this.items.splice(index, 1);
-      Logger.log(`${item.name} was destroyed.`, logColor);
+      Logger.logItem(`${item.name} was destroyed.`);
     }
   }
 
@@ -62,7 +60,7 @@ export class Item implements ItemType {
   }
 
   apply(piece: Piece) {
-    Logger.log(`${piece.player.color} used a ${this.name}.`, logColor);
+    Logger.logItem(`${piece.player.color} used a ${this.name}.`);
   }
 }
 
@@ -72,9 +70,8 @@ export class Trap extends Item {
   }
 
   apply(piece: Piece) {
-    Logger.log(
+    Logger.logItem(
       `${this.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.`,
-      logColor,
     );
 
     this.position = piece.position;

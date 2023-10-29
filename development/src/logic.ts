@@ -80,9 +80,6 @@ export let isPieceKilled = false;
 
 export let fellOffTheBoardPiece: Piece | undefined;
 
-const killColor = "red";
-const castleColor = "gray";
-
 export function getCurrentPlayer(): Player {
   return players[currentPlayerIndex];
 }
@@ -248,9 +245,8 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
   destroyPieceOnBoard(targetPiece);
 
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
-    Logger.log(
+    Logger.logKill(
       `A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-      killColor,
     );
 
     if (targetPiece.hasKilled) {
@@ -280,9 +276,8 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
     spawnPieceOnBoard(targetPiece);
   } else {
-    Logger.log(
+    Logger.logKill(
       `A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`,
-      killColor,
     );
     killPiece(targetPiece);
   }
@@ -362,7 +357,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
 
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare, false);
-  Logger.log(`${kingPiece.player.color} castled.`, castleColor);
+  Logger.log(`${kingPiece.player.color} castled.`);
   return true;
 }
 
