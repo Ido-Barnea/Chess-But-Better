@@ -9,9 +9,7 @@ const ColorEnum = {
 };
 
 export class Logger {
-  static log(message: string, color?: string) {
-    if (!color || color == '') color = ColorEnum.DEFAULT;
-
+  static log(message: string, color: string = ColorEnum.DEFAULT) {
     const logsContainer = document.getElementById('logs-container')!;
     logsContainer.innerHTML += `<p style='color: ${color};'>> ${message}</p>`;
 
