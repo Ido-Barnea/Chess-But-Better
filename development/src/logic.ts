@@ -284,7 +284,17 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
     spawnPieceOnBoard(targetPiece);
   } else {
     Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
-    killPiece(targetPiece);
+    pieces.forEach((piece) => {
+      const areOnTheSamePosition = comparePositions(
+        targetPiece.position,
+        piece.position,
+      );
+      const areTheSame = piece === targetPiece;
+
+      if (areOnTheSamePosition && !areTheSame) {
+        killPiece(piece);
+      }
+    });
   }
 
   const targetSquare: Square = { position: targetPiece.position };
