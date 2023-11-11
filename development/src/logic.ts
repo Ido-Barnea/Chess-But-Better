@@ -254,7 +254,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
   destroyPieceOnBoard(targetPiece);
 
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
-    Logger.log(`A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
+    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
 
     if (targetPiece.hasKilled) {
       targetPiece.position = {
@@ -283,7 +283,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
     spawnPieceOnBoard(targetPiece);
   } else {
-    Logger.log(`A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
+    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
     killPiece(targetPiece);
   }
 
@@ -359,7 +359,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
 
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare, false);
-  Logger.log(`${kingPiece.player.color} castled.`);
+  Logger.logGeneral(`${kingPiece.player.color} castled.`);
   return true;
 }
 

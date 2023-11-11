@@ -193,3 +193,19 @@ path {
 .white {
   fill: white;
 }
+
+.log-color-general {
+  color: black;
+}
+
+.log-color-kill {
+  color: red;
+}
+
+.log-color-rule {
+  color: purple;
+}
+
+.log-color-movement {
+  color: gray;
+}
