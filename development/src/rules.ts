@@ -36,7 +36,7 @@ export class Rule {
       this.triggerAction();
       if (!this.isRevealed) {
         const player = getCurrentPlayer();
-        Logger.log(
+        Logger.logRule(
           `${player.color} received XP for revealing a new rule: ${this.description}`,
         );
         player.xp++;
@@ -59,7 +59,7 @@ export const activeRules = [
       return !!fellOffTheBoardPiece;
     },
     () => {
-      Logger.log(
+      Logger.logRule(
         `A ${fellOffTheBoardPiece!.player.color} ${
           fellOffTheBoardPiece!.name
         } fell off the board.`,
@@ -75,7 +75,7 @@ export const activeRules = [
     },
     () => {
       const player = getCurrentPlayer();
-      Logger.log(`${player.color} has made First Blood and received a bonus.`);
+      Logger.logRule(`${player.color} has made First Blood and received a bonus.`);
       player.xp++;
     },
   ),
@@ -88,7 +88,7 @@ export const activeRules = [
     },
     () => {
       const player = getCurrentPlayer();
-      Logger.log(`${player.color} received XP for killing another piece.`);
+      Logger.logRule(`${player.color} received XP for killing another piece.`);
       player.xp++;
     },
   ),
@@ -101,7 +101,7 @@ export const activeRules = [
     },
     () => {
       const player = getCurrentPlayer();
-      Logger.log(
+      Logger.logRule(
         `${player.color} attacked his own piece and has to pay compensations.`,
       );
       player.gold--;
@@ -115,11 +115,11 @@ export const activeRules = [
       return roundCounter === 20;
     },
     () => {
-      Logger.log(
+      Logger.logRule(
         'Children of war, you have grown old. Each player gains five XP.',
       );
       players.forEach((player) => {
-        Logger.log(`${player.color} gained XP.`);
+        Logger.logGeneral(`${player.color} gained XP.`);
         player.xp += 5;
       });
     },
@@ -139,7 +139,7 @@ export const activeRules = [
     () => {
       players.forEach((player) => {
         if (player === getCurrentPlayer() && player.gold < 0) {
-          Logger.log(
+          Logger.logRule(
             `${player.color} is in debt. They lose XP for not handling money properly.`,
           );
           player.xp--;

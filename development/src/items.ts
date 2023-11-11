@@ -10,14 +10,14 @@ export class Inventory {
 
   addItem(item: Item) {
     this.items.push(item);
-    Logger.log(`${item.player.color} received a ${item.name}.`);
+    Logger.logGeneral(`${item.player.color} received a ${item.name}.`);
   }
 
   removeItem(item: Item) {
     const index = this.items.indexOf(item);
     if (index !== -1) {
       this.items.splice(index, 1);
-      Logger.log(`${item.name} was destroyed.`);
+      Logger.logGeneral(`${item.name} was destroyed.`);
     }
   }
 
@@ -56,7 +56,7 @@ export class Item implements ItemType {
   }
 
   apply(piece: Piece) {
-    Logger.log(`${piece.player.color} used a ${this.name}.`);
+    Logger.logGeneral(`${piece.player.color} used a ${this.name}.`);
   };
 }
 
@@ -66,7 +66,7 @@ export class Trap extends Item {
   }
 
   apply(piece: Piece) {
-    Logger.log(`${this.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.`);
+    Logger.logGeneral(`${this.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.`);
 
     this.position = piece.position;
     items.push(this);

@@ -55,7 +55,7 @@ export function updateRules(rule: Rule) {
 }
 
 function initializeGame() {
-  Logger.log('Game started!');
+  Logger.logGeneral('Game started!');
   initializeBoards();
   initializeEventListeners();
   updatePlayersInformation();
