@@ -12,9 +12,9 @@ let triggerOnFallOffTheBoard: (
   board: string,
 ) => void;
 
-const OVERWORLD_BOARD_BUTTON = document.getElementById('board-overworld-button')!;
-const HELL_BOARD_BUTTON = document.getElementById('board-hell-button')!;
-const HEAVEN_BOARD_BUTTON = document.getElementById('board-heaven-button')!;
+const OVERWORLD_BOARD_BUTTON = document.getElementById('board-overworld-button');
+const HELL_BOARD_BUTTON = document.getElementById('board-hell-button');
+const HEAVEN_BOARD_BUTTON = document.getElementById('board-heaven-button');
 
 let triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void;
 
@@ -34,9 +34,9 @@ export function initializeEventListeners() {
   document.body.addEventListener('drop', onDragOffTheBoard);
 
   // Listen for boards' buttons clicks
-  OVERWORLD_BOARD_BUTTON.addEventListener('click', handleButtonPress);
-  HELL_BOARD_BUTTON.addEventListener('click', handleButtonPress);
-  HEAVEN_BOARD_BUTTON.addEventListener('click', handleButtonPress);
+  OVERWORLD_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
+  HELL_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
+  HEAVEN_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
 }
 
 function onDragStart(event: Event) {

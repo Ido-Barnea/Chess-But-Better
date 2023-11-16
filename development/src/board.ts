@@ -83,13 +83,13 @@ export class ChessBoard implements ChessBoardType {
       const bottomBoardContainer = this.boardElement.querySelector(
         '#bottom-notations-container',
       );
-      bottomBoardContainer!.appendChild(notationElement);
+      bottomBoardContainer?.appendChild(notationElement);
     } else {
       notationElement.classList.add('number');
       const leftBoardContainer = this.boardElement.querySelector(
         '#left-notations-container',
       );
-      leftBoardContainer!.appendChild(notationElement);
+      leftBoardContainer?.appendChild(notationElement);
     }
   }
 
@@ -156,7 +156,7 @@ export class ChessBoard implements ChessBoardType {
 
   destroyItemOnBoard(targetItem: Item) {
     const targetItemSquareElement = this.boardElement.querySelector(
-      `[square-id="${targetItem.position.coordinates!.join(',')}"]`,
+      `[square-id="${targetItem.position.coordinates?.join(',')}"]`,
     );
     const targetItemElement =
       targetItemSquareElement?.firstElementChild as HTMLElement;

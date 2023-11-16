@@ -10,9 +10,10 @@ enum LogColor {
 
 export class Logger {
   private static log(message: string, color: LogColor) {
-    const logsContainer = document.getElementById('logs-container')!;
-    logsContainer.innerHTML += `<p class="${color}";>> ${message}</p>`;
+    const logsContainer = document.getElementById('logs-container');
+    if (!logsContainer) return;
 
+    logsContainer.innerHTML += `<p class="${color}";>> ${message}</p>`;
     logsContainer.scrollTop = logsContainer.scrollHeight; // Scroll to the last log
   }
 
@@ -29,9 +30,14 @@ export class Logger {
   }
 
   static logMovement(draggedPiece: Piece, targetSquare: Square) {
-    const fromNotation = this.convertPositionToNotation(draggedPiece.position.coordinates);
-    const toNotation = this.convertPositionToNotation(targetSquare.position.coordinates);
-    this.log(`${draggedPiece.player.color} ${draggedPiece.name} moved from ${fromNotation} to ${toNotation}.`, LogColor.movement);
+    const fromNotation = this.convertPositionToNotation(
+      draggedPiece.position.coordinates,
+    );
+    const toNotation = this.convertPositionToNotation(
+      targetSquare.position.coordinates,
+    );
+    this.log(`${draggedPiece.player.color} ${draggedPiece.name} 
+      moved from ${fromNotation} to ${toNotation}.`, LogColor.movement);
   }
 
   private static convertPositionToNotation(position: [number, number]) {

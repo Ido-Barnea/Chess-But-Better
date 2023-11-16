@@ -37,7 +37,8 @@ export class Rule {
       if (!this.isRevealed) {
         const player = getCurrentPlayer();
         Logger.logRule(
-          `${player.color} received XP for revealing a new rule: ${this.description}`,
+          `${player.color} received XP for revealing a 
+            new rule: ${this.description}`,
         );
         player.xp++;
         this.isRevealed = true;
@@ -60,9 +61,8 @@ export const activeRules = [
     },
     () => {
       Logger.logRule(
-        `A ${fellOffTheBoardPiece!.player.color} ${
-          fellOffTheBoardPiece!.name
-        } fell off the board.`,
+        `A ${fellOffTheBoardPiece?.player.color} ${fellOffTheBoardPiece?.name} 
+          fell off the board.`,
       );
     },
   ),
@@ -75,7 +75,8 @@ export const activeRules = [
     },
     () => {
       const player = getCurrentPlayer();
-      Logger.logRule(`${player.color} has made First Blood and received a bonus.`);
+      Logger.logRule(`${player.color} has made First Blood 
+        and received a bonus.`);
       player.xp++;
     },
   ),
@@ -140,7 +141,8 @@ export const activeRules = [
       players.forEach((player) => {
         if (player === getCurrentPlayer() && player.gold < 0) {
           Logger.logRule(
-            `${player.color} is in debt. They lose XP for not handling money properly.`,
+            `${player.color} is in debt. They lose XP for not 
+              handling money properly.`,
           );
           player.xp--;
           return;

@@ -126,8 +126,11 @@ export function onAction(
   const draggedElementParentElement =
     draggedElement.parentElement as HTMLElement;
 
+  const squareId = draggedElementParentElement.getAttribute('square-id');
+  if (!squareId) return;
+
   const draggedElementPosition: Position = {
-    coordinates: convertSquareIdToPosition(draggedElementParentElement.getAttribute('square-id')!),
+    coordinates: convertSquareIdToPosition(squareId),
     board: board,
   };
 
@@ -139,11 +142,12 @@ export function onAction(
   );
 
   if (targetElement.classList.contains('piece')) {
-    const squareElement = targetElement.parentElement!;
+    const squareElement = targetElement.parentElement;
+    const squareId = squareElement?.getAttribute('square-id');
+    if (!squareId) return;
+
     const targetElementPosition: Position = {
-      coordinates: convertSquareIdToPosition(
-          squareElement.getAttribute('square-id')!,
-      ),
+      coordinates: convertSquareIdToPosition(squareId),
       board: board,
     };
 
@@ -161,10 +165,11 @@ export function onAction(
       squareElement = squareElement.parentElement as HTMLElement;
     }
 
+    const squareId = squareElement.getAttribute('square-id');
+    if (!squareId) return;
+
     const itemPosition: Position = {
-      coordinates: convertSquareIdToPosition(
-        squareElement.getAttribute('square-id')!,
-      ),
+      coordinates: convertSquareIdToPosition(squareId),
       board: board,
     };
 
@@ -174,11 +179,12 @@ export function onAction(
       }
     });
   } else {
+    const squareId = targetElement.getAttribute('square-id');
+    if (!squareId) return;
+
     const targetSquare: Square = {
       position: {
-        coordinates: convertSquareIdToPosition(
-          targetElement.getAttribute('square-id')!,
-        ),
+        coordinates: convertSquareIdToPosition(squareId),
         board: board,
       },
     };
@@ -188,11 +194,12 @@ export function onAction(
 
 export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
   const draggedPiece: Piece | undefined = pieces.find((piece) => {
-    const squareElement = draggedElement.parentElement!;
+    const squareElement = draggedElement.parentElement;
+    const squareId = squareElement?.getAttribute('square-id');
+    if (!squareId) return;
+
     const draggedElementPosition: Position = {
-      coordinates: convertSquareIdToPosition(
-        squareElement.getAttribute('square-id')!,
-      ),
+      coordinates: convertSquareIdToPosition(squareId),
       board: board,
     };
 
@@ -254,7 +261,8 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
   destroyPieceOnBoard(targetPiece);
 
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
-    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
+    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} 
+      was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
 
     if (targetPiece.hasKilled) {
       targetPiece.position = {
@@ -283,7 +291,10 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
 
     spawnPieceOnBoard(targetPiece);
   } else {
-    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was permanently killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
+    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was 
+      permanently killed by a ${draggedPiece.player.color} 
+      ${draggedPiece.name}.`);
+    
     pieces.forEach((piece) => {
       const areOnTheSamePosition = comparePositions(
         targetPiece.position,
@@ -321,7 +332,9 @@ function actOnTurnPieceToTrap(draggedPiece: Piece, targetItem: Item) {
 
   if (draggedPiece.position.board === OVERWORLD_BOARD_ID) {
     draggedPiece.position = {...targetItem.position};
-    draggedPiece.position.board = draggedPiece.hasKilled ? HELL_BOARD_ID : HEAVEN_BOARD_ID;
+    draggedPiece.position.board = draggedPiece.hasKilled
+      ? HELL_BOARD_ID
+      : HEAVEN_BOARD_ID;
     spawnPieceOnBoard(draggedPiece);
   }
 
@@ -344,7 +357,9 @@ function castle(kingPiece: Piece, targetSquare: Square) {
     );
   });
 
-  const deltaX = targetSquare.position.coordinates[0] - kingPiece.position.coordinates[0];
+  const targetXPosition = targetSquare.position.coordinates[0];
+  const kingXPosition = kingPiece.position.coordinates[0];
+  const deltaX = targetXPosition - kingXPosition;
   // Depends on if it's Kingside or Queenside castling
   const isKingsideCastling = deltaX > 0;
   const rookFilter = (piece: Piece) => {
