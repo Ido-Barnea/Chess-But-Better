@@ -48,7 +48,12 @@ export class Item implements ItemType {
   player: Player;
   position: Position;
 
-  constructor(name: string, resource: string, player: Player, position: Position) {
+  constructor(
+    name: string,
+    resource: string,
+    player: Player,
+    position: Position,
+  ) {
     this.name = name;
     this.resource = resource;
     this.player = player;
@@ -66,7 +71,8 @@ export class Trap extends Item {
   }
 
   apply(piece: Piece) {
-    Logger.logGeneral(`${this.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.`);
+    Logger.logGeneral(`${this.player.color} ${piece.name} 
+      placed a ${this.name} on ${piece.position.coordinates}.`);
 
     this.position = piece.position;
     items.push(this);

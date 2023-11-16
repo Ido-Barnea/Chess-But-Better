@@ -84,11 +84,13 @@ export class Pawn extends Piece {
   }
 
   validateMove(target: Piece | Square) {
-    const deltaX = target.position.coordinates[0] - this.position.coordinates[0];
-    const deltaY = target.position.coordinates[1] - this.position.coordinates[1];
+    const targetCoordinates = target.position.coordinates;
+    const currentCoordinates = this.position.coordinates;
+    const deltaX = targetCoordinates[0] - currentCoordinates[0];
+    const deltaY = targetCoordinates[1] - currentCoordinates[1];
 
-    const absoluteDeltaX = Math.abs(deltaX);
-    const absoluteDeltaY = Math.abs(deltaY);
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
 
     const stepY =
       target.position.coordinates[1] > this.position.coordinates[1]
@@ -108,11 +110,13 @@ export class Pawn extends Piece {
 
     // Pawns attack diagonally.
     if ((target as Piece).name !== undefined) {
-      return absoluteDeltaY === 1 && absoluteDeltaX === 1 ? target.position : this.position;
+      return absDeltaY === 1 && absDeltaX === 1
+        ? target.position
+        : this.position;
     }
 
     // Pawns can have an initial two-square move.
-    if (!this.hasMoved && absoluteDeltaY === 2 && absoluteDeltaX === 0) {
+    if (!this.hasMoved && absDeltaY === 2 && absDeltaX === 0) {
       return simulateMove(
         this.copyPosition(),
         target.position,
@@ -123,7 +127,9 @@ export class Pawn extends Piece {
     }
 
     // Pawns move one square forward.
-    return absoluteDeltaY === 1 && absoluteDeltaX === 0 ? target.position : this.position;
+    return absDeltaY === 1 && absDeltaX === 0
+      ? target.position
+      : this.position;
   }
 }
 
@@ -133,14 +139,16 @@ export class Bishop extends Piece {
   }
 
   validateMove(target: Piece | Square) {
-    const stepX = target.position.coordinates[0] > this.position.coordinates[0] ? 1 : -1;
-    const stepY = target.position.coordinates[1] > this.position.coordinates[1] ? 1 : -1;
+    const targetCoordinates = target.position.coordinates;
+    const currentCoordinates = this.position.coordinates;
+    const stepX = targetCoordinates[0] > currentCoordinates[0] ? 1 : -1;
+    const stepY = targetCoordinates[1] > currentCoordinates[1] ? 1 : -1;
 
-    const absoluteDeltaX = Math.abs(target.position.coordinates[0] - this.position.coordinates[0]);
-    const absoluteDeltaY = Math.abs(target.position.coordinates[1] - this.position.coordinates[1]);
+    const absDeltaX = Math.abs(targetCoordinates[0] - currentCoordinates[0]);
+    const absDeltaY = Math.abs(targetCoordinates[1] - currentCoordinates[1]);
 
     // Bishops can only move diagonally.
-    if (absoluteDeltaY === absoluteDeltaX) {
+    if (absDeltaY === absDeltaX) {
       return simulateMove(
         this.copyPosition(),
         target.position,
@@ -160,11 +168,13 @@ export class Knight extends Piece {
   }
 
   validateMove(target: Piece | Square) {
-    const absoluteDeltaX = Math.abs(target.position.coordinates[0] - this.position.coordinates[0]);
-    const absoluteDeltaY = Math.abs(target.position.coordinates[1] - this.position.coordinates[1]);
+    const targetCoordinates = target.position.coordinates;
+    const currentCoordinates = this.position.coordinates;
+    const absDeltaX = Math.abs(targetCoordinates[0] - currentCoordinates[0]);
+    const absDeltaY = Math.abs(targetCoordinates[1] - currentCoordinates[1]);
 
     // Knights can move two squares in any direction and one square to the side.
-    return absoluteDeltaY * absoluteDeltaX === 2 ? target.position : this.position;
+    return absDeltaY * absDeltaX === 2 ? target.position : this.position;
   }
 }
 
@@ -211,27 +221,30 @@ export class Queen extends Piece {
   }
 
   validateMove(target: Piece | Square) {
+    const targetCoordinates = target.position.coordinates;
+    const currentCoordinates = this.position.coordinates;
+
     const stepX =
-      target.position.coordinates[0] > this.position.coordinates[0]
+      targetCoordinates[0] > currentCoordinates[0]
         ? 1
-        : target.position.coordinates[0] < this.position.coordinates[0]
+        : targetCoordinates[0] < currentCoordinates[0]
           ? -1
           : 0;
     const stepY =
-      target.position.coordinates[1] > this.position.coordinates[1]
+      targetCoordinates[1] > currentCoordinates[1]
         ? 1
-        : target.position.coordinates[1] < this.position.coordinates[1]
+        : targetCoordinates[1] < currentCoordinates[1]
           ? -1
           : 0;
 
-    const absoluteDeltaX = Math.abs(target.position.coordinates[0] - this.position.coordinates[0]);
-    const absoluteDeltaY = Math.abs(target.position.coordinates[1] - this.position.coordinates[1]);
+    const absDeltaX = Math.abs(targetCoordinates[0] - currentCoordinates[0]);
+    const absDeltaY = Math.abs(targetCoordinates[1] - currentCoordinates[1]);
 
     // Queens can move vertically, horizontally or diagonally.
     if (
       this.position.coordinates[1] === target.position.coordinates[1] ||
       this.position.coordinates[0] === target.position.coordinates[0] ||
-      absoluteDeltaY === absoluteDeltaX
+      absDeltaY === absDeltaX
     ) {
       return simulateMove(
         this.copyPosition(),
@@ -252,27 +265,30 @@ export class King extends Piece {
   }
 
   validateMove(target: Piece | Square) {
+    const targetCoordinates = target.position.coordinates;
+    const currentCoordinates = this.position.coordinates;
+
     const stepX =
-      target.position.coordinates[0] > this.position.coordinates[0]
+      targetCoordinates[0] > currentCoordinates[0]
         ? 1
-        : target.position.coordinates[0] < this.position.coordinates[0]
+        : targetCoordinates[0] < currentCoordinates[0]
           ? -1
           : 0;
     const stepY =
-      target.position.coordinates[1] > this.position.coordinates[1]
+      targetCoordinates[1] > currentCoordinates[1]
         ? 1
-        : target.position.coordinates[1] < this.position.coordinates[1]
+        : targetCoordinates[1] < currentCoordinates[1]
           ? -1
           : 0;
 
-    const deltaX = target.position.coordinates[0] - this.position.coordinates[0];
-    const deltaY = target.position.coordinates[1] - this.position.coordinates[1];
+    const deltaX = targetCoordinates[0] - currentCoordinates[0];
+    const deltaY = targetCoordinates[1] - currentCoordinates[1];
 
-    const absoluteDeltaX = Math.abs(deltaX);
-    const absoluteDeltaY = Math.abs(deltaY);
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
 
     // King can only move one step but in any direction.
-    if (absoluteDeltaX === 1 || absoluteDeltaY === 1) {
+    if (absDeltaX === 1 || absDeltaY === 1) {
       return simulateMove(
         this.copyPosition(),
         target.position,
@@ -283,7 +299,7 @@ export class King extends Piece {
     }
 
     // Check for castling
-    if (absoluteDeltaX === 2 && absoluteDeltaY === 0 && !this.hasMoved) {
+    if (absDeltaX === 2 && absDeltaY === 0 && !this.hasMoved) {
       let destinationPosition = this.position;
       // Moved two squares horizontally and didn't move before
       if (deltaX === 2) {
@@ -341,8 +357,10 @@ function simulateMove(
       position.coordinates[1] !== targetPosition.coordinates[1]) &&
     limitCounter !== limit
   ) {
+    const nextXPosition = position.coordinates[0] + stepX;
+    const nextYPosition = position.coordinates[1] + stepY;
     const nextPosition: Position = {
-      coordinates: [position.coordinates[0] + stepX, position.coordinates[1] + stepY],
+      coordinates: [nextXPosition, nextYPosition],
       board: position.board,
     };
 
@@ -365,7 +383,9 @@ function simulateMove(
     limitCounter++;
   }
 
-  return comparePositions(position, targetPosition) ? targetPosition : startingPosition;
+  return comparePositions(position, targetPosition)
+    ? targetPosition
+    : startingPosition;
 }
 
 function checkIfPositionContainsTrap(position: Position): boolean {
