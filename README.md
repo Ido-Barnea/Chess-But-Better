@@ -80,7 +80,7 @@ cd Chess-But-Better
 Install dependencies
 
 ```bash
-npm install
+npm ci
 ```
 
 Start the server
