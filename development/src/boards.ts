@@ -1,4 +1,4 @@
-import { ChessBoard } from './board';
+import { BOARD_WIDTH, ChessBoard } from './board';
 import { Item } from './items';
 import { Piece, Square } from './pieces';
 
@@ -9,15 +9,27 @@ let heaven: ChessBoard;
 export const OVERWORLD_BOARD_ID = 'board-overworld';
 export const HELL_BOARD_ID = 'board-hell';
 export const HEAVEN_BOARD_ID = 'board-heaven';
+export const BOTTOM_NOTATION_ID = 'bottom-notations';
+export const LEFT_NOTATION_ID = 'left-notations';
+
+export const NOTATIONS_LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+export const NOTATIONS_NUMBERS = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
 export const OVERWORLD_BOARD = document.getElementById(
   OVERWORLD_BOARD_ID,
 ) as HTMLElement;
-export const HELL_BOARD = document.getElementById(HELL_BOARD_ID) as HTMLElement;
+export const HELL_BOARD = document.getElementById(
+  HELL_BOARD_ID,
+) as HTMLElement;
 export const HEAVEN_BOARD = document.getElementById(
   HEAVEN_BOARD_ID,
 ) as HTMLElement;
-
+export const BOTTOM_NOTATION_CONTAINER = document.getElementById(
+  BOTTOM_NOTATION_ID,
+) as HTMLElement;
+export const LEFT_NOTATION_CONTAINER = document.getElementById(
+  LEFT_NOTATION_ID,
+) as HTMLElement;
 const HELL_BOARD_BUTTON = document.getElementById(
   'board-hell-button',
 ) as HTMLElement;
@@ -44,6 +56,28 @@ export function initializeBoards() {
     lightHeavenSquareColor,
     darkHeavenSquareColor,
   );
+  generateNotations();
+}
+
+export function generateNotations(){
+  for (let index = 0; index < BOARD_WIDTH; index++) {
+    createNotationGraphics(NOTATIONS_NUMBERS[index]);
+    createNotationGraphics(NOTATIONS_LETTERS[index]);
+  }
+}
+
+
+export function createNotationGraphics(notation: string) {
+  const notationElement = document.createElement('p');
+  notationElement.classList.add('notation');
+  notationElement.innerHTML = notation;
+  if (NOTATIONS_LETTERS.includes(notation)) {
+    notationElement.classList.add('letter');
+    BOTTOM_NOTATION_CONTAINER.appendChild(notationElement);
+  } else {
+    notationElement.classList.add('number');
+    LEFT_NOTATION_CONTAINER.appendChild(notationElement);
+  }
 }
 
 export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
@@ -69,7 +103,6 @@ export function destroyPieceOnBoard(targetPiece: Piece) {
       break;
     case HEAVEN_BOARD_ID:
       heaven.destroyPieceOnBoard(targetPiece);
-      break;
   }
 }
 
@@ -83,7 +116,6 @@ export function destroyItemOnBoard(targetItem: Item) {
       break;
     case HEAVEN_BOARD_ID:
       heaven.destroyItemOnBoard(targetItem);
-      break;
   }
 }
 
@@ -130,3 +162,5 @@ export function highlightSquare(target: HTMLElement, shouldHighlight: boolean) {
     }
   }
 }
+
+

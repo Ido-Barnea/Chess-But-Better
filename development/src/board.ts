@@ -36,19 +36,6 @@ export class ChessBoard implements ChessBoardType {
       }
     }
 
-    const leftNotationsContainer = document.createElement('div');
-    leftNotationsContainer.id = 'left-notations-container';
-
-    const bottomNotationsContainer = document.createElement('div');
-    bottomNotationsContainer.id = 'bottom-notations-container';
-
-    this.boardElement.appendChild(leftNotationsContainer);
-    this.boardElement.appendChild(bottomNotationsContainer);
-
-    for (let index = 0; index < BOARD_WIDTH; index++) {
-      this.createNotation(NOTATIONS_NUMBERS[index]);
-      this.createNotation(NOTATIONS_LETTERS[index]);
-    }
 
     const isCollapsed = this.boardElement.classList.contains('collapsed');
     if (!isCollapsed) {
@@ -73,25 +60,6 @@ export class ChessBoard implements ChessBoardType {
     this.boardElement.appendChild(squareElement);
   }
 
-  createNotation(notation: string) {
-    const notationElement = document.createElement('p');
-    notationElement.classList.add('notation');
-    notationElement.innerHTML = notation;
-
-    if (NOTATIONS_LETTERS.includes(notation)) {
-      notationElement.classList.add('letter');
-      const bottomBoardContainer = this.boardElement.querySelector(
-        '#bottom-notations-container',
-      );
-      bottomBoardContainer?.appendChild(notationElement);
-    } else {
-      notationElement.classList.add('number');
-      const leftBoardContainer = this.boardElement.querySelector(
-        '#left-notations-container',
-      );
-      leftBoardContainer?.appendChild(notationElement);
-    }
-  }
 
   getBackgroundColor(position: [number, number]) {
     const isEvenColumn = position[0] % 2 === 0;
