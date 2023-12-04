@@ -254,7 +254,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
     if (targetPiece.hasKilled) {
       targetPiece.position = {
         coordinates: targetPiece.position.coordinates,
-        board: HEAVEN_BOARD_ID,
+        board: HELL_BOARD_ID,
       };
     } else {
       targetPiece.position = {
