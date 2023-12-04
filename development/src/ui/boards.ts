@@ -1,19 +1,29 @@
-import { BOARD_WIDTH, ChessBoard } from './board';
-import { Item } from './items';
-import { Piece, Square } from './pieces';
+import { ChessBoard } from './board';
+import {
+  BOARD_WIDTH,
+  BOTTOM_NOTATION_ID,
+  DARK_HEAVEN_SQUARE_COLOR,
+  DARK_HELL_SQUARE_COLOR,
+  DARK_OVERWORLD_SQUARE_COLOR,
+  GRAY_SQUARE_COLOR,
+  HEAVEN_BOARD_BUTTON_ID,
+  HEAVEN_BOARD_ID,
+  HELL_BOARD_BUTTON_ID,
+  HELL_BOARD_ID,
+  LEFT_NOTATION_ID,
+  LIGHT_HEAVEN_SQUARE_COLOR,
+  LIGHT_HELL_SQUARE_COLOR,
+  LIGHT_OVERWORLD_SQUARE_COLOR,
+  NOTATIONS_LETTERS,
+  NOTATIONS_NUMBERS,
+  OVERWORLD_BOARD_ID,
+} from '../logic/constants';
+import { Item } from '../logic/items';
+import { Piece, Square } from '../logic/pieces';
 
 let overworld: ChessBoard;
 let hell: ChessBoard;
 let heaven: ChessBoard;
-
-export const OVERWORLD_BOARD_ID = 'board-overworld';
-export const HELL_BOARD_ID = 'board-hell';
-export const HEAVEN_BOARD_ID = 'board-heaven';
-export const BOTTOM_NOTATION_ID = 'bottom-notations';
-export const LEFT_NOTATION_ID = 'left-notations';
-
-export const NOTATIONS_LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-export const NOTATIONS_NUMBERS = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
 export const OVERWORLD_BOARD = document.getElementById(
   OVERWORLD_BOARD_ID,
@@ -31,30 +41,27 @@ export const LEFT_NOTATION_CONTAINER = document.getElementById(
   LEFT_NOTATION_ID,
 ) as HTMLElement;
 const HELL_BOARD_BUTTON = document.getElementById(
-  'board-hell-button',
+  HELL_BOARD_BUTTON_ID,
 ) as HTMLElement;
 const HEAVEN_BOARD_BUTTON = document.getElementById(
-  'board-heaven-button',
+  HEAVEN_BOARD_BUTTON_ID,
 ) as HTMLElement;
-
-const lightOverworldSquareColor = 'beige-background';
-const darkOverworldSquareColor = 'brown-background';
-const lightHellSquareColor = 'dark-orange-background';
-const darkHellSquareColor = 'dark-red-background';
-const lightHeavenSquareColor = 'water-background';
-const darkHeavenSquareColor = 'blue-background';
 
 export function initializeBoards() {
   overworld = new ChessBoard(
     OVERWORLD_BOARD,
-    lightOverworldSquareColor,
-    darkOverworldSquareColor,
+    LIGHT_OVERWORLD_SQUARE_COLOR,
+    DARK_OVERWORLD_SQUARE_COLOR,
   );
-  hell = new ChessBoard(HELL_BOARD, lightHellSquareColor, darkHellSquareColor);
+  hell = new ChessBoard(
+    HELL_BOARD,
+    LIGHT_HELL_SQUARE_COLOR,
+    DARK_HELL_SQUARE_COLOR,
+  );
   heaven = new ChessBoard(
     HEAVEN_BOARD,
-    lightHeavenSquareColor,
-    darkHeavenSquareColor,
+    LIGHT_HEAVEN_SQUARE_COLOR,
+    DARK_HEAVEN_SQUARE_COLOR,
   );
   generateNotations();
 }
@@ -156,9 +163,9 @@ export function highlightSquare(target: HTMLElement, shouldHighlight: boolean) {
   }
   if (target.classList.contains('square')) {
     if (shouldHighlight) {
-      target.classList.add('light-gray-background');
+      target.classList.add(GRAY_SQUARE_COLOR);
     } else {
-      target.classList.remove('light-gray-background');
+      target.classList.remove(GRAY_SQUARE_COLOR);
     }
   }
 }

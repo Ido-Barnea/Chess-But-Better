@@ -7,8 +7,8 @@ import {
   roundCounter,
   players,
 } from './logic';
-import { Logger } from './logger';
-import { updateRules } from './game';
+import { Logger } from '../ui/logger';
+import { updateRules } from '../game';
 
 export class Rule {
   id: number;

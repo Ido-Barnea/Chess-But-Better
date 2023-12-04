@@ -1,9 +1,6 @@
-import { spawnItemOnBoard } from './boards';
-import { Logger } from './logger';
-import { items } from './logic';
+import { Logger } from '../ui/logger';
 import { Piece, Position } from './pieces';
 import { Player } from './players';
-import { trapResource } from './resources';
 
 export class Inventory {
   items: Array<Item> = [];
@@ -63,20 +60,4 @@ export class Item implements ItemType {
   apply(piece: Piece) {
     Logger.logGeneral(`${piece.player.color} used a ${this.name}.`);
   };
-}
-
-export class Trap extends Item {
-  constructor(player: Player, position: Position) {
-    super('trap', trapResource, player, position);
-  }
-
-  apply(piece: Piece) {
-    Logger.logGeneral(`${this.player.color} ${piece.name} 
-      placed a ${this.name} on ${piece.position.coordinates}.`);
-
-    this.position = piece.position;
-    items.push(this);
-
-    spawnItemOnBoard(this);
-  }
 }

@@ -1,3 +1,4 @@
+import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './boards';
 
 let draggedElement: HTMLElement;
@@ -12,9 +13,11 @@ let triggerOnFallOffTheBoard: (
   board: string,
 ) => void;
 
-const OVERWORLD_BOARD_BUTTON = document.getElementById('board-overworld-button');
-const HELL_BOARD_BUTTON = document.getElementById('board-hell-button');
-const HEAVEN_BOARD_BUTTON = document.getElementById('board-heaven-button');
+const OVERWORLD_BOARD_BUTTON = document.getElementById(
+  OVERWORLD_BOARD_BUTTON_ID,
+);
+const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID);
+const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
 let triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void;
 
