@@ -10,7 +10,7 @@ on:
       - synchronize
 
 jobs:
-  main:
+  Lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
