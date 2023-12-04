@@ -1,5 +1,5 @@
 name: '[🎨] Style Checker'
-run-name: '[🎨] Style Checker: ${{ github.ref }}'
+run-name: '[🎨] Style Checker: ${{ github.head_ref }}'
 on:
   workflow_dispatch:
   pull_request:
