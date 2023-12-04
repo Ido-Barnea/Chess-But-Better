@@ -1,19 +1,19 @@
-import { Logger } from './logger';
+import { Logger } from './ui/logger';
 import {
   initializeEventListeners,
   setOnAction,
   setOnFallOffTheBoard,
   setOnHighlight,
-} from './events';
-import { highlightSquare, initializeBoards } from './boards';
+} from './ui/events';
+import { highlightSquare, initializeBoards } from './ui/boards';
 import {
   onAction,
   onFallOffTheBoard,
   getCurrentPlayer,
   players,
   roundCounter,
-} from './logic';
-import { Rule } from './rules';
+} from './logic/logic';
+import { Rule } from './logic/rules';
 
 const infoDisplay = document.getElementById('info-display');
 const rulesContainer = document.getElementById('rules-container');

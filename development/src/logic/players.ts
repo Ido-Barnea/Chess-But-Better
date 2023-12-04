@@ -7,6 +7,11 @@ type PlayerType = {
   inventory: Inventory;
 };
 
+export enum PlayerColors {
+  WHITE = 'White',
+  BLACK = 'Black',
+};
+
 export class Player implements PlayerType {
   color: string;
   xp: number;

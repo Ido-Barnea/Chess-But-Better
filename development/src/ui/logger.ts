@@ -1,5 +1,5 @@
-import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from './board';
-import { Piece, Square } from './pieces';
+import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../logic/constants';
+import { Piece, Square } from '../logic/pieces';
 
 enum LogColor {
   general = 'log-color-general',

@@ -5,18 +5,17 @@ import {
   rookResource,
   queenResource,
   kingResource,
-} from './resources';
-import { Player } from './players';
+} from '../ui/resources';
+import { Player, PlayerColors } from './players';
 import {
   getCurrentPlayer,
   switchIsCastling,
   getPieceByPositionAndBoard,
   items,
   comparePositions,
-  PlayerColors,
 } from './logic';
-import { OVERWORLD_BOARD_ID } from './boards';
 import { Item } from './items';
+import { OVERWORLD_BOARD_ID } from './constants';
 
 export type Position = {
   coordinates: [number, number],

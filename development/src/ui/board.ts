@@ -1,10 +1,7 @@
-import { Item } from './items';
-import { pieces } from './logic';
-import { Piece, Square } from './pieces';
-
-export const NOTATIONS_LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-export const NOTATIONS_NUMBERS = ['8', '7', '6', '5', '4', '3', '2', '1'];
-export const BOARD_WIDTH = 8;
+import { BOARD_WIDTH } from '../logic/constants';
+import { Item } from '../logic/items';
+import { pieces } from '../logic/logic';
+import { Piece, Square } from '../logic/pieces';
 
 interface ChessBoardType {
   boardElement: HTMLElement;

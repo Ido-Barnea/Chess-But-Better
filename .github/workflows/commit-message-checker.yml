@@ -1,5 +1,5 @@
 name: '[📒] Commit Message Checker'
-run-name: '[📒] Commit Message Checker: ${{ github.ref }}'
+run-name: '[📒] Commit Message Checker: ${{ github.head_ref }}'
 on:
   pull_request:
     types:

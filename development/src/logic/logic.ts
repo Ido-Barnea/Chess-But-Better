@@ -1,4 +1,4 @@
-import { Player } from './players';
+import { Player, PlayerColors } from './players';
 import {
   Piece,
   Pawn,
@@ -10,24 +10,17 @@ import {
   Square,
   Position,
 } from './pieces';
-import { Logger } from './logger';
+import { Logger } from '../ui/logger';
 import {
   movePieceOnBoard,
   destroyPieceOnBoard,
   spawnPieceOnBoard,
-  OVERWORLD_BOARD_ID,
-  HELL_BOARD_ID,
-  HEAVEN_BOARD_ID,
   destroyItemOnBoard,
-} from './boards';
+} from '../ui/boards';
 import { activeRules } from './rules';
-import { updatePlayersInformation } from './game';
+import { updatePlayersInformation } from '../game';
 import { Item } from './items';
-
-export enum PlayerColors {
-  WHITE = 'White',
-  BLACK = 'Black',
-};
+import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './constants';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -98,12 +91,6 @@ export function comparePositions(
 
 export function switchIsCastling() {
   isCastling = !isCastling;
-}
-
-export function getPieceByPosition(
-  position: Position,
-): Piece | undefined {
-  return pieces.find((piece) => comparePositions(position, piece.position));
 }
 
 export function getPieceByPositionAndBoard(
