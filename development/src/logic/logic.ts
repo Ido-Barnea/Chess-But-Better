@@ -238,8 +238,11 @@ function actOnTurn(
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
 }
-
-function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
+export function actOnTurnPieceToPiece(
+  draggedPiece: Piece,
+  targetPiece: Piece,
+  shouldEndTurn = true,
+) {
   isFriendlyFire = targetPiece.player === draggedPiece.player;
   draggedPiece.hasKilled = true;
 
@@ -296,7 +299,7 @@ function actOnTurnPieceToPiece(draggedPiece: Piece, targetPiece: Piece) {
   }
 
   const targetSquare: Square = { position: targetPiece.position };
-  move(draggedPiece, targetSquare);
+  move(draggedPiece, targetSquare, shouldEndTurn);
 }
 
 function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {

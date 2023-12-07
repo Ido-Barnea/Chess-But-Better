@@ -13,6 +13,7 @@ import {
   getPieceByPositionAndBoard,
   items,
   comparePositions,
+  actOnTurnPieceToPiece,
 } from './logic';
 import { Item } from './items';
 import { OVERWORLD_BOARD_ID } from './constants';
@@ -38,7 +39,6 @@ export class Piece implements PieceType {
   name: string;
   hasMoved: boolean;
   hasKilled: boolean;
-
   constructor(
     position: Position,
     player: Player,
@@ -78,8 +78,36 @@ export type Square = {
 };
 
 export class Pawn extends Piece {
+
+  enPassant: boolean;
+
   constructor(position: Position, player: Player) {
     super(position, player, pawnResource, 'Pawn');
+    this.enPassant = false;
+  }
+
+  enPassantCheck(targetPosition: Position, draggedPiece: Piece){
+
+    let changeInPosition = 0;
+  
+    if (targetPosition.coordinates[1] === 2) {
+      changeInPosition = 1;
+    }
+    else if (targetPosition.coordinates[1] === 5){
+      changeInPosition = -1;
+    } else return false;
+  
+    targetPosition.coordinates[1] += changeInPosition;
+    const targetPiece = getPieceByPositionAndBoard(targetPosition);
+    if ((targetPiece instanceof Pawn) && targetPiece.enPassant){
+      actOnTurnPieceToPiece(draggedPiece,targetPiece, false);
+      targetPosition.coordinates[1] -= changeInPosition;
+      console.log('en passant intiated');
+      return true;
+    }
+  
+    targetPosition.coordinates[1] -= changeInPosition;
+    return false;
   }
 
   validateMove(target: Piece | Square) {
@@ -90,7 +118,6 @@ export class Pawn extends Piece {
 
     const absDeltaX = Math.abs(deltaX);
     const absDeltaY = Math.abs(deltaY);
-
     const stepY =
       target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
@@ -107,25 +134,32 @@ export class Pawn extends Piece {
       return this.position;
     }
 
-    // Pawns attack diagonally.
-    if ((target as Piece).name !== undefined) {
-      return absDeltaY === 1 && absDeltaX === 1
+    // Pawns can attack diagonally.
+    const isEatingMove = absDeltaY === 1 && absDeltaX === 1;
+
+    if (
+      (isEatingMove && this.enPassantCheck(target.position,this)) ||
+      (target as Piece).name !== undefined
+    ){
+      return isEatingMove
         ? target.position
         : this.position;
     }
 
     // Pawns can have an initial two-square move.
     if (!this.hasMoved && absDeltaY === 2 && absDeltaX === 0) {
-      return simulateMove(
+      const validatedMove = simulateMove(
         this.copyPosition(),
         target.position,
         0,
         stepY,
         2,
       );
+      this.enPassant = validatedMove === target.position;
+      return validatedMove;
     }
 
-    // Pawns move one square forward.
+    // Pawns can move one square forward.
     return absDeltaY === 1 && absDeltaX === 0
       ? target.position
       : this.position;
