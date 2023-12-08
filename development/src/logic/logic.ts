@@ -26,38 +26,38 @@ const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
-  new Rook({ coordinates: [0, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Knight({ coordinates: [1, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Bishop({ coordinates: [2, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Queen({ coordinates: [3, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new King({ coordinates: [4, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Bishop({ coordinates: [5, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Knight({ coordinates: [6, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Rook({ coordinates: [7, 0], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [0, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [1, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [2, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [3, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [4, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [5, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [6, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [7, 1], board: OVERWORLD_BOARD_ID }, players[1]),
-  new Pawn({ coordinates: [0, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Pawn({ coordinates: [1, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Pawn({ coordinates: [2, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Pawn({ coordinates: [3, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Pawn({ coordinates: [4, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Pawn({ coordinates: [5, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Pawn({ coordinates: [6, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Pawn({ coordinates: [7, 6], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Rook({ coordinates: [0, 7], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Knight({ coordinates: [1, 7], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Bishop({ coordinates: [2, 7], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Queen({ coordinates: [3, 7], board: OVERWORLD_BOARD_ID }, players[0]),
-  new King({ coordinates: [4, 7], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Bishop({ coordinates: [5, 7], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Knight({ coordinates: [6, 7], board: OVERWORLD_BOARD_ID }, players[0]),
-  new Rook({ coordinates: [7, 7], board: OVERWORLD_BOARD_ID }, players[0]),
+  new Rook({ coordinates: [0, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Knight({ coordinates: [1, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Bishop({ coordinates: [2, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Queen({ coordinates: [3, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new King({ coordinates: [4, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Bishop({ coordinates: [5, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Knight({ coordinates: [6, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Rook({ coordinates: [7, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [0, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [1, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [2, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [3, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [4, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [5, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [6, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [7, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [0, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [1, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [2, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [3, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [4, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [5, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [6, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [7, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Rook({ coordinates: [0, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Knight({ coordinates: [1, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Bishop({ coordinates: [2, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Queen({ coordinates: [3, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new King({ coordinates: [4, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Bishop({ coordinates: [5, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Knight({ coordinates: [6, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Rook({ coordinates: [7, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
 ];
 
 export let items: Array<Item> = [];
@@ -399,8 +399,6 @@ function endTurn() {
   currentPlayerIndex =
     currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
   turnCounter++;
-
-  console.log('dsadsa');
 
   if (turnCounter % players.length === 0) {
     turnCounter = 0;
