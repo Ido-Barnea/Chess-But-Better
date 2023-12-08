@@ -90,34 +90,6 @@ export class Pawn extends Piece {
     this.enPassant = false;
   }
 
-  // enPassantCheck(targetPosition: Position, draggedPiece: Piece): boolean{
-  //   let changeInPosition = 0;
-
-  //   if (
-  //     targetPosition.coordinates[1] === 2 &&
-  //      draggedPiece.player.color === 'White'
-  //   ) {
-  //     changeInPosition = 1;
-  //   }
-  //   else if (
-  //     targetPosition.coordinates[1] === 5 &&
-  //      draggedPiece.player.color === 'Black'
-  //   ){
-  //     changeInPosition = -1;
-  //   } else return false;
-
-  //   targetPosition.coordinates[1] += changeInPosition;
-  //   const targetPiece = getPieceByPositionAndBoard(targetPosition);
-  //   if ((targetPiece instanceof Pawn) && targetPiece.enPassant){
-  //     actOnTurnPieceToPiece(draggedPiece,targetPiece, false);
-  //     targetPosition.coordinates[1] -= changeInPosition;
-  //     return true;
-  //   }
-  
-  //   targetPosition.coordinates[1] -= changeInPosition;
-  //   return false;
-  // }
-
   validateMove(target: Piece | Square) {
     const targetCoordinates = target.position.coordinates;
     const currentCoordinates = this.position.coordinates;
@@ -143,7 +115,6 @@ export class Pawn extends Piece {
     }
 
     // Pawns can attack diagonally.
-
     this.enPassant =
      !!enPassantPosition && 
      (absDeltaY === 1 && absDeltaX === 1) &&
