@@ -246,7 +246,6 @@ export function actOnTurnPieceToPiece(
   targetPiece: Piece,
 ) {
   isFriendlyFire = targetPiece.player === draggedPiece.player;
-  draggedPiece.hasKilled = true;
 
   killPiece(draggedPiece ,targetPiece);
 
@@ -352,6 +351,7 @@ function killPiece(
   targetPiece: Piece,
   targetPosition = targetPiece.position,
 ) {
+  draggedPiece.hasKilled = true;
   deathCounter++;
   isPieceKilled = true;
   destroyPieceOnBoard(targetPiece);
