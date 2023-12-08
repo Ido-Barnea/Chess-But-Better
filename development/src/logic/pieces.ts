@@ -86,7 +86,7 @@ export class Pawn extends Piece {
     this.enPassant = false;
   }
 
-  enPassantCheck(targetPosition: Position, draggedPiece: Piece){
+  enPassantCheck(targetPosition: Position, draggedPiece: Piece): boolean{
 
     let changeInPosition = 0;
   
@@ -134,13 +134,13 @@ export class Pawn extends Piece {
     }
 
     // Pawns can attack diagonally.
-    const isEatingMove = absDeltaY === 1 && absDeltaX === 1;
+    const isAttackingMove = absDeltaY === 1 && absDeltaX === 1;
 
     if (
-      (isEatingMove && this.enPassantCheck(target.position,this)) ||
+      (isAttackingMove && this.enPassantCheck(target.position,this)) ||
       (target as Piece).name !== undefined
     ){
-      return isEatingMove
+      return isAttackingMove
         ? target.position
         : this.position;
     }
