@@ -265,8 +265,8 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
       if (!enPassantPosition) return;
       const targetPiece = getPieceByPositionAndBoard(enPassantPosition);
       if (!targetPiece) return;
-
-      killPiece(draggedPiece, targetPiece);
+      
+      killPiece(draggedPiece, targetPiece, targetSquare.position);
     } 
     move(draggedPiece, targetSquare); 
   } else {
@@ -290,8 +290,14 @@ function actOnTurnPieceToTrap(draggedPiece: Piece, targetItem: Item) {
   endTurn();
 }
 
-function killPieceProcess(draggedPiece: Piece, targetPiece: Piece) {
+function killPieceProcess(
+  draggedPiece: Piece,
+  targetPiece: Piece,
+  targetPosition: Position,
+) {
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
+    targetPiece.position = targetPosition;
+
     Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} 
       was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
 
@@ -341,11 +347,15 @@ function killPieceProcess(draggedPiece: Piece, targetPiece: Piece) {
   }
 }
 
-function killPiece(draggedPiece: Piece, targetPiece: Piece) {
+function killPiece(
+  draggedPiece: Piece,
+  targetPiece: Piece,
+  targetPosition = targetPiece.position,
+) {
   deathCounter++;
   isPieceKilled = true;
   destroyPieceOnBoard(targetPiece);
-  killPieceProcess(draggedPiece, targetPiece);
+  killPieceProcess(draggedPiece, targetPiece, targetPosition);
 }
 
 function permanentlyKillPiece(targetPiece: Piece) {
@@ -437,7 +447,7 @@ function resetVariables() {
       piece.enPassant = false;
     }
   });
-  
+
   if (
     enPassantPosition &&
     getCurrentPlayer() !== getPieceByPositionAndBoard(enPassantPosition)?.player
