@@ -102,7 +102,6 @@ export class Pawn extends Piece {
     if ((targetPiece instanceof Pawn) && targetPiece.enPassant){
       actOnTurnPieceToPiece(draggedPiece,targetPiece, false);
       targetPosition.coordinates[1] -= changeInPosition;
-      console.log('en passant intiated');
       return true;
     }
   
