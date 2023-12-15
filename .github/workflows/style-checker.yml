@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       - name: Setup
         uses: nrwl/nx-set-shas@v3
-      - name: Check NPM Packages
+      - name: Verify Packages
         run: npm ci
       - name: Lint
         run: npx nx run-many --target lint
