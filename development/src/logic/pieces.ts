@@ -116,7 +116,7 @@ export class Pawn extends Piece {
     ) {
       return this.position;
     }
-    console.log(enPassantPosition);
+    
     // Pawns can attack diagonally.
     const isDiagonalMovement = absDeltaY === 1 && absDeltaX === 1;
     this.enPassant =
