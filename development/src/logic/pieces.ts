@@ -26,6 +26,9 @@ export let enPassantPosition: Position | undefined;
 export function resetEnPassantPosition() {
   enPassantPosition = undefined;
 }
+export function setEnPassantPosition(position: Position) {
+  enPassantPosition = position;
+}
 
 interface PieceType {
   position: Position;
@@ -113,11 +116,12 @@ export class Pawn extends Piece {
     ) {
       return this.position;
     }
-
+    console.log(enPassantPosition);
     // Pawns can attack diagonally.
+    const isDiagonalMovement = absDeltaY === 1 && absDeltaX === 1;
     this.enPassant =
      !!enPassantPosition && 
-     (absDeltaY === 1 && absDeltaX === 1) &&
+     isDiagonalMovement &&
      (targetCoordinates[0] === enPassantPosition.coordinates[0]) &&
      Math.abs(targetCoordinates[1] - enPassantPosition.coordinates[1]) === 1;
 
@@ -125,7 +129,7 @@ export class Pawn extends Piece {
       (this.enPassant) ||
       (target as Piece).name !== undefined
     ){
-      return absDeltaY === 1 && absDeltaX === 1
+      return isDiagonalMovement
         ? target.position
         : this.position;
     }
