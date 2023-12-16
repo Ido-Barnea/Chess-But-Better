@@ -1,6 +1,6 @@
 import { OVERWORLD_BOARD_ID } from './constants';
 import { Player, PlayerColors } from './players';
-import { Position, Pawn, Bishop, Knight, Rook, Queen, King } from './pieces';
+import { Position, Pawn, Bishop, Knight, Rook, Queen, King, setEnPassantPosition } from './pieces';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -43,6 +43,20 @@ describe('Piece movements', () => {
     expect(singleStepValidMove).toEqual(singleStepMove);
 
     pawn.position = initialPosition;
+    setEnPassantPosition({
+      coordinates: [1,6],
+      board: OVERWORLD_BOARD_ID,
+    });
+    const enPassantMove: Position = {
+      coordinates: [1,5],
+      board: OVERWORLD_BOARD_ID,
+    };
+    const enPassantValidMove = pawn.validateMove({
+      position: enPassantMove,
+    });
+    expect(enPassantValidMove).toEqual(enPassantMove);
+
+    pawn.position = initialPosition;
     const twoStepsInitialMove: Position = {
       coordinates: [0, 4],
       board: OVERWORLD_BOARD_ID,
@@ -61,7 +75,7 @@ describe('Piece movements', () => {
     );
     const diagonalAttackValidMove = pawn.validateMove(diagonalAttackMove);
     expect(diagonalAttackValidMove).toEqual(diagonalAttackMove.position);
-    
+
     pawn.position = initialPosition;
     const invalidPosition: Position = {
       coordinates: [0, 3],

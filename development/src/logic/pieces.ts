@@ -21,6 +21,14 @@ export type Position = {
   coordinates: [number, number],
   board: string,
 }
+export let enPassantPosition: Position | undefined;
+
+export function resetEnPassantPosition() {
+  enPassantPosition = undefined;
+}
+export function setEnPassantPosition(position: Position) {
+  enPassantPosition = position;
+}
 
 interface PieceType {
   position: Position;
@@ -38,7 +46,6 @@ export class Piece implements PieceType {
   name: string;
   hasMoved: boolean;
   hasKilled: boolean;
-
   constructor(
     position: Position,
     player: Player,
@@ -78,8 +85,12 @@ export type Square = {
 };
 
 export class Pawn extends Piece {
+
+  enPassant: boolean;
+
   constructor(position: Position, player: Player) {
     super(position, player, pawnResource, 'Pawn');
+    this.enPassant = false;
   }
 
   validateMove(target: Piece | Square) {
@@ -90,7 +101,6 @@ export class Pawn extends Piece {
 
     const absDeltaX = Math.abs(deltaX);
     const absDeltaY = Math.abs(deltaY);
-
     const stepY =
       target.position.coordinates[1] > this.position.coordinates[1]
         ? 1
@@ -106,26 +116,40 @@ export class Pawn extends Piece {
     ) {
       return this.position;
     }
+    
+    // Pawns can attack diagonally.
+    const isDiagonalMovement = absDeltaY === 1 && absDeltaX === 1;
+    this.enPassant =
+     !!enPassantPosition && 
+     isDiagonalMovement &&
+     (targetCoordinates[0] === enPassantPosition.coordinates[0]) &&
+     Math.abs(targetCoordinates[1] - enPassantPosition.coordinates[1]) === 1;
 
-    // Pawns attack diagonally.
-    if ((target as Piece).name !== undefined) {
-      return absDeltaY === 1 && absDeltaX === 1
+    if (
+      (this.enPassant) ||
+      (target as Piece).name !== undefined
+    ){
+      return isDiagonalMovement
         ? target.position
         : this.position;
     }
 
     // Pawns can have an initial two-square move.
     if (!this.hasMoved && absDeltaY === 2 && absDeltaX === 0) {
-      return simulateMove(
+      const validatedMove = simulateMove(
         this.copyPosition(),
         target.position,
         0,
         stepY,
         2,
       );
+      if (validatedMove === target.position) {
+        enPassantPosition = validatedMove;
+      }
+      return validatedMove;
     }
 
-    // Pawns move one square forward.
+    // Pawns can move one square forward.
     return absDeltaY === 1 && absDeltaX === 0
       ? target.position
       : this.position;
