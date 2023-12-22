@@ -294,16 +294,22 @@ function killPieceProcess(
   targetPiece: Piece,
   targetPosition: Position,
 ) {
-  const targetPieceInfo = 
-  `${targetPiece.pieceLogo} ${targetPiece.player.color} ${targetPiece.name}`;
-  const draggedPieceInfo = 
-  `${draggedPiece.pieceLogo} ${draggedPiece.player.color} ${draggedPiece.name}`;
+  const targetPieceLogo = targetPiece.pieceLogo;
+  const targetPieceColor = targetPiece.player.color;
+  const targetPieceName = targetPiece.name;
+  const draggedPieceLogo = draggedPiece.pieceLogo;
+  const draggedPieceColor = draggedPiece.player.color;
+  const draggedPieceName = draggedPiece.name;
 
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
     targetPiece.position = targetPosition;
 
     Logger.logKill(
-      `A ${targetPieceInfo} was killed by a ${draggedPieceInfo}.`,
+      `A 
+      ${targetPieceLogo} ${targetPieceColor} ${targetPieceName}
+      was killed by a 
+      ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}
+      .`,
     );
 
     if (targetPiece.hasKilled) {
@@ -334,7 +340,11 @@ function killPieceProcess(
     spawnPieceOnBoard(targetPiece);
   } else {
     Logger.logKill(
-      `A ${targetPieceInfo} was permanently killed by a ${draggedPieceInfo}.`,
+      `A 
+      ${targetPieceLogo} ${targetPieceColor} ${targetPieceName}
+       was permanently killed by a 
+      ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}
+      .`,
     );
     
     pieces.forEach((piece) => {
