@@ -16,6 +16,7 @@ import {
   LIGHT_OVERWORLD_SQUARE_COLOR,
   NOTATIONS_LETTERS,
   NOTATIONS_NUMBERS,
+  OVERWORLD_BOARD_BUTTON_ID,
   OVERWORLD_BOARD_ID,
 } from '../logic/constants';
 import { Item } from '../logic/items';
@@ -40,6 +41,9 @@ export const BOTTOM_NOTATION_CONTAINER = document.getElementById(
 export const LEFT_NOTATION_CONTAINER = document.getElementById(
   LEFT_NOTATION_ID,
 ) as HTMLElement;
+const OVERWORLD_BOARD_BUTTON = document.getElementById(
+  OVERWORLD_BOARD_BUTTON_ID,
+) as HTMLElement;
 const HELL_BOARD_BUTTON = document.getElementById(
   HELL_BOARD_BUTTON_ID,
 ) as HTMLElement;
@@ -50,16 +54,19 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(
 export function initializeBoards() {
   overworld = new ChessBoard(
     OVERWORLD_BOARD,
+    OVERWORLD_BOARD_BUTTON,
     LIGHT_OVERWORLD_SQUARE_COLOR,
     DARK_OVERWORLD_SQUARE_COLOR,
   );
   hell = new ChessBoard(
     HELL_BOARD,
+    HELL_BOARD_BUTTON,
     LIGHT_HELL_SQUARE_COLOR,
     DARK_HELL_SQUARE_COLOR,
   );
   heaven = new ChessBoard(
     HEAVEN_BOARD,
+    HEAVEN_BOARD_BUTTON,
     LIGHT_HEAVEN_SQUARE_COLOR,
     DARK_HEAVEN_SQUARE_COLOR,
   );
@@ -73,6 +80,16 @@ export function generateNotations(){
   }
 }
 
+function getBoardbyId(boardId: string): ChessBoard {
+  switch (boardId) {
+    case HELL_BOARD_ID:
+      return hell;
+    case HEAVEN_BOARD_ID:
+      return heaven;
+    default:
+      return overworld;
+  }
+}
 
 export function createNotationGraphics(notation: string) {
   const notationElement = document.createElement('p');
@@ -88,73 +105,30 @@ export function createNotationGraphics(notation: string) {
 }
 
 export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
-  switch (draggedPiece.position.board) {
-    case OVERWORLD_BOARD_ID:
-      overworld.movePieceOnBoard(draggedPiece, targetSquare);
-      break;
-    case HELL_BOARD_ID:
-      hell.movePieceOnBoard(draggedPiece, targetSquare);
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.movePieceOnBoard(draggedPiece, targetSquare);
-  }
+  const board = getBoardbyId(draggedPiece.position.board);
+  board.movePieceOnBoard(draggedPiece, targetSquare);
 }
 
 export function destroyPieceOnBoard(targetPiece: Piece) {
-  switch (targetPiece.position.board) {
-    case OVERWORLD_BOARD_ID:
-      overworld.destroyPieceOnBoard(targetPiece);
-      break;
-    case HELL_BOARD_ID:
-      hell.destroyPieceOnBoard(targetPiece);
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.destroyPieceOnBoard(targetPiece);
-  }
+  const board = getBoardbyId(targetPiece.position.board);
+  board.destroyPieceOnBoard(targetPiece);
 }
 
 export function destroyItemOnBoard(targetItem: Item) {
-  switch (targetItem.position.board) {
-    case OVERWORLD_BOARD_ID:
-      overworld.destroyItemOnBoard(targetItem);
-      break;
-    case HELL_BOARD_ID:
-      hell.destroyItemOnBoard(targetItem);
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.destroyItemOnBoard(targetItem);
-  }
+  const board = getBoardbyId(targetItem.position.board);
+  board.destroyItemOnBoard(targetItem);
+
 }
 
 export function spawnPieceOnBoard(piece: Piece) {
-  switch (piece.position.board) {
-    case HELL_BOARD_ID:
-      hell.spawnPieceOnBoard(piece);
-      HELL_BOARD_BUTTON.classList.remove('collapsed');
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.spawnPieceOnBoard(piece);
-      HEAVEN_BOARD_BUTTON.classList.remove('collapsed');
-      break;
-    default:
-      return;
-  }
+  const board = getBoardbyId(piece.position.board);
+  board.spawnPieceOnBoard(piece);
+  board.boardButtonElement.classList.remove('collapsed');
 }
 
 export function spawnItemOnBoard(item: Item) {
-  switch (item.position.board) {
-    case OVERWORLD_BOARD_ID:
-      overworld.spawnItemOnBoard(item);
-      break;
-    case HELL_BOARD_ID:
-      hell.spawnItemOnBoard(item);
-      break;
-    case HEAVEN_BOARD_ID:
-      heaven.spawnItemOnBoard(item);
-      break;
-    default:
-      return;
-  }
+  const board = getBoardbyId(item.position.board);
+  board.spawnItemOnBoard(item);
 }
 
 export function highlightSquare(target: HTMLElement, shouldHighlight: boolean) {
