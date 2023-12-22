@@ -3,23 +3,21 @@ import { Item } from '../logic/items';
 import { pieces } from '../logic/logic';
 import { Piece, Square } from '../logic/pieces';
 
-interface ChessBoardType {
+
+export class ChessBoard {
   boardElement: HTMLElement;
-  boardButton?: HTMLElement;
-  lightSquareColor: string;
-  darkSquareColor: string;
-}
-export class ChessBoard implements ChessBoardType {
-  boardElement: HTMLElement;
+  boardButtonElement: HTMLElement;
   lightSquareColor: string;
   darkSquareColor: string;
 
   constructor(
-    boardContainer: HTMLElement,
+    boardElement: HTMLElement,
+    boardButtonElement: HTMLElement,
     lightSquareColor: string,
     darkSquareColor: string,
   ) {
-    this.boardElement = boardContainer;
+    this.boardElement = boardElement;
+    this.boardButtonElement = boardButtonElement;
     this.darkSquareColor = darkSquareColor;
     this.lightSquareColor = lightSquareColor;
 
