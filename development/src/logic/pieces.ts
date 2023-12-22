@@ -92,7 +92,7 @@ export class Pawn extends Piece {
   enPassant: boolean;
 
   constructor(position: Position, player: Player) {
-    const logo = player.color == PlayerColors.WHITE
+    const logo = player.color === PlayerColors.WHITE
       ? '♙'
       : '♟';
     super(position, player, pawnResource, 'Pawn', logo);
@@ -164,7 +164,7 @@ export class Pawn extends Piece {
 
 export class Bishop extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color == PlayerColors.WHITE
+    const logo = player.color === PlayerColors.WHITE
       ? '♗'
       : '♝';
     super(position, player, bishopResource, 'Bishop', logo);
@@ -196,7 +196,7 @@ export class Bishop extends Piece {
 
 export class Knight extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color == PlayerColors.WHITE
+    const logo = player.color === PlayerColors.WHITE
       ? '♘'
       : '♞';
     super(position, player, knightResource, 'Knight', logo);
@@ -215,7 +215,7 @@ export class Knight extends Piece {
 
 export class Rook extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color == PlayerColors.WHITE
+    const logo = player.color === PlayerColors.WHITE
       ? '♖'
       : '♜';
     super(position, player, rookResource, 'Rook', logo);
@@ -255,7 +255,7 @@ export class Rook extends Piece {
 
 export class Queen extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color == PlayerColors.WHITE
+    const logo = player.color === PlayerColors.WHITE
       ? '♕'
       : '♛';
 
@@ -303,7 +303,7 @@ export class Queen extends Piece {
 
 export class King extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color == PlayerColors.WHITE
+    const logo = player.color === PlayerColors.WHITE
       ? '♔'
       : '♚';
 
