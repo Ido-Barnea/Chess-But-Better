@@ -46,11 +46,13 @@ export class Piece implements PieceType {
   name: string;
   hasMoved: boolean;
   hasKilled: boolean;
+  pieceLogo: string;
   constructor(
     position: Position,
     player: Player,
     resource: string,
     name: string,
+    pieceLogo: string,
   ) {
     this.position = position;
     this.player = player;
@@ -58,6 +60,7 @@ export class Piece implements PieceType {
     this.name = name;
     this.hasMoved = false;
     this.hasKilled = false;
+    this.pieceLogo = pieceLogo;
   }
 
   validateMove(_: Piece | Square | Item): Position {
@@ -89,7 +92,10 @@ export class Pawn extends Piece {
   enPassant: boolean;
 
   constructor(position: Position, player: Player) {
-    super(position, player, pawnResource, 'Pawn');
+    const logo = player.color === PlayerColors.WHITE
+      ? '♙'
+      : '♟';
+    super(position, player, pawnResource, 'Pawn', logo);
     this.enPassant = false;
   }
 
@@ -158,7 +164,10 @@ export class Pawn extends Piece {
 
 export class Bishop extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, bishopResource, 'Bishop');
+    const logo = player.color === PlayerColors.WHITE
+      ? '♗'
+      : '♝';
+    super(position, player, bishopResource, 'Bishop', logo);
   }
 
   validateMove(target: Piece | Square) {
@@ -187,7 +196,10 @@ export class Bishop extends Piece {
 
 export class Knight extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, knightResource, 'Knight');
+    const logo = player.color === PlayerColors.WHITE
+      ? '♘'
+      : '♞';
+    super(position, player, knightResource, 'Knight', logo);
   }
 
   validateMove(target: Piece | Square) {
@@ -203,7 +215,10 @@ export class Knight extends Piece {
 
 export class Rook extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, rookResource, 'Rook');
+    const logo = player.color === PlayerColors.WHITE
+      ? '♖'
+      : '♜';
+    super(position, player, rookResource, 'Rook', logo);
   }
 
   validateMove(target: Piece | Square) {
@@ -240,7 +255,11 @@ export class Rook extends Piece {
 
 export class Queen extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, queenResource, 'Queen');
+    const logo = player.color === PlayerColors.WHITE
+      ? '♕'
+      : '♛';
+
+    super(position, player, queenResource, 'Queen', logo);
   }
 
   validateMove(target: Piece | Square) {
@@ -284,7 +303,11 @@ export class Queen extends Piece {
 
 export class King extends Piece {
   constructor(position: Position, player: Player) {
-    super(position, player, kingResource, 'King');
+    const logo = player.color === PlayerColors.WHITE
+      ? '♔'
+      : '♚';
+
+    super(position, player, kingResource, 'King', logo);
   }
 
   validateMove(target: Piece | Square) {

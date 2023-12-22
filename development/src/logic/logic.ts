@@ -294,11 +294,23 @@ function killPieceProcess(
   targetPiece: Piece,
   targetPosition: Position,
 ) {
+  const targetPieceLogo = targetPiece.pieceLogo;
+  const targetPieceColor = targetPiece.player.color;
+  const targetPieceName = targetPiece.name;
+  const draggedPieceLogo = draggedPiece.pieceLogo;
+  const draggedPieceColor = draggedPiece.player.color;
+  const draggedPieceName = draggedPiece.name;
+
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
     targetPiece.position = targetPosition;
 
-    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} 
-      was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
+    Logger.logKill(
+      `A 
+      ${targetPieceLogo} ${targetPieceColor} ${targetPieceName}
+      was killed by a 
+      ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}
+      .`,
+    );
 
     if (targetPiece.hasKilled) {
       targetPiece.position = {
@@ -327,9 +339,13 @@ function killPieceProcess(
 
     spawnPieceOnBoard(targetPiece);
   } else {
-    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was 
-      permanently killed by a ${draggedPiece.player.color} 
-      ${draggedPiece.name}.`);
+    Logger.logKill(
+      `A 
+      ${targetPieceLogo} ${targetPieceColor} ${targetPieceName}
+       was permanently killed by a 
+      ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}
+      .`,
+    );
     
     pieces.forEach((piece) => {
       const areOnTheSamePosition = comparePositions(
@@ -401,7 +417,9 @@ function castle(kingPiece: Piece, targetSquare: Square) {
 
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare, false);
-  Logger.logGeneral(`${kingPiece.player.color} castled.`);
+  Logger.logGeneral(
+    `${kingPiece.pieceLogo} ${kingPiece.player.color} castled.`,
+  );
   return true;
 }
 
