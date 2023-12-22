@@ -36,8 +36,16 @@ export class Logger {
     const toNotation = this.convertPositionToNotation(
       targetSquare.position.coordinates,
     );
-    this.log(`${draggedPiece.player.color} ${draggedPiece.name} 
-      moved from ${fromNotation} to ${toNotation}.`, LogColor.movement);
+
+    const pieceLogo = `${draggedPiece.pieceLogo}`;
+    const pieceColor = `${draggedPiece.player.color}`;
+    const pieceName = `${draggedPiece.name}`;
+
+    this.log(`
+      ${pieceLogo} ${pieceColor}  ${pieceName} 
+      moved from ${fromNotation} to ${toNotation}.`,
+    LogColor.movement,
+    );
   }
 
   private static convertPositionToNotation(position: [number, number]) {

@@ -24,8 +24,8 @@ import { updatePlayersInformation } from '../game';
 import { Item } from './items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './constants';
 
-const whitePlayer = new Player(PlayerColors.WHITE);
-const blackPlayer = new Player(PlayerColors.BLACK);
+export const whitePlayer = new Player(PlayerColors.WHITE);
+export const blackPlayer = new Player(PlayerColors.BLACK);
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
   new Rook({ coordinates: [0, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
@@ -294,11 +294,17 @@ function killPieceProcess(
   targetPiece: Piece,
   targetPosition: Position,
 ) {
+  const targetPieceInfo = 
+  `${targetPiece.pieceLogo} ${targetPiece.player.color} ${targetPiece.name}`;
+  const draggedPieceInfo = 
+  `${draggedPiece.pieceLogo} ${draggedPiece.player.color} ${draggedPiece.name}`;
+
   if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
     targetPiece.position = targetPosition;
 
-    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} 
-      was killed by a ${draggedPiece.player.color} ${draggedPiece.name}.`);
+    Logger.logKill(
+      `A ${targetPieceInfo} was killed by a ${draggedPieceInfo}.`,
+    );
 
     if (targetPiece.hasKilled) {
       targetPiece.position = {
@@ -327,9 +333,9 @@ function killPieceProcess(
 
     spawnPieceOnBoard(targetPiece);
   } else {
-    Logger.logKill(`A ${targetPiece.player.color} ${targetPiece.name} was 
-      permanently killed by a ${draggedPiece.player.color} 
-      ${draggedPiece.name}.`);
+    Logger.logKill(
+      `A ${targetPieceInfo} was permanently killed by a ${draggedPieceInfo}.`,
+    );
     
     pieces.forEach((piece) => {
       const areOnTheSamePosition = comparePositions(
@@ -401,7 +407,9 @@ function castle(kingPiece: Piece, targetSquare: Square) {
 
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare, false);
-  Logger.logGeneral(`${kingPiece.player.color} castled.`);
+  Logger.logGeneral(
+    `${kingPiece.pieceLogo} ${kingPiece.player.color} castled.`,
+  );
   return true;
 }
 
