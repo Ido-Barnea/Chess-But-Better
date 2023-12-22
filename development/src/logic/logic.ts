@@ -24,8 +24,8 @@ import { updatePlayersInformation } from '../game';
 import { Item } from './items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './constants';
 
-export const whitePlayer = new Player(PlayerColors.WHITE);
-export const blackPlayer = new Player(PlayerColors.BLACK);
+const whitePlayer = new Player(PlayerColors.WHITE);
+const blackPlayer = new Player(PlayerColors.BLACK);
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
   new Rook({ coordinates: [0, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
