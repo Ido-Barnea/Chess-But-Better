@@ -19,7 +19,6 @@ jobs:
           fetch-depth: 0
       - name: Setup NX
         uses: nrwl/nx-set-shas@v3
-      - name: Verify Packages
-        run: npm ci
+      - run: npm ci
       - name: Test
         run: npx nx run-many --target test
