@@ -16,7 +16,7 @@
     "@nx/js": "17.2.7",
     "@nx/linter": "16.10.0",
     "@nx/workspace": "16.10.0",
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^29.5.11",
     "@types/node": "18.7.1",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
