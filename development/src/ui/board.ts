@@ -1,7 +1,7 @@
 import { BOARD_WIDTH } from '../logic/constants';
 import { Coin } from '../logic/items/coin';
 import { Item } from '../logic/items/items';
-import { comparePositions, pieces } from '../logic/logic';
+import { comparePositions, items, pieces } from '../logic/logic';
 import { Piece, Position, Square } from '../logic/pieces';
 
 
@@ -63,7 +63,7 @@ export class ChessBoard {
   randomlyGenerateCoins() {
     for (let row = 0; row < BOARD_WIDTH; row++) {
       for (let column = 0; column < BOARD_WIDTH; column++) {
-        const COIN_GENERATION_CHANCE = 5; // A number between 1-100 that determines the chance of a coin generating on any square.
+        const COIN_GENERATION_CHANCE = 10; // A number between 1-100 that determines the chance of a coin generating on any square.
         const random = Math.floor(Math.random() * 100) + 1;
 
         const coordinates: [number, number] = [column, row];
@@ -75,23 +75,21 @@ export class ChessBoard {
           return comparePositions(currentPosition, piece.position);
         })).length !== 0;
         if (random < COIN_GENERATION_CHANCE && !isPieceOnTargetSquare) {
-          const coinElement = this.createCoinElement(coordinates);
-          const square = document.querySelectorAll(
+          const position: Position = {
+            coordinates: coordinates,
+            boardId: this.boardId,
+          };
+          const coin = new Coin(position);
+          items.push(coin);
+
+          const coinElement = this.createItemElement(coin);
+          const square = this.boardElement.querySelectorAll(
             `[square-id="${coordinates}"]`,
           )[0];
           square.appendChild(coinElement);
         }
       }
     }
-  }
-
-  createCoinElement(coordinates: [number, number]): HTMLElement {
-    const position: Position = {
-      coordinates: coordinates,
-      boardId: this.boardId,
-    };
-    const coin = new Coin(position);
-    return this.createItemElement(coin);
   }
 
   getBackgroundColor(position: [number, number]) {

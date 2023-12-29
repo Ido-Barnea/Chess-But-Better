@@ -13,6 +13,7 @@ import {
   getPieceByPositionAndBoard,
   items,
   comparePositions,
+  pieceMovedOnCoin,
 } from './logic';
 import { Item } from './items/items';
 import { OVERWORLD_BOARD_ID } from './constants';
@@ -99,7 +100,7 @@ export class Pawn extends Piece {
     this.enPassant = false;
   }
 
-  validateMove(target: Piece | Square) {
+  validateMove(target: Piece | Square): Position {
     const targetCoordinates = target.position.coordinates;
     const currentCoordinates = this.position.coordinates;
     const deltaX = targetCoordinates[0] - currentCoordinates[0];
@@ -132,8 +133,8 @@ export class Pawn extends Piece {
      Math.abs(targetCoordinates[1] - enPassantPosition.coordinates[1]) === 1;
 
     if (
-      (this.enPassant) ||
-      (target as Piece).name !== undefined
+      this.enPassant ||
+      target instanceof Piece
     ){
       return isDiagonalMovement
         ? target.position
@@ -143,7 +144,7 @@ export class Pawn extends Piece {
     // Pawns can have an initial two-square move.
     if (!this.hasMoved && absDeltaY === 2 && absDeltaX === 0) {
       const validatedMove = simulateMove(
-        this.copyPosition(),
+        this,
         target.position,
         0,
         stepY,
@@ -170,7 +171,7 @@ export class Bishop extends Piece {
     super(position, player, bishopResource, 'Bishop', logo);
   }
 
-  validateMove(target: Piece | Square) {
+  validateMove(target: Piece | Square): Position {
     const targetCoordinates = target.position.coordinates;
     const currentCoordinates = this.position.coordinates;
     const stepX = targetCoordinates[0] > currentCoordinates[0] ? 1 : -1;
@@ -182,7 +183,7 @@ export class Bishop extends Piece {
     // Bishops can only move diagonally.
     if (absDeltaY === absDeltaX) {
       return simulateMove(
-        this.copyPosition(),
+        this,
         target.position,
         stepX,
         stepY,
@@ -202,7 +203,7 @@ export class Knight extends Piece {
     super(position, player, knightResource, 'Knight', logo);
   }
 
-  validateMove(target: Piece | Square) {
+  validateMove(target: Piece | Square): Position {
     const targetCoordinates = target.position.coordinates;
     const currentCoordinates = this.position.coordinates;
     const absDeltaX = Math.abs(targetCoordinates[0] - currentCoordinates[0]);
@@ -221,7 +222,7 @@ export class Rook extends Piece {
     super(position, player, rookResource, 'Rook', logo);
   }
 
-  validateMove(target: Piece | Square) {
+  validateMove(target: Piece | Square): Position {
     const stepX =
       target.position.coordinates[0] > this.position.coordinates[0]
         ? 1
@@ -241,7 +242,7 @@ export class Rook extends Piece {
       this.position.coordinates[0] === target.position.coordinates[0]
     ) {
       return simulateMove(
-        this.copyPosition(),
+        this,
         target.position,
         stepX,
         stepY,
@@ -262,7 +263,7 @@ export class Queen extends Piece {
     super(position, player, queenResource, 'Queen', logo);
   }
 
-  validateMove(target: Piece | Square) {
+  validateMove(target: Piece | Square): Position {
     const targetCoordinates = target.position.coordinates;
     const currentCoordinates = this.position.coordinates;
 
@@ -289,7 +290,7 @@ export class Queen extends Piece {
       absDeltaY === absDeltaX
     ) {
       return simulateMove(
-        this.copyPosition(),
+        this,
         target.position,
         stepX,
         stepY,
@@ -310,7 +311,7 @@ export class King extends Piece {
     super(position, player, kingResource, 'King', logo);
   }
 
-  validateMove(target: Piece | Square) {
+  validateMove(target: Piece | Square): Position {
     const targetCoordinates = target.position.coordinates;
     const currentCoordinates = this.position.coordinates;
 
@@ -336,7 +337,7 @@ export class King extends Piece {
     // King can only move one step but in any direction.
     if (absDeltaX === 1 || absDeltaY === 1) {
       return simulateMove(
-        this.copyPosition(),
+        this,
         target.position,
         stepX,
         stepY,
@@ -351,7 +352,7 @@ export class King extends Piece {
       if (deltaX === 2) {
         // Kingside castling
         destinationPosition = simulateMove(
-          this.copyPosition(),
+          this,
           target.position,
           stepX,
           stepY,
@@ -369,7 +370,7 @@ export class King extends Piece {
           boardId: target.position.boardId,
         };
         destinationPosition = simulateMove(
-          this.copyPosition(),
+          this,
           targetPosition,
           stepX,
           stepY,
@@ -389,7 +390,7 @@ export class King extends Piece {
 }
 
 function simulateMove(
-  position: Position,
+  draggedPiece: Piece,
   targetPosition: Position,
   stepX: number,
   stepY: number,
@@ -397,6 +398,7 @@ function simulateMove(
   allowedToAttackOnLastStep = true,
 ): Position {
   let limitCounter = 0;
+  const position = draggedPiece.copyPosition();
   const startingPosition = position;
   while (
     (position.coordinates[0] !== targetPosition.coordinates[0] ||
@@ -420,29 +422,40 @@ function simulateMove(
       return startingPosition;
     }
 
-    if (checkIfPositionContainsTrap(nextPosition)) {
-      return nextPosition;
-    }
+    const _nextPosition = handleItemOnSquare(nextPosition, draggedPiece);
+    if (_nextPosition) return _nextPosition;
 
     position.coordinates[0] += stepX;
     position.coordinates[1] += stepY;
     limitCounter++;
   }
 
+  handleItemOnSquare(targetPosition, draggedPiece);
+
   return comparePositions(position, targetPosition)
     ? targetPosition
     : startingPosition;
 }
 
-function checkIfPositionContainsTrap(position: Position): boolean {
-  const item = items.find((item) => comparePositions(position, item.position));
+function handleItemOnSquare(
+  nextPosition: Position,
+  draggedPiece: Piece,
+): Position | undefined {
+  const item = checkIfPositionContainsItem(nextPosition);
   if (item) {
     switch (item.name) {
       case ('trap'): {
-        return true;
+        return nextPosition;
+      }
+      case ('gold coin'): {
+        pieceMovedOnCoin(draggedPiece, item);
+        break;
       }
     }
   }
+  return undefined;
+}
 
-  return false;
+function checkIfPositionContainsItem(position: Position): Item | undefined {
+  return items.find((item) => comparePositions(position, item.position));
 }

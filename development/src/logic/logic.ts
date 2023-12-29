@@ -23,6 +23,8 @@ import { activeRules } from './rules';
 import { updatePlayersInformation } from '../game';
 import { Item } from './items/items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './constants';
+import { Trap } from './items/trap';
+import { Coin } from './items/coin';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -221,23 +223,29 @@ function actOnTurn(
   if (draggedPiece.position.boardId !== target.position.boardId) return;
 
   const targetPosition = draggedPiece.validateMove(target);
-  if (
-    !comparePositions(targetPosition, target.position) ||
-    target instanceof Item
-  ) {
-    if (!comparePositions(targetPosition, draggedPiece.position)) {
-      actOnTurnPieceToTrap(draggedPiece, target as Item);
-    }
-
-    return;
-  }
+  if (comparePositions(targetPosition, draggedPiece.position)) return;
 
   if (target instanceof Piece) {
     const targetPiece = target as Piece;
     actOnTurnPieceToPiece(draggedPiece, targetPiece);
   } else {
-    const targetSquare = target as Square;
-    
+    let targetSquare: Square;
+    if (target instanceof Item) {
+      targetSquare = {
+        position: target.position,
+      };
+
+      const targetItem = target as Item;
+      switch (targetItem.name) {
+        case ('trap'): {
+          pieceMovedOnTrap(draggedPiece, targetItem);
+          break;
+        }
+      }
+    } else {
+      targetSquare = target as Square;
+    }
+
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
 }
@@ -266,20 +274,21 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
       if (!targetPiece) return;
       
       killPiece(draggedPiece, targetPiece, targetSquare.position);
-    } 
+    }
+
     move(draggedPiece, targetSquare); 
   } else {
     switchIsCastling();
   }
 }
 
-function actOnTurnPieceToTrap(draggedPiece: Piece, targetItem: Item) {
+function pieceMovedOnTrap(draggedPiece: Piece, trap: Trap) {
   permanentlyKillPiece(draggedPiece);
-  items = items.filter((item) => item !== targetItem);
-  destroyItemOnBoard(targetItem);
+  items = items.filter((item) => item !== trap);
+  destroyItemOnBoard(trap);
 
   if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
-    draggedPiece.position = {...targetItem.position};
+    draggedPiece.position = {...trap.position};
     draggedPiece.position.boardId = draggedPiece.hasKilled
       ? HELL_BOARD_ID
       : HEAVEN_BOARD_ID;
@@ -287,6 +296,14 @@ function actOnTurnPieceToTrap(draggedPiece: Piece, targetItem: Item) {
   }
 
   endTurn();
+}
+
+export function pieceMovedOnCoin(draggedPiece: Piece, coin: Coin) {
+  items = items.filter((item) => item !== coin);
+  destroyItemOnBoard(coin);
+
+  Logger.logGeneral(`${draggedPiece.player.color} ${draggedPiece.name} 
+   found a ${coin.name} on ${coin.position.coordinates}.`);
 }
 
 function killPieceProcess(

@@ -120,7 +120,6 @@ export function destroyPieceOnBoard(targetPiece: Piece) {
 export function destroyItemOnBoard(targetItem: Item) {
   const board = getBoardbyId(targetItem.position.boardId);
   board.destroyItemOnBoard(targetItem);
-
 }
 
 export function spawnPieceOnBoard(piece: Piece) {

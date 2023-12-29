@@ -11,8 +11,8 @@ export class Coin extends Item {
 
   apply(piece: Piece) {
     Logger.logGeneral(`${piece.player.color} ${piece.name} 
-      found a ${this.name} on ${piece.position.coordinates}.`);
+      dropped a ${this.name} on ${piece.position.coordinates}.`);
 
-    piece.player.gold++;
+    piece.player.gold--;
   }
 }
