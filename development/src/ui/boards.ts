@@ -19,7 +19,7 @@ import {
   OVERWORLD_BOARD_BUTTON_ID,
   OVERWORLD_BOARD_ID,
 } from '../logic/constants';
-import { Item } from '../logic/items';
+import { Item } from '../logic/items/items';
 import { Piece, Square } from '../logic/pieces';
 
 let overworld: ChessBoard;

@@ -21,7 +21,7 @@ import {
 } from '../ui/boards';
 import { activeRules } from './rules';
 import { updatePlayersInformation } from '../game';
-import { Item } from './items';
+import { Item } from './items/items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './constants';
 
 const whitePlayer = new Player(PlayerColors.WHITE);

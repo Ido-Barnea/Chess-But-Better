@@ -1,6 +1,6 @@
-import { Logger } from '../ui/logger';
-import { Piece, Position } from './pieces';
-import { Player } from './players';
+import { Logger } from '../../ui/logger';
+import { Piece, Position } from '../pieces';
+import { Player } from '../players';
 
 export class Inventory {
   items: Array<Item> = [];

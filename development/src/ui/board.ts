@@ -1,5 +1,5 @@
 import { BOARD_WIDTH } from '../logic/constants';
-import { Item } from '../logic/items';
+import { Item } from '../logic/items/items';
 import { pieces } from '../logic/logic';
 import { Piece, Square } from '../logic/pieces';
 
