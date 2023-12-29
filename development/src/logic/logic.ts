@@ -379,11 +379,9 @@ function killPieceProcess(
     spawnPieceOnBoard(targetPiece);
   } else {
     Logger.logKill(
-      `A 
-      ${targetPieceLogo} ${targetPieceColor} ${targetPieceName}
-       was permanently killed by a 
-      ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}
-      .`,
+      `A ${targetPieceLogo} ${targetPieceColor} ${targetPieceName}
+       was permanently killed by a ${draggedPieceLogo}
+       ${draggedPieceColor} ${draggedPieceName}.`,
     );
     
     pieces.forEach((piece) => {
