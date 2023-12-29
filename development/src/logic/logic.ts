@@ -237,13 +237,7 @@ function actOnTurn(
         position: target.position,
       };
 
-      const targetItem = target as Item;
-      switch (targetItem.name) {
-        case ('trap'): {
-          pieceMovedOnTrap(draggedPiece, targetItem);
-          break;
-        }
-      }
+      handlePieceOnItem(draggedPiece, target as Item);
     } else {
       targetSquare = target as Square;
     }
@@ -281,6 +275,19 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
     move(draggedPiece, targetSquare); 
   } else {
     switchIsCastling();
+  }
+}
+
+function handlePieceOnItem(draggedPiece: Piece, targetItem: Item) {
+  switch (targetItem.name) {
+    case ('trap'): {
+      pieceMovedOnTrap(draggedPiece, targetItem);
+      break;
+    }
+    case ('gold coin'): {
+      pieceMovedOnCoin(draggedPiece, targetItem);
+      break;
+    }
   }
 }
 
@@ -346,7 +353,7 @@ function killPieceProcess(
     }
 
     // If a piece dies and spawns on another piece, the other piece dies permanently.
-    pieces.forEach((piece) => {
+    pieces.forEach(piece => {
       const areOnTheSamePosition = comparePositions(
         targetPiece.position,
         piece.position,
@@ -355,6 +362,17 @@ function killPieceProcess(
 
       if (areOnTheSamePosition && !areTheSame) {
         permanentlyKillPiece(piece);
+      }
+    });
+
+    items.forEach(item => {
+      const areOnTheSamePosition = comparePositions(
+        targetPiece.position,
+        item.position,
+      );
+
+      if (areOnTheSamePosition) {
+        handlePieceOnItem(targetPiece, item);
       }
     });
 
