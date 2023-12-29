@@ -157,7 +157,7 @@ export class ChessBoard {
     );
     const targetItemElement =
       targetItemSquareElement?.firstElementChild as HTMLElement;
-
+    
     targetItemElement.remove();
   }
 
