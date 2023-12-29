@@ -106,7 +106,9 @@ export function getPieceByPositionAndBoard(
 }
 
 function convertSquareIdToPosition(squareId: string): [number, number] {
-  return squareId.split(',').map((str) => parseInt(str)) as [number, number];
+  return squareId.split(',').map((coordinateString) => {
+    return parseInt(coordinateString);
+  }) as [number, number];
 }
 
 export function onAction(
