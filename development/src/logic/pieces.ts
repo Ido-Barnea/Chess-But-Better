@@ -17,6 +17,7 @@ import {
 } from './logic';
 import { Item } from './items/items';
 import { OVERWORLD_BOARD_ID } from './constants';
+import { Coin } from './items/coin';
 
 export type Position = {
   coordinates: [number, number],
@@ -404,6 +405,7 @@ function simulateMove(
   let limitCounter = 0;
   const position = draggedPiece.copyPosition();
   const startingPosition = draggedPiece.copyPosition();
+  const pickedUpCoins: Coin[] = [];
   while (
     (position.coordinates[0] !== targetPosition.coordinates[0] ||
       position.coordinates[1] !== targetPosition.coordinates[1]) &&
@@ -426,38 +428,47 @@ function simulateMove(
       return startingPosition;
     }
 
-    const _nextPosition = handleItemOnSquare(nextPosition, draggedPiece);
-    if (_nextPosition) return _nextPosition;
+    const squareItem = handleItemOnSquare(nextPosition);
+    if (squareItem) {
+      switch (squareItem.name) {
+        case ('trap'): {
+          return nextPosition;
+        }
+        case ('gold coin'): {
+          pickedUpCoins.push(squareItem);
+        }
+      }
+    }
 
     position.coordinates[0] += stepX;
     position.coordinates[1] += stepY;
     limitCounter++;
   }
 
-  handleItemOnSquare(targetPosition, draggedPiece);
+  const squareItem = handleItemOnSquare(targetPosition);
+  if (squareItem && !pickedUpCoins.includes(squareItem)) {
+    switch (squareItem.name) {
+      case ('gold coin'): {
+        pickedUpCoins.push(squareItem);
+      }
+    }
+  }
 
-  return comparePositions(position, targetPosition)
-    ? targetPosition
-    : startingPosition;
+  if (comparePositions(position, targetPosition)) {
+    pickedUpCoins.forEach(coin => {
+      pieceMovedOnCoin(draggedPiece, coin);
+    });
+
+    return targetPosition;
+  }
+
+  return startingPosition;
 }
 
 function handleItemOnSquare(
   nextPosition: Position,
-  draggedPiece: Piece,
-): Position | undefined {
-  const item = checkIfPositionContainsItem(nextPosition);
-  if (item) {
-    switch (item.name) {
-      case ('trap'): {
-        return nextPosition;
-      }
-      case ('gold coin'): {
-        pieceMovedOnCoin(draggedPiece, item);
-        break;
-      }
-    }
-  }
-  return undefined;
+): Item | undefined {
+  return checkIfPositionContainsItem(nextPosition);
 }
 
 function checkIfPositionContainsItem(position: Position): Item | undefined {
