@@ -23,43 +23,45 @@ import { activeRules } from './rules';
 import { updatePlayersInformation } from '../game';
 import { Item } from './items/items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './constants';
+import { Trap } from './items/trap';
+import { Coin } from './items/coin';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
 export const players = [whitePlayer, blackPlayer];
 export let pieces = [
-  new Rook({ coordinates: [0, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Knight({ coordinates: [1, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Bishop({ coordinates: [2, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Queen({ coordinates: [3, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new King({ coordinates: [4, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Bishop({ coordinates: [5, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Knight({ coordinates: [6, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Rook({ coordinates: [7, 0], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [0, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [1, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [2, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [3, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [4, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [5, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [6, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [7, 1], board: OVERWORLD_BOARD_ID }, blackPlayer),
-  new Pawn({ coordinates: [0, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Pawn({ coordinates: [1, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Pawn({ coordinates: [2, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Pawn({ coordinates: [3, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Pawn({ coordinates: [4, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Pawn({ coordinates: [5, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Pawn({ coordinates: [6, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Pawn({ coordinates: [7, 6], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Rook({ coordinates: [0, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Knight({ coordinates: [1, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Bishop({ coordinates: [2, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Queen({ coordinates: [3, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new King({ coordinates: [4, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Bishop({ coordinates: [5, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Knight({ coordinates: [6, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Rook({ coordinates: [7, 7], board: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Rook({ coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Knight({ coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Bishop({ coordinates: [2, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Queen({ coordinates: [3, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new King({ coordinates: [4, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Bishop({ coordinates: [5, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Knight({ coordinates: [6, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Rook({ coordinates: [7, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [0, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [1, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [2, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [3, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [4, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [5, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [6, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [7, 1], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
+  new Pawn({ coordinates: [0, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [1, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [2, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [3, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [4, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [5, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [6, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Pawn({ coordinates: [7, 6], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Rook({ coordinates: [0, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Knight({ coordinates: [1, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Bishop({ coordinates: [2, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Queen({ coordinates: [3, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new King({ coordinates: [4, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Bishop({ coordinates: [5, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Knight({ coordinates: [6, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Rook({ coordinates: [7, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
 ];
 
 export let items: Array<Item> = [];
@@ -86,7 +88,7 @@ export function comparePositions(
   const arePositionsEqual =
     firstPosition.coordinates[0] === secondPosition.coordinates[0] &&
     firstPosition.coordinates[1] === secondPosition.coordinates[1];
-  const areBoardsEqual = firstPosition.board === secondPosition.board;
+  const areBoardsEqual = firstPosition.boardId === secondPosition.boardId;
 
   return areBoardsEqual && arePositionsEqual;
 }
@@ -120,7 +122,7 @@ export function onAction(
 
   const draggedElementPosition: Position = {
     coordinates: convertSquareIdToPosition(squareId),
-    board: board,
+    boardId: board,
   };
 
   const draggedPiece: Piece | undefined = pieces.find((piece) =>
@@ -137,7 +139,7 @@ export function onAction(
 
     const targetElementPosition: Position = {
       coordinates: convertSquareIdToPosition(squareId),
-      board: board,
+      boardId: board,
     };
 
     const targetPiece: Piece | undefined = pieces.find((piece) => {
@@ -159,7 +161,7 @@ export function onAction(
 
     const itemPosition: Position = {
       coordinates: convertSquareIdToPosition(squareId),
-      board: board,
+      boardId: board,
     };
 
     items.forEach((item) => {
@@ -174,7 +176,7 @@ export function onAction(
     const targetSquare: Square = {
       position: {
         coordinates: convertSquareIdToPosition(squareId),
-        board: board,
+        boardId: board,
       },
     };
     actOnTurn(draggedPiece, targetSquare);
@@ -189,7 +191,7 @@ export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
 
     const draggedElementPosition: Position = {
       coordinates: convertSquareIdToPosition(squareId),
-      board: board,
+      boardId: board,
     };
 
     return comparePositions(
@@ -218,26 +220,32 @@ function actOnTurn(
   if (!draggedPiece || !target) return;
   if (!isAllowedToMove(draggedPiece)) return;
   if (draggedPiece === target) return;
-  if (draggedPiece.position.board !== target.position.board) return;
+  if (draggedPiece.position.boardId !== target.position.boardId) return;
 
   const targetPosition = draggedPiece.validateMove(target);
-  if (
-    !comparePositions(targetPosition, target.position) ||
-    target instanceof Item
-  ) {
-    if (!comparePositions(targetPosition, draggedPiece.position)) {
-      actOnTurnPieceToTrap(draggedPiece, target as Item);
-    }
-
-    return;
-  }
+  if (comparePositions(targetPosition, draggedPiece.position)) return;
 
   if (target instanceof Piece) {
     const targetPiece = target as Piece;
     actOnTurnPieceToPiece(draggedPiece, targetPiece);
   } else {
-    const targetSquare = target as Square;
-    
+    let targetSquare: Square;
+    if (target instanceof Item) {
+      targetSquare = {
+        position: target.position,
+      };
+
+      const targetItem = target as Item;
+      switch (targetItem.name) {
+        case ('trap'): {
+          pieceMovedOnTrap(draggedPiece, targetItem);
+          break;
+        }
+      }
+    } else {
+      targetSquare = target as Square;
+    }
+
     actOnTurnPieceToSquare(draggedPiece, targetSquare);
   }
 }
@@ -266,27 +274,36 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
       if (!targetPiece) return;
       
       killPiece(draggedPiece, targetPiece, targetSquare.position);
-    } 
+    }
+
     move(draggedPiece, targetSquare); 
   } else {
     switchIsCastling();
   }
 }
 
-function actOnTurnPieceToTrap(draggedPiece: Piece, targetItem: Item) {
+function pieceMovedOnTrap(draggedPiece: Piece, trap: Trap) {
   permanentlyKillPiece(draggedPiece);
-  items = items.filter((item) => item !== targetItem);
-  destroyItemOnBoard(targetItem);
+  items = items.filter((item) => item !== trap);
+  destroyItemOnBoard(trap);
 
-  if (draggedPiece.position.board === OVERWORLD_BOARD_ID) {
-    draggedPiece.position = {...targetItem.position};
-    draggedPiece.position.board = draggedPiece.hasKilled
+  if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
+    draggedPiece.position = {...trap.position};
+    draggedPiece.position.boardId = draggedPiece.hasKilled
       ? HELL_BOARD_ID
       : HEAVEN_BOARD_ID;
     spawnPieceOnBoard(draggedPiece);
   }
 
   endTurn();
+}
+
+export function pieceMovedOnCoin(draggedPiece: Piece, coin: Coin) {
+  items = items.filter((item) => item !== coin);
+  destroyItemOnBoard(coin);
+
+  Logger.logGeneral(`${draggedPiece.player.color} ${draggedPiece.name} 
+   found a ${coin.name} on ${coin.position.coordinates}.`);
 }
 
 function killPieceProcess(
@@ -301,7 +318,7 @@ function killPieceProcess(
   const draggedPieceColor = draggedPiece.player.color;
   const draggedPieceName = draggedPiece.name;
 
-  if (targetPiece.position.board === OVERWORLD_BOARD_ID) {
+  if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
     targetPiece.position = targetPosition;
 
     Logger.logKill(
@@ -315,12 +332,12 @@ function killPieceProcess(
     if (targetPiece.hasKilled) {
       targetPiece.position = {
         coordinates: targetPiece.position.coordinates,
-        board: HELL_BOARD_ID,
+        boardId: HELL_BOARD_ID,
       };
     } else {
       targetPiece.position = {
         coordinates: targetPiece.position.coordinates,
-        board: HEAVEN_BOARD_ID,
+        boardId: HEAVEN_BOARD_ID,
       };
     }
 
@@ -399,7 +416,10 @@ function castle(kingPiece: Piece, targetSquare: Square) {
     const isValidCastling = isKingsideCastling
       ? piece.position.coordinates[0] > kingPiece.position.coordinates[0]
       : piece.position.coordinates[0] < kingPiece.position.coordinates[0];
-    const areOnTheSameBoard = piece.position.board === kingPiece.position.board;
+    
+    const pieceBoardId = piece.position.boardId;
+    const kingBoardId = kingPiece.position.boardId;
+    const areOnTheSameBoard = pieceBoardId === kingBoardId;
     return isValidCastling && areOnTheSameBoard;
   };
   const rookPiece = possibleRooks.find(rookFilter);
@@ -412,7 +432,7 @@ function castle(kingPiece: Piece, targetSquare: Square) {
         : targetSquare.position.coordinates[0] + 1,
       kingPiece.position.coordinates[1],
     ],
-    board: rookPiece.position.board,
+    boardId: rookPiece.position.boardId,
   };
 
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
@@ -430,7 +450,7 @@ function move(draggedPiece: Piece, targetSquare: Square, shouldEndTurn = true) {
 
   draggedPiece.position = {
     ...targetSquare.position,
-    board: draggedPiece.position.board,
+    boardId: draggedPiece.position.boardId,
   };
   draggedPiece.hasMoved = true;
 
