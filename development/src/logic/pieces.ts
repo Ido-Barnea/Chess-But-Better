@@ -14,7 +14,7 @@ import {
   items,
   comparePositions,
 } from './logic';
-import { Item } from './items';
+import { Item } from './items/items';
 import { OVERWORLD_BOARD_ID } from './constants';
 
 export type Position = {

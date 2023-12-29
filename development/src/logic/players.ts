@@ -1,4 +1,4 @@
-import { Inventory } from './items';
+import { Inventory } from './items/items';
 
 type PlayerType = {
   color: string;
