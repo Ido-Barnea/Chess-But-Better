@@ -409,7 +409,8 @@ function simulateMove(
   while (
     (position.coordinates[0] !== targetPosition.coordinates[0] ||
       position.coordinates[1] !== targetPosition.coordinates[1]) &&
-    limitCounter !== limit
+    limitCounter !== limit &&
+    draggedPiece.name !== 'Knight'
   ) {
     const nextXPosition = position.coordinates[0] + stepX;
     const nextYPosition = position.coordinates[1] + stepY;
@@ -443,15 +444,6 @@ function simulateMove(
     position.coordinates[0] += stepX;
     position.coordinates[1] += stepY;
     limitCounter++;
-  }
-
-  const squareItem = handleItemOnSquare(targetPosition);
-  if (squareItem && !pickedUpCoins.includes(squareItem)) {
-    switch (squareItem.name) {
-      case ('gold coin'): {
-        pickedUpCoins.push(squareItem);
-      }
-    }
   }
 
   if (comparePositions(position, targetPosition)) {

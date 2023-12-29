@@ -236,6 +236,8 @@ function actOnTurn(
       targetSquare = {
         position: target.position,
       };
+
+      handlePieceOnItem(draggedPiece, target);
     } else {
       targetSquare = target as Square;
     }
