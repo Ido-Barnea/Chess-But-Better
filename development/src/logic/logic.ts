@@ -333,11 +333,9 @@ function killPieceProcess(
     targetPiece.position = targetPosition;
 
     Logger.logKill(
-      `A 
-      ${targetPieceLogo} ${targetPieceColor} ${targetPieceName}
-      was killed by a 
-      ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}
-      .`,
+      `A ${targetPieceLogo} ${targetPieceColor} ${targetPieceName} was
+      killed by a ${draggedPieceLogo} ${draggedPieceColor}
+      ${draggedPieceName}.`,
     );
 
     if (targetPiece.hasKilled) {
@@ -365,6 +363,7 @@ function killPieceProcess(
       }
     });
 
+    // Handle piece spawning on item
     items.forEach(item => {
       const areOnTheSamePosition = comparePositions(
         targetPiece.position,
