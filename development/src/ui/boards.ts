@@ -53,18 +53,21 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(
 
 export function initializeBoards() {
   overworld = new ChessBoard(
+    OVERWORLD_BOARD_ID,
     OVERWORLD_BOARD,
     OVERWORLD_BOARD_BUTTON,
     LIGHT_OVERWORLD_SQUARE_COLOR,
     DARK_OVERWORLD_SQUARE_COLOR,
   );
   hell = new ChessBoard(
+    HELL_BOARD_ID,
     HELL_BOARD,
     HELL_BOARD_BUTTON,
     LIGHT_HELL_SQUARE_COLOR,
     DARK_HELL_SQUARE_COLOR,
   );
   heaven = new ChessBoard(
+    HEAVEN_BOARD_ID,
     HEAVEN_BOARD,
     HEAVEN_BOARD_BUTTON,
     LIGHT_HEAVEN_SQUARE_COLOR,
@@ -105,29 +108,29 @@ export function createNotationGraphics(notation: string) {
 }
 
 export function movePieceOnBoard(draggedPiece: Piece, targetSquare: Square) {
-  const board = getBoardbyId(draggedPiece.position.board);
+  const board = getBoardbyId(draggedPiece.position.boardId);
   board.movePieceOnBoard(draggedPiece, targetSquare);
 }
 
 export function destroyPieceOnBoard(targetPiece: Piece) {
-  const board = getBoardbyId(targetPiece.position.board);
+  const board = getBoardbyId(targetPiece.position.boardId);
   board.destroyPieceOnBoard(targetPiece);
 }
 
 export function destroyItemOnBoard(targetItem: Item) {
-  const board = getBoardbyId(targetItem.position.board);
+  const board = getBoardbyId(targetItem.position.boardId);
   board.destroyItemOnBoard(targetItem);
 
 }
 
 export function spawnPieceOnBoard(piece: Piece) {
-  const board = getBoardbyId(piece.position.board);
+  const board = getBoardbyId(piece.position.boardId);
   board.spawnPieceOnBoard(piece);
   board.boardButtonElement.classList.remove('collapsed');
 }
 
 export function spawnItemOnBoard(item: Item) {
-  const board = getBoardbyId(item.position.board);
+  const board = getBoardbyId(item.position.boardId);
   board.spawnItemOnBoard(item);
 }
 

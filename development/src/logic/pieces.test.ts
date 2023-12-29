@@ -12,7 +12,7 @@ function comparePositions(
   const arePositionsEqual =
     firstPosition.coordinates[0] === secondPosition.coordinates[0] &&
     firstPosition.coordinates[1] === secondPosition.coordinates[1];
-  const areBoardsEqual = firstPosition.board === secondPosition.board;
+  const areBoardsEqual = firstPosition.boardId === secondPosition.boardId;
 
   return areBoardsEqual && arePositionsEqual;
 }
@@ -29,13 +29,13 @@ describe('Piece movements', () => {
   test('Validating Pawn movement', () => {
     const initialPosition: Position = {
       coordinates: [0, 6],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const pawn = new Pawn(initialPosition, whitePlayer);
 
     const singleStepMove: Position = {
       coordinates: [0, 5],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const singleStepValidMove = pawn.validateMove({
       position: singleStepMove,
@@ -45,11 +45,11 @@ describe('Piece movements', () => {
     pawn.position = initialPosition;
     setEnPassantPosition({
       coordinates: [1,6],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     });
     const enPassantMove: Position = {
       coordinates: [1,5],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const enPassantValidMove = pawn.validateMove({
       position: enPassantMove,
@@ -59,7 +59,7 @@ describe('Piece movements', () => {
     pawn.position = initialPosition;
     const twoStepsInitialMove: Position = {
       coordinates: [0, 4],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const twoStepsInitialValidMove = pawn.validateMove({
       position: twoStepsInitialMove,
@@ -69,7 +69,7 @@ describe('Piece movements', () => {
     const diagonalAttackMove = new Pawn(
       {
         coordinates: [1, 5],
-        board: OVERWORLD_BOARD_ID,
+        boardId: OVERWORLD_BOARD_ID,
       },
       blackPlayer,
     );
@@ -79,7 +79,7 @@ describe('Piece movements', () => {
     pawn.position = initialPosition;
     const invalidPosition: Position = {
       coordinates: [0, 3],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const invalidMove = pawn.validateMove({ position: invalidPosition });
     expect(invalidMove).toEqual(initialPosition);
@@ -88,20 +88,20 @@ describe('Piece movements', () => {
   test('Validating Bishop movement', () => {
     const initialPosition: Position = {
       coordinates: [2, 7],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const bishop = new Bishop(initialPosition, whitePlayer);
 
     const newPosition: Position = {
       coordinates: [4, 5],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const validMove = bishop.validateMove({ position: newPosition });
     expect(validMove).toEqual(newPosition);
     
     const invalidPosition: Position = {
       coordinates: [2, 2],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const invalidMove = bishop.validateMove({ position: invalidPosition });
     expect(invalidMove).toEqual(initialPosition);
@@ -110,20 +110,20 @@ describe('Piece movements', () => {
   test('Validating Knight movement', () => {
     const initialPosition: Position = {
       coordinates: [1, 7],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const knight = new Knight(initialPosition, whitePlayer);
 
     const newPosition: Position = {
       coordinates: [2, 5],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const validMove = knight.validateMove({ position: newPosition });
     expect(validMove).toEqual(newPosition);
     
     const invalidPosition: Position = {
       coordinates: [1, 5],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const invalidMove = knight.validateMove({ position: invalidPosition });
     expect(invalidMove).toEqual(initialPosition);
@@ -132,20 +132,20 @@ describe('Piece movements', () => {
   test('Validating Rook movement', () => {
     const initialPosition: Position = {
       coordinates: [0, 7],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const rook = new Rook(initialPosition, whitePlayer);
 
     const newPosition: Position = {
       coordinates: [7, 7],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const validMove = rook.validateMove({ position: newPosition });
     expect(validMove).toEqual(newPosition);
     
     const invalidPosition: Position = {
       coordinates: [1, 6],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const invalidMove = rook.validateMove({ position: invalidPosition });
     expect(invalidMove).toEqual(initialPosition);
@@ -154,13 +154,13 @@ describe('Piece movements', () => {
   test('Validating Queen movement', () => {
     const initialPosition: Position = {
       coordinates: [3, 7],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const queen = new Queen(initialPosition, whitePlayer);
 
     const newStraightPosition: Position = {
       coordinates: [3, 4],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const validStraightMove = queen.validateMove({
       position: newStraightPosition,
@@ -169,7 +169,7 @@ describe('Piece movements', () => {
 
     const newDiagonalPosition: Position = {
       coordinates: [6, 4],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const validDiagonalMove = queen.validateMove({
       position: newDiagonalPosition,
@@ -178,7 +178,7 @@ describe('Piece movements', () => {
     
     const invalidPosition: Position = {
       coordinates: [0, 0],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const invalidMove = queen.validateMove({ position: invalidPosition });
     expect(invalidMove).toEqual(initialPosition);
@@ -187,13 +187,13 @@ describe('Piece movements', () => {
   test('Validating King movement', () => {
     const initialPosition: Position = {
       coordinates: [4, 7],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const king = new King(initialPosition, whitePlayer);
 
     const newStraightPosition: Position = {
       coordinates: [4, 6],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const validStraightMove = king.validateMove({
       position: newStraightPosition,
@@ -202,7 +202,7 @@ describe('Piece movements', () => {
 
     const newDiagonalPosition: Position = {
       coordinates: [5, 8],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const validDiagonalMove = king.validateMove({
       position: newDiagonalPosition,
@@ -211,7 +211,7 @@ describe('Piece movements', () => {
     
     const invalidPosition: Position = {
       coordinates: [0, 0],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
     const invalidMove = king.validateMove({ position: invalidPosition });
     expect(invalidMove).toEqual(initialPosition);

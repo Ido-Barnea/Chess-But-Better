@@ -1,5 +1,4 @@
 import { Item } from './items';
-import { Player } from '../players';
 import { Piece, Position } from '../pieces';
 import { items } from '../logic';
 import { Logger } from '../../ui/logger';
@@ -8,12 +7,12 @@ import { trapResource } from '../../ui/resources';
 
 
 export class Trap extends Item {
-  constructor(player: Player, position: Position) {
-    super('trap', trapResource, player, position);
+  constructor(position: Position) {
+    super('trap', trapResource, position);
   }
 
   apply(piece: Piece) {
-    Logger.logGeneral(`${this.player.color} ${piece.name} 
+    Logger.logGeneral(`${piece.player.color} ${piece.name} 
       placed a ${this.name} on ${piece.position.coordinates}.`);
 
     this.position = piece.position;

@@ -1,21 +1,25 @@
 import { BOARD_WIDTH } from '../logic/constants';
+import { Coin } from '../logic/items/coin';
 import { Item } from '../logic/items/items';
-import { pieces } from '../logic/logic';
-import { Piece, Square } from '../logic/pieces';
+import { comparePositions, pieces } from '../logic/logic';
+import { Piece, Position, Square } from '../logic/pieces';
 
 
 export class ChessBoard {
+  boardId: string;
   boardElement: HTMLElement;
   boardButtonElement: HTMLElement;
   lightSquareColor: string;
   darkSquareColor: string;
 
   constructor(
+    boardId: string,
     boardElement: HTMLElement,
     boardButtonElement: HTMLElement,
     lightSquareColor: string,
     darkSquareColor: string,
   ) {
+    this.boardId = boardId;
     this.boardElement = boardElement;
     this.boardButtonElement = boardButtonElement;
     this.darkSquareColor = darkSquareColor;
@@ -31,7 +35,6 @@ export class ChessBoard {
       }
     }
 
-
     const isCollapsed = this.boardElement.classList.contains('collapsed');
     if (!isCollapsed) {
       pieces.forEach((piece) => {
@@ -42,19 +45,54 @@ export class ChessBoard {
         square.appendChild(pieceElement);
       });
     }
+
+    this.randomlyGenerateCoins();
   }
 
-  createSquare(position: [number, number]) {
+  createSquare(coordinates: [number, number]) {
     const squareElement = document.createElement('div');
     squareElement.classList.add('square');
-    squareElement.setAttribute('square-id', position.join(','));
+    squareElement.setAttribute('square-id', coordinates.join(','));
 
-    const backgroundColor = this.getBackgroundColor(position);
+    const backgroundColor = this.getBackgroundColor(coordinates);
     squareElement.classList.add(backgroundColor);
 
     this.boardElement.appendChild(squareElement);
   }
 
+  randomlyGenerateCoins() {
+    for (let row = 0; row < BOARD_WIDTH; row++) {
+      for (let column = 0; column < BOARD_WIDTH; column++) {
+        const COIN_GENERATION_CHANCE = 5; // A number between 1-100 that determines the chance of a coin generating on any square.
+        const random = Math.floor(Math.random() * 100) + 1;
+
+        const coordinates: [number, number] = [column, row];
+        const currentPosition: Position = {
+          coordinates: coordinates,
+          boardId: this.boardId,
+        };
+        const isPieceOnTargetSquare: boolean = (pieces.filter(piece => {
+          return comparePositions(currentPosition, piece.position);
+        })).length !== 0;
+        if (random < COIN_GENERATION_CHANCE && !isPieceOnTargetSquare) {
+          const coinElement = this.createCoinElement(coordinates);
+          const square = document.querySelectorAll(
+            `[square-id="${coordinates}"]`,
+          )[0];
+          square.appendChild(coinElement);
+        }
+      }
+    }
+  }
+
+  createCoinElement(coordinates: [number, number]): HTMLElement {
+    const position: Position = {
+      coordinates: coordinates,
+      boardId: this.boardId,
+    };
+    const coin = new Coin(position);
+    return this.createItemElement(coin);
+  }
 
   getBackgroundColor(position: [number, number]) {
     const isEvenColumn = position[0] % 2 === 0;
@@ -85,8 +123,6 @@ export class ChessBoard {
     const itemElement = document.createElement('div');
     itemElement.classList.add('item');
     itemElement.setAttribute('id', item.name);
-
-    itemElement.classList.add(item.player.color.toLowerCase());
 
     itemElement.innerHTML = item.resource;
 

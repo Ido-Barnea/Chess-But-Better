@@ -19,7 +19,7 @@ import { OVERWORLD_BOARD_ID } from './constants';
 
 export type Position = {
   coordinates: [number, number],
-  board: string,
+  boardId: string,
 }
 export let enPassantPosition: Position | undefined;
 
@@ -66,7 +66,7 @@ export class Piece implements PieceType {
   validateMove(_: Piece | Square | Item): Position {
     return {
       coordinates: [-1, -1],
-      board: OVERWORLD_BOARD_ID,
+      boardId: OVERWORLD_BOARD_ID,
     };
   }
 
@@ -77,7 +77,7 @@ export class Piece implements PieceType {
   copyPosition(): Position {
     return {
       coordinates: Array.from(this.position.coordinates) as [number, number],
-      board: this.position.board,
+      boardId: this.position.boardId,
     };
   }
 }
@@ -366,7 +366,7 @@ export class King extends Piece {
             target.position.coordinates[0] - 1,
             target.position.coordinates[1],
           ],
-          board: target.position.board,
+          boardId: target.position.boardId,
         };
         destinationPosition = simulateMove(
           this.copyPosition(),
@@ -407,7 +407,7 @@ function simulateMove(
     const nextYPosition = position.coordinates[1] + stepY;
     const nextPosition: Position = {
       coordinates: [nextXPosition, nextYPosition],
-      board: position.board,
+      boardId: position.boardId,
     };
 
     // Check if any square along the piece's path is occupied (not including the destination square)

@@ -1,13 +1,13 @@
 import { Logger } from '../../ui/logger';
 import { Piece, Position } from '../pieces';
-import { Player } from '../players';
+import { PlayerColors } from '../players';
 
 export class Inventory {
   items: Array<Item> = [];
 
-  addItem(item: Item) {
+  addItem(playerColor: PlayerColors, item: Item) {
     this.items.push(item);
-    Logger.logGeneral(`${item.player.color} received a ${item.name}.`);
+    Logger.logGeneral(`${playerColor} received a ${item.name}.`);
   }
 
   removeItem(item: Item) {
@@ -34,7 +34,6 @@ export class Inventory {
 interface ItemType {
     name: string,
     resource: string,
-    player: Player,
     position: Position,
     apply: (piece: Piece) => void;
 }
@@ -42,18 +41,15 @@ interface ItemType {
 export class Item implements ItemType {
   name: string;
   resource: string;
-  player: Player;
   position: Position;
 
   constructor(
     name: string,
     resource: string,
-    player: Player,
     position: Position,
   ) {
     this.name = name;
     this.resource = resource;
-    this.player = player;
     this.position = position;
   }
 
