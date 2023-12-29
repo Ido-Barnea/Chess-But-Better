@@ -19,7 +19,7 @@
       "outputs": ["{workspaceRoot}/coverage/{projectName}"],
       "options": {
         "jestConfig": "jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": false
       },
       "configurations": {
         "ci": {
