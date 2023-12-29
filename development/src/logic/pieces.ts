@@ -157,9 +157,13 @@ export class Pawn extends Piece {
     }
 
     // Pawns can move one square forward.
-    return absDeltaY === 1 && absDeltaX === 0
-      ? target.position
-      : this.position;
+    return simulateMove(
+      this,
+      target.position,
+      0,
+      stepY,
+      1,
+    );
   }
 }
 
@@ -399,7 +403,7 @@ function simulateMove(
 ): Position {
   let limitCounter = 0;
   const position = draggedPiece.copyPosition();
-  const startingPosition = position;
+  const startingPosition = draggedPiece.copyPosition();
   while (
     (position.coordinates[0] !== targetPosition.coordinates[0] ||
       position.coordinates[1] !== targetPosition.coordinates[1]) &&

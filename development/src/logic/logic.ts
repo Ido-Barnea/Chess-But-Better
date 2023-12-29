@@ -302,6 +302,8 @@ export function pieceMovedOnCoin(draggedPiece: Piece, coin: Coin) {
   items = items.filter((item) => item !== coin);
   destroyItemOnBoard(coin);
 
+  draggedPiece.player.gold++;
+
   Logger.logGeneral(`${draggedPiece.player.color} ${draggedPiece.name} 
    found a ${coin.name} on ${coin.position.coordinates}.`);
 }
