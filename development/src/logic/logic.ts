@@ -313,8 +313,8 @@ export function pieceMovedOnCoin(draggedPiece: Piece, coin: Coin) {
 
   draggedPiece.player.gold++;
 
-  Logger.logGeneral(`${draggedPiece.player.color} ${draggedPiece.name} 
-   found a ${coin.name} on ${coin.position.coordinates}.`);
+  Logger.logItemMessage(`${draggedPiece.player.color} ${draggedPiece.name} 
+   found a ${coin.name} on ${coin.position.coordinates}.`, coin.name);
 }
 
 function killPieceProcess(

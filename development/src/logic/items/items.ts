@@ -7,14 +7,14 @@ export class Inventory {
 
   addItem(playerColor: PlayerColors, item: Item) {
     this.items.push(item);
-    Logger.logGeneral(`${playerColor} received a ${item.name}.`);
+    Logger.logItemMessage(`${playerColor} received a ${item.name}.`, item.name);
   }
 
   removeItem(item: Item) {
     const index = this.items.indexOf(item);
     if (index !== -1) {
       this.items.splice(index, 1);
-      Logger.logGeneral(`${item.name} was destroyed.`);
+      Logger.logItemMessage(`${item.name} was destroyed.`, item.name);
     }
   }
 
@@ -54,6 +54,9 @@ export class Item implements ItemType {
   }
 
   apply(piece: Piece) {
-    Logger.logGeneral(`${piece.player.color} used a ${this.name}.`);
+    Logger.logItemMessage(
+      `${piece.player.color} used a ${this.name}.`,
+      this.name,
+    );
   };
 }

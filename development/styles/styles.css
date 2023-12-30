@@ -209,3 +209,7 @@ path {
 .log-color-movement {
   color: gray;
 }
+
+.log-color-item {
+  color: DarkGoldenRod;
+}
