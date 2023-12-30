@@ -12,8 +12,8 @@ export class Trap extends Item {
   }
 
   apply(piece: Piece) {
-    Logger.logGeneral(`${piece.player.color} ${piece.name} 
-      placed a ${this.name} on ${piece.position.coordinates}.`);
+    Logger.logItemMessage(`${piece.player.color} ${piece.name} 
+      placed a ${this.name} on ${piece.position.coordinates}.`, this.name);
 
     this.position = piece.position;
     items.push(this);

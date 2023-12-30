@@ -21,6 +21,15 @@ export class Logger {
     this.log(message, LogColor.general);
   }
 
+  static logItemMessage(message: string, itemName: string) {
+    this.logGeneral(
+      message.replace(
+        itemName,
+        `<span class="log-color-item">${itemName}</span>`,
+      ),
+    );
+  }
+
   static logKill(message: string) {
     this.log(message, LogColor.kill);
   }
