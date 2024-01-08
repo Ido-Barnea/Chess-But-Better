@@ -1,12 +1,4 @@
 import { Player, PlayerColors } from './Players';
-import {
-  Piece,
-  Bishop,
-  Knight,
-  Rook,
-  Queen,
-  King,
-} from './pieces/Pieces';
 import { Logger } from '../ui/Logger';
 import {
   movePieceOnBoard,
@@ -18,10 +10,16 @@ import { activeRules } from './Rules';
 import { updatePlayersInformation } from '../Game';
 import { Item } from './items/Items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './Constants';
-import { Trap } from './items/Trap';
 import { Coin } from './items/Coin';
 import { Pawn } from './pieces/Pawn';
 import { Position, Square } from './pieces/PiecesHelpers';
+import { Rook } from './pieces/Rook';
+import { Knight } from './pieces/Knight';
+import { Bishop } from './pieces/Bishop';
+import { Queen } from './pieces/Queen';
+import { King } from './pieces/King';
+import { Piece } from './pieces/Pieces';
+import { Trap } from './items/Trap';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);

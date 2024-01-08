@@ -4,7 +4,7 @@ import { Position } from './PiecesHelpers';
 export const whitePlayer = new Player(PlayerColors.WHITE);
 export const blackPlayer = new Player(PlayerColors.BLACK);
 
-export function comparePositions(
+function comparePositions(
   firstPosition: Position,
   secondPosition: Position,
 ): boolean {

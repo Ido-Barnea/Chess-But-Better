@@ -1,5 +1,6 @@
 import { Logger } from '../../ui/Logger';
-import { Piece, Position } from '../pieces/Pieces';
+import { Piece } from '../pieces/Pieces';
+import { Position } from '../pieces/PiecesHelpers';
 import { PlayerColors } from '../Players';
 
 export class Inventory {

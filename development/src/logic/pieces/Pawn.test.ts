@@ -3,7 +3,7 @@ import { Pawn } from './Pawn';
 import { Position } from './PiecesHelpers';
 import { mockedLogic, blackPlayer, whitePlayer } from './mocks';
 
-jest.mock('./logic', () => mockedLogic);
+jest.mock('../Logic', () => mockedLogic);
 
 describe('Piece movements', () => {
   test('Validating Pawn movement', () => {

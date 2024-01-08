@@ -1,5 +1,6 @@
 import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../logic/Constants';
-import { Piece, Square } from '../logic/pieces/Pieces';
+import { Piece } from '../logic/pieces/Pieces';
+import { Square } from '../logic/pieces/PiecesHelpers';
 
 enum LogColor {
   general = 'log-color-general',

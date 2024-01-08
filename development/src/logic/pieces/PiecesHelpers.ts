@@ -1,8 +1,8 @@
-import { comparePositions, getPieceByPositionAndBoard, items, pieceMovedOnCoin } from '../Logic';
 import { Piece } from './Pieces';
 import { Player } from '../Players';
 import { Coin } from '../items/Coin';
 import { Item } from '../items/Items';
+import { comparePositions, getPieceByPositionAndBoard, items, pieceMovedOnCoin } from '../Logic';
 
 export type Position = {
   coordinates: [number, number],

@@ -3,7 +3,7 @@ import { King } from './King';
 import { Position } from './PiecesHelpers';
 import { mockedLogic, whitePlayer } from './mocks';
 
-jest.mock('./logic', () => mockedLogic);
+jest.mock('../Logic', () => mockedLogic);
 
 describe('Piece movements', () => {
   test('Validating King movement', () => {

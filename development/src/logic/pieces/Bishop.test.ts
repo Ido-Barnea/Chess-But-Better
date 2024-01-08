@@ -3,7 +3,7 @@ import { Bishop } from './Bishop';
 import { Position } from './PiecesHelpers';
 import { mockedLogic, whitePlayer } from './mocks';
 
-jest.mock('./logic', () => mockedLogic);
+jest.mock('../Logic.ts', () => mockedLogic);
 
 describe('Piece movements', () => {
   test('Validating Bishop movement', () => {
