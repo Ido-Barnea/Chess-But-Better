@@ -6,9 +6,9 @@ import {
   isFriendlyFire,
   roundCounter,
   players,
-} from './logic';
-import { Logger } from '../ui/logger';
-import { updateRules } from '../game';
+} from './Logic';
+import { Logger } from '../ui/Logger';
+import { updateRules } from '../Game';
 
 export class Rule {
   id: number;

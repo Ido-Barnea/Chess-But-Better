@@ -1,4 +1,4 @@
-import { ChessBoard } from './board';
+import { ChessBoard } from './Board';
 import {
   BOARD_WIDTH,
   BOTTOM_NOTATION_ID,
@@ -18,9 +18,9 @@ import {
   NOTATIONS_NUMBERS,
   OVERWORLD_BOARD_BUTTON_ID,
   OVERWORLD_BOARD_ID,
-} from '../logic/constants';
-import { Item } from '../logic/items/items';
-import { Piece, Square } from '../logic/pieces';
+} from '../logic/Constants';
+import { Item } from '../logic/items/Items';
+import { Piece, Square } from '../logic/pieces/Pieces';
 
 let overworld: ChessBoard;
 let hell: ChessBoard;
