@@ -20,7 +20,8 @@ import {
   OVERWORLD_BOARD_ID,
 } from '../logic/Constants';
 import { Item } from '../logic/items/Items';
-import { Piece, Square } from '../logic/pieces/Pieces';
+import { Piece } from '../logic/pieces/Pieces';
+import { Square } from '../logic/pieces/PiecesHelpers';
 
 let overworld: ChessBoard;
 let hell: ChessBoard;

@@ -1,9 +1,10 @@
 import { Item } from './Items';
-import { Piece, Position } from '../pieces/Pieces';
+import { Piece } from '../pieces/Pieces';
 import { items } from '../Logic';
 import { Logger } from '../../ui/Logger';
 import { spawnItemOnBoard } from '../../ui/Boards';
 import { trapResource } from '../../ui/Resources';
+import { Position } from '../pieces/PiecesHelpers';
 
 
 export class Trap extends Item {

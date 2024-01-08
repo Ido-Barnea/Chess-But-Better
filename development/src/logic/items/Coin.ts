@@ -1,8 +1,8 @@
 import { Item } from './Items';
-import { Piece, Position } from '../pieces/Pieces';
+import { Piece } from '../pieces/Pieces';
 import { Logger } from '../../ui/Logger';
 import { coinResource } from '../../ui/Resources';
-
+import { Position } from '../pieces/PiecesHelpers';
 
 export class Coin extends Item {
   constructor(position: Position) {
