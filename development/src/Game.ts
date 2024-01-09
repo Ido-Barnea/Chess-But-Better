@@ -13,7 +13,7 @@ import {
   players,
   roundCounter,
 } from './logic/Logic';
-import { Rule } from './logic/Rules';
+import { BaseRule } from './logic/rules/BaseRule';
 
 const infoDisplay = document.getElementById('info-display');
 const rulesContainer = document.getElementById('rules-container');
@@ -48,7 +48,7 @@ export function updatePlayersInformation() {
   infoDisplay?.appendChild(playersElement);
 }
 
-export function updateRules(rule: Rule) {
+export function updateRules(rule: BaseRule) {
   const ruleElement = document.createElement('p');
   ruleElement.innerHTML = `<b>${rule.id + 1}) ${rule.description}</b>`;
   rulesContainer?.appendChild(ruleElement);

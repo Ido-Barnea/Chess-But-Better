@@ -6,7 +6,6 @@ import {
   spawnPieceOnBoard,
   destroyItemOnBoard,
 } from '../ui/Boards';
-import { activeRules } from './Rules';
 import { updatePlayersInformation } from '../Game';
 import { Item } from './items/Items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './Constants';
@@ -20,6 +19,7 @@ import { Queen } from './pieces/Queen';
 import { King } from './pieces/King';
 import { Piece } from './pieces/Pieces';
 import { Trap } from './items/Trap';
+import { activeRules } from './rules/RulesManager';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -478,7 +478,7 @@ function move(draggedPiece: Piece, targetSquare: Square, shouldEndTurn = true) {
 
 function endTurn() {
   activeRules.forEach((rule) => {
-    rule.apply();
+    rule.trigger();
   });
 
   resetVariables();
