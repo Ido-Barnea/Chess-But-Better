@@ -5,7 +5,7 @@ import {
   destroyPieceOnBoard,
   spawnPieceOnBoard,
   destroyItemOnBoard,
-} from '../ui/Boards';
+} from '../ui/BoardManager';
 import { updatePlayersInformation } from '../Game';
 import { Item } from './items/Items';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './Constants';

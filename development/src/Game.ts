@@ -5,7 +5,7 @@ import {
   setOnFallOffTheBoard,
   setOnHighlight,
 } from './ui/Events';
-import { highlightSquare, initializeBoards } from './ui/Boards';
+import { highlightSquare, initializeBoards } from './ui/BoardManager';
 import {
   onAction,
   onFallOffTheBoard,

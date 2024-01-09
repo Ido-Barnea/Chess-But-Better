@@ -2,7 +2,7 @@ import { Item } from './Items';
 import { Piece } from '../pieces/Pieces';
 import { items } from '../Logic';
 import { Logger } from '../../ui/Logger';
-import { spawnItemOnBoard } from '../../ui/Boards';
+import { spawnItemOnBoard } from '../../ui/BoardManager';
 import { trapResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesHelpers';
 
