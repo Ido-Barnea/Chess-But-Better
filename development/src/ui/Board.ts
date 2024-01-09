@@ -1,7 +1,8 @@
 import { BOARD_WIDTH } from '../logic/Constants';
+import { items, pieces } from '../logic/GameController';
+import { comparePositions } from '../logic/Utilities';
 import { Coin } from '../logic/items/Coin';
 import { Item } from '../logic/items/Items';
-import { comparePositions, items, pieces } from '../logic/Logic';
 import { Piece } from '../logic/pieces/Pieces';
 import { Position, Square } from '../logic/pieces/PiecesHelpers';
 

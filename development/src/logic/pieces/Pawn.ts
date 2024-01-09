@@ -1,8 +1,8 @@
 import { pawnResource } from '../../ui/Resources';
-import { getCurrentPlayer } from '../Logic';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
+import { getCurrentPlayer } from '../GameController';
 
 export class Pawn extends Piece {
   enPassant: boolean;

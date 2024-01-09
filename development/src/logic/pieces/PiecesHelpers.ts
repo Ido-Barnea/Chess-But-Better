@@ -2,7 +2,9 @@ import { Piece } from './Pieces';
 import { Player } from '../Players';
 import { Coin } from '../items/Coin';
 import { Item } from '../items/Items';
-import { comparePositions, getPieceByPositionAndBoard, items, pieceMovedOnCoin } from '../Logic';
+import { comparePositions, getPieceByPosition } from '../Utilities';
+import { pieceMovedOnCoin } from '../PieceLogic';
+import { items } from '../GameController';
 
 export type Position = {
   coordinates: [number, number],
@@ -49,7 +51,7 @@ export function simulateMove(
     };
 
     // Check if any square along the piece's path is occupied (not including the destination square)
-    const targetPiece = getPieceByPositionAndBoard(nextPosition);
+    const targetPiece = getPieceByPosition(nextPosition);
     if (
       targetPiece &&
       (!comparePositions(nextPosition, targetPosition) ||

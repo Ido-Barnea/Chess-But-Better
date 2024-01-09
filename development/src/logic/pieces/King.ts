@@ -1,8 +1,9 @@
 import { kingResource } from '../../ui/Resources';
-import { comparePositions, switchIsCastling } from '../Logic';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
+import { comparePositions } from '../Utilities';
+import { switchIsCastling } from '../GameController';
 
 export class King extends Piece {
   constructor(position: Position, player: Player) {

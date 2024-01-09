@@ -1,5 +1,5 @@
 import { Logger } from '../../ui/Logger';
-import { getCurrentPlayer, players } from '../Logic';
+import { getCurrentPlayer, players } from '../GameController';
 import { BaseRule } from './BaseRule';
 
 export class EmptyPocketsRule extends BaseRule {

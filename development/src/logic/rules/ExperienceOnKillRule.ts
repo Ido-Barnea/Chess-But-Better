@@ -1,5 +1,5 @@
 import { Logger } from '../../ui/Logger';
-import { getCurrentPlayer, isPieceKilled } from '../Logic';
+import { getCurrentPlayer, isPieceKilled } from '../GameController';
 import { BaseRule } from './BaseRule';
 
 export class ExperienceOnKillRule extends BaseRule {

@@ -1,8 +1,4 @@
-import { Player, PlayerColors } from '../Players';
 import { Position } from '../pieces/PiecesHelpers';
-
-export const whitePlayer = new Player(PlayerColors.WHITE);
-export const items = [];
 
 export function comparePositions(
   firstPosition: Position,
@@ -16,13 +12,6 @@ export function comparePositions(
   return areBoardsEqual && arePositionsEqual;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export function switchIsCastling() {}
-
-export function getPieceByPositionAndBoard() {
+export function getPieceByPosition() {
   return undefined;
 };
-
-export function getCurrentPlayer() {
-  return whitePlayer;
-}
