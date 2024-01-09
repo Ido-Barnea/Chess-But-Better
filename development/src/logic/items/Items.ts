@@ -1,20 +1,21 @@
-import { Logger } from '../../ui/logger';
-import { Piece, Position } from '../pieces';
-import { PlayerColors } from '../players';
+import { Logger } from '../../ui/Logger';
+import { Piece } from '../pieces/Pieces';
+import { Position } from '../pieces/PiecesHelpers';
+import { PlayerColors } from '../Players';
 
 export class Inventory {
   items: Array<Item> = [];
 
   addItem(playerColor: PlayerColors, item: Item) {
     this.items.push(item);
-    Logger.logItemMessage(`${playerColor} received a ${item.name}.`, item.name);
+    Logger.logGeneral(`${playerColor} received a ${item.name}.`);
   }
 
   removeItem(item: Item) {
     const index = this.items.indexOf(item);
     if (index !== -1) {
       this.items.splice(index, 1);
-      Logger.logItemMessage(`${item.name} was destroyed.`, item.name);
+      Logger.logGeneral(`${item.name} was destroyed.`);
     }
   }
 
@@ -54,9 +55,6 @@ export class Item implements ItemType {
   }
 
   apply(piece: Piece) {
-    Logger.logItemMessage(
-      `${piece.player.color} used a ${this.name}.`,
-      this.name,
-    );
+    Logger.logGeneral(`${piece.player.color} used a ${this.name}.`);
   };
 }

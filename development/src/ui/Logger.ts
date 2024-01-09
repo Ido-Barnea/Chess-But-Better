@@ -1,5 +1,6 @@
-import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../logic/constants';
-import { Piece, Square } from '../logic/pieces';
+import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../logic/Constants';
+import { Piece } from '../logic/pieces/Pieces';
+import { Square } from '../logic/pieces/PiecesHelpers';
 
 enum LogColor {
   general = 'log-color-general',
@@ -19,15 +20,6 @@ export class Logger {
 
   static logGeneral(message: string) {
     this.log(message, LogColor.general);
-  }
-
-  static logItemMessage(message: string, itemName: string) {
-    this.logGeneral(
-      message.replace(
-        itemName,
-        `<span class="log-color-item">${itemName}</span>`,
-      ),
-    );
   }
 
   static logKill(message: string) {

@@ -1,8 +1,9 @@
-import { BOARD_WIDTH } from '../logic/constants';
-import { Coin } from '../logic/items/coin';
-import { Item } from '../logic/items/items';
-import { comparePositions, items, pieces } from '../logic/logic';
-import { Piece, Position, Square } from '../logic/pieces';
+import { BOARD_WIDTH } from '../logic/Constants';
+import { Coin } from '../logic/items/Coin';
+import { Item } from '../logic/items/Items';
+import { comparePositions, items, pieces } from '../logic/Logic';
+import { Piece } from '../logic/pieces/Pieces';
+import { Position, Square } from '../logic/pieces/PiecesHelpers';
 
 
 export class ChessBoard {

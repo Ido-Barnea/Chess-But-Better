@@ -1,5 +1,5 @@
-import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/constants';
-import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './boards';
+import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
+import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './Boards';
 
 let draggedElement: HTMLElement;
 

@@ -1,30 +1,25 @@
-import { Player, PlayerColors } from './players';
-import {
-  Piece,
-  Pawn,
-  Bishop,
-  Knight,
-  Rook,
-  Queen,
-  King,
-  Square,
-  Position,
-  enPassantPosition,
-  resetEnPassantPosition,
-} from './pieces';
-import { Logger } from '../ui/logger';
+import { Player, PlayerColors } from './Players';
+import { Logger } from '../ui/Logger';
 import {
   movePieceOnBoard,
   destroyPieceOnBoard,
   spawnPieceOnBoard,
   destroyItemOnBoard,
-} from '../ui/boards';
-import { activeRules } from './rules';
-import { updatePlayersInformation } from '../game';
-import { Item } from './items/items';
-import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './constants';
-import { Trap } from './items/trap';
-import { Coin } from './items/coin';
+} from '../ui/Boards';
+import { activeRules } from './Rules';
+import { updatePlayersInformation } from '../Game';
+import { Item } from './items/Items';
+import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './Constants';
+import { Coin } from './items/Coin';
+import { Pawn } from './pieces/Pawn';
+import { Position, Square } from './pieces/PiecesHelpers';
+import { Rook } from './pieces/Rook';
+import { Knight } from './pieces/Knight';
+import { Bishop } from './pieces/Bishop';
+import { Queen } from './pieces/Queen';
+import { King } from './pieces/King';
+import { Piece } from './pieces/Pieces';
+import { Trap } from './items/Trap';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -264,12 +259,17 @@ function actOnTurnPieceToSquare(draggedPiece: Piece, targetSquare: Square) {
   }
 
   if (isValidCastling) {
-    if (draggedPiece instanceof Pawn && draggedPiece.enPassant){
-      if (!enPassantPosition) return;
-      const targetPiece = getPieceByPositionAndBoard(enPassantPosition);
-      if (!targetPiece) return;
-      
-      killPiece(draggedPiece, targetPiece, targetSquare.position);
+    if (draggedPiece instanceof Pawn) {
+      const draggedPieceAsPawn = draggedPiece as Pawn;
+      if (draggedPieceAsPawn.enPassant) {
+        if (!draggedPieceAsPawn.enPassantPosition) return;
+        const targetPiece = getPieceByPositionAndBoard(
+          draggedPieceAsPawn.enPassantPosition,
+        );
+        if (!targetPiece) return;
+        
+        killPiece(draggedPiece, targetPiece, targetSquare.position);
+      }
     }
 
     move(draggedPiece, targetSquare); 
@@ -313,8 +313,8 @@ export function pieceMovedOnCoin(draggedPiece: Piece, coin: Coin) {
 
   draggedPiece.player.gold++;
 
-  Logger.logItemMessage(`${draggedPiece.player.color} ${draggedPiece.name} 
-   found a ${coin.name} on ${coin.position.coordinates}.`, coin.name);
+  Logger.logGeneral(`${draggedPiece.player.color} ${draggedPiece.name} 
+   found a ${coin.name} on ${coin.position.coordinates}.`);
 }
 
 function killPieceProcess(
@@ -502,13 +502,9 @@ function resetVariables() {
   pieces.forEach((piece) => {
     if (piece.player !== getCurrentPlayer() && piece instanceof Pawn){
       piece.enPassant = false;
+      if ((piece as Pawn).enPassantPosition) {
+        (piece as Pawn).enPassantPosition = undefined;
+      }
     }
   });
-
-  if (
-    enPassantPosition &&
-    getCurrentPlayer() !== getPieceByPositionAndBoard(enPassantPosition)?.player
-  ) {
-    resetEnPassantPosition();
-  }
 }
