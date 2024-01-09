@@ -1,9 +1,11 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
+import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesHelpers';
 import { Queen } from './Queen';
-import { mockedLogic, whitePlayer } from './mocks';
 
-jest.mock('../Logic', () => mockedLogic);
+jest.mock('../Logic');
+
+const whitePlayer = new Player(PlayerColors.WHITE);
 
 describe('Piece movements', () => {
   test('Validating Queen movement', () => {

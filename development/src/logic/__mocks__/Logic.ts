@@ -1,10 +1,10 @@
 import { Player, PlayerColors } from '../Players';
-import { Position } from './PiecesHelpers';
+import { Position } from '../pieces/PiecesHelpers';
 
 export const whitePlayer = new Player(PlayerColors.WHITE);
-export const blackPlayer = new Player(PlayerColors.BLACK);
+export const items = [];
 
-function comparePositions(
+export function comparePositions(
   firstPosition: Position,
   secondPosition: Position,
 ): boolean {
@@ -16,10 +16,13 @@ function comparePositions(
   return areBoardsEqual && arePositionsEqual;
 }
 
-export const mockedLogic = {
-  getCurrentPlayer: () => whitePlayer,
-  switchIsCastling: jest.fn(),
-  items: [],
-  comparePositions: comparePositions,
-  getPieceByPositionAndBoard: () => undefined,
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function switchIsCastling() {}
+
+export function getPieceByPositionAndBoard() {
+  return undefined;
 };
+
+export function getCurrentPlayer() {
+  return whitePlayer;
+}

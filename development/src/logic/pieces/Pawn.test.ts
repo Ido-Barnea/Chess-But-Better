@@ -1,9 +1,12 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
+import { Player, PlayerColors } from '../Players';
 import { Pawn } from './Pawn';
 import { Position } from './PiecesHelpers';
-import { mockedLogic, blackPlayer, whitePlayer } from './mocks';
 
-jest.mock('../Logic', () => mockedLogic);
+jest.mock('../Logic');
+
+const whitePlayer = new Player(PlayerColors.WHITE);
+const blackPlayer = new Player(PlayerColors.BLACK);
 
 describe('Piece movements', () => {
   test('Validating Pawn movement', () => {
