@@ -1,5 +1,5 @@
 import { Logger } from '../../ui/Logger';
-import { getCurrentPlayer, isFriendlyFire } from '../Logic';
+import { getCurrentPlayer, isFriendlyFire } from '../GameController';
 import { BaseRule } from './BaseRule';
 
 export class FriendlyFireRule extends BaseRule {

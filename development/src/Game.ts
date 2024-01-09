@@ -6,14 +6,8 @@ import {
   setOnHighlight,
 } from './ui/Events';
 import { highlightSquare, initializeBoards } from './ui/BoardManager';
-import {
-  onAction,
-  onFallOffTheBoard,
-  getCurrentPlayer,
-  players,
-  roundCounter,
-} from './logic/Logic';
 import { BaseRule } from './logic/rules/BaseRule';
+import { getCurrentPlayer, onAction, onFallOffTheBoard, players, roundCounter } from './logic/GameController';
 
 const infoDisplay = document.getElementById('info-display');
 const rulesContainer = document.getElementById('rules-container');

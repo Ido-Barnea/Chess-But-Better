@@ -3,7 +3,9 @@ import { Player, PlayerColors } from '../Players';
 import { Pawn } from './Pawn';
 import { Position } from './PiecesHelpers';
 
-jest.mock('../Logic');
+jest.mock('../GameController');
+jest.mock('../Utilities.ts');
+jest.mock('../PieceLogic.ts');
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);

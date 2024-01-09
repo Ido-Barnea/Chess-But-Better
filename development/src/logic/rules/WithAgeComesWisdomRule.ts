@@ -1,5 +1,5 @@
 import { Logger } from '../../ui/Logger';
-import { players, roundCounter } from '../Logic';
+import { players, roundCounter } from '../GameController';
 import { BaseRule } from './BaseRule';
 
 export class WithAgeComesWisdomRule extends BaseRule {

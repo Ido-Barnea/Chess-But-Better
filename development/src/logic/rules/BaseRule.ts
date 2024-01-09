@@ -1,6 +1,6 @@
 import { updateRules } from '../../Game';
 import { Logger } from '../../ui/Logger';
-import { getCurrentPlayer } from '../Logic';
+import { getCurrentPlayer } from '../GameController';
 
 export interface Rule {
   id: number;

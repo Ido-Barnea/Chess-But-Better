@@ -3,7 +3,9 @@ import { Player, PlayerColors } from '../Players';
 import { Bishop } from './Bishop';
 import { Position } from './PiecesHelpers';
 
-jest.mock('../Logic.ts');
+jest.mock('../GameController.ts');
+jest.mock('../Utilities.ts');
+jest.mock('../PieceLogic.ts');
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 

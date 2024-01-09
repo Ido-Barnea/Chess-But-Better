@@ -1,5 +1,5 @@
 import { Logger } from '../../ui/Logger';
-import { deathCounter, getCurrentPlayer } from '../Logic';
+import { deathCounter, getCurrentPlayer } from '../GameController';
 import { BaseRule } from './BaseRule';
 
 export class FirstBloodRule extends BaseRule {
