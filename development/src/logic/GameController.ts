@@ -1,6 +1,6 @@
 import { updatePlayersInformation } from '../Game';
 import { OVERWORLD_BOARD_ID } from './Constants';
-import { actOnTurn, isAllowedToMove as isAllowedToMovePiece, permanentlyKillPiece } from './PieceLogic';
+import { actOnTurn, isAllowedToMove, permanentlyKillPiece } from './PieceLogic';
 import { Player, PlayerColors } from './Players';
 import { comparePositions, convertSquareIdToPosition } from './Utilities';
 import { Item } from './items/Items';
@@ -203,7 +203,7 @@ export function onFallOffTheBoard(draggedElement: HTMLElement, board: string) {
   });
 
   if (!draggedPiece) return;
-  if (!isAllowedToMovePiece(draggedPiece)) return;
+  if (!isAllowedToMove(draggedPiece)) return;
 
   permanentlyKillPiece(draggedPiece);
   fellOffTheBoardPiece = draggedPiece;

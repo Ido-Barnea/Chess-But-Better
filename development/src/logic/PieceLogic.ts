@@ -1,7 +1,24 @@
-import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard } from '../ui/BoardManager';
+import {
+  destroyItemOnBoard,
+  destroyPieceOnBoard,
+  movePieceOnBoard,
+  spawnPieceOnBoard,
+} from '../ui/BoardManager';
 import { Logger } from '../ui/Logger';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from './Constants';
-import { endTurn, getCurrentPlayer, increaseDeathCount, isCastling, items, pieces, switchIsCastling, triggerIsPieceKilled, updateFriendlyFireStatus, updateItems, updatePieces } from './GameController';
+import { 
+  endTurn,
+  getCurrentPlayer,
+  increaseDeathCount,
+  isCastling,
+  items,
+  pieces,
+  switchIsCastling,
+  triggerIsPieceKilled,
+  updateFriendlyFireStatus,
+  updateItems,
+  updatePieces,
+} from './GameController';
 import { comparePositions, getPieceByPosition } from './Utilities';
 import { Coin } from './items/Coin';
 import { Item } from './items/Items';
