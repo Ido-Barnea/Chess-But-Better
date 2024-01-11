@@ -2,8 +2,10 @@ import { Player } from '../Players';
 import { Item } from '../items/Items';
 import { OVERWORLD_BOARD_ID } from '../Constants';
 import { PieceType, Position, Square } from './PiecesHelpers';
+import { Game } from '../GameController';
 
 export class Piece implements PieceType {
+  game: Game;
   position: Position;
   player: Player;
   resource: string;
@@ -11,13 +13,16 @@ export class Piece implements PieceType {
   hasMoved: boolean;
   hasKilled: boolean;
   pieceLogo: string;
+
   constructor(
+    game: Game,
     position: Position,
     player: Player,
     resource: string,
     name: string,
     pieceLogo: string,
   ) {
+    this.game = game;
     this.position = position;
     this.player = player;
     this.resource = resource;

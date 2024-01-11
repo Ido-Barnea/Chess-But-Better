@@ -2,14 +2,15 @@ import { queenResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
+import { Game } from '../GameController';
 
 export class Queen extends Piece {
-  constructor(position: Position, player: Player) {
+  constructor(game: Game, position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♕'
       : '♛';
 
-    super(position, player, queenResource, 'Queen', logo);
+    super(game, position, player, queenResource, 'Queen', logo);
   }
 
   validateMove(target: Piece | Square): Position {
@@ -39,6 +40,7 @@ export class Queen extends Piece {
       absDeltaY === absDeltaX
     ) {
       return simulateMove(
+        this.game,
         this,
         target.position,
         stepX,

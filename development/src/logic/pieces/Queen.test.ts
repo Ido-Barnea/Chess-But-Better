@@ -1,24 +1,28 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
+import { Game } from '../GameController';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesHelpers';
 import { Queen } from './Queen';
 
-jest.mock('../GameController');
-jest.mock('../Utilities.ts');
-jest.mock('../PieceLogic.ts');
+jest.mock('../../LogicAdapter.ts');
 
+let game: Game;
 const whitePlayer = new Player(PlayerColors.WHITE);
+
+beforeAll(() => {
+  game = new Game();
+});
 
 describe('Piece movements', () => {
   test('Validating Queen movement', () => {
     const initialPosition: Position = {
-      coordinates: [3, 7],
+      coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const queen = new Queen(initialPosition, whitePlayer);
+    const queen = new Queen(game, initialPosition, whitePlayer);
 
     const newStraightPosition: Position = {
-      coordinates: [3, 4],
+      coordinates: [2, 2],
       boardId: OVERWORLD_BOARD_ID,
     };
     const validStraightMove = queen.validateMove({
@@ -27,7 +31,7 @@ describe('Piece movements', () => {
     expect(validStraightMove).toEqual(newStraightPosition);
 
     const newDiagonalPosition: Position = {
-      coordinates: [6, 4],
+      coordinates: [5, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
     const validDiagonalMove = queen.validateMove({

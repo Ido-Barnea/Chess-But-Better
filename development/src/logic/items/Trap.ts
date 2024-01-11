@@ -1,10 +1,10 @@
 import { Item } from './Items';
 import { Piece } from '../pieces/Pieces';
 import { Logger } from '../../ui/Logger';
-import { spawnItemOnBoard } from '../../ui/BoardManager';
 import { trapResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesHelpers';
-import { items } from '../GameController';
+import { spawnItemOnBoard } from '../../LogicAdapter';
+import { Game } from '../GameController';
 
 
 export class Trap extends Item {
@@ -12,12 +12,11 @@ export class Trap extends Item {
     super('trap', trapResource, position);
   }
 
-  apply(piece: Piece) {
-    Logger.logGeneral(`${piece.player.color} ${piece.name} 
-      placed a ${this.name} on ${piece.position.coordinates}.`);
+  apply(game: Game, piece: Piece) {
+    Logger.logGeneral(`${piece.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.`);
 
     this.position = piece.position;
-    items.push(this);
+    game.items.push(this);
 
     spawnItemOnBoard(this);
   }

@@ -2,17 +2,17 @@ import { pawnResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
-import { getCurrentPlayer } from '../GameController';
+import { Game } from '../GameController';
 
 export class Pawn extends Piece {
   enPassant: boolean;
   enPassantPosition: Position | undefined;
 
-  constructor(position: Position, player: Player) {
+  constructor(game: Game, position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♙'
       : '♟';
-    super(position, player, pawnResource, 'Pawn', logo);
+    super(game, position, player, pawnResource, 'Pawn', logo);
     this.enPassant = false;
     this.enPassantPosition = undefined;
   }
@@ -33,7 +33,7 @@ export class Pawn extends Piece {
           : 0;
 
     // Make sure pawn does not move backwards.
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = this.game.getCurrentPlayer();
     if (
       (currentPlayer.color === PlayerColors.WHITE && deltaY > 0) ||
       (currentPlayer.color === PlayerColors.BLACK && deltaY < 0)
@@ -57,6 +57,7 @@ export class Pawn extends Piece {
     // Pawns can have an initial two-square move.
     if (!this.hasMoved && absDeltaY === 2 && absDeltaX === 0) {
       const validatedMove = simulateMove(
+        this.game,
         this,
         target.position,
         0,
@@ -71,6 +72,7 @@ export class Pawn extends Piece {
 
     // Pawns can move one square forward.
     return simulateMove(
+      this.game,
       this,
       target.position,
       0,

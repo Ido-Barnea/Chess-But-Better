@@ -1,31 +1,35 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
+import { Game } from '../GameController';
 import { Player, PlayerColors } from '../Players';
 import { Bishop } from './Bishop';
 import { Position } from './PiecesHelpers';
 
-jest.mock('../GameController.ts');
-jest.mock('../Utilities.ts');
-jest.mock('../PieceLogic.ts');
+jest.mock('../../LogicAdapter.ts');
 
+let game: Game;
 const whitePlayer = new Player(PlayerColors.WHITE);
+
+beforeAll(() => {
+  game = new Game();
+});
 
 describe('Piece movements', () => {
   test('Validating Bishop movement', () => {
     const initialPosition: Position = {
-      coordinates: [2, 7],
+      coordinates: [0, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const bishop = new Bishop(initialPosition, whitePlayer);
+    const bishop = new Bishop(game, initialPosition, whitePlayer);
 
     const newPosition: Position = {
-      coordinates: [4, 5],
+      coordinates: [2, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
     const validMove = bishop.validateMove({ position: newPosition });
     expect(validMove).toEqual(newPosition);
     
     const invalidPosition: Position = {
-      coordinates: [2, 2],
+      coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
     const invalidMove = bishop.validateMove({ position: invalidPosition });

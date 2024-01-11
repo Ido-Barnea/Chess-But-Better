@@ -1,14 +1,17 @@
 import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
+import { Game } from '../logic/GameController';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
 let draggedElement: HTMLElement;
 
 let triggerOnAction: (
+  game: Game,
   draggedElement: HTMLElement,
   targetElement: HTMLElement,
   board: string,
 ) => void;
-let triggerOnFallOffTheBoard: (
+let triggerOnFellOffTheBoard: (
+  game: Game,
   draggedElement: HTMLElement,
   board: string,
 ) => void;
@@ -21,20 +24,20 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
 let triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void;
 
-export function initializeEventListeners() {
+export function initializeEventListeners(game: Game) {
   const squares = document.querySelectorAll('.square');
   // Listen for mouse events
   squares.forEach((square) => {
     square.addEventListener('dragstart', onDragStart);
     square.addEventListener('dragover', onDragOver);
-    square.addEventListener('drop', onDragDrop);
+    square.addEventListener('drop', (event) => onDragDrop(event, game));
     square.addEventListener('mouseover', onMouseOver);
     square.addEventListener('mouseout', onMouseOut);
   });
 
   // Support pieces falling off the board
   document.body.addEventListener('dragover', onDragOver);
-  document.body.addEventListener('drop', onDragOffTheBoard);
+  document.body.addEventListener('drop', (event) => onDragOffTheBoard(event, game));
 
   // Listen for boards' buttons clicks
   OVERWORLD_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
@@ -49,7 +52,7 @@ function onDragStart(event: Event) {
   }
 }
 
-function onDragDrop(event: Event) {
+function onDragDrop(event: Event, game: Game) {
   event.stopPropagation();
   let targetElement = event.target as HTMLElement;
   // Make sure target is not a resource
@@ -62,20 +65,20 @@ function onDragDrop(event: Event) {
     board = board.parentNode as HTMLElement;
   }
 
-  triggerOnAction(draggedElement, targetElement, board.id);
+  triggerOnAction(game, draggedElement, targetElement, board.id);
 }
 
 function onDragOver(event: Event) {
   event.preventDefault();
 }
 
-function onDragOffTheBoard(_: Event) {
+function onDragOffTheBoard(_: Event, game: Game) {
   let board = draggedElement;
   while (!board.classList.contains('board')) {
     board = board.parentNode as HTMLElement;
   }
 
-  triggerOnFallOffTheBoard(draggedElement, board.id);
+  triggerOnFellOffTheBoard(game, draggedElement, board.id);
 }
 
 function handleMouseEvents(event: Event, shouldHighlight: boolean) {
@@ -93,6 +96,7 @@ function onMouseOut(event: Event) {
 
 export function setOnAction(
   _triggerOnAction: (
+    game: Game,
     draggedElement: HTMLElement,
     targetElement: HTMLElement,
     board: string,
@@ -101,13 +105,14 @@ export function setOnAction(
   triggerOnAction = _triggerOnAction;
 }
 
-export function setOnFallOffTheBoard(
-  _triggerOnFallOffTheBoard: (
+export function setOnFellOffTheBoard(
+  _triggerOnFellOffTheBoard: (
+    game: Game,
     draggedElement: HTMLElement,
     board: string,
   ) => void,
 ) {
-  triggerOnFallOffTheBoard = _triggerOnFallOffTheBoard;
+  triggerOnFellOffTheBoard = _triggerOnFellOffTheBoard;
 }
 
 export function setOnHighlight(

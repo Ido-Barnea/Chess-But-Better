@@ -1,13 +1,17 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
+import { Game } from '../GameController';
 import { Player, PlayerColors } from '../Players';
 import { King } from './King';
 import { Position } from './PiecesHelpers';
 
-jest.mock('../GameController');
-jest.mock('../Utilities.ts');
-jest.mock('../PieceLogic.ts');
+jest.mock('../../LogicAdapter.ts');
 
+let game: Game;
 const whitePlayer = new Player(PlayerColors.WHITE);
+
+beforeAll(() => {
+  game = new Game();
+});
 
 describe('Piece movements', () => {
   test('Validating King movement', () => {
@@ -15,7 +19,7 @@ describe('Piece movements', () => {
       coordinates: [4, 7],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const king = new King(initialPosition, whitePlayer);
+    const king = new King(game, initialPosition, whitePlayer);
 
     const newStraightPosition: Position = {
       coordinates: [4, 6],

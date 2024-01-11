@@ -42,10 +42,9 @@ export class Logger {
     const pieceColor = `${draggedPiece.player.color}`;
     const pieceName = `${draggedPiece.name}`;
 
-    this.log(`
-      ${pieceLogo} ${pieceColor}  ${pieceName} 
-      moved from ${fromNotation} to ${toNotation}.`,
-    LogColor.movement,
+    this.log(
+      `${pieceLogo} ${pieceColor}  ${pieceName} moved from ${fromNotation} to ${toNotation}.`,
+      LogColor.movement,
     );
   }
 

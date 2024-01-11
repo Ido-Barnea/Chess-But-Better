@@ -2,13 +2,14 @@ import { knightResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square } from './PiecesHelpers';
+import { Game } from '../GameController';
 
 export class Knight extends Piece {
-  constructor(position: Position, player: Player) {
+  constructor(game: Game, position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♘'
       : '♞';
-    super(position, player, knightResource, 'Knight', logo);
+    super(game, position, player, knightResource, 'Knight', logo);
   }
 
   validateMove(target: Piece | Square): Position {

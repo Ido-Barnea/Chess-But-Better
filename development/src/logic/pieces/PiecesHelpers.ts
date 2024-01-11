@@ -3,8 +3,8 @@ import { Player } from '../Players';
 import { Coin } from '../items/Coin';
 import { Item } from '../items/Items';
 import { comparePositions, getPieceByPosition } from '../Utilities';
-import { pieceMovedOnCoin } from '../PieceLogic';
-import { items } from '../GameController';
+import { handlePieceMovedOnCoin } from '../PieceLogic';
+import { Game } from '../GameController';
 
 export type Position = {
   coordinates: [number, number],
@@ -26,6 +26,7 @@ export interface PieceType {
 }
 
 export function simulateMove(
+  game: Game,
   draggedPiece: Piece,
   targetPosition: Position,
   stepX: number,
@@ -51,7 +52,7 @@ export function simulateMove(
     };
 
     // Check if any square along the piece's path is occupied (not including the destination square)
-    const targetPiece = getPieceByPosition(nextPosition);
+    const targetPiece = getPieceByPosition(game, nextPosition);
     if (
       targetPiece &&
       (!comparePositions(nextPosition, targetPosition) ||
@@ -60,7 +61,7 @@ export function simulateMove(
       return startingPosition;
     }
 
-    const squareItem = handleItemOnSquare(nextPosition);
+    const squareItem = handleItemOnSquare(game, nextPosition);
     if (squareItem) {
       switch (squareItem.name) {
         case ('trap'): {
@@ -79,7 +80,7 @@ export function simulateMove(
 
   if (comparePositions(position, targetPosition)) {
     pickedUpCoins.forEach(coin => {
-      pieceMovedOnCoin(draggedPiece, coin);
+      handlePieceMovedOnCoin(game, draggedPiece, coin);
     });
 
     return targetPosition;
@@ -89,12 +90,16 @@ export function simulateMove(
 }
 
 function handleItemOnSquare(
+  game: Game,
   nextPosition: Position,
 ): Item | undefined {
-  return checkIfPositionContainsItem(nextPosition);
+  return checkIfPositionContainsItem(game, nextPosition);
 }
 
-function checkIfPositionContainsItem(position: Position): Item | undefined {
-  return items.find((item) => comparePositions(position, item.position));
+function checkIfPositionContainsItem(
+  game: Game,
+  position: Position,
+): Item | undefined {
+  return game.items.find((item) => comparePositions(position, item.position));
 }
 

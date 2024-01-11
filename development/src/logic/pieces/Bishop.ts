@@ -2,13 +2,14 @@ import { bishopResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
+import { Game } from '../GameController';
 
 export class Bishop extends Piece {
-  constructor(position: Position, player: Player) {
+  constructor(game: Game, position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♗'
       : '♝';
-    super(position, player, bishopResource, 'Bishop', logo);
+    super(game, position, player, bishopResource, 'Bishop', logo);
   }
 
   validateMove(target: Piece | Square): Position {
@@ -23,6 +24,7 @@ export class Bishop extends Piece {
     // Bishops can only move diagonally.
     if (absDeltaY === absDeltaX) {
       return simulateMove(
+        this.game,
         this,
         target.position,
         stepX,

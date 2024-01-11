@@ -1,4 +1,5 @@
 import { Logger } from '../../ui/Logger';
+import { Game } from '../GameController';
 import { Piece } from '../pieces/Pieces';
 import { Position } from '../pieces/PiecesHelpers';
 import { PlayerColors } from '../Players';
@@ -36,7 +37,7 @@ interface ItemType {
     name: string,
     resource: string,
     position: Position,
-    apply: (piece: Piece) => void;
+    apply: (game: Game, piece: Piece) => void;
 }
 
 export class Item implements ItemType {
@@ -54,7 +55,7 @@ export class Item implements ItemType {
     this.position = position;
   }
 
-  apply(piece: Piece) {
+  apply(_: Game, piece: Piece) {
     Logger.logGeneral(`${piece.player.color} used a ${this.name}.`);
   };
 }
