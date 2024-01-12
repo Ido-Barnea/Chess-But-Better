@@ -22,10 +22,8 @@ function validatePlayerAction(
   if (draggedPiece === target) return false;
   if (draggedPiece.position.boardId !== target.position.boardId) return false;
 
-  const targetPosition = draggedPiece.validateMove(target);
-  if (comparePositions(targetPosition, draggedPiece.position)) return false;
-
-  return true;
+  const validMoves = draggedPiece.getValidMoves();
+  return validMoves.some(position => comparePositions(position, target.position));
 }
 
 function handleTargetType(

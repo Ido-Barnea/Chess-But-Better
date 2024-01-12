@@ -57,6 +57,7 @@
       }
     ],
     "comma-dangle": ["error", "always-multiline"],
-    "camelcase": ["error"]
+    "camelcase": ["error"],
+    "no-constant-condition": "off"
   }
 }

@@ -1,8 +1,9 @@
 import { pawnResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
-import { Position, Square, simulateMove } from './PiecesUtilities';
+import { Position } from './PiecesUtilities';
 import { game } from '../../Game';
+import { getPieceByPosition } from '../Utilities';
 
 export class Pawn extends Piece {
   enPassant: boolean;
@@ -17,65 +18,62 @@ export class Pawn extends Piece {
     this.enPassantPosition = undefined;
   }
 
-  validateMove(target: Piece | Square): Position {
-    const targetCoordinates = target.position.coordinates;
+  getValidMoves(): Array<Position> {
+    const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
-    const deltaX = targetCoordinates[0] - currentCoordinates[0];
-    const deltaY = targetCoordinates[1] - currentCoordinates[1];
-
-    const absDeltaX = Math.abs(deltaX);
-    const absDeltaY = Math.abs(deltaY);
-    const stepY =
-      target.position.coordinates[1] > this.position.coordinates[1]
-        ? 1
-        : target.position.coordinates[1] < this.position.coordinates[1]
-          ? -1
-          : 0;
-
-    // Make sure pawn does not move backwards.
     const currentPlayer = game.getCurrentPlayer();
-    if (
-      (currentPlayer.color === PlayerColors.WHITE && deltaY > 0) ||
-      (currentPlayer.color === PlayerColors.BLACK && deltaY < 0)
-    ) {
-      return this.position;
-    }
-    
-    // Pawns can attack diagonally.
-    const isDiagonalMovement = absDeltaY === 1 && absDeltaX === 1;
-    const enPassantPosition = this.enPassantPosition;
-    this.enPassant = !!enPassantPosition && isDiagonalMovement &&
-     (targetCoordinates[0] === enPassantPosition.coordinates[0]) &&
-     Math.abs(targetCoordinates[1] - enPassantPosition.coordinates[1]) === 1;
 
-    if (this.enPassant || target instanceof Piece) {
-      return isDiagonalMovement
-        ? target.position
-        : this.position;
-    }
+    // Determine the direction of pawn movement based on the player's color
+    const stepY = currentPlayer.color === PlayerColors.WHITE ? -1 : 1;
 
-    // Pawns can have an initial two-square move.
-    if (!this.hasMoved && absDeltaY === 2 && absDeltaX === 0) {
-      const validatedMove = simulateMove(
-        this,
-        target.position,
-        0,
-        stepY,
-        2,
-      );
-      if (validatedMove === target.position) {
-        this.enPassantPosition = validatedMove;
+    // Check one square forward
+    const oneSquareForward: Position = {
+      coordinates: [currentCoordinates[0], currentCoordinates[1] + stepY],
+      boardId: this.position.boardId,
+    };
+
+    if (!getPieceByPosition(oneSquareForward)) {
+      validMoves.push(oneSquareForward);
+
+      // Check two squares forward for the initial move
+      if (!this.hasMoved) {
+        const twoSquaresForward: Position = {
+          coordinates: [currentCoordinates[0], currentCoordinates[1] + 2 * stepY],
+          boardId: this.position.boardId,
+        };
+
+        if (!getPieceByPosition(twoSquaresForward) && !getPieceByPosition(oneSquareForward)) {
+          validMoves.push(twoSquaresForward);
+        }
       }
-      return validatedMove;
     }
 
-    // Pawns can move one square forward.
-    return simulateMove(
-      this,
-      target.position,
-      0,
-      stepY,
-      1,
-    );
+    // Check diagonal attacks
+    const leftDiagonal: Position = {
+      coordinates: [currentCoordinates[0] - 1, currentCoordinates[1] + stepY],
+      boardId: this.position.boardId,
+    };
+
+    const rightDiagonal: Position = {
+      coordinates: [currentCoordinates[0] + 1, currentCoordinates[1] + stepY],
+      boardId: this.position.boardId,
+    };
+
+    if (getPieceByPosition(leftDiagonal)) {
+      validMoves.push(leftDiagonal);
+    }
+
+    if (getPieceByPosition(rightDiagonal)) {
+      validMoves.push(rightDiagonal);
+    }
+
+    // Check for en passant
+    if (this.enPassantPosition) {
+      if (!getPieceByPosition(this.enPassantPosition)) {
+        validMoves.push(this.enPassantPosition);
+      }
+    }
+
+    return validMoves;
   }
 }

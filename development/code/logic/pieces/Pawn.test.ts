@@ -23,10 +23,8 @@ describe('Piece movements', () => {
       coordinates: [0, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const singleStepValidMove = pawn.validateMove({
-      position: singleStepMove,
-    });
-    expect(singleStepValidMove).toEqual(singleStepMove);
+    let validMoves = pawn.getValidMoves();
+    expect(validMoves).toContain(singleStepMove);
 
     pawn.position = initialPosition;
     pawn.enPassantPosition = {
@@ -37,20 +35,16 @@ describe('Piece movements', () => {
       coordinates: [1,5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const enPassantValidMove = pawn.validateMove({
-      position: enPassantMove,
-    });
-    expect(enPassantValidMove).toEqual(enPassantMove);
+    validMoves = pawn.getValidMoves();
+    expect(validMoves).toContain(enPassantMove);
 
     pawn.position = initialPosition;
     const twoStepsInitialMove: Position = {
       coordinates: [0, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const twoStepsInitialValidMove = pawn.validateMove({
-      position: twoStepsInitialMove,
-    });
-    expect(twoStepsInitialValidMove).toEqual(twoStepsInitialMove);
+    validMoves = pawn.getValidMoves();
+    expect(validMoves).toContain(twoStepsInitialMove);
 
     const blackPawnPosition: Position = {
       coordinates: [1, 5],
@@ -60,15 +54,15 @@ describe('Piece movements', () => {
       blackPawnPosition,
       blackPlayer,
     );
-    const diagonalAttackValidMove = pawn.validateMove(diagonalAttackMove);
-    expect(diagonalAttackValidMove).toEqual(diagonalAttackMove.position);
+    validMoves = pawn.getValidMoves();
+    expect(validMoves).toContain(diagonalAttackMove.position);
 
     pawn.position = initialPosition;
     const invalidPosition: Position = {
       coordinates: [0, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const invalidMove = pawn.validateMove({ position: invalidPosition });
-    expect(invalidMove).toEqual(initialPosition);
+    validMoves = pawn.getValidMoves();
+    expect(validMoves).not.toContain(invalidPosition);
   });
 });

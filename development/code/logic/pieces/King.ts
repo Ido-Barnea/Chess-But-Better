@@ -1,8 +1,9 @@
 import { kingResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
-import { Position, Square, simulateMove } from './PiecesUtilities';
-import { comparePositions } from '../Utilities';
+import { Position } from './PiecesUtilities';
+import { getPieceByPosition } from '../Utilities';
+import { Rook } from './Rook';
 import { game } from '../../Game';
 
 export class King extends Piece {
@@ -14,80 +15,113 @@ export class King extends Piece {
     super(position, player, kingResource, 'King', logo);
   }
 
-  validateMove(target: Piece | Square): Position {
-    const targetCoordinates = target.position.coordinates;
+  getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
+    const rank = player.color === PlayerColors.WHITE ? 0 : 7;
+
+    if (kingside) {
+      // Kingside castling
+      const kingsideRookPosition: Position = {
+        coordinates: [7, rank],
+        boardId: this.position.boardId,
+      };
+
+      return getPieceByPosition(kingsideRookPosition) as Rook | undefined;
+    } else {
+      // Queenside castling
+      const queensideRookPosition: Position = {
+        coordinates: [0, rank],
+        boardId: this.position.boardId,
+      };
+
+      return getPieceByPosition(queensideRookPosition) as Rook | undefined;
+    }
+  }
+
+  isPathClear(start: Position, end: Position): boolean {
+    const deltaX = Math.sign(end.coordinates[0] - start.coordinates[0]);
+    const deltaY = Math.sign(end.coordinates[1] - start.coordinates[1]);
+
+    let currentX = start.coordinates[0] + deltaX;
+    let currentY = start.coordinates[1] + deltaY;
+
+    while (currentX !== end.coordinates[0] || currentY !== end.coordinates[1]) {
+      if (getPieceByPosition({ coordinates: [currentX, currentY], boardId: this.position.boardId })) {
+        return false;
+      }
+
+      currentX += deltaX;
+      currentY += deltaY;
+    }
+
+    if (getPieceByPosition({ coordinates: [currentX, currentY], boardId: this.position.boardId })) {
+      return false;
+    }
+
+    return true;
+  }
+
+  getValidMoves(): Array<Position> {
+    const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 
-    const stepX =
-      targetCoordinates[0] > currentCoordinates[0]
-        ? 1
-        : targetCoordinates[0] < currentCoordinates[0]
-          ? -1
-          : 0;
-    const stepY =
-      targetCoordinates[1] > currentCoordinates[1]
-        ? 1
-        : targetCoordinates[1] < currentCoordinates[1]
-          ? -1
-          : 0;
+    // Define possible directions for the king to move
+    const directions = [
+      { deltaX: 1, deltaY: 0 },
+      { deltaX: 1, deltaY: 1 },
+      { deltaX: 0, deltaY: 1 },
+      { deltaX: -1, deltaY: 1 },
+      { deltaX: -1, deltaY: 0 },
+      { deltaX: -1, deltaY: -1 },
+      { deltaX: 0, deltaY: -1 },
+      { deltaX: 1, deltaY: -1 },
+    ];
 
-    const deltaX = targetCoordinates[0] - currentCoordinates[0];
-    const deltaY = targetCoordinates[1] - currentCoordinates[1];
+    for (const direction of directions) {
+      const nextX = currentCoordinates[0] + direction.deltaX;
+      const nextY = currentCoordinates[1] + direction.deltaY;
 
-    const absDeltaX = Math.abs(deltaX);
-    const absDeltaY = Math.abs(deltaY);
+      // Check if the next position is within the board boundaries
+      if (nextX >= 0 && nextX < 8 && nextY >= 0 && nextY < 8) {
+        const nextPosition: Position = {
+          coordinates: [nextX, nextY],
+          boardId: this.position.boardId,
+        };
 
-    // King can only move one step but in any direction.
-    if (absDeltaX === 1 || absDeltaY === 1) {
-      return simulateMove(
-        this,
-        target.position,
-        stepX,
-        stepY,
-        1,
-      );
+        // Add the position to the list of valid moves
+        validMoves.push(nextPosition);
+      }
     }
 
     // Check for castling
-    if (absDeltaX === 2 && absDeltaY === 0 && !this.hasMoved) {
-      let destinationPosition = this.position;
-      // Moved two squares horizontally and didn't move before
-      if (deltaX === 2) {
-        // Kingside castling
-        destinationPosition = simulateMove(
-          this,
-          target.position,
-          stepX,
-          stepY,
-          2,
-          false,
-        );
-      } else {
-        // Queenside castling
-        // Queenside castling needs to check an extra square
-        const targetPosition: Position = {
-          coordinates: [
-            target.position.coordinates[0] - 1,
-            target.position.coordinates[1],
-          ],
-          boardId: target.position.boardId,
+    if (!this.hasMoved) {
+      const kingsideRook = this.getRookForCastling(this.player, true);
+      const queensideRook = this.getRookForCastling(this.player, false);
+
+      // Kingside castling
+      if (kingsideRook && !kingsideRook.hasMoved) {
+        const kingsideTargetPosition: Position = {
+          coordinates: [currentCoordinates[0] + 2, currentCoordinates[1]],
+          boardId: this.position.boardId,
         };
-        destinationPosition = simulateMove(
-          this,
-          targetPosition,
-          stepX,
-          stepY,
-          3,
-          false,
-        );
+        if (this.isPathClear(this.position, kingsideTargetPosition)) {
+          game.switchIsCastling();
+          validMoves.push(kingsideTargetPosition);
+        }
       }
 
-      if (!comparePositions(destinationPosition, this.position)) {
-        game.switchIsCastling();
+      // Queenside castling
+      if (queensideRook && !queensideRook.hasMoved) {
+        const queensideTargetPosition: Position = {
+          coordinates: [currentCoordinates[0] - 2, currentCoordinates[1]],
+          boardId: this.position.boardId,
+        };
+        if (this.isPathClear(this.position, queensideTargetPosition)) {
+          game.switchIsCastling();
+          validMoves.push(queensideTargetPosition);
+        }
       }
-      return destinationPosition;
     }
 
-    return this.position;
+    return validMoves;
   }
 }
