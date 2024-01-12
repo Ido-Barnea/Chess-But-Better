@@ -1,7 +1,7 @@
 import { knightResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
-import { Position, Square } from './PiecesHelpers';
+import { Position, Square } from './PiecesUtilities';
 
 export class Knight extends Piece {
   constructor(position: Position, player: Player) {

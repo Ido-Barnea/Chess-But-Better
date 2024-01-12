@@ -1,7 +1,7 @@
 import { pawnResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
-import { Position, Square, simulateMove } from './PiecesHelpers';
+import { Position, Square, simulateMove } from './PiecesUtilities';
 import { game } from '../../Game';
 
 export class Pawn extends Piece {

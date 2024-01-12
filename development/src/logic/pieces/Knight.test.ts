@@ -1,9 +1,11 @@
+import { game } from '../../Game';
 import { OVERWORLD_BOARD_ID } from '../Constants';
 import { Player, PlayerColors } from '../Players';
 import { Knight } from './Knight';
-import { Position } from './PiecesHelpers';
+import { Position } from './PiecesUtilities';
 
-jest.mock('../../LogicAdapter.ts');
+jest.mock('../../ui/BoardManager.ts', () => ({}));
+jest.mock('../../ui/Screen.ts', () => ({}));
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 
@@ -14,6 +16,7 @@ describe('Piece movements', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const knight = new Knight(initialPosition, whitePlayer);
+    game.setPieces([knight]);
 
     const newPosition: Position = {
       coordinates: [2, 5],

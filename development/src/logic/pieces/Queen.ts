@@ -1,7 +1,7 @@
 import { queenResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
-import { Position, Square, simulateMove } from './PiecesHelpers';
+import { Position, Square, simulateMove } from './PiecesUtilities';
 
 export class Queen extends Piece {
   constructor(position: Position, player: Player) {

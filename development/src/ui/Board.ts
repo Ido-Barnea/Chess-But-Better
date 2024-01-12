@@ -4,7 +4,7 @@ import { comparePositions } from '../logic/Utilities';
 import { Coin } from '../logic/items/Coin';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Pieces';
-import { Position } from '../logic/pieces/PiecesHelpers';
+import { Position } from '../logic/pieces/PiecesUtilities';
 
 export class ChessBoard {
   boardId: string;

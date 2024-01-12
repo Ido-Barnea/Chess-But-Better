@@ -1,7 +1,7 @@
 import { kingResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
-import { Position, Square, simulateMove } from './PiecesHelpers';
+import { Position, Square, simulateMove } from './PiecesUtilities';
 import { comparePositions } from '../Utilities';
 import { game } from '../../Game';
 

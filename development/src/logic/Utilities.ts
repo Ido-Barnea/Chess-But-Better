@@ -1,6 +1,6 @@
 import { game } from '../Game';
 import { Piece } from './pieces/Pieces';
-import { Position } from './pieces/PiecesHelpers';
+import { Position } from './pieces/PiecesUtilities';
 
 export function comparePositions(
   firstPosition: Position,

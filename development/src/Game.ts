@@ -1,5 +1,4 @@
-import { onActionTriggered, onFellOffTheBoardTriggered, renderScreen } from './LogicAdapter';
-import { Logger } from './ui/Logger';
+import { renderScreen } from './LogicAdapter';
 import { OVERWORLD_BOARD_ID } from './logic/Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
@@ -11,8 +10,6 @@ import { Piece } from './logic/pieces/Pieces';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
-import { initializeEventListeners, setOnAction, setOnFellOffTheBoard, setOnHighlight } from './ui/Events';
-import { highlightSquare, initializeBoards } from './ui/BoardManager';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -62,20 +59,7 @@ let isFriendlyFire = false;
 let isPieceKilled = false;
 let fellOffTheBoardPiece: Piece | undefined;
 
-function setGameEventHandlers() {
-  setOnAction(onActionTriggered);
-  setOnFellOffTheBoard(onFellOffTheBoardTriggered);
-  setOnHighlight(highlightSquare);
-}
-
 function initializeGame() {
-  Logger.logGeneral('Game started!');
-
-  initializeBoards();
-  initializeEventListeners();
-  renderScreen();
-  setGameEventHandlers();
-
   rulesManager = new RulesManager();
 }
 
@@ -184,7 +168,7 @@ function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
 }
 
 export const game = {
-  initializeGame,
+  initialize: initializeGame,
   endTurn,
   getCurrentPlayer,
   switchIsCastling,

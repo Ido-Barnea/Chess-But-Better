@@ -12,7 +12,7 @@ import { Item } from './items/Items';
 import { Trap } from './items/Trap';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Pieces';
-import { Position, Square } from './pieces/PiecesHelpers';
+import { Position, Square } from './pieces/PiecesUtilities';
 
 function validatePlayerAction(
   draggedPiece: Piece,

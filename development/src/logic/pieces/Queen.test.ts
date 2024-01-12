@@ -1,9 +1,11 @@
+import { game } from '../../Game';
 import { OVERWORLD_BOARD_ID } from '../Constants';
 import { Player, PlayerColors } from '../Players';
-import { Position } from './PiecesHelpers';
+import { Position } from './PiecesUtilities';
 import { Queen } from './Queen';
 
-jest.mock('../../LogicAdapter.ts');
+jest.mock('../../ui/BoardManager.ts', () => ({}));
+jest.mock('../../ui/Screen.ts', () => ({}));
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 
@@ -14,6 +16,7 @@ describe('Piece movements', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const queen = new Queen(initialPosition, whitePlayer);
+    game.setPieces([queen]);
 
     const newStraightPosition: Position = {
       coordinates: [2, 2],
