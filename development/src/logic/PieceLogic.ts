@@ -1,3 +1,4 @@
+import { game } from '../Game';
 import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard } from '../LogicAdapter';
 import { Logger } from '../ui/Logger';
 import {
@@ -5,7 +6,6 @@ import {
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
 } from './Constants';
-import { Game } from './Game';
 import { comparePositions, getPieceByPosition } from './Utilities';
 import { Coin } from './items/Coin';
 import { Item } from './items/Items';
@@ -56,15 +56,15 @@ export function onPlayerAction(
 
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
   permanentlyKillPiece(draggedPiece);
-  Game.updateFellOffTheBoardPiece(draggedPiece);
-  Game.endTurn();
+  game.setFellOffTheBoardPiece(draggedPiece);
+  game.endTurn();
 }
 
 function onActionPieceToPiece(
   draggedPiece: Piece,
   targetPiece: Piece,
 ) {
-  Game.updateFriendlyFireStatus(targetPiece.player === draggedPiece.player);
+  game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
   killPiece(draggedPiece ,targetPiece);
 
   const targetSquare: Square = { position: targetPiece.position };
@@ -75,11 +75,11 @@ function onActionPieceToSquare(
   draggedPiece: Piece,
   targetSquare: Square,
 ) {
-  if (Game.isCastling) {
+  if (game.getIsCaslting()) {
     const isValidCastling = castle(draggedPiece, targetSquare);
 
     if (!isValidCastling) {
-      Game.switchIsCastling();
+      game.switchIsCastling();
       return;
     }
   }
@@ -104,9 +104,9 @@ function castle(
   kingPiece: Piece,
   targetSquare: Square,
 ) {
-  const possibleRooks = Game.pieces.filter((piece) => {
+  const possibleRooks = game.getPieces().filter((piece) => {
     return (
-      piece.player === Game.getCurrentPlayer() &&
+      piece.player === game.getCurrentPlayer() &&
       !piece.hasMoved &&
       piece.name === 'Rook'
     );
@@ -148,7 +148,7 @@ function castle(
 }
 
 export function isAllowedToAct(draggedPiece: Piece) {
-  return draggedPiece.player === Game.getCurrentPlayer();
+  return draggedPiece.player === game.getCurrentPlayer();
 }
 
 function move(
@@ -165,12 +165,12 @@ function move(
   };
 
   draggedPiece.hasMoved = true;
-  if (shouldEndTurn) Game.endTurn();
+  if (shouldEndTurn) game.endTurn();
 }
 
 function commonKillPieceActions(targetPiece: Piece) {
-  Game.increaseDeathCount();
-  Game.triggerIsPieceKilled();
+  game.increaseDeathCounter();
+  game.setIsPieceKilled(true);
   destroyPieceOnBoard(targetPiece);
 }
 
@@ -215,7 +215,7 @@ function killPiece(
 }
 
 function handlePieceSpawning(targetPiece: Piece) {
-  Game.pieces.forEach((piece) => {
+  game.getPieces().forEach((piece) => {
     const areOnTheSamePosition = comparePositions(
       targetPiece.position,
       piece.position,
@@ -227,7 +227,7 @@ function handlePieceSpawning(targetPiece: Piece) {
     }
   });
 
-  Game.items.forEach((item) => {
+  game.getItems().forEach((item) => {
     const areOnTheSamePosition = comparePositions(
       targetPiece.position,
       item.position,
@@ -257,7 +257,7 @@ function handleOverworldKill(
 }
 
 export function permanentlyKillPiece(targetPiece: Piece) {
-  Game.updatePieces(Game.pieces.filter((piece) => piece !== targetPiece));
+  game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
   commonKillPieceActions(targetPiece);
 }
 
@@ -283,7 +283,7 @@ function handlePieceMovedOnTrap(
   trap: Trap,
 ) {
   permanentlyKillPiece(draggedPiece);
-  Game.updateItems(Game.items.filter((item) => item !== trap));
+  game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
   if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
@@ -294,14 +294,14 @@ function handlePieceMovedOnTrap(
     spawnPieceOnBoard(draggedPiece);
   }
 
-  Game.endTurn();
+  game.endTurn();
 }
 
 export function handlePieceMovedOnCoin(
   draggedPiece: Piece,
   coin: Coin,
 ) {
-  Game.updateItems(Game.items.filter((item) => item !== coin));
+  game.setItems(game.getItems().filter((item) => item !== coin));
   destroyItemOnBoard(coin);
 
   draggedPiece.player.gold++;

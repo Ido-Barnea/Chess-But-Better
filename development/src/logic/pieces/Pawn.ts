@@ -2,7 +2,7 @@ import { pawnResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
-import { Game } from '../Game';
+import { game } from '../../Game';
 
 export class Pawn extends Piece {
   enPassant: boolean;
@@ -33,7 +33,7 @@ export class Pawn extends Piece {
           : 0;
 
     // Make sure pawn does not move backwards.
-    const currentPlayer = Game.getCurrentPlayer();
+    const currentPlayer = game.getCurrentPlayer();
     if (
       (currentPlayer.color === PlayerColors.WHITE && deltaY > 0) ||
       (currentPlayer.color === PlayerColors.BLACK && deltaY < 0)

@@ -4,7 +4,7 @@ import { Coin } from '../items/Coin';
 import { Item } from '../items/Items';
 import { comparePositions, getPieceByPosition } from '../Utilities';
 import { handlePieceMovedOnCoin } from '../PieceLogic';
-import { Game } from '../Game';
+import { game } from '../../Game';
 
 export type Position = {
   coordinates: [number, number],
@@ -97,6 +97,6 @@ function handleItemOnSquare(
 function checkIfPositionContainsItem(
   position: Position,
 ): Item | undefined {
-  return Game.items.find((item) => comparePositions(position, item.position));
+  return game.getItems().find((item) => comparePositions(position, item.position));
 }
 

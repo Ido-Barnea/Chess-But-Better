@@ -1,4 +1,4 @@
-import { Game } from '../logic/Game';
+import { game } from '../Game';
 import { BaseRule } from '../logic/rules/BaseRule';
 
 const infoDisplay = document.getElementById('info-display');
@@ -8,17 +8,17 @@ export function renderPlayersInformation() {
   if (infoDisplay) infoDisplay.textContent = '';
 
   const roundElement = document.createElement('p');
-  roundElement.innerHTML = `Round: ${Game.roundCounter}`;
+  roundElement.innerHTML = `Round: ${game.getRoundCounter()}`;
   infoDisplay?.appendChild(roundElement);
 
   const playersElement = document.createElement('p');
   playersElement.innerHTML = 'Players:';
 
-  Game.players.forEach((player) => {
+  game.getPlayers().forEach((player) => {
     const playerInformationElement = document.createElement('div');
 
     const statusElement = document.createElement('p');
-    const isCurrentPlayer = Game.getCurrentPlayer() === player;
+    const isCurrentPlayer = game.getCurrentPlayer() === player;
     const title = `${isCurrentPlayer ? '> ' : ''} ${player.color} Player:`;
     const status = `${title} ${player.xp} XP; ${player.gold} Gold.`;
     statusElement.innerHTML = status;

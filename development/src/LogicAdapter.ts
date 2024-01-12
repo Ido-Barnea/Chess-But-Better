@@ -1,4 +1,4 @@
-import { Game } from './logic/Game';
+import { game } from './Game';
 import { isAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
@@ -19,7 +19,7 @@ export function renderRules(newRule: BaseRule) {
 function findPieceAtPosition(
   position: Position,
 ): Piece | undefined {
-  return Game.pieces.find((piece) => comparePositions(piece.position, position));
+  return game.getPieces().find((piece) => comparePositions(piece.position, position));
 }
 
 function getSquareIdFromElement(element: HTMLElement): string | undefined {
@@ -59,7 +59,7 @@ export function onActionTriggered(
 
     onPlayerAction(draggedPiece, targetPiece);
   } else if (targetElement.classList.contains('item')) {
-    Game.items.forEach((item) => {
+    game.getItems().forEach((item) => {
       if (comparePositions(item.position, targetElementPosition)) {
         onPlayerAction(draggedPiece, item);
       }

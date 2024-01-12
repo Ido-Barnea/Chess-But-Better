@@ -57,6 +57,7 @@
       }
     ],
     "comma-dangle": ["error", "always-multiline"],
-    "camelcase": ["error"]
+    "camelcase": ["error"],
+    "@typescript-eslint/no-namespace": "off"
   }
 }

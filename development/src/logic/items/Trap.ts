@@ -4,7 +4,7 @@ import { Logger } from '../../ui/Logger';
 import { trapResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesHelpers';
 import { spawnItemOnBoard } from '../../LogicAdapter';
-import { Game } from '../Game';
+import { game } from '../../Game';
 
 export class Trap extends Item {
   constructor(position: Position) {
@@ -15,7 +15,7 @@ export class Trap extends Item {
     Logger.logGeneral(`${piece.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.`);
 
     this.position = piece.position;
-    Game.items.push(this);
+    game.getItems().push(this);
 
     spawnItemOnBoard(this);
   }

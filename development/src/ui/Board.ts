@@ -1,5 +1,5 @@
+import { game } from '../Game';
 import { BOARD_WIDTH } from '../logic/Constants';
-import { Game } from '../logic/Game';
 import { comparePositions } from '../logic/Utilities';
 import { Coin } from '../logic/items/Coin';
 import { Item } from '../logic/items/Items';
@@ -38,7 +38,7 @@ export class ChessBoard {
 
     const isCollapsed = this.boardElement.classList.contains('collapsed');
     if (!isCollapsed) {
-      Game.pieces.forEach((piece) => {
+      game.getPieces().forEach((piece) => {
         const pieceElement = this.createPieceElement(piece);
         const square = document.querySelectorAll(`[square-id="${piece.position.coordinates}"]`)[0];
         square.appendChild(pieceElement);
@@ -71,7 +71,7 @@ export class ChessBoard {
           coordinates: coordinates,
           boardId: this.boardId,
         };
-        const isPieceOnTargetSquare: boolean = (Game.pieces.filter(piece => {
+        const isPieceOnTargetSquare: boolean = (game.getPieces().filter(piece => {
           return comparePositions(currentPosition, piece.position);
         })).length !== 0;
         if (random < COIN_GENERATION_CHANCE && !isPieceOnTargetSquare) {
@@ -80,7 +80,7 @@ export class ChessBoard {
             boardId: this.boardId,
           };
           const coin = new Coin(position);
-          Game.items.push(coin);
+          game.getItems().push(coin);
 
           const coinElement = this.createItemElement(coin);
           const square = this.boardElement.querySelectorAll(`[square-id="${coordinates}"]`)[0];
