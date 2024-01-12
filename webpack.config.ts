@@ -8,7 +8,7 @@ interface CustomConfiguration extends Configuration {
 }
 
 const config: CustomConfiguration = {
-  entry: './development/src/Index.ts',
+  entry: './development/code/Index.ts',
   output: {
     filename: 'ChessButBetter.js',
     path: path.resolve(__dirname, 'dist'),
