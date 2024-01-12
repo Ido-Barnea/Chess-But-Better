@@ -1,17 +1,11 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
-import { Game } from '../GameController';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesHelpers';
 import { Queen } from './Queen';
 
 jest.mock('../../LogicAdapter.ts');
 
-let game: Game;
 const whitePlayer = new Player(PlayerColors.WHITE);
-
-beforeAll(() => {
-  game = new Game();
-});
 
 describe('Piece movements', () => {
   test('Validating Queen movement', () => {
@@ -19,7 +13,7 @@ describe('Piece movements', () => {
       coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const queen = new Queen(game, initialPosition, whitePlayer);
+    const queen = new Queen(initialPosition, whitePlayer);
 
     const newStraightPosition: Position = {
       coordinates: [2, 2],

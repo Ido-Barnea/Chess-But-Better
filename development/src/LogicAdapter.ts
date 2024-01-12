@@ -1,4 +1,4 @@
-import { Game } from './logic/GameController';
+import { Game } from './logic/Game';
 import { isAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
@@ -8,8 +8,8 @@ import { BaseRule } from './logic/rules/BaseRule';
 import { destroyElementOnBoard, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
-export function renderScreen(game: Game) {
-  renderPlayersInformation(game);
+export function renderScreen() {
+  renderPlayersInformation();
 }
 
 export function renderRules(newRule: BaseRule) {
@@ -17,10 +17,9 @@ export function renderRules(newRule: BaseRule) {
 }
 
 function findPieceAtPosition(
-  game: Game,
   position: Position,
 ): Piece | undefined {
-  return game.pieces.find((piece) => comparePositions(piece.position, position));
+  return Game.pieces.find((piece) => comparePositions(piece.position, position));
 }
 
 function getSquareIdFromElement(element: HTMLElement): string | undefined {
@@ -38,7 +37,6 @@ function getPositionFromSquareId(squareId: string, boardId: string): Position {
 }
 
 export function onActionTriggered(
-  game: Game,
   draggedElement: HTMLElement,
   targetElement: HTMLElement,
   boardId: string,
@@ -47,7 +45,7 @@ export function onActionTriggered(
   if (!originSquareId) return;
 
   const draggedElementPosition = getPositionFromSquareId(originSquareId, boardId);
-  const draggedPiece = findPieceAtPosition(game, draggedElementPosition);
+  const draggedPiece = findPieceAtPosition(draggedElementPosition);
   if (!draggedPiece) return;
 
   const targetSquareId = getSquareIdFromElement(targetElement);
@@ -56,26 +54,25 @@ export function onActionTriggered(
   const targetElementPosition = getPositionFromSquareId(targetSquareId, boardId);
 
   if (targetElement.classList.contains('piece')) {
-    const targetPiece = findPieceAtPosition(game, targetElementPosition);
+    const targetPiece = findPieceAtPosition(targetElementPosition);
     if (!targetPiece) return;
 
-    onPlayerAction(game, draggedPiece, targetPiece);
+    onPlayerAction(draggedPiece, targetPiece);
   } else if (targetElement.classList.contains('item')) {
-    game.items.forEach((item) => {
+    Game.items.forEach((item) => {
       if (comparePositions(item.position, targetElementPosition)) {
-        onPlayerAction(game, draggedPiece, item);
+        onPlayerAction(draggedPiece, item);
       }
     });
   } else {
     const targetSquare: Square = {
       position: targetElementPosition,
     };
-    onPlayerAction(game, draggedPiece, targetSquare);
+    onPlayerAction(draggedPiece, targetSquare);
   }
 }
 
 export function onFellOffTheBoardTriggered(
-  game: Game,
   draggedElement: HTMLElement,
   boardId: string,
 ) {
@@ -83,10 +80,10 @@ export function onFellOffTheBoardTriggered(
   if (!squareId) return;
 
   const draggedElementPosition = getPositionFromSquareId(squareId, boardId);
-  const draggedPiece = findPieceAtPosition(game, draggedElementPosition);
-  if (!draggedPiece || !isAllowedToAct(game, draggedPiece)) return;
+  const draggedPiece = findPieceAtPosition(draggedElementPosition);
+  if (!draggedPiece || !isAllowedToAct(draggedPiece)) return;
 
-  onPieceFellOffTheBoard(game, draggedPiece);
+  onPieceFellOffTheBoard(draggedPiece);
 }
 
 export function movePieceOnBoard(

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { Game } from '../logic/GameController';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Pieces';
 import { Square } from '../logic/pieces/PiecesHelpers';
@@ -11,14 +10,12 @@ export function renderScreen() {}
 export function renderRules(_: BaseRule) {}
 
 export function onActionTriggered(
-  _game: Game,
   _draggedElement: HTMLElement,
   _targetElement: HTMLElement,
   _boardId: string,
 ) {}
 
 export function onFellOffTheBoardTriggered(
-  _game: Game,
   _draggedElement: HTMLElement,
   _boardId: string,
 ) {}

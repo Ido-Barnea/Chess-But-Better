@@ -1,18 +1,18 @@
 import { Logger } from '../../ui/Logger';
-import { Game } from '../GameController';
+import { Game } from '../Game';
 import { BaseRule } from './BaseRule';
 
 export class PiecesCanFallOffTheBoardRule extends BaseRule {
-  constructor(game: Game, isRevealed = false) {
+  constructor(isRevealed = false) {
     const index = 0;
     const description = 'Pieces can fall off the board.';
-    const condition = !!game.fellOffTheBoardPiece;
+    const condition = Game.fellOffTheBoardPiece !== undefined;
     const onTrigger = () => {
       Logger.logRule(`
-        A ${game.fellOffTheBoardPiece?.player.color} ${game.fellOffTheBoardPiece?.name} fell off the board.
+        A ${Game.fellOffTheBoardPiece?.player.color} ${Game.fellOffTheBoardPiece?.name} fell off the board.
       `);
     };
 
-    super(game, index, description, isRevealed, condition, onTrigger);
+    super(index, description, isRevealed, condition, onTrigger);
   }
 }

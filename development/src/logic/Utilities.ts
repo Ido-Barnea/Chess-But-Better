@@ -1,4 +1,4 @@
-import { Game } from './GameController';
+import { Game } from './Game';
 import { Piece } from './pieces/Pieces';
 import { Position } from './pieces/PiecesHelpers';
 
@@ -14,8 +14,8 @@ export function comparePositions(
   return areBoardsEqual && arePositionsEqual;
 }
 
-export function getPieceByPosition(game: Game, position: Position): Piece | undefined {
-  return game.pieces.find((piece) => {
+export function getPieceByPosition(position: Position): Piece | undefined {
+  return Game.pieces.find((piece) => {
     return comparePositions(position, piece.position);
   });
 }

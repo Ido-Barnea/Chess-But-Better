@@ -1,5 +1,5 @@
 import { BOARD_WIDTH } from '../logic/Constants';
-import { Game } from '../logic/GameController';
+import { Game } from '../logic/Game';
 import { comparePositions } from '../logic/Utilities';
 import { Coin } from '../logic/items/Coin';
 import { Item } from '../logic/items/Items';
@@ -7,7 +7,6 @@ import { Piece } from '../logic/pieces/Pieces';
 import { Position } from '../logic/pieces/PiecesHelpers';
 
 export class ChessBoard {
-  game: Game;
   boardId: string;
   boardElement: HTMLElement;
   boardButtonElement: HTMLElement;
@@ -15,14 +14,12 @@ export class ChessBoard {
   darkSquareColor: string;
 
   constructor(
-    game: Game,
     boardId: string,
     boardElement: HTMLElement,
     boardButtonElement: HTMLElement,
     lightSquareColor: string,
     darkSquareColor: string,
   ) {
-    this.game = game;
     this.boardId = boardId;
     this.boardElement = boardElement;
     this.boardButtonElement = boardButtonElement;
@@ -41,7 +38,7 @@ export class ChessBoard {
 
     const isCollapsed = this.boardElement.classList.contains('collapsed');
     if (!isCollapsed) {
-      this.game.pieces.forEach((piece) => {
+      Game.pieces.forEach((piece) => {
         const pieceElement = this.createPieceElement(piece);
         const square = document.querySelectorAll(`[square-id="${piece.position.coordinates}"]`)[0];
         square.appendChild(pieceElement);
@@ -74,7 +71,7 @@ export class ChessBoard {
           coordinates: coordinates,
           boardId: this.boardId,
         };
-        const isPieceOnTargetSquare: boolean = (this.game.pieces.filter(piece => {
+        const isPieceOnTargetSquare: boolean = (Game.pieces.filter(piece => {
           return comparePositions(currentPosition, piece.position);
         })).length !== 0;
         if (random < COIN_GENERATION_CHANCE && !isPieceOnTargetSquare) {
@@ -83,7 +80,7 @@ export class ChessBoard {
             boardId: this.boardId,
           };
           const coin = new Coin(position);
-          this.game.items.push(coin);
+          Game.items.push(coin);
 
           const coinElement = this.createItemElement(coin);
           const square = this.boardElement.querySelectorAll(`[square-id="${coordinates}"]`)[0];

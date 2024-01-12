@@ -1,17 +1,11 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
-import { Game } from '../GameController';
 import { Player, PlayerColors } from '../Players';
 import { Bishop } from './Bishop';
 import { Position } from './PiecesHelpers';
 
 jest.mock('../../LogicAdapter.ts');
 
-let game: Game;
 const whitePlayer = new Player(PlayerColors.WHITE);
-
-beforeAll(() => {
-  game = new Game();
-});
 
 describe('Piece movements', () => {
   test('Validating Bishop movement', () => {
@@ -19,7 +13,7 @@ describe('Piece movements', () => {
       coordinates: [0, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const bishop = new Bishop(game, initialPosition, whitePlayer);
+    const bishop = new Bishop(initialPosition, whitePlayer);
 
     const newPosition: Position = {
       coordinates: [2, 3],

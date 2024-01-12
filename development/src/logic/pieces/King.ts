@@ -3,15 +3,15 @@ import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
 import { comparePositions } from '../Utilities';
-import { Game } from '../GameController';
+import { Game } from '../Game';
 
 export class King extends Piece {
-  constructor(game: Game, position: Position, player: Player) {
+  constructor(position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♔'
       : '♚';
 
-    super(game, position, player, kingResource, 'King', logo);
+    super(position, player, kingResource, 'King', logo);
   }
 
   validateMove(target: Piece | Square): Position {
@@ -40,7 +40,6 @@ export class King extends Piece {
     // King can only move one step but in any direction.
     if (absDeltaX === 1 || absDeltaY === 1) {
       return simulateMove(
-        this.game,
         this,
         target.position,
         stepX,
@@ -56,7 +55,6 @@ export class King extends Piece {
       if (deltaX === 2) {
         // Kingside castling
         destinationPosition = simulateMove(
-          this.game,
           this,
           target.position,
           stepX,
@@ -75,7 +73,6 @@ export class King extends Piece {
           boardId: target.position.boardId,
         };
         destinationPosition = simulateMove(
-          this.game,
           this,
           targetPosition,
           stepX,
@@ -86,7 +83,7 @@ export class King extends Piece {
       }
 
       if (!comparePositions(destinationPosition, this.position)) {
-        this.game.switchIsCastling();
+        Game.switchIsCastling();
       }
       return destinationPosition;
     }

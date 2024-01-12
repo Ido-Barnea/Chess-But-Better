@@ -21,7 +21,6 @@ import {
 } from '../logic/Constants';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Pieces';
-import { Game } from '../logic/GameController';
 
 let overworldBoard: ChessBoard;
 let hellBoard: ChessBoard;
@@ -38,9 +37,8 @@ const OVERWORLD_BOARD_BUTTON = document.getElementById(OVERWORLD_BOARD_BUTTON_ID
 const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID) as HTMLElement;
 const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID) as HTMLElement;
 
-export function initializeBoards(game: Game) {
+export function initializeBoards() {
   overworldBoard = new ChessBoard(
-    game,
     OVERWORLD_BOARD_ID,
     OVERWORLD_BOARD,
     OVERWORLD_BOARD_BUTTON,
@@ -49,7 +47,6 @@ export function initializeBoards(game: Game) {
   );
 
   hellBoard = new ChessBoard(
-    game,
     HELL_BOARD_ID,
     HELL_BOARD,
     HELL_BOARD_BUTTON,
@@ -58,7 +55,6 @@ export function initializeBoards(game: Game) {
   );
 
   heavenBoard = new ChessBoard(
-    game,
     HEAVEN_BOARD_ID,
     HEAVEN_BOARD,
     HEAVEN_BOARD_BUTTON,

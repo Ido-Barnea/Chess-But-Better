@@ -1,18 +1,12 @@
 import { OVERWORLD_BOARD_ID } from '../Constants';
-import { Game } from '../GameController';
 import { Player, PlayerColors } from '../Players';
 import { Pawn } from './Pawn';
 import { Position } from './PiecesHelpers';
 
 jest.mock('../../LogicAdapter.ts');
 
-let game: Game;
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
-
-beforeAll(() => {
-  game = new Game();
-});
 
 describe('Piece movements', () => {
   test('Validating Pawn movement', () => {
@@ -20,7 +14,7 @@ describe('Piece movements', () => {
       coordinates: [0, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const pawn = new Pawn(game, initialPosition, whitePlayer);
+    const pawn = new Pawn(initialPosition, whitePlayer);
 
     const singleStepMove: Position = {
       coordinates: [0, 5],
@@ -60,7 +54,6 @@ describe('Piece movements', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const diagonalAttackMove = new Pawn(
-      game,
       blackPawnPosition,
       blackPlayer,
     );

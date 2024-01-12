@@ -2,14 +2,13 @@ import { rookResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position, Square, simulateMove } from './PiecesHelpers';
-import { Game } from '../GameController';
 
 export class Rook extends Piece {
-  constructor(game: Game, position: Position, player: Player) {
+  constructor(position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♖'
       : '♜';
-    super(game, position, player, rookResource, 'Rook', logo);
+    super(position, player, rookResource, 'Rook', logo);
   }
 
   validateMove(target: Piece | Square): Position {
@@ -32,7 +31,6 @@ export class Rook extends Piece {
       this.position.coordinates[0] === target.position.coordinates[0]
     ) {
       return simulateMove(
-        this.game,
         this,
         target.position,
         stepX,

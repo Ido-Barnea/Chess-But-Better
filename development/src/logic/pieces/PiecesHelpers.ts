@@ -4,7 +4,7 @@ import { Coin } from '../items/Coin';
 import { Item } from '../items/Items';
 import { comparePositions, getPieceByPosition } from '../Utilities';
 import { handlePieceMovedOnCoin } from '../PieceLogic';
-import { Game } from '../GameController';
+import { Game } from '../Game';
 
 export type Position = {
   coordinates: [number, number],
@@ -26,7 +26,6 @@ export interface PieceType {
 }
 
 export function simulateMove(
-  game: Game,
   draggedPiece: Piece,
   targetPosition: Position,
   stepX: number,
@@ -52,7 +51,7 @@ export function simulateMove(
     };
 
     // Check if any square along the piece's path is occupied (not including the destination square)
-    const targetPiece = getPieceByPosition(game, nextPosition);
+    const targetPiece = getPieceByPosition(nextPosition);
     if (
       targetPiece &&
       (!comparePositions(nextPosition, targetPosition) ||
@@ -61,7 +60,7 @@ export function simulateMove(
       return startingPosition;
     }
 
-    const squareItem = handleItemOnSquare(game, nextPosition);
+    const squareItem = handleItemOnSquare(nextPosition);
     if (squareItem) {
       switch (squareItem.name) {
         case ('trap'): {
@@ -80,7 +79,7 @@ export function simulateMove(
 
   if (comparePositions(position, targetPosition)) {
     pickedUpCoins.forEach(coin => {
-      handlePieceMovedOnCoin(game, draggedPiece, coin);
+      handlePieceMovedOnCoin(draggedPiece, coin);
     });
 
     return targetPosition;
@@ -90,16 +89,14 @@ export function simulateMove(
 }
 
 function handleItemOnSquare(
-  game: Game,
   nextPosition: Position,
 ): Item | undefined {
-  return checkIfPositionContainsItem(game, nextPosition);
+  return checkIfPositionContainsItem(nextPosition);
 }
 
 function checkIfPositionContainsItem(
-  game: Game,
   position: Position,
 ): Item | undefined {
-  return game.items.find((item) => comparePositions(position, item.position));
+  return Game.items.find((item) => comparePositions(position, item.position));
 }
 
