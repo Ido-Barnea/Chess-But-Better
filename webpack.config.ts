@@ -34,6 +34,9 @@ const config: CustomConfiguration = {
       directory: path.join(__dirname, 'development'),
     },
     port: 8080,
+    client: {
+      logging: 'none',
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
