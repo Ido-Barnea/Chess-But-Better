@@ -1,12 +1,11 @@
-import { updateRules } from '../../Game';
+import { game } from '../../Game';
+import { renderRules } from '../../LogicAdapter';
 import { Logger } from '../../ui/Logger';
-import { getCurrentPlayer } from '../GameController';
-
 export interface Rule {
   id: number;
   description: string;
   isRevealed: boolean;
-  condition: boolean;
+  condition: () => boolean;
   onTrigger: () => void;
   trigger: () => void;
 }
@@ -15,14 +14,14 @@ export class BaseRule implements Rule {
   id: number;
   description: string;
   isRevealed: boolean;
-  condition: boolean;
+  condition: () => boolean;
   onTrigger: () => void;
 
   constructor(
     id: number,
     description: string,
     isRevealed: boolean,
-    condition: boolean,
+    condition: () => boolean,
     onTrigger: () => void,
   ) {
     this.id = id;
@@ -33,15 +32,15 @@ export class BaseRule implements Rule {
   }
 
   trigger() {
-    if (this.condition) {
+    if (this.condition()) {
       this.onTrigger();
       if (!this.isRevealed) {
-        const player = getCurrentPlayer();
+        const player = game.getCurrentPlayer();
         Logger.logRule(`${player.color} received XP for revealing a new rule: ${this.description}`);
         player.xp++;
         this.isRevealed = true;
 
-        updateRules(this);
+        renderRules(this);
       }
     }
   }

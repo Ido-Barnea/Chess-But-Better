@@ -1,9 +1,9 @@
 import { kingResource } from '../../ui/Resources';
 import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
-import { Position, Square, simulateMove } from './PiecesHelpers';
+import { Position, Square, simulateMove } from './PiecesUtilities';
 import { comparePositions } from '../Utilities';
-import { switchIsCastling } from '../GameController';
+import { game } from '../../Game';
 
 export class King extends Piece {
   constructor(position: Position, player: Player) {
@@ -83,7 +83,7 @@ export class King extends Piece {
       }
 
       if (!comparePositions(destinationPosition, this.position)) {
-        switchIsCastling();
+        game.switchIsCastling();
       }
       return destinationPosition;
     }

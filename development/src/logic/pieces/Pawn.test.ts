@@ -1,11 +1,11 @@
+import { game } from '../../Game';
 import { OVERWORLD_BOARD_ID } from '../Constants';
 import { Player, PlayerColors } from '../Players';
 import { Pawn } from './Pawn';
-import { Position } from './PiecesHelpers';
+import { Position } from './PiecesUtilities';
 
-jest.mock('../GameController');
-jest.mock('../Utilities.ts');
-jest.mock('../PieceLogic.ts');
+jest.mock('../../ui/BoardManager.ts', () => ({}));
+jest.mock('../../ui/Screen.ts', () => ({}));
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -17,6 +17,7 @@ describe('Piece movements', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const pawn = new Pawn(initialPosition, whitePlayer);
+    game.setPieces([pawn]);
 
     const singleStepMove: Position = {
       coordinates: [0, 5],
@@ -51,11 +52,12 @@ describe('Piece movements', () => {
     });
     expect(twoStepsInitialValidMove).toEqual(twoStepsInitialMove);
 
+    const blackPawnPosition: Position = {
+      coordinates: [1, 5],
+      boardId: OVERWORLD_BOARD_ID,
+    };
     const diagonalAttackMove = new Pawn(
-      {
-        coordinates: [1, 5],
-        boardId: OVERWORLD_BOARD_ID,
-      },
+      blackPawnPosition,
       blackPlayer,
     );
     const diagonalAttackValidMove = pawn.validateMove(diagonalAttackMove);

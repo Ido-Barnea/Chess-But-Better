@@ -1,6 +1,6 @@
-import { pieces } from './GameController';
+import { game } from '../Game';
 import { Piece } from './pieces/Pieces';
-import { Position } from './pieces/PiecesHelpers';
+import { Position } from './pieces/PiecesUtilities';
 
 export function comparePositions(
   firstPosition: Position,
@@ -15,7 +15,7 @@ export function comparePositions(
 }
 
 export function getPieceByPosition(position: Position): Piece | undefined {
-  return pieces.find((piece) => {
+  return game.getPieces().find((piece) => {
     return comparePositions(position, piece.position);
   });
 }

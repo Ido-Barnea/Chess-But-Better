@@ -1,6 +1,6 @@
 import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../logic/Constants';
 import { Piece } from '../logic/pieces/Pieces';
-import { Square } from '../logic/pieces/PiecesHelpers';
+import { Square } from '../logic/pieces/PiecesUtilities';
 
 enum LogColor {
   general = 'log-color-general',
@@ -42,10 +42,9 @@ export class Logger {
     const pieceColor = `${draggedPiece.player.color}`;
     const pieceName = `${draggedPiece.name}`;
 
-    this.log(`
-      ${pieceLogo} ${pieceColor}  ${pieceName} 
-      moved from ${fromNotation} to ${toNotation}.`,
-    LogColor.movement,
+    this.log(
+      `${pieceLogo} ${pieceColor}  ${pieceName} moved from ${fromNotation} to ${toNotation}.`,
+      LogColor.movement,
     );
   }
 

@@ -3,8 +3,8 @@ import { Player } from '../Players';
 import { Coin } from '../items/Coin';
 import { Item } from '../items/Items';
 import { comparePositions, getPieceByPosition } from '../Utilities';
-import { pieceMovedOnCoin } from '../PieceLogic';
-import { items } from '../GameController';
+import { handlePieceMovedOnCoin } from '../PieceLogic';
+import { game } from '../../Game';
 
 export type Position = {
   coordinates: [number, number],
@@ -79,7 +79,7 @@ export function simulateMove(
 
   if (comparePositions(position, targetPosition)) {
     pickedUpCoins.forEach(coin => {
-      pieceMovedOnCoin(draggedPiece, coin);
+      handlePieceMovedOnCoin(draggedPiece, coin);
     });
 
     return targetPosition;
@@ -94,7 +94,9 @@ function handleItemOnSquare(
   return checkIfPositionContainsItem(nextPosition);
 }
 
-function checkIfPositionContainsItem(position: Position): Item | undefined {
-  return items.find((item) => comparePositions(position, item.position));
+function checkIfPositionContainsItem(
+  position: Position,
+): Item | undefined {
+  return game.getItems().find((item) => comparePositions(position, item.position));
 }
 

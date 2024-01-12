@@ -8,7 +8,7 @@ let triggerOnAction: (
   targetElement: HTMLElement,
   board: string,
 ) => void;
-let triggerOnFallOffTheBoard: (
+let triggerOnFellOffTheBoard: (
   draggedElement: HTMLElement,
   board: string,
 ) => void;
@@ -75,7 +75,7 @@ function onDragOffTheBoard(_: Event) {
     board = board.parentNode as HTMLElement;
   }
 
-  triggerOnFallOffTheBoard(draggedElement, board.id);
+  triggerOnFellOffTheBoard(draggedElement, board.id);
 }
 
 function handleMouseEvents(event: Event, shouldHighlight: boolean) {
@@ -101,13 +101,13 @@ export function setOnAction(
   triggerOnAction = _triggerOnAction;
 }
 
-export function setOnFallOffTheBoard(
-  _triggerOnFallOffTheBoard: (
+export function setOnFellOffTheBoard(
+  _triggerOnFellOffTheBoard: (
     draggedElement: HTMLElement,
     board: string,
   ) => void,
 ) {
-  triggerOnFallOffTheBoard = _triggerOnFallOffTheBoard;
+  triggerOnFellOffTheBoard = _triggerOnFellOffTheBoard;
 }
 
 export function setOnHighlight(

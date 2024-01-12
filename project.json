@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "command": "parcel build development/views/index.html"
+      "command": "npx webpack --mode production --config webpack.config.ts"
     },
     "lint": {
       "executor": "@nx/linter:eslint",

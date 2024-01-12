@@ -1,7 +1,7 @@
 import { Player } from '../Players';
 import { Item } from '../items/Items';
 import { OVERWORLD_BOARD_ID } from '../Constants';
-import { PieceType, Position, Square } from './PiecesHelpers';
+import { PieceType, Position, Square } from './PiecesUtilities';
 
 export class Piece implements PieceType {
   position: Position;
@@ -11,6 +11,7 @@ export class Piece implements PieceType {
   hasMoved: boolean;
   hasKilled: boolean;
   pieceLogo: string;
+
   constructor(
     position: Position,
     player: Player,
