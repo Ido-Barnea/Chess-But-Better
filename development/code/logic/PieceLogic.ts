@@ -12,7 +12,7 @@ import { Item } from './items/Items';
 import { Trap } from './items/Trap';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Pieces';
-import { Position, Square } from './pieces/PiecesUtilities';
+import { Position, Square, getItemByPosition } from './pieces/PiecesUtilities';
 
 function validatePlayerAction(
   draggedPiece: Piece,
@@ -53,7 +53,7 @@ export function onPlayerAction(
 }
 
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
-  permanentlyKillPiece(draggedPiece);
+  permanentlyKillPiece(draggedPiece, draggedPiece);
   game.setFellOffTheBoardPiece(draggedPiece);
   game.endTurn();
 }
@@ -155,6 +155,8 @@ function move(
   shouldEndTurn = true,
 ) {
   Logger.logMovement(draggedPiece, targetSquare);
+
+  handleMovingOnItem(draggedPiece, targetSquare.position);
   movePieceOnBoard(draggedPiece, targetSquare);
 
   draggedPiece.position = {
@@ -208,7 +210,7 @@ function killPiece(
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
     handleOverworldKill(targetPiece, targetPosition);
   } else {
-    handlePermanentKill(targetPiece, draggedPiece);
+    permanentlyKillPiece(targetPiece, draggedPiece);
   }
 }
 
@@ -221,7 +223,7 @@ function handlePieceSpawning(targetPiece: Piece) {
     const areTheSame = piece === targetPiece;
 
     if (areOnTheSamePosition && !areTheSame) {
-      permanentlyKillPiece(piece);
+      permanentlyKillPiece(piece, targetPiece);
     }
   });
 
@@ -254,33 +256,42 @@ function handleOverworldKill(
   handlePieceSpawning(targetPiece);
 }
 
-export function permanentlyKillPiece(targetPiece: Piece) {
+export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
+  logKillMessages(targetPiece, draggedPiece, true);
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
   commonKillPieceActions(targetPiece);
-}
-
-function handlePermanentKill(
-  targetPiece: Piece,
-  draggedPiece: Piece,
-) {
-  logKillMessages(targetPiece, draggedPiece, true);
-  handlePieceSpawning(targetPiece);
 }
 
 function handlePieceOnItem(draggedPiece: Piece, targetItem: Item) {
   switch (targetItem.name) {
     case ('trap'): {
-      handlePieceMovedOnTrap(draggedPiece, targetItem);
+      pieceMovedOnTrap(draggedPiece, targetItem);
       break;
     }
   }
 }
 
-function handlePieceMovedOnTrap(
+function handleMovingOnItem(piece: Piece, position: Position) {
+  const item = getItemByPosition(position);
+  if (item) {
+    switch (item.name) {
+      case ('gold coin'): {
+        pieceMovedOnCoin(piece, item);
+        break;
+      }
+      case ('trap'): {
+        pieceMovedOnTrap(piece, item);
+        break;
+      }
+    }
+  }
+}
+
+function pieceMovedOnTrap(
   draggedPiece: Piece,
   trap: Trap,
 ) {
-  permanentlyKillPiece(draggedPiece);
+  permanentlyKillPiece(draggedPiece, draggedPiece);
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
@@ -295,7 +306,7 @@ function handlePieceMovedOnTrap(
   game.endTurn();
 }
 
-export function handlePieceMovedOnCoin(
+export function pieceMovedOnCoin(
   draggedPiece: Piece,
   coin: Coin,
 ) {
