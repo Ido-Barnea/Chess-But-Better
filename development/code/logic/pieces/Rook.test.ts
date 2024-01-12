@@ -23,13 +23,13 @@ describe('Piece movements', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     let validMoves = rook.getValidMoves();
-    expect(validMoves).toContain(newPosition);
+    expect(validMoves).toContainEqual(newPosition);
     
     const invalidPosition: Position = {
       coordinates: [7, 7],
       boardId: OVERWORLD_BOARD_ID,
     };
     validMoves = rook.getValidMoves();
-    expect(validMoves).not.toContain(invalidPosition);
+    expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });

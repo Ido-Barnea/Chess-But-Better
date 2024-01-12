@@ -23,13 +23,13 @@ describe('Piece movements', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     let validMoves = bishop.getValidMoves();
-    expect(validMoves).toContain(newPosition);
+    expect(validMoves).toContainEqual(newPosition);
     
     const invalidPosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
     validMoves = bishop.getValidMoves();
-    expect(validMoves).not.toContain(invalidPosition);
+    expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });

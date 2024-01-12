@@ -23,20 +23,20 @@ describe('Piece movements', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     let validMoves = queen.getValidMoves();
-    expect(validMoves).toContain(newStraightPosition);
+    expect(validMoves).toContainEqual(newStraightPosition);
 
     const newDiagonalPosition: Position = {
       coordinates: [5, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
     validMoves = queen.getValidMoves();
-    expect(validMoves).toContain(newDiagonalPosition);
+    expect(validMoves).toContainEqual(newDiagonalPosition);
     
     const invalidPosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
     validMoves = queen.getValidMoves();
-    expect(validMoves).not.toContain(invalidPosition);
+    expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });
