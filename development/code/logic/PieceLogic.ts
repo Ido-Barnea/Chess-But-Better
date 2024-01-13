@@ -27,13 +27,13 @@ function validatePlayerAction(
   return validMoves.some(position => comparePositions(position, target.position));
 }
 
-function handleTargetType(
+function onActionNonAttackMove(
   draggedPiece: Piece,
   target: Piece | Square | Item,
   targetSquare: Square,
 ) {
   if (target instanceof Item) {
-    handleMovingOnItem(draggedPiece, target.position);
+    onActionPieceToItem(draggedPiece, target.position);
   }
 
   onActionPieceToSquare(draggedPiece, targetSquare);
@@ -46,10 +46,10 @@ export function onPlayerAction(
   if (!validatePlayerAction(draggedPiece, target)) return;
 
   if (target instanceof Piece) {
-    onActionPieceToPiece(draggedPiece, target);
+    onActionAttackMove(draggedPiece, target);
   } else {
     const targetSquare = (target instanceof Item) ? { position: target.position } : (target as Square);
-    handleTargetType(draggedPiece, target, targetSquare);
+    onActionNonAttackMove(draggedPiece, target, targetSquare);
   }
 }
 
@@ -59,7 +59,7 @@ export function onPieceFellOffTheBoard(draggedPiece: Piece) {
   game.endTurn();
 }
 
-function onActionPieceToPiece(
+function onActionAttackMove(
   draggedPiece: Piece,
   targetPiece: Piece,
 ) {
@@ -133,7 +133,7 @@ function move(
 ) {
   Logger.logMovement(draggedPiece, targetSquare);
 
-  handleMovingOnItem(draggedPiece, targetSquare.position);
+  onActionPieceToItem(draggedPiece, targetSquare.position);
   movePieceOnBoard(draggedPiece, targetSquare);
 
   draggedPiece.position = {
@@ -205,7 +205,7 @@ function handlePieceSpawning(targetPiece: Piece) {
   });
 
   game.getItems().forEach((item) => {
-    handleMovingOnItem(targetPiece, item.position);
+    onActionPieceToItem(targetPiece, item.position);
   });
 
   spawnPieceOnBoard(targetPiece);
@@ -232,7 +232,7 @@ export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
   commonKillPieceActions(targetPiece);
 }
 
-function handleMovingOnItem(piece: Piece, position: Position) {
+function onActionPieceToItem(piece: Piece, position: Position) {
   const item = getItemByPosition(position);
   if (item) {
     switch (item.name) {
