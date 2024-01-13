@@ -32,7 +32,7 @@ export class Pawn extends Piece {
     return enPassantPawns[0];
   }
 
-  getValidMoves(): Array<Position> {
+  getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
     const currentPlayer = game.getCurrentPlayer();

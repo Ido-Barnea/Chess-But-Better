@@ -60,7 +60,7 @@ export class King extends Piece {
     return true;
   }
 
-  getValidMoves(): Array<Position> {
+  getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

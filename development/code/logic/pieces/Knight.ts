@@ -11,7 +11,7 @@ export class Knight extends Piece {
     super(position, player, knightResource, 'Knight', logo);
   }
 
-  getValidMoves(): Array<Position> {
+  getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

@@ -26,7 +26,7 @@ export class Piece implements PieceType {
     this.pieceLogo = pieceLogo;
   }
 
-  getValidMoves(): Array<Position> {
+  getLegalMoves(): Array<Position> {
     return [];
   }
 

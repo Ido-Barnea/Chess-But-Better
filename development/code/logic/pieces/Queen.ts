@@ -13,7 +13,7 @@ export class Queen extends Piece {
     super(position, player, queenResource, 'Queen', logo);
   }
 
-  getValidMoves(): Array<Position> {
+  getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

@@ -12,7 +12,7 @@ export class Bishop extends Piece {
     super(position, player, bishopResource, 'Bishop', logo);
   }
 
-  getValidMoves(): Array<Position> {
+  getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

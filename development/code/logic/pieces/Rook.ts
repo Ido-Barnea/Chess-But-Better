@@ -12,7 +12,7 @@ export class Rook extends Piece {
     super(position, player, rookResource, 'Rook', logo);
   }
 
-  getValidMoves(): Array<Position> {
+  getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

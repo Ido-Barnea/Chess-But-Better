@@ -23,7 +23,7 @@ describe('Piece movements', () => {
       coordinates: [0, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    let validMoves = pawn.getValidMoves();
+    let validMoves = pawn.getLegalMoves();
     expect(validMoves).toContainEqual(singleStepMove);
 
     const blackPawnPosition: Position = {
@@ -52,28 +52,28 @@ describe('Piece movements', () => {
       coordinates: [1, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    validMoves = pawn.getValidMoves();
+    validMoves = pawn.getLegalMoves();
     expect(validMoves).toContainEqual(enPassantMove);
 
     blackPawn.position = {
       coordinates: [1, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    validMoves = pawn.getValidMoves();
+    validMoves = pawn.getLegalMoves();
     expect(validMoves).toContainEqual(blackPawn.position);
 
     const twoStepsInitialMove: Position = {
       coordinates: [0, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
-    validMoves = pawn.getValidMoves();
+    validMoves = pawn.getLegalMoves();
     expect(validMoves).toContainEqual(twoStepsInitialMove);
 
     const invalidPosition: Position = {
       coordinates: [0, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    validMoves = pawn.getValidMoves();
+    validMoves = pawn.getLegalMoves();
     expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });

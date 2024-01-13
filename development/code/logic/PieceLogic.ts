@@ -13,7 +13,7 @@ import { Trap } from './items/Trap';
 import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Pieces';
-import { Position, Square, getItemByPosition } from './pieces/PiecesUtilities';
+import { Position, Square } from './pieces/PiecesUtilities';
 
 function validatePlayerAction(
   draggedPiece: Piece,
@@ -23,8 +23,38 @@ function validatePlayerAction(
   if (draggedPiece === target) return false;
   if (draggedPiece.position.boardId !== target.position.boardId) return false;
 
-  const validMoves = draggedPiece.getValidMoves();
-  return validMoves.some(position => comparePositions(position, target.position));
+  const legalMoves = draggedPiece.getLegalMoves();
+  return legalMoves.some(position => comparePositions(position, target.position));
+}
+
+function simulatePath(piece: Piece, endPosition: Position) {
+  const legalMoves = piece.getLegalMoves();
+
+  const isTargetSquare = (position: Position) => comparePositions(position, endPosition);
+  const targetIndex = legalMoves.findIndex(isTargetSquare);
+  if (targetIndex === -1) return;
+
+  const positionsBeforeTarget = legalMoves.slice(0, targetIndex);
+  positionsBeforeTarget.forEach(position => {
+    game.getItems().forEach(item => {
+      if (comparePositions(item.position, position)) onActionPieceToItem(piece, item);
+    });
+  });
+}
+
+export function onPlayerAction(
+  draggedPiece: Piece,
+  target: Piece | Square | Item,
+) {
+  if (!validatePlayerAction(draggedPiece, target)) return;
+  simulatePath(draggedPiece, target.position);
+
+  if (target instanceof Piece) {
+    onActionAttackMove(draggedPiece, target);
+  } else {
+    const targetSquare = (target instanceof Item) ? { position: target.position } : (target as Square);
+    onActionNonAttackMove(draggedPiece, target, targetSquare);
+  }
 }
 
 function onActionNonAttackMove(
@@ -33,24 +63,10 @@ function onActionNonAttackMove(
   targetSquare: Square,
 ) {
   if (target instanceof Item) {
-    onActionPieceToItem(draggedPiece, target.position);
+    onActionPieceToItem(draggedPiece, target);
   }
 
   onActionPieceToSquare(draggedPiece, targetSquare);
-}
-
-export function onPlayerAction(
-  draggedPiece: Piece,
-  target: Piece | Square | Item,
-) {
-  if (!validatePlayerAction(draggedPiece, target)) return;
-
-  if (target instanceof Piece) {
-    onActionAttackMove(draggedPiece, target);
-  } else {
-    const targetSquare = (target instanceof Item) ? { position: target.position } : (target as Square);
-    onActionNonAttackMove(draggedPiece, target, targetSquare);
-  }
 }
 
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
@@ -132,8 +148,6 @@ function move(
   shouldEndTurn = true,
 ) {
   Logger.logMovement(draggedPiece, targetSquare);
-
-  onActionPieceToItem(draggedPiece, targetSquare.position);
   movePieceOnBoard(draggedPiece, targetSquare);
 
   draggedPiece.position = {
@@ -205,7 +219,7 @@ function handlePieceSpawning(targetPiece: Piece) {
   });
 
   game.getItems().forEach((item) => {
-    onActionPieceToItem(targetPiece, item.position);
+    onActionPieceToItem(targetPiece, item);
   });
 
   spawnPieceOnBoard(targetPiece);
@@ -232,18 +246,15 @@ export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
   commonKillPieceActions(targetPiece);
 }
 
-function onActionPieceToItem(piece: Piece, position: Position) {
-  const item = getItemByPosition(position);
-  if (item) {
-    switch (item.name) {
-      case ('gold coin'): {
-        pieceMovedOnCoin(piece, item);
-        break;
-      }
-      case ('trap'): {
-        pieceMovedOnTrap(piece, item);
-        break;
-      }
+function onActionPieceToItem(piece: Piece, item: Item) {
+  switch (item.name) {
+    case ('gold coin'): {
+      pieceMovedOnCoin(piece, item);
+      break;
+    }
+    case ('trap'): {
+      pieceMovedOnTrap(piece, item);
+      break;
     }
   }
 }

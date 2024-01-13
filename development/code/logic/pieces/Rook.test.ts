@@ -22,14 +22,14 @@ describe('Piece movements', () => {
       coordinates: [0, 2],
       boardId: OVERWORLD_BOARD_ID,
     };
-    let validMoves = rook.getValidMoves();
+    let validMoves = rook.getLegalMoves();
     expect(validMoves).toContainEqual(newPosition);
     
     const invalidPosition: Position = {
       coordinates: [7, 7],
       boardId: OVERWORLD_BOARD_ID,
     };
-    validMoves = rook.getValidMoves();
+    validMoves = rook.getLegalMoves();
     expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });
