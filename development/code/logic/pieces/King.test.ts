@@ -26,7 +26,7 @@ describe('Piece movements', () => {
     expect(validMoves).toContainEqual(newStraightPosition);
 
     const newDiagonalPosition: Position = {
-      coordinates: [5, 8],
+      coordinates: [5, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
     validMoves = king.getValidMoves();
