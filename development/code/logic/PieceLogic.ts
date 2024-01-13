@@ -6,7 +6,7 @@ import {
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
 } from './Constants';
-import { comparePositions, getPieceByPosition } from './Utilities';
+import { comparePositions } from './Utilities';
 import { Coin } from './items/Coin';
 import { Item } from './items/Items';
 import { Trap } from './items/Trap';
@@ -82,17 +82,11 @@ function onActionPieceToSquare(
     }
   }
 
-  if (draggedPiece instanceof Pawn) {
-    const draggedPawn = draggedPiece as Pawn;
-    if (draggedPawn.enPassant) {
-      const enPassantPosition = draggedPawn.enPassantPosition;
-      if (!enPassantPosition) return;
+  if (draggedPiece instanceof Pawn && draggedPiece.isDiagonalAttack) {
+    const pawn = draggedPiece.isValidEnPassant(targetSquare.position);
+    if (!pawn) return;
 
-      const targetPiece = getPieceByPosition(enPassantPosition);
-      if (!targetPiece) return;
-
-      killPiece(draggedPiece, targetPiece, targetSquare.position);
-    }
+    killPiece(draggedPiece, pawn, targetSquare.position);
   }
 
   move(draggedPiece, targetSquare);

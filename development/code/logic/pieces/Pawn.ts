@@ -3,19 +3,33 @@ import { Piece } from './Pieces';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { game } from '../../Game';
-import { getPieceByPosition } from '../Utilities';
+import { comparePositions, getPieceByPosition } from '../Utilities';
 
 export class Pawn extends Piece {
-  enPassant: boolean;
-  enPassantPosition: Position | undefined;
+  enPassantPositions: [Position, Position] | undefined;
+  isDiagonalAttack: boolean;
 
   constructor(position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♙'
       : '♟';
     super(position, player, pawnResource, 'Pawn', logo);
-    this.enPassant = false;
-    this.enPassantPosition = undefined;
+    this.enPassantPositions = undefined;
+    this.isDiagonalAttack = false;
+  }
+
+  isValidEnPassant(targetPosition: Position) {
+    const pawns = game.getPieces().filter(piece => piece instanceof Pawn && piece !== this) as Array<Pawn>;
+    if (!pawns) return;
+
+    const enPassantPawns = pawns.filter(pawn => {
+      if (pawn.enPassantPositions) {
+        return comparePositions(pawn.enPassantPositions[0], targetPosition);
+      }
+    });
+    if (!enPassantPawns.length) return;
+
+    return enPassantPawns[0];
   }
 
   getValidMoves(): Array<Position> {
@@ -43,6 +57,7 @@ export class Pawn extends Piece {
         };
 
         if (!getPieceByPosition(twoSquaresForward) && !getPieceByPosition(oneSquareForward)) {
+          this.enPassantPositions = [oneSquareForward, twoSquaresForward];
           validMoves.push(twoSquaresForward);
         }
       }
@@ -59,19 +74,14 @@ export class Pawn extends Piece {
       boardId: this.position.boardId,
     };
 
-    if (getPieceByPosition(leftDiagonal)) {
+    if (getPieceByPosition(leftDiagonal) || this.isValidEnPassant(leftDiagonal)) {
+      this.isDiagonalAttack = true;
       validMoves.push(leftDiagonal);
     }
 
-    if (getPieceByPosition(rightDiagonal)) {
+    if (getPieceByPosition(rightDiagonal) || this.isValidEnPassant(rightDiagonal)) {
+      this.isDiagonalAttack = true;
       validMoves.push(rightDiagonal);
-    }
-
-    // Check for en passant
-    if (this.enPassantPosition) {
-      if (!getPieceByPosition(this.enPassantPosition)) {
-        validMoves.push(this.enPassantPosition);
-      }
     }
 
     return validMoves;

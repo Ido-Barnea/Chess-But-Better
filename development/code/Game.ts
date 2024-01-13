@@ -88,9 +88,8 @@ function resetVariables() {
 
   pieces.forEach((piece) => {
     if (piece.player !== getCurrentPlayer() && piece instanceof Pawn) {
-      const pawn = piece;
-      pawn.enPassant = false;
-      pawn.enPassantPosition = undefined;
+      piece.enPassantPositions = undefined;
+      piece.isDiagonalAttack = false;
     }
   });
 }
