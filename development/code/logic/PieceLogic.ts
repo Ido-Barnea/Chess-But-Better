@@ -32,7 +32,7 @@ function handleTargetType(
   targetSquare: Square,
 ) {
   if (target instanceof Item) {
-    handlePieceOnItem(draggedPiece, target);
+    handleMovingOnItem(draggedPiece, target.position);
   }
 
   onActionPieceToSquare(draggedPiece, targetSquare);
@@ -222,14 +222,7 @@ function handlePieceSpawning(targetPiece: Piece) {
   });
 
   game.getItems().forEach((item) => {
-    const areOnTheSamePosition = comparePositions(
-      targetPiece.position,
-      item.position,
-    );
-
-    if (areOnTheSamePosition) {
-      handlePieceOnItem(targetPiece, item);
-    }
+    handleMovingOnItem(targetPiece, item.position);
   });
 
   spawnPieceOnBoard(targetPiece);
@@ -254,15 +247,6 @@ export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
   logKillMessages(targetPiece, draggedPiece, true);
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
   commonKillPieceActions(targetPiece);
-}
-
-function handlePieceOnItem(draggedPiece: Piece, targetItem: Item) {
-  switch (targetItem.name) {
-    case ('trap'): {
-      pieceMovedOnTrap(draggedPiece, targetItem);
-      break;
-    }
-  }
 }
 
 function handleMovingOnItem(piece: Piece, position: Position) {
