@@ -10,6 +10,7 @@ import { comparePositions } from './Utilities';
 import { Coin } from './items/Coin';
 import { Item } from './items/Items';
 import { Trap } from './items/Trap';
+import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Pieces';
 import { Position, Square, getItemByPosition } from './pieces/PiecesUtilities';
@@ -74,7 +75,7 @@ function onActionPieceToSquare(
   targetSquare: Square,
 ) {
   if (game.getIsCaslting()) {
-    const isValidCastling = castle(draggedPiece, targetSquare);
+    const isValidCastling = castle(draggedPiece as King, targetSquare);
 
     if (!isValidCastling) {
       game.switchIsCastling();
@@ -93,33 +94,15 @@ function onActionPieceToSquare(
 }
 
 function castle(
-  kingPiece: Piece,
+  kingPiece: King,
   targetSquare: Square,
 ) {
-  const possibleRooks = game.getPieces().filter((piece) => {
-    return (
-      piece.player === game.getCurrentPlayer() &&
-      !piece.hasMoved &&
-      piece.name === 'Rook'
-    );
-  });
-
   const targetXPosition = targetSquare.position.coordinates[0];
   const kingXPosition = kingPiece.position.coordinates[0];
   const deltaX = targetXPosition - kingXPosition;
-  // Depends on if it's Kingside or Queenside castling
   const isKingsideCastling = deltaX > 0;
-  const rookFilter = (piece: Piece) => {
-    const isValidCastling = isKingsideCastling
-      ? piece.position.coordinates[0] > kingPiece.position.coordinates[0]
-      : piece.position.coordinates[0] < kingPiece.position.coordinates[0];
-    
-    const pieceBoardId = piece.position.boardId;
-    const kingBoardId = kingPiece.position.boardId;
-    const areOnTheSameBoard = pieceBoardId === kingBoardId;
-    return isValidCastling && areOnTheSameBoard;
-  };
-  const rookPiece = possibleRooks.find(rookFilter);
+  
+  const rookPiece = kingPiece.getRookForCastling(kingPiece.player, isKingsideCastling);
   if (!rookPiece) return false;
 
   const rookPieceTargetPosition: Position = {
