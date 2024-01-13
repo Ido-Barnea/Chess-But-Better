@@ -22,25 +22,21 @@ describe('Piece movements', () => {
       coordinates: [4, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const validStraightMove = king.validateMove({
-      position: newStraightPosition,
-    });
-    expect(validStraightMove).toEqual(newStraightPosition);
+    let validMoves = king.getLegalMoves();
+    expect(validMoves).toContainEqual(newStraightPosition);
 
     const newDiagonalPosition: Position = {
-      coordinates: [5, 8],
+      coordinates: [5, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const validDiagonalMove = king.validateMove({
-      position: newDiagonalPosition,
-    });
-    expect(validDiagonalMove).toEqual(newDiagonalPosition);
+    validMoves = king.getLegalMoves();
+    expect(validMoves).toContainEqual(newDiagonalPosition);
     
     const invalidPosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const invalidMove = king.validateMove({ position: invalidPosition });
-    expect(invalidMove).toEqual(initialPosition);
+    validMoves = king.getLegalMoves();
+    expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });

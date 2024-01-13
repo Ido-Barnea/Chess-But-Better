@@ -22,14 +22,14 @@ describe('Piece movements', () => {
       coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const validMove = knight.validateMove({ position: newPosition });
-    expect(validMove).toEqual(newPosition);
+    let validMoves = knight.getLegalMoves();
+    expect(validMoves).toContainEqual(newPosition);
     
     const invalidPosition: Position = {
       coordinates: [1, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const invalidMove = knight.validateMove({ position: invalidPosition });
-    expect(invalidMove).toEqual(initialPosition);
+    validMoves = knight.getLegalMoves();
+    expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });

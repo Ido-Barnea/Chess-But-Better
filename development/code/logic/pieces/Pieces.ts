@@ -1,6 +1,4 @@
 import { Player } from '../Players';
-import { Item } from '../items/Items';
-import { OVERWORLD_BOARD_ID } from '../Constants';
 import { PieceType, Position, Square } from './PiecesUtilities';
 
 export class Piece implements PieceType {
@@ -28,11 +26,8 @@ export class Piece implements PieceType {
     this.pieceLogo = pieceLogo;
   }
 
-  validateMove(_: Piece | Square | Item): Position {
-    return {
-      coordinates: [-1, -1],
-      boardId: OVERWORLD_BOARD_ID,
-    };
+  getLegalMoves(): Array<Position> {
+    return [];
   }
 
   isValidSpawn(_: Piece | Square) {

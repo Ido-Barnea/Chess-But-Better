@@ -6,10 +6,11 @@ import {
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
 } from './Constants';
-import { comparePositions, getPieceByPosition } from './Utilities';
+import { comparePositions } from './Utilities';
 import { Coin } from './items/Coin';
 import { Item } from './items/Items';
 import { Trap } from './items/Trap';
+import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Pieces';
 import { Position, Square } from './pieces/PiecesUtilities';
@@ -22,22 +23,23 @@ function validatePlayerAction(
   if (draggedPiece === target) return false;
   if (draggedPiece.position.boardId !== target.position.boardId) return false;
 
-  const targetPosition = draggedPiece.validateMove(target);
-  if (comparePositions(targetPosition, draggedPiece.position)) return false;
-
-  return true;
+  const legalMoves = draggedPiece.getLegalMoves();
+  return legalMoves.some(position => comparePositions(position, target.position));
 }
 
-function handleTargetType(
-  draggedPiece: Piece,
-  target: Piece | Square | Item,
-  targetSquare: Square,
-) {
-  if (target instanceof Item) {
-    handlePieceOnItem(draggedPiece, target);
-  }
+function simulatePath(piece: Piece, endPosition: Position) {
+  const legalMoves = piece.getLegalMoves();
 
-  onActionPieceToSquare(draggedPiece, targetSquare);
+  const isTargetSquare = (position: Position) => comparePositions(position, endPosition);
+  const targetIndex = legalMoves.findIndex(isTargetSquare);
+  if (targetIndex === -1) return;
+
+  const positionsBeforeTarget = legalMoves.slice(0, targetIndex);
+  positionsBeforeTarget.forEach(position => {
+    game.getItems().forEach(item => {
+      if (comparePositions(item.position, position)) onActionPieceToItem(piece, item);
+    });
+  });
 }
 
 export function onPlayerAction(
@@ -45,22 +47,35 @@ export function onPlayerAction(
   target: Piece | Square | Item,
 ) {
   if (!validatePlayerAction(draggedPiece, target)) return;
+  simulatePath(draggedPiece, target.position);
 
   if (target instanceof Piece) {
-    onActionPieceToPiece(draggedPiece, target);
+    onActionAttackMove(draggedPiece, target);
   } else {
     const targetSquare = (target instanceof Item) ? { position: target.position } : (target as Square);
-    handleTargetType(draggedPiece, target, targetSquare);
+    onActionNonAttackMove(draggedPiece, target, targetSquare);
   }
 }
 
+function onActionNonAttackMove(
+  draggedPiece: Piece,
+  target: Piece | Square | Item,
+  targetSquare: Square,
+) {
+  if (target instanceof Item) {
+    onActionPieceToItem(draggedPiece, target);
+  }
+
+  onActionPieceToSquare(draggedPiece, targetSquare);
+}
+
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
-  permanentlyKillPiece(draggedPiece);
+  permanentlyKillPiece(draggedPiece, draggedPiece);
   game.setFellOffTheBoardPiece(draggedPiece);
   game.endTurn();
 }
 
-function onActionPieceToPiece(
+function onActionAttackMove(
   draggedPiece: Piece,
   targetPiece: Piece,
 ) {
@@ -76,7 +91,7 @@ function onActionPieceToSquare(
   targetSquare: Square,
 ) {
   if (game.getIsCaslting()) {
-    const isValidCastling = castle(draggedPiece, targetSquare);
+    const isValidCastling = castle(draggedPiece as King, targetSquare);
 
     if (!isValidCastling) {
       game.switchIsCastling();
@@ -84,50 +99,26 @@ function onActionPieceToSquare(
     }
   }
 
-  if (draggedPiece instanceof Pawn) {
-    const draggedPawn = draggedPiece as Pawn;
-    if (draggedPawn.enPassant) {
-      const enPassantPosition = draggedPawn.enPassantPosition;
-      if (!enPassantPosition) return;
+  if (draggedPiece instanceof Pawn && draggedPiece.isDiagonalAttack) {
+    const pawn = draggedPiece.isValidEnPassant(targetSquare.position);
+    if (!pawn) return;
 
-      const targetPiece = getPieceByPosition(enPassantPosition);
-      if (!targetPiece) return;
-
-      killPiece(draggedPiece, targetPiece, targetSquare.position);
-    }
+    killPiece(draggedPiece, pawn, targetSquare.position);
   }
 
   move(draggedPiece, targetSquare);
 }
 
 function castle(
-  kingPiece: Piece,
+  kingPiece: King,
   targetSquare: Square,
 ) {
-  const possibleRooks = game.getPieces().filter((piece) => {
-    return (
-      piece.player === game.getCurrentPlayer() &&
-      !piece.hasMoved &&
-      piece.name === 'Rook'
-    );
-  });
-
   const targetXPosition = targetSquare.position.coordinates[0];
   const kingXPosition = kingPiece.position.coordinates[0];
   const deltaX = targetXPosition - kingXPosition;
-  // Depends on if it's Kingside or Queenside castling
   const isKingsideCastling = deltaX > 0;
-  const rookFilter = (piece: Piece) => {
-    const isValidCastling = isKingsideCastling
-      ? piece.position.coordinates[0] > kingPiece.position.coordinates[0]
-      : piece.position.coordinates[0] < kingPiece.position.coordinates[0];
-    
-    const pieceBoardId = piece.position.boardId;
-    const kingBoardId = kingPiece.position.boardId;
-    const areOnTheSameBoard = pieceBoardId === kingBoardId;
-    return isValidCastling && areOnTheSameBoard;
-  };
-  const rookPiece = possibleRooks.find(rookFilter);
+  
+  const rookPiece = kingPiece.getRookForCastling(kingPiece.player, isKingsideCastling);
   if (!rookPiece) return false;
 
   const rookPieceTargetPosition: Position = {
@@ -210,7 +201,7 @@ function killPiece(
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
     handleOverworldKill(targetPiece, targetPosition);
   } else {
-    handlePermanentKill(targetPiece, draggedPiece);
+    permanentlyKillPiece(targetPiece, draggedPiece);
   }
 }
 
@@ -223,19 +214,12 @@ function handlePieceSpawning(targetPiece: Piece) {
     const areTheSame = piece === targetPiece;
 
     if (areOnTheSamePosition && !areTheSame) {
-      permanentlyKillPiece(piece);
+      permanentlyKillPiece(piece, targetPiece);
     }
   });
 
   game.getItems().forEach((item) => {
-    const areOnTheSamePosition = comparePositions(
-      targetPiece.position,
-      item.position,
-    );
-
-    if (areOnTheSamePosition) {
-      handlePieceOnItem(targetPiece, item);
-    }
+    onActionPieceToItem(targetPiece, item);
   });
 
   spawnPieceOnBoard(targetPiece);
@@ -256,33 +240,30 @@ function handleOverworldKill(
   handlePieceSpawning(targetPiece);
 }
 
-export function permanentlyKillPiece(targetPiece: Piece) {
+export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
+  logKillMessages(targetPiece, draggedPiece, true);
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
   commonKillPieceActions(targetPiece);
 }
 
-function handlePermanentKill(
-  targetPiece: Piece,
-  draggedPiece: Piece,
-) {
-  logKillMessages(targetPiece, draggedPiece, true);
-  handlePieceSpawning(targetPiece);
-}
-
-function handlePieceOnItem(draggedPiece: Piece, targetItem: Item) {
-  switch (targetItem.name) {
+function onActionPieceToItem(piece: Piece, item: Item) {
+  switch (item.name) {
+    case ('gold coin'): {
+      pieceMovedOnCoin(piece, item);
+      break;
+    }
     case ('trap'): {
-      handlePieceMovedOnTrap(draggedPiece, targetItem);
+      pieceMovedOnTrap(piece, item);
       break;
     }
   }
 }
 
-function handlePieceMovedOnTrap(
+function pieceMovedOnTrap(
   draggedPiece: Piece,
   trap: Trap,
 ) {
-  permanentlyKillPiece(draggedPiece);
+  permanentlyKillPiece(draggedPiece, draggedPiece);
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
@@ -297,7 +278,7 @@ function handlePieceMovedOnTrap(
   game.endTurn();
 }
 
-export function handlePieceMovedOnCoin(
+export function pieceMovedOnCoin(
   draggedPiece: Piece,
   coin: Coin,
 ) {
