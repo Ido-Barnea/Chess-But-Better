@@ -1,3 +1,4 @@
+import { onPieceSelected } from '../LogicAdapter';
 import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
@@ -19,17 +20,19 @@ const OVERWORLD_BOARD_BUTTON = document.getElementById(
 const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID);
 const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
-let triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void;
+let triggerOnHighlight: (target: HTMLElement, shouldAddHighlight: boolean, isMouseHighlight: boolean) => void;
 
 export function initializeEventListeners() {
   const squares = document.querySelectorAll('.square');
   // Listen for mouse events
-  squares.forEach((square) => {
+  squares.forEach(square => {
     square.addEventListener('dragstart', onDragStart);
     square.addEventListener('dragover', onDragOver);
     square.addEventListener('drop', onDragDrop);
     square.addEventListener('mouseover', onMouseOver);
     square.addEventListener('mouseout', onMouseOut);
+
+    square.addEventListener('click', onMouseClick);
   });
 
   // Support pieces falling off the board
@@ -57,12 +60,12 @@ function onDragDrop(event: Event) {
     targetElement = targetElement.parentNode as HTMLElement;
   }
 
-  let board = targetElement as HTMLElement;
-  while (!board.classList.contains('board')) {
-    board = board.parentNode as HTMLElement;
+  let boardElement = targetElement as HTMLElement;
+  while (!boardElement.classList.contains('board')) {
+    boardElement = boardElement.parentNode as HTMLElement;
   }
 
-  triggerOnAction(draggedElement, targetElement, board.id);
+  triggerOnAction(draggedElement, targetElement, boardElement.id);
 }
 
 function onDragOver(event: Event) {
@@ -70,17 +73,17 @@ function onDragOver(event: Event) {
 }
 
 function onDragOffTheBoard(_: Event) {
-  let board = draggedElement;
-  while (!board.classList.contains('board')) {
-    board = board.parentNode as HTMLElement;
+  let boardElement = draggedElement;
+  while (!boardElement.classList.contains('board')) {
+    boardElement = boardElement.parentNode as HTMLElement;
   }
 
-  triggerOnFellOffTheBoard(draggedElement, board.id);
+  triggerOnFellOffTheBoard(draggedElement, boardElement.id);
 }
 
-function handleMouseEvents(event: Event, shouldHighlight: boolean) {
-  const target = event.target as HTMLElement;
-  triggerOnHighlight(target, shouldHighlight);
+function handleMouseEvents(event: Event, shouldAddHighlight: boolean) {
+  const targetElement = event.target as HTMLElement;
+  triggerOnHighlight(targetElement, shouldAddHighlight, true);
 }
 
 function onMouseOver(event: Event) {
@@ -89,6 +92,28 @@ function onMouseOver(event: Event) {
 
 function onMouseOut(event: Event) {
   handleMouseEvents(event, false);
+}
+
+function onMouseClick(event: Event) {
+  let targetElement = event.target as HTMLElement;
+  let boardElement = targetElement;
+
+  // Make sure target is not a resource
+  while (targetElement.classList.contains('untargetable')) {
+    targetElement = targetElement.parentNode as HTMLElement;
+  }
+
+  if (!targetElement.classList.contains('piece')) {
+    const firstChild = targetElement.firstChild as HTMLElement;
+    if (firstChild.classList.contains('piece')) targetElement = firstChild;
+    else return;
+  }
+
+  while (!boardElement.classList.contains('board')) {
+    boardElement = boardElement.parentNode as HTMLElement;
+  }
+
+  onPieceSelected(targetElement, boardElement.id);
 }
 
 export function setOnAction(
@@ -104,14 +129,14 @@ export function setOnAction(
 export function setOnFellOffTheBoard(
   _triggerOnFellOffTheBoard: (
     draggedElement: HTMLElement,
-    board: string,
+    boardId: string,
   ) => void,
 ) {
   triggerOnFellOffTheBoard = _triggerOnFellOffTheBoard;
 }
 
 export function setOnHighlight(
-  _triggerOnHighlight: (target: HTMLElement, shouldHighlight: boolean) => void,
+  _triggerOnHighlight: (target: HTMLElement, shouldAddHighlight: boolean, isMouseHighlight: boolean) => void,
 ) {
   triggerOnHighlight = _triggerOnHighlight;
 }

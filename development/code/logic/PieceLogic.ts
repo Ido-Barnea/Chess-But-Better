@@ -19,7 +19,7 @@ function validatePlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ): boolean {
-  if (!isAllowedToAct(draggedPiece)) return false;
+  if (!isPlayerAllowedToAct(draggedPiece)) return false;
   if (draggedPiece === target) return false;
   if (draggedPiece.position.boardId !== target.position.boardId) return false;
 
@@ -144,7 +144,7 @@ function castle(
   return true;
 }
 
-export function isAllowedToAct(draggedPiece: Piece) {
+export function isPlayerAllowedToAct(draggedPiece: Piece) {
   return draggedPiece.player === game.getCurrentPlayer();
 }
 
