@@ -34,7 +34,7 @@ describe('Piece movements', () => {
       blackPawnPosition,
       blackPlayer,
     );
-    blackPawn.enPassantPositions = [
+    blackPawn.possibleEnPassantPositions = [
       {
         coordinates: [1, 5],
         boardId: OVERWORLD_BOARD_ID,
@@ -44,6 +44,8 @@ describe('Piece movements', () => {
         boardId: OVERWORLD_BOARD_ID,
       },
     ];
+    blackPawn.isInitialDoubleStep = true;
+    
     const pieces = game.getPieces();
     pieces.push(blackPawn);
     game.setPieces(pieces);

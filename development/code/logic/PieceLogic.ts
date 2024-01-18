@@ -99,11 +99,17 @@ function onActionPieceToSquare(
     }
   }
 
-  if (draggedPiece instanceof Pawn && draggedPiece.isDiagonalAttack) {
-    const pawn = draggedPiece.isValidEnPassant(targetSquare.position);
-    if (!pawn) return;
+  if (draggedPiece instanceof Pawn) {
+    draggedPiece.checkInitialDoubleStep(targetSquare.position);
 
-    killPiece(draggedPiece, pawn, targetSquare.position);
+    if (draggedPiece.diagonalAttackPosition) {
+      if (comparePositions(draggedPiece.diagonalAttackPosition, targetSquare.position)) {
+        const enPassantPiece = draggedPiece.getEnPassantPiece(targetSquare.position);
+        if (!enPassantPiece) return;
+  
+        killPiece(draggedPiece, enPassantPiece, targetSquare.position);
+      }
+    }
   }
 
   move(draggedPiece, targetSquare);
