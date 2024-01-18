@@ -1,5 +1,5 @@
 import { game } from './Game';
-import { SELECTED_PIECE_CLASS } from './logic/Constants';
+import { MOUSE_HIGHLIGHT_CLASS, SELECTED_PIECE_CLASS } from './logic/Constants';
 import { isAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
@@ -97,7 +97,7 @@ function highlightLegalMoves(
   // Remove all highlights
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
-    if (!squareElement.classList.contains('mouse-highlight')) {
+    if (!squareElement.classList.contains(MOUSE_HIGHLIGHT_CLASS)) {
       highlightSquare(squareElement, false, false);
     }
   }
