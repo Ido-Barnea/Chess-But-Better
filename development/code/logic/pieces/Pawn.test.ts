@@ -44,6 +44,8 @@ describe('Piece movements', () => {
         boardId: OVERWORLD_BOARD_ID,
       },
     ];
+    blackPawn.isInitialDoubleStep = true;
+    
     const pieces = game.getPieces();
     pieces.push(blackPawn);
     game.setPieces(pieces);
