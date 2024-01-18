@@ -1,12 +1,12 @@
 import { game } from './Game';
 import { MOUSE_HIGHLIGHT_CLASS, SELECTED_PIECE_CLASS } from './logic/Constants';
-import { isAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
+import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Pieces';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import { BaseRule } from './logic/rules/BaseRule';
-import { destroyElementOnBoard, getAllSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
+import { destroyElementOnBoard, getHighlightedSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
 export function renderScreen() {
@@ -82,7 +82,7 @@ export function onFellOffTheBoardTriggered(
 
   const draggedElementPosition = getPositionFromSquareId(squareId, boardId);
   const draggedPiece = findPieceAtPosition(draggedElementPosition);
-  if (!draggedPiece || !isAllowedToAct(draggedPiece)) return;
+  if (!draggedPiece || !isPlayerAllowedToAct(draggedPiece)) return;
 
   onPieceFellOffTheBoard(draggedPiece);
 }
@@ -95,11 +95,9 @@ function highlightLegalMoves(
   const isAlreadySelected = pieceElement.classList.contains(SELECTED_PIECE_CLASS);
 
   // Remove all highlights
-  const allSquareElements = getAllSquareElements(boardId);
+  const allSquareElements = getHighlightedSquareElements(boardId);
   for (const squareElement of allSquareElements) {
-    if (!squareElement.classList.contains(MOUSE_HIGHLIGHT_CLASS)) {
-      highlightSquare(squareElement, false, false);
-    }
+    highlightSquare(squareElement, false, false);
   }
 
   if (isAlreadySelected) {
@@ -109,9 +107,7 @@ function highlightLegalMoves(
       const squareElement = getSquareElementById(positionSquareId, boardId) as HTMLElement;
       highlightSquare(squareElement, true, false);
     }
-  }
 
-  if (isAlreadySelected) {
     pieceElement.classList.remove(SELECTED_PIECE_CLASS);
   } else {
     pieceElement.classList.add(SELECTED_PIECE_CLASS);
@@ -127,7 +123,7 @@ export function onPieceSelected(
 
   const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
   const piece = findPieceAtPosition(pieceElementPosition);
-  if (!piece || !isAllowedToAct(piece)) return;
+  if (!piece || !isPlayerAllowedToAct(piece)) return;
 
   highlightLegalMoves(piece, pieceElement, boardId);
 }

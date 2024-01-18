@@ -12,6 +12,7 @@ export class ChessBoard {
   boardButtonElement: HTMLElement;
   lightSquareColor: string;
   darkSquareColor: string;
+  highlightedSquares: Array<HTMLElement>;
 
   constructor(
     boardId: string,
@@ -25,6 +26,7 @@ export class ChessBoard {
     this.boardButtonElement = boardButtonElement;
     this.darkSquareColor = darkSquareColor;
     this.lightSquareColor = lightSquareColor;
+    this.highlightedSquares = [];
 
     this.initializeBoard();
   }
