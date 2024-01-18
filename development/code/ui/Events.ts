@@ -103,7 +103,11 @@ function onMouseClick(event: Event) {
     targetElement = targetElement.parentNode as HTMLElement;
   }
 
-  if (!targetElement.classList.contains('piece')) return;
+  if (!targetElement.classList.contains('piece')) {
+    const firstChild = targetElement.firstChild as HTMLElement;
+    if (firstChild.classList.contains('piece')) targetElement = firstChild;
+    else return;
+  }
 
   while (!boardElement.classList.contains('board')) {
     boardElement = boardElement.parentNode as HTMLElement;

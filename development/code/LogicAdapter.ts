@@ -1,12 +1,11 @@
 import { game } from './Game';
-import { MOUSE_HIGHLIGHT_CLASS, SELECTED_PIECE_CLASS } from './logic/Constants';
 import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Pieces';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import { BaseRule } from './logic/rules/BaseRule';
-import { destroyElementOnBoard, getHighlightedSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
+import { destroyElementOnBoard, getAllSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
 export function renderScreen() {
@@ -92,25 +91,17 @@ function highlightLegalMoves(
   pieceElement: HTMLElement,
   boardId: string,
 ) {
-  const isAlreadySelected = pieceElement.classList.contains(SELECTED_PIECE_CLASS);
-
   // Remove all highlights
-  const allSquareElements = getHighlightedSquareElements(boardId);
+  const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
     highlightSquare(squareElement, false, false);
   }
 
-  if (isAlreadySelected) {
-    const legalMoves = piece.getLegalMoves();
-    for (const position of legalMoves) {
-      const positionSquareId = position.coordinates.join(',');
-      const squareElement = getSquareElementById(positionSquareId, boardId) as HTMLElement;
-      highlightSquare(squareElement, true, false);
-    }
-
-    pieceElement.classList.remove(SELECTED_PIECE_CLASS);
-  } else {
-    pieceElement.classList.add(SELECTED_PIECE_CLASS);
+  const legalMoves = piece.getLegalMoves();
+  for (const position of legalMoves) {
+    const positionSquareId = position.coordinates.join(',');
+    const squareElement = getSquareElementById(positionSquareId, boardId) as HTMLElement;
+    highlightSquare(squareElement, true, false);
   }
 }
 
