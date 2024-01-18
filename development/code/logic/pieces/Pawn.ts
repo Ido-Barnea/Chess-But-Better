@@ -6,25 +6,46 @@ import { game } from '../../Game';
 import { comparePositions, getPieceByPosition } from '../Utilities';
 
 export class Pawn extends Piece {
-  enPassantPositions: [Position, Position] | undefined;
-  isDiagonalAttack: boolean;
+  possibleEnPassantPositions: [Position, Position] | undefined;
+  isInitialDoubleStep: boolean;
+  diagonalAttackPosition: Position | undefined;
 
   constructor(position: Position, player: Player) {
     const logo = player.color === PlayerColors.WHITE
       ? '♙'
       : '♟';
     super(position, player, pawnResource, 'Pawn', logo);
-    this.enPassantPositions = undefined;
-    this.isDiagonalAttack = false;
+    this.possibleEnPassantPositions = undefined;
+    this.isInitialDoubleStep = false;
+    this.diagonalAttackPosition = undefined;
   }
 
-  isValidEnPassant(targetPosition: Position) {
+  checkInitialDoubleStep(targetPosition: Position): boolean {
+    const currentCoordinates = this.position.coordinates;
+    const currentPlayer = game.getCurrentPlayer();
+    // Determine the direction of pawn movement based on the player's color
+    const stepY = currentPlayer.color === PlayerColors.WHITE ? -1 : 1;
+
+    const twoSquaresForward: Position = {
+      coordinates: [currentCoordinates[0], currentCoordinates[1] + 2 * stepY],
+      boardId: this.position.boardId,
+    };
+
+    if (comparePositions(twoSquaresForward, targetPosition)) {
+      this.isInitialDoubleStep = true;
+      return true;
+    }
+
+    return false;
+  }
+
+  getEnPassantPiece(targetPosition: Position): Piece | undefined {
     const pawns = game.getPieces().filter(piece => piece instanceof Pawn && piece !== this) as Array<Pawn>;
-    if (!pawns) return;
+    if (!pawns.length) return;
 
     const enPassantPawns = pawns.filter(pawn => {
-      if (pawn.enPassantPositions) {
-        return comparePositions(pawn.enPassantPositions[0], targetPosition);
+      if (pawn.isInitialDoubleStep && pawn.possibleEnPassantPositions) {
+        return comparePositions(pawn.possibleEnPassantPositions[0], targetPosition);
       }
     });
     if (!enPassantPawns.length) return;
@@ -57,7 +78,7 @@ export class Pawn extends Piece {
         };
 
         if (!getPieceByPosition(twoSquaresForward) && !getPieceByPosition(oneSquareForward)) {
-          this.enPassantPositions = [oneSquareForward, twoSquaresForward];
+          this.possibleEnPassantPositions = [oneSquareForward, twoSquaresForward];
           validMoves.push(twoSquaresForward);
         }
       }
@@ -74,13 +95,13 @@ export class Pawn extends Piece {
       boardId: this.position.boardId,
     };
 
-    if (getPieceByPosition(leftDiagonal) || this.isValidEnPassant(leftDiagonal)) {
-      this.isDiagonalAttack = true;
+    if (getPieceByPosition(leftDiagonal) || this.getEnPassantPiece(leftDiagonal)) {
+      this.diagonalAttackPosition = leftDiagonal;
       validMoves.push(leftDiagonal);
     }
 
-    if (getPieceByPosition(rightDiagonal) || this.isValidEnPassant(rightDiagonal)) {
-      this.isDiagonalAttack = true;
+    if (getPieceByPosition(rightDiagonal) || this.getEnPassantPiece(rightDiagonal)) {
+      this.diagonalAttackPosition = rightDiagonal;
       validMoves.push(rightDiagonal);
     }
 

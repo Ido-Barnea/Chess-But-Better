@@ -88,8 +88,9 @@ function resetVariables() {
 
   pieces.forEach((piece) => {
     if (piece.player !== getCurrentPlayer() && piece instanceof Pawn) {
-      piece.enPassantPositions = undefined;
-      piece.isDiagonalAttack = false;
+      piece.possibleEnPassantPositions = undefined;
+      piece.isInitialDoubleStep = false;
+      piece.diagonalAttackPosition = undefined;
     }
   });
 }

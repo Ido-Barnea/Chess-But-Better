@@ -34,7 +34,7 @@ describe('Piece movements', () => {
       blackPawnPosition,
       blackPlayer,
     );
-    blackPawn.enPassantPositions = [
+    blackPawn.possibleEnPassantPositions = [
       {
         coordinates: [1, 5],
         boardId: OVERWORLD_BOARD_ID,
