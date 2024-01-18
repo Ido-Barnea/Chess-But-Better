@@ -5,7 +5,7 @@ import {
   DARK_HEAVEN_SQUARE_COLOR,
   DARK_HELL_SQUARE_COLOR,
   DARK_OVERWORLD_SQUARE_COLOR,
-  GRAY_SQUARE_COLOR,
+  GRAY_SQUARE_COLOR as LIGHT_GRAY_SQUARE_COLOR,
   HEAVEN_BOARD_BUTTON_ID,
   HEAVEN_BOARD_ID,
   HELL_BOARD_BUTTON_ID,
@@ -14,6 +14,7 @@ import {
   LIGHT_HEAVEN_SQUARE_COLOR,
   LIGHT_HELL_SQUARE_COLOR,
   LIGHT_OVERWORLD_SQUARE_COLOR,
+  MOUSE_HIGHLIGHT_CLASS,
   NOTATIONS_LETTERS,
   NOTATIONS_NUMBERS,
   OVERWORLD_BOARD_BUTTON_ID,
@@ -97,19 +98,35 @@ export function createNotationGraphics(notation: string) {
   }
 }
 
+export function getAllSquareElements(boardId: string): Array<HTMLElement> {
+  const board = getBoardbyId(boardId);
+  const boardElement = board.boardElement;
+
+  const squares = boardElement.querySelectorAll('[square-id]');
+  return Array.from(squares) as Array<HTMLElement>;
+}
+
+export function getSquareElementById(
+  squareId: string,
+  boardId: string,
+): HTMLElement | undefined {
+  const board = getBoardbyId(boardId);
+  return board.boardElement.querySelector(`[square-id="${squareId}"]`) as HTMLElement;
+}
+
 export function moveElementOnBoard(
   boardId: string,
   originSquareId: string,
   targetSquareId: string,
 ) {
-  const board = getBoardbyId(boardId);
-
-  const movedElementSquareElement = board.boardElement.querySelector(`[square-id="${originSquareId}"]`) as HTMLElement;
+  const targetSquareElement = getSquareElementById(targetSquareId, boardId);
+  const movedElementSquareElement = getSquareElementById(originSquareId, boardId);
   const movedElement = movedElementSquareElement?.firstElementChild as HTMLElement;
 
-  const targetSquareElement = board.boardElement.querySelector(`[square-id="${targetSquareId}"]`) as HTMLElement;
-
-  board.moveElementOnBoard(movedElement, targetSquareElement);
+  if (targetSquareElement && movedElementSquareElement) {
+    const board = getBoardbyId(boardId);
+    board.moveElementOnBoard(movedElement, targetSquareElement);
+  }
 }
 
 export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
@@ -141,16 +158,30 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
   board.spawnElementOnBoard(pieceElement, squareElement);
 }
 
-export function highlightSquare(target: HTMLElement, shouldHighlight: boolean) {
-  while (!target.classList.contains('square')) {
-    target = target.parentNode as HTMLElement;
+function findSquareElement(element: HTMLElement): HTMLElement | undefined {
+  while (element && !element.classList.contains('square')) {
+    element = element.parentNode as HTMLElement;
   }
-  
-  if (target.classList.contains('square')) {
-    if (shouldHighlight) {
-      target.classList.add(GRAY_SQUARE_COLOR);
+
+  return element && element.classList.contains('square') ? element : undefined;
+}
+
+export function highlightSquare(targetElement: HTMLElement, shouldAddHighlight: boolean, isMouseHighlight: boolean) {
+  const squareElement = findSquareElement(targetElement);
+
+  if (squareElement) {
+    if (shouldAddHighlight) {
+      if (isMouseHighlight && !targetElement.classList.contains(LIGHT_GRAY_SQUARE_COLOR)) {
+        targetElement.classList.add(MOUSE_HIGHLIGHT_CLASS);
+      }
+      targetElement.classList.add(LIGHT_GRAY_SQUARE_COLOR);
     } else {
-      target.classList.remove(GRAY_SQUARE_COLOR);
+      if (isMouseHighlight && targetElement.classList.contains(MOUSE_HIGHLIGHT_CLASS)) {
+        targetElement.classList.remove(MOUSE_HIGHLIGHT_CLASS);
+        targetElement.classList.remove(LIGHT_GRAY_SQUARE_COLOR);
+      } else if (!isMouseHighlight) {
+        targetElement.classList.remove(LIGHT_GRAY_SQUARE_COLOR);
+      }
     }
   }
 }

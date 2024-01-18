@@ -1,11 +1,12 @@
 import { game } from './Game';
+import { SELECTED_PIECE_CLASS } from './logic/Constants';
 import { isAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Pieces';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import { BaseRule } from './logic/rules/BaseRule';
-import { destroyElementOnBoard, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
+import { destroyElementOnBoard, getAllSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
 export function renderScreen() {
@@ -22,7 +23,7 @@ function findPieceAtPosition(
   return game.getPieces().find((piece) => comparePositions(piece.position, position));
 }
 
-function getSquareIdFromElement(element: HTMLElement): string | undefined {
+function getSquareIdByElement(element: HTMLElement): string | undefined {
   while (element && !element.getAttribute('square-id')) {
     element = element.parentElement as HTMLElement;
   }
@@ -41,14 +42,14 @@ export function onActionTriggered(
   targetElement: HTMLElement,
   boardId: string,
 ) {
-  const originSquareId = getSquareIdFromElement(draggedElement);
+  const originSquareId = getSquareIdByElement(draggedElement);
   if (!originSquareId) return;
 
   const draggedElementPosition = getPositionFromSquareId(originSquareId, boardId);
   const draggedPiece = findPieceAtPosition(draggedElementPosition);
   if (!draggedPiece) return;
 
-  const targetSquareId = getSquareIdFromElement(targetElement);
+  const targetSquareId = getSquareIdByElement(targetElement);
   if (!targetSquareId) return;
 
   const targetElementPosition = getPositionFromSquareId(targetSquareId, boardId);
@@ -76,7 +77,7 @@ export function onFellOffTheBoardTriggered(
   draggedElement: HTMLElement,
   boardId: string,
 ) {
-  const squareId = getSquareIdFromElement(draggedElement);
+  const squareId = getSquareIdByElement(draggedElement);
   if (!squareId) return;
 
   const draggedElementPosition = getPositionFromSquareId(squareId, boardId);
@@ -84,6 +85,51 @@ export function onFellOffTheBoardTriggered(
   if (!draggedPiece || !isAllowedToAct(draggedPiece)) return;
 
   onPieceFellOffTheBoard(draggedPiece);
+}
+
+function highlightLegalMoves(
+  piece: Piece,
+  pieceElement: HTMLElement,
+  boardId: string,
+) {
+  const isAlreadySelected = pieceElement.classList.contains(SELECTED_PIECE_CLASS);
+
+  // Remove all highlights
+  const allSquareElements = getAllSquareElements(boardId);
+  for (const squareElement of allSquareElements) {
+    if (!squareElement.classList.contains('mouse-highlight')) {
+      highlightSquare(squareElement, false, false);
+    }
+  }
+
+  if (isAlreadySelected) {
+    const legalMoves = piece.getLegalMoves();
+    for (const position of legalMoves) {
+      const positionSquareId = position.coordinates.join(',');
+      const squareElement = getSquareElementById(positionSquareId, boardId) as HTMLElement;
+      highlightSquare(squareElement, true, false);
+    }
+  }
+
+  if (isAlreadySelected) {
+    pieceElement.classList.remove(SELECTED_PIECE_CLASS);
+  } else {
+    pieceElement.classList.add(SELECTED_PIECE_CLASS);
+  }
+}
+
+export function onPieceSelected(
+  pieceElement: HTMLElement,
+  boardId: string,
+) {
+  const squareId = getSquareIdByElement(pieceElement);
+  if (!squareId) return;
+
+  const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
+  const piece = findPieceAtPosition(pieceElementPosition);
+  if (!piece || !isAllowedToAct(piece)) return;
+
+  highlightLegalMoves(piece, pieceElement, boardId);
 }
 
 export function movePieceOnBoard(
