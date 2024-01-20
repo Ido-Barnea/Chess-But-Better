@@ -1,7 +1,7 @@
 import { game } from '../Game';
 import { BOARD_WIDTH } from '../logic/Constants';
 import { comparePositions } from '../logic/Utilities';
-import { Coin } from '../logic/items/Coin';
+import { PiggyBank } from '../logic/items/PiggyBank';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Pieces';
 import { Position } from '../logic/pieces/PiecesUtilities';
@@ -45,7 +45,7 @@ export class ChessBoard {
       });
     }
 
-    this.randomlyGenerateCoins();
+    this.randomlyGeneratePiggyBanks();
   }
 
   createSquare(coordinates: [number, number]) {
@@ -59,11 +59,21 @@ export class ChessBoard {
     this.boardElement.appendChild(squareElement);
   }
 
-  randomlyGenerateCoins() {
+  generatePiggyBankAtPosition(position: Position) {
+    const coin = new PiggyBank(position);
+    game.getItems().push(coin);
+
+    const coinElement = this.createItemElement(coin);
+    const square = this.boardElement.querySelectorAll(`[square-id="${position.coordinates}"]`)[0];
+    square.appendChild(coinElement);
+  }
+
+  randomlyGeneratePiggyBanks() {
+    let generatedPiggyBank = false;
     for (let row = 0; row < BOARD_WIDTH; row++) {
       for (let column = 0; column < BOARD_WIDTH; column++) {
         // A number between 1-100 that determines the chance of a coin generating on any square.
-        const COIN_GENERATION_CHANCE = 10;
+        const COIN_GENERATION_CHANCE = 5;
         const random = Math.floor(Math.random() * 100) + 1;
 
         const coordinates: [number, number] = [column, row];
@@ -79,14 +89,22 @@ export class ChessBoard {
             coordinates: coordinates,
             boardId: this.boardId,
           };
-          const coin = new Coin(position);
-          game.getItems().push(coin);
-
-          const coinElement = this.createItemElement(coin);
-          const square = this.boardElement.querySelectorAll(`[square-id="${coordinates}"]`)[0];
-          square.appendChild(coinElement);
+          this.generatePiggyBankAtPosition(position);
+          generatedPiggyBank = true;
         }
       }
+    }
+
+    if (!generatedPiggyBank) {
+      // If no piggy banks were generated, generate one at the center of the board.
+      const squarePositionX = Math.floor(Math.random() * 4) + 2;
+      const squarePositionY = Math.floor(Math.random() * 4) + 2;
+
+      const position: Position = {
+        coordinates: [squarePositionX, squarePositionY],
+        boardId: this.boardId,
+      };
+      this.generatePiggyBankAtPosition(position);
     }
   }
 
