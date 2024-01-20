@@ -129,6 +129,14 @@ export class ChessBoard {
     targetSquareElement: HTMLElement,
   ) {
     targetSquareElement.appendChild(element);
+
+    // Calculate the center position of the square
+    const centerX = (targetSquareElement.clientWidth - element.clientWidth) / 2;
+    const centerY = (targetSquareElement.clientHeight - element.clientHeight) / 2;
+
+    // Set the moved elemenet's position
+    element.style.left = centerX + 'px';
+    element.style.top = centerY + 'px';
   }
 
   destroyElementOnBoard(element: HTMLElement) {
