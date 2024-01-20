@@ -1,7 +1,7 @@
 import { Logger } from '../../ui/Logger';
 import { Piece } from '../pieces/Pieces';
 import { Position } from '../pieces/PiecesUtilities';
-import { PlayerColors } from '../Players';
+import { Player, PlayerColors } from '../Players';
 
 export class Inventory {
   items: Array<Item> = [];
@@ -36,7 +36,8 @@ interface ItemType {
     name: string,
     resource: string,
     position: Position,
-    apply: (piece: Piece) => void;
+    use: (piece: Piece) => void;
+    drop: (player: Player) => void;
 }
 
 export class Item implements ItemType {
@@ -54,7 +55,11 @@ export class Item implements ItemType {
     this.position = position;
   }
 
-  apply(piece: Piece) {
-    Logger.logGeneral(`${piece.player.color} used a ${this.name}.`);
-  };
+  use(piece: Piece) {
+    Logger.logGeneral(`${piece.player.color} ${piece.name} used a ${this.name} on ${piece.position.coordinates}.`);
+  }
+
+  drop(player: Player) {
+    Logger.logGeneral(`${player.color} dropped a ${this.name}.`);
+  }
 }

@@ -87,7 +87,9 @@ function dragPieceElement(element: HTMLElement) {
     const elementYPosition = endMouseY - startMouseY;
     const droppedOnElements = document.elementsFromPoint(elementXPosition, elementYPosition) as Array<HTMLElement>;
     const droppedOnElement = droppedOnElements.filter(element => {
-      return element.classList.contains('square') || element.classList.contains('piece') && element !== draggedElement;
+      return element.classList.contains('square') ||
+        element.classList.contains('item') ||
+        element.classList.contains('piece') && element !== draggedElement;
     })[0];
 
     if (droppedOnElement === undefined) {

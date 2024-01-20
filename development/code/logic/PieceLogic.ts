@@ -7,7 +7,7 @@ import {
   OVERWORLD_BOARD_ID,
 } from './Constants';
 import { comparePositions } from './Utilities';
-import { Coin } from './items/Coin';
+import { PiggyBank } from './items/PiggyBank';
 import { Item } from './items/Items';
 import { Trap } from './items/Trap';
 import { King } from './pieces/King';
@@ -257,12 +257,12 @@ export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
 
 function onActionPieceToItem(piece: Piece, item: Item) {
   switch (item.name) {
-    case ('gold coin'): {
-      pieceMovedOnCoin(piece, item);
+    case ('piggy bank'): {
+      pieceMovedOnPiggyBank(piece, item as PiggyBank);
       break;
     }
     case ('trap'): {
-      pieceMovedOnTrap(piece, item);
+      pieceMovedOnTrap(piece, item as Trap);
       break;
     }
   }
@@ -287,16 +287,12 @@ function pieceMovedOnTrap(
   game.endTurn();
 }
 
-export function pieceMovedOnCoin(
+export function pieceMovedOnPiggyBank(
   draggedPiece: Piece,
-  coin: Coin,
+  piggyBank: PiggyBank,
 ) {
-  game.setItems(game.getItems().filter((item) => item !== coin));
-  destroyItemOnBoard(coin);
+  game.setItems(game.getItems().filter((item) => item !== piggyBank));
+  destroyItemOnBoard(piggyBank);
 
-  draggedPiece.player.gold++;
-
-  Logger.logGeneral(`
-    ${draggedPiece.player.color} ${draggedPiece.name} found a ${coin.name} on ${coin.position.coordinates}.
-  `);
+  piggyBank.use(draggedPiece);
 }
