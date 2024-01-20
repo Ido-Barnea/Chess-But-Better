@@ -52,8 +52,6 @@ function dragPieceElement(element: HTMLElement) {
   function dragPieceOnMouseDown(event: MouseEvent) {
     event.preventDefault();
 
-    // endMouseX = event.clientX;
-    // endMouseY = event.clientY;
     endMouseX = event.clientX;
     endMouseY = event.clientY;
     document.onmousemove = pieceElementDrag;
