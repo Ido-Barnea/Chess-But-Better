@@ -160,7 +160,7 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
 
 function findSquareElement(element: HTMLElement): HTMLElement | undefined {
   while (element && !element.classList.contains('square')) {
-    element = element.parentNode as HTMLElement;
+    element = element.parentElement as HTMLElement;
   }
 
   return element && element.classList.contains('square') ? element : undefined;

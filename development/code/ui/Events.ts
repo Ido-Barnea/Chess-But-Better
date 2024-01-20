@@ -78,9 +78,9 @@ function dragPieceElement(element: HTMLElement) {
     document.onmousemove = null;
 
     const initialElement = event.target as HTMLElement;
-    let boardElement = initialElement.parentNode as HTMLElement;
-    while (!boardElement.classList.contains('board')) {
-      boardElement = boardElement.parentNode as HTMLElement;
+    let boardElement = initialElement.parentElement ?? undefined;
+    while (!boardElement?.classList.contains('board')) {
+      boardElement = boardElement?.parentElement ?? undefined;
     }
 
     const elementXPosition = endMouseX - startMouseX;
@@ -112,12 +112,19 @@ function onMouseOut(event: Event) {
 }
 
 function onMouseClick(event: Event) {
-  const pieceElement = event.target as HTMLElement;
-  let boardElement = pieceElement.parentElement;
+  let pieceElement = event.target as HTMLElement;
+  // Make sure target is not a resource
+  while (pieceElement.classList.contains('untargetable')) {
+    pieceElement = pieceElement.parentElement as HTMLElement;
+  }
+
+  let boardElement= pieceElement.parentElement ?? undefined;
 
   while (!boardElement?.classList.contains('board')) {
-    boardElement = boardElement?.parentNode as HTMLElement;
+    boardElement = boardElement?.parentElement ?? undefined;
   }
+
+  console.log(pieceElement);
 
   onPieceSelected(pieceElement, boardElement.id);
 }
