@@ -26,18 +26,15 @@ export function initializeEventListeners() {
   const squares = document.querySelectorAll('.square');
   // Listen for mouse events
   squares.forEach(square => {
-    square.addEventListener('dragstart', onDragStart);
-    square.addEventListener('dragover', onDragOver);
-    square.addEventListener('drop', onDragDrop);
     square.addEventListener('mouseover', onMouseOver);
     square.addEventListener('mouseout', onMouseOut);
-
-    square.addEventListener('click', onMouseClick);
   });
 
-  // Support pieces falling off the board
-  document.body.addEventListener('dragover', onDragOver);
-  document.body.addEventListener('drop', onDragOffTheBoard);
+  const pieces = document.querySelectorAll('.piece');
+  pieces.forEach(pieceElement => {
+    pieceElement.addEventListener('click', onMouseClick);
+    dragPieceElement(pieceElement as HTMLElement);
+  });
 
   // Listen for boards' buttons clicks
   OVERWORLD_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
@@ -45,40 +42,62 @@ export function initializeEventListeners() {
   HEAVEN_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
 }
 
-function onDragStart(event: Event) {
-  const targetElement = event.target as HTMLElement;
-  if (targetElement.classList.contains('piece')) {
-    draggedElement = event.target as HTMLElement;
-  }
-}
+function dragPieceElement(element: HTMLElement) {
+  let startMouseX = 0;
+  let startMouseY = 0;
+  let endMouseX = 0;
+  let endMouseY = 0;
+  element.onmousedown = dragPieceOnMouseDown;
 
-function onDragDrop(event: Event) {
-  event.stopPropagation();
-  let targetElement = event.target as HTMLElement;
-  // Make sure target is not a resource
-  while (targetElement.classList.contains('untargetable')) {
-    targetElement = targetElement.parentNode as HTMLElement;
-  }
+  function dragPieceOnMouseDown(event: MouseEvent) {
+    event.preventDefault();
 
-  let boardElement = targetElement as HTMLElement;
-  while (!boardElement.classList.contains('board')) {
-    boardElement = boardElement.parentNode as HTMLElement;
+    // endMouseX = event.clientX;
+    // endMouseY = event.clientY;
+    endMouseX = event.clientX;
+    endMouseY = event.clientY;
+    document.onmousemove = pieceElementDrag;
+    document.onmouseup = stopPieceElementDrag;
   }
 
-  triggerOnAction(draggedElement, targetElement, boardElement.id);
-}
+  function pieceElementDrag(event: MouseEvent) {
+    event.preventDefault();
 
-function onDragOver(event: Event) {
-  event.preventDefault();
-}
+    triggerOnHighlight(element, false, true);
+    draggedElement = element;
 
-function onDragOffTheBoard(_: Event) {
-  let boardElement = draggedElement;
-  while (!boardElement.classList.contains('board')) {
-    boardElement = boardElement.parentNode as HTMLElement;
+    startMouseX = endMouseX - event.clientX;
+    startMouseY = endMouseY - event.clientY;
+    endMouseX = event.clientX;
+    endMouseY = event.clientY;
+
+    element.style.left = (element.offsetLeft - startMouseX) + 'px';
+    element.style.top = (element.offsetTop - startMouseY) + 'px';
   }
 
-  triggerOnFellOffTheBoard(draggedElement, boardElement.id);
+  function stopPieceElementDrag(event: MouseEvent) {
+    document.onmouseup = null;
+    document.onmousemove = null;
+
+    const initialElement = event.target as HTMLElement;
+    let boardElement = initialElement.parentNode as HTMLElement;
+    while (!boardElement.classList.contains('board')) {
+      boardElement = boardElement.parentNode as HTMLElement;
+    }
+
+    const elementXPosition = endMouseX - startMouseX;
+    const elementYPosition = endMouseY - startMouseY;
+    const droppedOnElements = document.elementsFromPoint(elementXPosition, elementYPosition) as Array<HTMLElement>;
+    const droppedOnElement = droppedOnElements.filter(element => {
+      return element.classList.contains('square') || element.classList.contains('piece') && element !== draggedElement;
+    })[0];
+
+    if (droppedOnElement === undefined) {
+      triggerOnFellOffTheBoard(draggedElement, boardElement.id);
+    } else {
+      triggerOnAction(draggedElement, droppedOnElement, boardElement.id);
+    }
+  }
 }
 
 function handleMouseEvents(event: Event, shouldAddHighlight: boolean) {
@@ -95,25 +114,14 @@ function onMouseOut(event: Event) {
 }
 
 function onMouseClick(event: Event) {
-  let targetElement = event.target as HTMLElement;
-  let boardElement = targetElement;
+  const pieceElement = event.target as HTMLElement;
+  let boardElement = pieceElement.parentElement;
 
-  // Make sure target is not a resource
-  while (targetElement.classList.contains('untargetable')) {
-    targetElement = targetElement.parentNode as HTMLElement;
+  while (!boardElement?.classList.contains('board')) {
+    boardElement = boardElement?.parentNode as HTMLElement;
   }
 
-  if (!targetElement.classList.contains('piece')) {
-    const firstChild = targetElement.firstChild as HTMLElement;
-    if (firstChild.classList.contains('piece')) targetElement = firstChild;
-    else return;
-  }
-
-  while (!boardElement.classList.contains('board')) {
-    boardElement = boardElement.parentNode as HTMLElement;
-  }
-
-  onPieceSelected(targetElement, boardElement.id);
+  onPieceSelected(pieceElement, boardElement.id);
 }
 
 export function setOnAction(

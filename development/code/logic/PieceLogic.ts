@@ -46,7 +46,10 @@ export function onPlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ) {
-  if (!validatePlayerAction(draggedPiece, target)) return;
+  if (!validatePlayerAction(draggedPiece, target)) {
+    movePieceOnBoard(draggedPiece, draggedPiece);
+    return;
+  }
   simulatePath(draggedPiece, target.position);
 
   if (target instanceof Piece) {

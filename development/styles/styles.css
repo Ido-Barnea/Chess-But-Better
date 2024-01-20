@@ -95,8 +95,13 @@ path {
 .piece {
   height: var(--square-size);
   width: var(--square-size);
-  position: relative;
+  position: absolute;
   z-index: 1;
+  cursor: grab;
+}
+
+.piece:active {
+  cursor: grabbing;
 }
 
 #logs-container {
