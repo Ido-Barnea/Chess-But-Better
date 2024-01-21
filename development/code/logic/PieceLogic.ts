@@ -228,7 +228,9 @@ function handlePieceSpawning(targetPiece: Piece) {
   });
 
   game.getItems().forEach((item) => {
-    onActionPieceToItem(targetPiece, item);
+    if (comparePositions(targetPiece.position, item.position)) {
+      onActionPieceToItem(targetPiece, item);
+    }
   });
 
   spawnPieceOnBoard(targetPiece);
