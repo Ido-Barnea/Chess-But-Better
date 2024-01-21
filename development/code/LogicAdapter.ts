@@ -5,7 +5,15 @@ import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Pieces';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import { BaseRule } from './logic/rules/BaseRule';
-import { destroyElementOnBoard, getAllSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard, highlightLastMove, removeHighlight } from './ui/BoardManager';
+import { 
+  destroyElementOnBoard,
+  getAllSquareElements,
+  getSquareElementById,
+  highlightSquare,
+  moveElementOnBoard,
+  spawnItemElementOnBoard,
+  spawnPieceElementOnBoard,
+} from './ui/BoardManager';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
 export function renderScreen() {
@@ -88,7 +96,6 @@ export function onFellOffTheBoardTriggered(
 
 function highlightLegalMoves(
   piece: Piece,
-  pieceElement: HTMLElement,
   boardId: string,
 ) {
   // Remove all highlights
@@ -104,16 +111,19 @@ function highlightLegalMoves(
     highlightSquare(squareElement, true, false);
   }
 }
-function highlightLastMoveLogic(  
-  originSquare: HTMLElement,
-  targetSquare: HTMLElement,
+
+function highlightLastMove(  
+  originSquareElement: HTMLElement,
+  targetSquareElement: HTMLElement,
   boardId: string,
 ) {
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
-    removeHighlight(squareElement);
+    highlightSquare(squareElement, false, false);
   }
-  highlightLastMove(originSquare,targetSquare);
+
+  highlightSquare(originSquareElement, true, false);
+  highlightSquare(targetSquareElement, true, false);
 }
 
 
@@ -128,7 +138,7 @@ export function onPieceSelected(
   const piece = findPieceAtPosition(pieceElementPosition);
   if (!piece || !isPlayerAllowedToAct(piece)) return;
 
-  highlightLegalMoves(piece, pieceElement, boardId);
+  highlightLegalMoves(piece, boardId);
 }
 
 export function movePieceOnBoard(
@@ -137,13 +147,16 @@ export function movePieceOnBoard(
 ) {
   const draggedPieceCoordinates = draggedPiece.position.coordinates;
   const originSquareId = draggedPieceCoordinates.join(',');
+  
   const boardId = draggedPiece.position.boardId;
   const targetSquareId = targetSquare.position.coordinates.join(',');
 
-  highlightLastMoveLogic(
-    getSquareElementById(originSquareId, boardId) as HTMLElement,
-     getSquareElementById(targetSquareId,boardId) as HTMLElement,
-     draggedPiece.position.boardId);
+  // Ensure square is not highlighted if piece did not move
+  if (!comparePositions(draggedPiece.position, targetSquare.position)) {
+    const originSquareElement = getSquareElementById(originSquareId, boardId) as HTMLElement;
+    const targetSquareElement = getSquareElementById(targetSquareId, boardId) as HTMLElement;
+    highlightLastMove(originSquareElement, targetSquareElement, boardId);
+  }
   
   moveElementOnBoard(draggedPiece.position.boardId, originSquareId, targetSquareId);
 }

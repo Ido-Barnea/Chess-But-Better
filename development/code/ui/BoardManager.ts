@@ -190,16 +190,3 @@ export function highlightSquare(targetElement: HTMLElement, shouldAddHighlight: 
     }
   }
 }
-export function highlightLastMove(
-  originSquareElement: HTMLElement,
-  targetSquareElement: HTMLElement,
-) {
-  highlightSquare(originSquareElement, true, false);
-  highlightSquare(targetSquareElement, true, false);
-}
-
-export function removeHighlight(squareElement: HTMLElement){
-  highlightSquare(squareElement, false, false);
-}
-
-
