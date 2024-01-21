@@ -73,15 +73,17 @@ export function dragPieceElement(element: HTMLElement) {
     element.style.top = (element.offsetTop - startMouseY) + 'px';
   }
 
-  function stopPieceElementDrag(event: MouseEvent) {
+  function stopPieceElementDrag(_: MouseEvent) {
     document.onmouseup = null;
     document.onmousemove = null;
 
-    const initialElement = event.target as HTMLElement;
+    const initialElement = draggedElement as HTMLElement;
     let boardElement = initialElement.parentElement ?? undefined;
-    while (!boardElement?.classList.contains('board')) {
-      boardElement = boardElement?.parentElement ?? undefined;
+    while (boardElement && !boardElement.classList.contains('board')) {
+      boardElement = boardElement.parentElement ?? undefined;
     }
+
+    if (!boardElement) return;
 
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
