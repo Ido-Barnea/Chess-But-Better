@@ -5,6 +5,7 @@ import { PiggyBank } from '../logic/items/PiggyBank';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Pieces';
 import { Position } from '../logic/pieces/PiecesUtilities';
+import { dragPieceElement } from './Events';
 
 export class ChessBoard {
   boardId: string;
@@ -128,6 +129,8 @@ export class ChessBoard {
     pieceElement.classList.add(piece.player.color.toLowerCase());
 
     pieceElement.innerHTML = piece.resource;
+
+    dragPieceElement(pieceElement);
 
     return pieceElement;
   }
