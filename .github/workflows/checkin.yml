@@ -8,12 +8,14 @@ on:
       - edited
       - reopened
       - synchronize
+  workflow_run:
+    workflows:
+      - 'Build'
+    types:
+      - completed
 
 jobs:
-  Build:
-    uses: ./.github/workflows/build.yml
   Test:
-    needs: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
