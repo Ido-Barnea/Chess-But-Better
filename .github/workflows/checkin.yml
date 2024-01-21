@@ -11,8 +11,14 @@ on:
 
 jobs:
   Build:
-    uses: ./.github/workflows/build.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Build Workflow
+        uses: actions/workflow-dispatch@v2
+        with:
+          workflow: .github/workflows/build.yml
   Test:
+    needs: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
