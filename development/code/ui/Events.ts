@@ -1,3 +1,4 @@
+import { game } from '../Game';
 import { onPieceSelected } from '../LogicAdapter';
 import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
@@ -51,6 +52,9 @@ export function dragPieceElement(element: HTMLElement) {
 
   function dragPieceOnMouseDown(event: MouseEvent) {
     event.preventDefault();
+
+    const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
+    if (!element.classList.contains(currentTurnPlayerColor)) return;
 
     endMouseX = event.clientX;
     endMouseY = event.clientY;
