@@ -8,10 +8,6 @@ on:
       - edited
       - reopened
       - synchronize
-  workflow_run:
-    workflows: ['[🔨] Build']
-    types:
-      - completed
 
 jobs:
   Test:
