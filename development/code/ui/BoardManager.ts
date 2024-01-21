@@ -190,5 +190,3 @@ export function highlightSquare(targetElement: HTMLElement, shouldAddHighlight: 
     }
   }
 }
-
-
