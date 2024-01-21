@@ -9,10 +9,8 @@ on:
       - reopened
       - synchronize
   workflow_run:
-    workflows:
-      - 'build'
-    types:
-      - completed
+    workflows: ['[🔨] Build']
+    types: ['completed']
 
 jobs:
   Test:
