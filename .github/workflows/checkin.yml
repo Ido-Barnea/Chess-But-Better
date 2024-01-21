@@ -11,7 +11,7 @@ on:
 
 jobs:
   Build:
-    uses: .github/workflows/build.yml
+    uses: ./.github/workflows/build.yml
   Test:
     needs: Build
     runs-on: ubuntu-latest
