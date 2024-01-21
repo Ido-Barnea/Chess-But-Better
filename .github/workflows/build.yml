@@ -2,10 +2,7 @@ name: '[🔨] Build'
 run-name: '[🔨] Build - ${{ github.head_ref }}'
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['[😱] Checkin']
-    types:
-      - completed
+  workflow_call:
 
 jobs:
   Build:
