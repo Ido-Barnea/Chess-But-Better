@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Build Workflow
-        uses: actions/workflow-dispatch@v2
+        uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: .github/workflows/build.yml
   Test:
