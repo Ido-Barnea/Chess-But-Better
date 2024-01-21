@@ -10,7 +10,7 @@ on:
       - synchronize
   workflow_run:
     workflows:
-      - 'Build'
+      - 'build.yml'
     types:
       - completed
 
