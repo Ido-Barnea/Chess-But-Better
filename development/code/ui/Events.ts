@@ -42,7 +42,7 @@ export function initializeEventListeners() {
   HEAVEN_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
 }
 
-function dragPieceElement(element: HTMLElement) {
+export function dragPieceElement(element: HTMLElement) {
   let startMouseX = 0;
   let startMouseY = 0;
   let endMouseX = 0;
