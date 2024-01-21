@@ -19,6 +19,7 @@ import {
   NOTATIONS_NUMBERS,
   OVERWORLD_BOARD_BUTTON_ID,
   OVERWORLD_BOARD_ID,
+  BLUE_SQUARE_COLOR,
 } from '../logic/Constants';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Pieces';
@@ -189,6 +190,17 @@ export function highlightSquare(targetElement: HTMLElement, shouldAddHighlight: 
       }
     }
   }
+}
+export function highlightLastMove(
+  originSquare: HTMLElement,
+  targetSquare: HTMLElement,
+) {
+  originSquare.classList.add(BLUE_SQUARE_COLOR);
+  targetSquare.classList.add(BLUE_SQUARE_COLOR);
+}
+
+export function removeHighlight(square: HTMLElement){
+  square.classList.remove(BLUE_SQUARE_COLOR);
 }
 
 

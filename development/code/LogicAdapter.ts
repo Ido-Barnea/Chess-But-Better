@@ -5,7 +5,7 @@ import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Pieces';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import { BaseRule } from './logic/rules/BaseRule';
-import { destroyElementOnBoard, getAllSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard } from './ui/BoardManager';
+import { destroyElementOnBoard, getAllSquareElements, getSquareElementById, highlightSquare, moveElementOnBoard, spawnItemElementOnBoard, spawnPieceElementOnBoard, highlightLastMove, removeHighlight } from './ui/BoardManager';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
 export function renderScreen() {
@@ -104,6 +104,18 @@ function highlightLegalMoves(
     highlightSquare(squareElement, true, false);
   }
 }
+function highlightLastMoveLogic(  
+  originSquare: HTMLElement,
+  targetSquare: HTMLElement,
+  boardId: string,
+) {
+  const allSquareElements = getAllSquareElements(boardId);
+  for (const squareElement of allSquareElements) {
+    removeHighlight(squareElement);
+  }
+  highlightLastMove(originSquare,targetSquare);
+}
+
 
 export function onPieceSelected(
   pieceElement: HTMLElement,
@@ -125,8 +137,13 @@ export function movePieceOnBoard(
 ) {
   const draggedPieceCoordinates = draggedPiece.position.coordinates;
   const originSquareId = draggedPieceCoordinates.join(',');
-
+  const boardId = draggedPiece.position.boardId;
   const targetSquareId = targetSquare.position.coordinates.join(',');
+
+  highlightLastMoveLogic(
+    getSquareElementById(originSquareId, boardId) as HTMLElement,
+     getSquareElementById(targetSquareId,boardId) as HTMLElement,
+     draggedPiece.position.boardId);
   
   moveElementOnBoard(draggedPiece.position.boardId, originSquareId, targetSquareId);
 }
