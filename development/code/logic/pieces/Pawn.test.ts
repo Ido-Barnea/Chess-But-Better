@@ -119,7 +119,6 @@ describe('Piece killing', () => {
     let killerNewCoordinates = killerPawn.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
-    // Killer position is now 3, 3
     const enPassantVictimPosition: Position = {
       coordinates: [2, 3],
       boardId: OVERWORLD_BOARD_ID,
@@ -137,7 +136,6 @@ describe('Piece killing', () => {
     ];
     enPassantPawn.isInitialDoubleStep = true;
 
-    // The square that the killer moves to
     const enPassantAttackSquare = enPassantPawn.possibleEnPassantPositions[0];
     const enPassantSquare: Square = { position: enPassantAttackSquare };    
     
