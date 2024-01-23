@@ -66,8 +66,8 @@ describe('Piece killing', () => {
     const victimPiece = new Pawn(victimPosition, blackPlayer);
 
     game.initialize();
-    game.setPieces([killerRook,victimPiece]);
-    onPlayerAction(killerRook,victimPiece);
+    game.setPieces([killerRook, victimPiece]);
+    onPlayerAction(killerRook, victimPiece);
     
     const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
@@ -75,7 +75,7 @@ describe('Piece killing', () => {
     const killerNewCoordinates = killerRook.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
-    const playerXp = killerRook.player.xp;
-    expect(playerXp).toBeGreaterThan(0);
+    const playerXP = killerRook.player.xp;
+    expect(playerXP).toBeGreaterThan(0);
   });
 });

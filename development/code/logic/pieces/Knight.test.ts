@@ -91,7 +91,7 @@ describe('Piece killing', () => {
     killerNewCoordinates = killerKnight.position.coordinates;
     expect(killerNewCoordinates).toEqual(othervictimPosition.coordinates);
 
-    const playerXp = killerKnight.player.xp;
-    expect(playerXp).toBeGreaterThan(0);
+    const playerXP = killerKnight.player.xp;
+    expect(playerXP).toBeGreaterThan(0);
   });
 });

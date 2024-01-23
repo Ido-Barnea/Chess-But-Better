@@ -82,8 +82,8 @@ describe('Piece killing', () => {
     const killerNewCoordinates = killerKing.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
-    const playerXp = killerKing.player.xp;
-    expect(playerXp).toBeGreaterThan(0);
+    const playerXP = killerKing.player.xp;
+    expect(playerXP).toBeGreaterThan(0);
   });
 });
 

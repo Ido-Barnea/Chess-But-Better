@@ -67,8 +67,8 @@ describe('Piece killing', () => {
     victimPiece.hasKilled = true;
 
     game.initialize();
-    game.setPieces([killerBishop,victimPiece]);
-    onPlayerAction(killerBishop,victimPiece);
+    game.setPieces([killerBishop, victimPiece]);
+    onPlayerAction(killerBishop, victimPiece);
     
     const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HELL_BOARD_ID);
@@ -77,7 +77,7 @@ describe('Piece killing', () => {
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
     // Checks that the piece got XP for the kills
-    const playerXp = killerBishop.player.xp;
-    expect(playerXp).toBeGreaterThan(0);
+    const playerXP = killerBishop.player.xp;
+    expect(playerXP).toBeGreaterThan(0);
   });
 });

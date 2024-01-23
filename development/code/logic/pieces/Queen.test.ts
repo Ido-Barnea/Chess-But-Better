@@ -89,11 +89,11 @@ describe('Piece killing', () => {
       coordinates: [6, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const otherVictimPiece = new Queen(otherVictimPosition,blackPlayer);
+    const otherVictimPiece = new Queen(otherVictimPosition, blackPlayer);
     otherVictimPiece.hasKilled = true;
     killerQueen.position = initialKillerPosition;
 
-    game.setPieces([killerQueen,otherVictimPiece]);
+    game.setPieces([killerQueen, otherVictimPiece]);
     onPlayerAction(killerQueen, otherVictimPiece);
 
     const otherVictimPieceBoardId = otherVictimPiece.position.boardId;
@@ -104,7 +104,7 @@ describe('Piece killing', () => {
 
 
     // Checks that the piece got XP for the kills
-    const playerXp = killerQueen.player.xp;
-    expect(playerXp).toBeGreaterThan(0);
+    const playerXP = killerQueen.player.xp;
+    expect(playerXP).toBeGreaterThan(0);
   });
 });
