@@ -4,6 +4,7 @@ import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { Rook } from './Rook';
+import { Pawn } from './Pawn';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -58,21 +59,21 @@ describe('Piece killing', () => {
     };
     const killerRook = new Rook(initialKillerPosition, whitePlayer);
 
-    const initialVictimPosition: Position = {
+    const victimPosition: Position = {
       coordinates: [3, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const victimRook = new Rook(initialVictimPosition, blackPlayer);
+    const victimPiece = new Pawn(victimPosition, blackPlayer);
 
     game.initialize();
-    game.setPieces([killerRook,victimRook]);
-    onPlayerAction(killerRook,victimRook);
+    game.setPieces([killerRook,victimPiece]);
+    onPlayerAction(killerRook,victimPiece);
     
-    const victimPieceBoardId = victimRook.position.boardId;
+    const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
     
     const killerNewCoordinates = killerRook.position.coordinates;
-    expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
+    expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
     const playerXp = killerRook.player.xp;
     expect(playerXp).toBeGreaterThan(0);

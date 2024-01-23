@@ -242,7 +242,7 @@ function handleOverworldKill(
 ) {
   targetPiece.position = targetPosition;
 
-  if (targetPiece.hasKilled) {
+  if (targetPiece.hasKilled || targetPiece instanceof King) {
     targetPiece.position.boardId = HELL_BOARD_ID;
   } else {
     targetPiece.position.boardId = HEAVEN_BOARD_ID;

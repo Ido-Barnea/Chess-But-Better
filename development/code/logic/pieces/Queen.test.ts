@@ -4,6 +4,7 @@ import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { Queen } from './Queen';
+import { Knight } from './Knight';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -60,41 +61,42 @@ describe('Piece movements', () => {
 describe('Piece killing', () => {
   test ('Validating Queen killing', () => {
     const initialKillerPosition: Position = {
-      coordinates: [3, 3],
+      coordinates: [2, 2],
       boardId: OVERWORLD_BOARD_ID,
     };
     const killerQueen = new Queen(initialKillerPosition, whitePlayer);
 
-    const initialVictimPosition: Position = {
-      coordinates: [3, 5],
+    const victimPosition: Position = {
+      coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const victimQueen = new Queen(initialVictimPosition, blackPlayer);
+    const victimPiece = new Knight(victimPosition, blackPlayer);
 
 
     game.initialize();
-    game.setPieces([killerQueen,victimQueen]);
-    onPlayerAction(killerQueen,victimQueen);
+    game.setPieces([killerQueen,victimPiece]);
+    onPlayerAction(killerQueen,victimPiece);
     
-    const victimPieceBoardId = victimQueen.position.boardId;
+    const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
     
     let killerNewCoordinates = killerQueen.position.coordinates;
-    expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
+    expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
 
     // Diagonal kill
     const otherVictimPosition: Position = {
-      coordinates: [4, 4],
+      coordinates: [6, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const otherVictimQueen = new Queen(otherVictimPosition,blackPlayer);
-    otherVictimQueen.hasKilled = true;
+    const otherVictimPiece = new Queen(otherVictimPosition,blackPlayer);
+    otherVictimPiece.hasKilled = true;
+    killerQueen.position = initialKillerPosition;
 
-    game.setPieces([killerQueen,otherVictimQueen]);
-    onPlayerAction(killerQueen, otherVictimQueen);
+    game.setPieces([killerQueen,otherVictimPiece]);
+    onPlayerAction(killerQueen, otherVictimPiece);
 
-    const otherVictimPieceBoardId = otherVictimQueen.position.boardId;
+    const otherVictimPieceBoardId = otherVictimPiece.position.boardId;
     expect(otherVictimPieceBoardId).toEqual(HELL_BOARD_ID);
 
     killerNewCoordinates = killerQueen.position.coordinates;

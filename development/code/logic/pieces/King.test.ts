@@ -1,13 +1,30 @@
 import { game } from '../../Game';
-import { OVERWORLD_BOARD_ID } from '../Constants';
+import { HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../Constants';
+import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { King } from './King';
 import { Position } from './PiecesUtilities';
 
-jest.mock('../../ui/BoardManager.ts', () => ({}));
-jest.mock('../../ui/Screen.ts', () => ({}));
 
 const whitePlayer = new Player(PlayerColors.WHITE);
+const blackPlayer = new Player(PlayerColors.BLACK);
+
+jest.mock('../../ui/BoardManager.ts', () => ({
+  destroyElementOnBoard: jest.fn(),
+  moveElementOnBoard: jest.fn(),
+  spawnPieceElementOnBoard: jest.fn(),
+  getSquareElementById: jest.fn(),
+  getAllSquareElements: jest.fn(),
+  highlightLastMove: jest.fn(),
+}));
+jest.mock('../../ui/Screen.ts', () => ({
+  renderNewRule: jest.fn(),
+  renderPlayersInformation: jest.fn(),
+}));
+jest.mock('../../ui/Logger.ts');
+jest.mock('../../ui/Events.ts', () => ({}));
+
+game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
 describe('Piece movements', () => {
   test('Validating King movement', () => {
@@ -40,3 +57,33 @@ describe('Piece movements', () => {
     expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });
+
+describe('Piece killing', () => {
+  test('Validating King killing', () => {
+    const initialKillerPosition: Position = {
+      coordinates: [3, 4],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const killerKing = new King(initialKillerPosition, whitePlayer);
+
+    const victimPosition: Position = {
+      coordinates: [4, 5],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const victimPiece = new King(victimPosition, blackPlayer);
+
+    game.initialize();
+    game.setPieces([killerKing, victimPiece]);
+    onPlayerAction(killerKing, victimPiece);
+
+    const victimPieceBoardId = victimPiece.position.boardId;
+    expect(victimPieceBoardId).toEqual(HELL_BOARD_ID);
+
+    const killerNewCoordinates = killerKing.position.coordinates;
+    expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
+
+    const playerXp = killerKing.player.xp;
+    expect(playerXp).toBeGreaterThan(0);
+  });
+});
+

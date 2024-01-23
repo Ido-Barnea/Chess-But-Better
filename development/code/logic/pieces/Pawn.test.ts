@@ -98,40 +98,40 @@ describe('Piece movements', () => {
 describe('Piece killing', () => {
   test ('Validating Pawn killing', () => {
     const initialKillerPosition: Position = {
-      coordinates: [3, 3],
+      coordinates: [4, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
     const killerPawn = new Pawn(initialKillerPosition, whitePlayer);
 
-    const initialVictimPosition: Position = {
-      coordinates: [2, 2],
+    const victimPosition: Position = {
+      coordinates: [3, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const victimPawn = new Pawn(initialVictimPosition, blackPlayer);
+    const victimPiece = new Pawn(victimPosition, blackPlayer);
 
     game.initialize();
-    game.setPieces([killerPawn,victimPawn]);
-    onPlayerAction(killerPawn,victimPawn);
+    game.setPieces([killerPawn,victimPiece]);
+    onPlayerAction(killerPawn,victimPiece);
     
-    const victimPieceBoardId = victimPawn.position.boardId;
+    const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
     
     let killerNewCoordinates = killerPawn.position.coordinates;
-    expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
+    expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
-    const enPassantInitialPosition: Position = {
-      coordinates: [1, 2],
+    // Killer position is now 3, 3
+    const enPassantVictimPosition: Position = {
+      coordinates: [2, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const enPassantPawn = new Pawn(enPassantInitialPosition, blackPlayer);
-
+    const enPassantPawn = new Pawn(enPassantVictimPosition, blackPlayer);
     enPassantPawn.possibleEnPassantPositions = [
       {
-        coordinates: [1, 1],
+        coordinates: [2, 2],
         boardId: OVERWORLD_BOARD_ID,
       },
       {
-        coordinates: [1, 2],
+        coordinates: [2, 3],
         boardId: OVERWORLD_BOARD_ID,
       },
     ];
@@ -144,8 +144,8 @@ describe('Piece killing', () => {
     game.setPieces([killerPawn,enPassantPawn]);
     onPlayerAction(killerPawn, enPassantSquare);
 
-    const enPassantPieceBoardId = enPassantPawn.position.boardId;
-    expect(enPassantPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+    const enPassantPawnBoardId = enPassantPawn.position.boardId;
+    expect(enPassantPawnBoardId).toEqual(HEAVEN_BOARD_ID);
     
     killerNewCoordinates = killerPawn.position.coordinates;
     expect(killerNewCoordinates).toEqual(enPassantAttackSquare.coordinates);
