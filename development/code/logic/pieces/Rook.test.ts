@@ -53,13 +53,13 @@ describe('Piece movements', () => {
 describe('Piece killing', () => {
   test ('Validating Rook killing', () => {
     const initialKillerPosition: Position = {
-      coordinates: [3,3],
+      coordinates: [3, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
     const killerRook = new Rook(initialKillerPosition, whitePlayer);
 
     const initialVictimPosition: Position = {
-      coordinates: [3,5],
+      coordinates: [3, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
     const victimRook = new Rook(initialVictimPosition, blackPlayer);
@@ -68,8 +68,8 @@ describe('Piece killing', () => {
     game.setPieces([killerRook,victimRook]);
     onPlayerAction(killerRook,victimRook);
     
-    const killedPieceBoardId = victimRook.position.boardId;
-    expect(killedPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+    const victimPieceBoardId = victimRook.position.boardId;
+    expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
     
     const killerNewCoordinates = killerRook.position.coordinates;
     expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);

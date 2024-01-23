@@ -1,13 +1,29 @@
 import { game } from '../../Game';
-import { OVERWORLD_BOARD_ID } from '../Constants';
+import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../Constants';
+import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { Queen } from './Queen';
 
-jest.mock('../../ui/BoardManager.ts', () => ({}));
-jest.mock('../../ui/Screen.ts', () => ({}));
-
 const whitePlayer = new Player(PlayerColors.WHITE);
+const blackPlayer = new Player(PlayerColors.BLACK);
+
+jest.mock('../../ui/BoardManager.ts', () => ({
+  destroyElementOnBoard: jest.fn(),
+  moveElementOnBoard: jest.fn(),
+  spawnPieceElementOnBoard: jest.fn(),
+  getSquareElementById: jest.fn(),
+  getAllSquareElements: jest.fn(),
+  highlightLastMove: jest.fn(),
+}));
+jest.mock('../../ui/Screen.ts', () => ({
+  renderNewRule: jest.fn(),
+  renderPlayersInformation: jest.fn(),
+}));
+jest.mock('../../ui/Logger.ts');
+jest.mock('../../ui/Events.ts', () => ({}));
+
+game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
 describe('Piece movements', () => {
   test('Validating Queen movement', () => {
@@ -38,5 +54,55 @@ describe('Piece movements', () => {
     };
     validMoves = queen.getLegalMoves();
     expect(validMoves).not.toContainEqual(invalidPosition);
+  });
+});
+
+describe('Piece killing', () => {
+  test ('Validating Queen killing', () => {
+    const initialKillerPosition: Position = {
+      coordinates: [3, 3],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const killerQueen = new Queen(initialKillerPosition, whitePlayer);
+
+    const initialVictimPosition: Position = {
+      coordinates: [3, 5],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const victimQueen = new Queen(initialVictimPosition, blackPlayer);
+
+
+    game.initialize();
+    game.setPieces([killerQueen,victimQueen]);
+    onPlayerAction(killerQueen,victimQueen);
+    
+    const victimPieceBoardId = victimQueen.position.boardId;
+    expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+    
+    let killerNewCoordinates = killerQueen.position.coordinates;
+    expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
+
+
+    // Diagonal kill
+    const otherVictimPosition: Position = {
+      coordinates: [4, 4],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const otherVictimQueen = new Queen(otherVictimPosition,blackPlayer);
+    otherVictimQueen.hasKilled = true;
+
+    game.setPieces([killerQueen,otherVictimQueen]);
+    onPlayerAction(killerQueen, otherVictimQueen);
+
+    const otherVictimPieceBoardId = otherVictimQueen.position.boardId;
+    expect(otherVictimPieceBoardId).toEqual(HELL_BOARD_ID);
+
+    killerNewCoordinates = killerQueen.position.coordinates;
+    expect(killerNewCoordinates).toEqual(otherVictimPosition.coordinates);
+
+
+    // Checks that the piece got XP for the kills
+    const playerXp = killerQueen.player.xp;
+    expect(playerXp).toBeGreaterThan(0);
   });
 });

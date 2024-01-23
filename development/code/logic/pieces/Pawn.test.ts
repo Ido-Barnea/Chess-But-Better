@@ -1,14 +1,29 @@
 import { game } from '../../Game';
-import { OVERWORLD_BOARD_ID } from '../Constants';
+import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../Constants';
+import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Pawn } from './Pawn';
-import { Position } from './PiecesUtilities';
-
-jest.mock('../../ui/BoardManager.ts', () => ({}));
-jest.mock('../../ui/Screen.ts', () => ({}));
+import { Position, Square } from './PiecesUtilities';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
+
+jest.mock('../../ui/BoardManager.ts', () => ({
+  destroyElementOnBoard: jest.fn(),
+  moveElementOnBoard: jest.fn(),
+  spawnPieceElementOnBoard: jest.fn(),
+  getSquareElementById: jest.fn(),
+  getAllSquareElements: jest.fn(),
+  highlightLastMove: jest.fn(),
+}));
+jest.mock('../../ui/Screen.ts', () => ({
+  renderNewRule: jest.fn(),
+  renderPlayersInformation: jest.fn(),
+}));
+jest.mock('../../ui/Logger.ts');
+jest.mock('../../ui/Events.ts', () => ({}));
+
+game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
 describe('Piece movements', () => {
   test('Validating Pawn movement', () => {
@@ -79,3 +94,64 @@ describe('Piece movements', () => {
     expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });
+
+describe('Piece killing', () => {
+  test ('Validating Pawn killing', () => {
+    const initialKillerPosition: Position = {
+      coordinates: [3, 3],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const killerPawn = new Pawn(initialKillerPosition, whitePlayer);
+
+    const initialVictimPosition: Position = {
+      coordinates: [2, 2],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const victimPawn = new Pawn(initialVictimPosition, blackPlayer);
+
+    game.initialize();
+    game.setPieces([killerPawn,victimPawn]);
+    onPlayerAction(killerPawn,victimPawn);
+    
+    const victimPieceBoardId = victimPawn.position.boardId;
+    expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+    
+    let killerNewCoordinates = killerPawn.position.coordinates;
+    expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
+
+    const enPassantInitialPosition: Position = {
+      coordinates: [1, 2],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const enPassantPawn = new Pawn(enPassantInitialPosition, blackPlayer);
+
+    enPassantPawn.possibleEnPassantPositions = [
+      {
+        coordinates: [1, 1],
+        boardId: OVERWORLD_BOARD_ID,
+      },
+      {
+        coordinates: [1, 2],
+        boardId: OVERWORLD_BOARD_ID,
+      },
+    ];
+    enPassantPawn.isInitialDoubleStep = true;
+
+    // The square that the killer moves to
+    const enPassantAttackSquare = enPassantPawn.possibleEnPassantPositions[0];
+    const enPassantSquare: Square = { position: enPassantAttackSquare };    
+    
+    game.setPieces([killerPawn,enPassantPawn]);
+    onPlayerAction(killerPawn, enPassantSquare);
+
+    const enPassantPieceBoardId = enPassantPawn.position.boardId;
+    expect(enPassantPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+    
+    killerNewCoordinates = killerPawn.position.coordinates;
+    expect(killerNewCoordinates).toEqual(enPassantAttackSquare.coordinates);
+
+    const playerXp = killerPawn.player.xp;
+    expect(playerXp).toBeGreaterThan(0);
+  });
+});
+
