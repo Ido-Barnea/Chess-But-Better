@@ -190,3 +190,18 @@ export function highlightSquare(targetElement: HTMLElement, shouldAddHighlight: 
     }
   }
 }
+
+export function highlightLastMove(  
+  originSquareElement: HTMLElement,
+  targetSquareElement: HTMLElement,
+  boardId: string,
+) {
+  const allSquareElements = getAllSquareElements(boardId);
+  for (const squareElement of allSquareElements) {
+    highlightSquare(squareElement, false, false);
+  }
+
+  highlightSquare(originSquareElement, true, false);
+  highlightSquare(targetSquareElement, true, false);
+}
+
