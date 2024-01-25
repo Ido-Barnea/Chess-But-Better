@@ -6,7 +6,7 @@
     "start": "npx webpack serve --mode development --config webpack.config.ts",
     "build": "npx nx run-many --target build",
     "lint": "npx nx run-many --target lint",
-    "test": "npx nx run-many --target test --all --no-cache"
+    "test": "npx nx run-many --target test --all"
   },
   "author": "Ido Barnea",
   "license": "Apache-2.0",
