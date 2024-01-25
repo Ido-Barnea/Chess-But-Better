@@ -1,5 +1,5 @@
 import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../Constants';
-import { Position } from '../pieces/PiecesUtilities';
+import { Position, Square } from '../pieces/PiecesUtilities';
 import { PiggyBank } from './PiggyBank';
 import { Player, PlayerColors } from '../Players';
 import { onPlayerAction } from '../PieceLogic';
@@ -35,11 +35,11 @@ describe('Items test', () => {
     };
     const piece = new Rook(initialPiecePosition, whitePlayer);
 
-    const initialItemPosition: Position = {
+    const itemPosition: Position = {
       coordinates: [2, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const piggyBankItem = new PiggyBank(initialItemPosition);
+    const piggyBankItem = new PiggyBank(itemPosition);
     
     game.initialize();
     game.setItems([piggyBankItem]);
@@ -52,8 +52,32 @@ describe('Items test', () => {
     const isPiggyBankThere = game.getItems().includes(piggyBankItem);
     expect(isPiggyBankThere).toBe(false);
     
-    const newPieceCoordinates = piece.position.coordinates;
+    let newPieceCoordinates = piece.position.coordinates;
     expect(newPieceCoordinates).not.toEqual(initialPiecePosition.coordinates);
+
+    const otherItemPosition: Position = {
+      coordinates: [2, 2],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const otherPiggyBankItem = new PiggyBank(otherItemPosition);
+    
+    const targetSquarePosition: Position = {
+      coordinates: [2, 1],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const targetSquare: Square = { position: targetSquarePosition };
+
+    game.setItems([otherPiggyBankItem]);
+    onPlayerAction(piece, targetSquare);
+
+    const newWhitePlayerMoney = whitePlayer.gold;
+    expect(newWhitePlayerMoney).toBeGreaterThan(whitePlayerMoney);
+
+    const isOtherPiggyBankThere = game.getItems().includes(otherPiggyBankItem);
+    expect(isOtherPiggyBankThere).toBe(false);
+
+    newPieceCoordinates = piece.position.coordinates;
+    expect(newPieceCoordinates).toEqual(targetSquarePosition.coordinates);
   });
 
   test('Trap test', () => {
@@ -63,11 +87,11 @@ describe('Items test', () => {
     };
     const piece = new Rook(initialPiecePosition, whitePlayer);
     
-    const initialItemPosition: Position = {
+    const itemPosition: Position = {
       coordinates: [2, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const trapItem = new Trap(initialItemPosition);
+    const trapItem = new Trap(itemPosition);
     
     game.initialize();
     game.setItems([trapItem]);
@@ -81,6 +105,36 @@ describe('Items test', () => {
     expect(isTrapThere).toBe(false);
 
     const newPieceCoordinates = piece.position.coordinates;
-    expect(newPieceCoordinates).toEqual(initialItemPosition.coordinates);
+    expect(newPieceCoordinates).toEqual(itemPosition.coordinates);
+
+    const initialOtherPiecePosition: Position = {
+      coordinates: [2, 4],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const otherPiece = new Rook(initialOtherPiecePosition, whitePlayer);
+
+    const otherItemPosition: Position = {
+      coordinates: [2, 2],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const otherTrapItem = new Trap(otherItemPosition);
+    
+    const targetSquarePosition: Position = {
+      coordinates: [2, 1],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const targetSquare: Square = { position: targetSquarePosition };
+
+    game.setItems([otherTrapItem]);
+    onPlayerAction(otherPiece, targetSquare);
+    
+    const otherPieceNewBoard = otherPiece.position.boardId;
+    expect(otherPieceNewBoard).toEqual(HEAVEN_BOARD_ID);
+
+    const isOtherTrapThere = game.getItems().includes(trapItem);
+    expect(isOtherTrapThere).toBe(false);
+
+    const newOtherPiecePosition = otherPiece.position.coordinates;
+    expect(newOtherPiecePosition).toEqual(otherItemPosition.coordinates);
   });
 });

@@ -50,7 +50,13 @@ export function onPlayerAction(
     movePieceOnBoard(draggedPiece, draggedPiece);
     return;
   }
+  
+  const pieceBoard = draggedPiece.position.boardId;
   simulatePath(draggedPiece, target.position);
+  const newPieceBoard = draggedPiece.position.boardId;
+  // Checks if the piece stepped on a trap during the simulatePath function
+  if (pieceBoard !== newPieceBoard) return;
+
 
   if (target instanceof Piece) {
     onActionAttackMove(draggedPiece, target);
@@ -279,7 +285,7 @@ function pieceMovedOnTrap(
   destroyItemOnBoard(trap);
 
   if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
-    draggedPiece.position = {...trap.position};
+    draggedPiece.position.coordinates = trap.position.coordinates;
     draggedPiece.position.boardId = draggedPiece.hasKilled
       ? HELL_BOARD_ID
       : HEAVEN_BOARD_ID;
