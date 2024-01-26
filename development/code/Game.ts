@@ -13,7 +13,6 @@ import { RulesManager } from './logic/rules/RulesManager';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
-whitePlayer.gold = -1;
 const blackPlayer = new Player(PlayerColors.BLACK);
 const players: Array<Player> = [whitePlayer, blackPlayer];
 let pieces: Array<Piece> = [
