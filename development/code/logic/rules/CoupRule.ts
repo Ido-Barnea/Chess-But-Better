@@ -10,7 +10,7 @@ export class CoupRule extends BaseRule {
     const condition = () => {
       let result = false;
       game.getPlayers().forEach((player) => {
-        if (player.inDebtForTurns >= 3) {
+        if (player.inDebtForTurns === 3) {
           result = true;
         }
       });
@@ -18,7 +18,7 @@ export class CoupRule extends BaseRule {
     };
     const onTrigger = () => {
       game.getPlayers().forEach((player) => {
-        if (player.inDebtForTurns >= 3) {
+        if (player.inDebtForTurns === 3) {
           player.inDebtForTurns = 0;
           const playerPieces = game.getPieces().filter(piece => piece.player === player);
           const randomAmountOfPieces = Math.floor(Math.random() * (playerPieces.length - 1) / 2) + 1;
