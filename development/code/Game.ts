@@ -13,6 +13,7 @@ import { RulesManager } from './logic/rules/RulesManager';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
+whitePlayer.gold = -1;
 const blackPlayer = new Player(PlayerColors.BLACK);
 const players: Array<Player> = [whitePlayer, blackPlayer];
 let pieces: Array<Piece> = [
@@ -75,6 +76,7 @@ function endTurn() {
   if (turnCounter % players.length === 0) {
     turnCounter = 0;
     roundCounter++;
+    updatePlayerDetails();
   }
 
   renderScreen();
@@ -91,6 +93,16 @@ function resetVariables() {
       piece.possibleEnPassantPositions = undefined;
       piece.isInitialDoubleStep = false;
       piece.diagonalAttackPosition = undefined;
+    }
+  });
+}
+
+function updatePlayerDetails() {
+  game.getPlayers().forEach(player => {
+    if (player.gold < 0) {
+      player.inDebtForTurns++;
+    } else {
+      player.inDebtForTurns = 0;
     }
   });
 }

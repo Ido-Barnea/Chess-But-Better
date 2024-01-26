@@ -2,7 +2,6 @@ import { game } from '../../Game';
 import { renderRules } from '../../LogicAdapter';
 import { Logger } from '../../ui/Logger';
 export interface Rule {
-  id: number;
   description: string;
   isRevealed: boolean;
   condition: () => boolean;
@@ -11,20 +10,17 @@ export interface Rule {
 }
 
 export class BaseRule implements Rule {
-  id: number;
   description: string;
   isRevealed: boolean;
   condition: () => boolean;
   onTrigger: () => void;
 
   constructor(
-    id: number,
     description: string,
     isRevealed: boolean,
     condition: () => boolean,
     onTrigger: () => void,
   ) {
-    this.id = id;
     this.description = description;
     this.isRevealed = isRevealed;
     this.condition = condition;

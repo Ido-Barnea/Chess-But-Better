@@ -114,6 +114,17 @@ export function getSquareElementById(
   return board.boardElement.querySelector(`[square-id="${squareId}"]`) as HTMLElement;
 }
 
+export function getPieceElementBySquareId(
+  squareId: string,
+  boardId: string,
+): HTMLElement | undefined {
+  const squareElement = getSquareElementById(squareId, boardId);
+  const pieceElement = squareElement?.firstElementChild as HTMLElement;
+  if (pieceElement.classList.contains('piece')) {
+    return pieceElement;
+  }
+}
+
 export function moveElementOnBoard(
   boardId: string,
   originSquareId: string,

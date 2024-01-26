@@ -1,5 +1,6 @@
 import { game } from './Game';
 import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
+import { PlayerColors } from './logic/Players';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Pieces';
@@ -14,6 +15,7 @@ import {
   spawnItemElementOnBoard,
   spawnPieceElementOnBoard,
   highlightLastMove,
+  getPieceElementBySquareId,
 } from './ui/BoardManager';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
@@ -173,4 +175,17 @@ export function spawnItemOnBoard(item: Item) {
   const squareId = itemCoordinates.join(',');
 
   spawnItemElementOnBoard(item, squareId);
+}
+
+export function changePieceToAnotherPlayer(piece: Piece) {
+  const squareId = piece.position.coordinates.join(',');
+  const boadrId = piece.position.boardId;
+  const pieceElement = getPieceElementBySquareId(squareId, boadrId);
+  if (pieceElement) {
+    pieceElement.classList.remove(piece.player.color.toLowerCase());
+    const enemyPlayerColor = piece.player.color === PlayerColors.WHITE ? PlayerColors.BLACK : PlayerColors.WHITE;
+    pieceElement.classList.add(enemyPlayerColor.toLowerCase());
+  }
+
+  piece.player = game.getPlayers().filter(_player => _player !== piece.player)[0];
 }
