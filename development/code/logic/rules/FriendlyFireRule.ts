@@ -4,7 +4,6 @@ import { BaseRule } from './BaseRule';
 
 export class FriendlyFireRule extends BaseRule {
   constructor(isRevealed = false) {
-    const index = 3;
     const description = 'Friendly Fire! Players can attack their own pieces (for a price).';
     const condition = () => game.getIsFriendlyFire();
     const onTrigger = () => {
@@ -13,6 +12,6 @@ export class FriendlyFireRule extends BaseRule {
       player.gold--;
     };
 
-    super(index, description, isRevealed, condition, onTrigger);
+    super(description, isRevealed, condition, onTrigger);
   }
 }

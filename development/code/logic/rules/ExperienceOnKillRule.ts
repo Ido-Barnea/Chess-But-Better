@@ -4,7 +4,6 @@ import { BaseRule } from './BaseRule';
 
 export class ExperienceOnKillRule extends BaseRule {
   constructor(isRevealed = false) {
-    const index = 2;
     const description = 'Players gain XP on a kill.';
     const condition = () => game.getIsPieceKilled();
     const onTrigger = () => {
@@ -13,6 +12,6 @@ export class ExperienceOnKillRule extends BaseRule {
       player.xp++;
     };
 
-    super(index, description, isRevealed, condition, onTrigger);
+    super(description, isRevealed, condition, onTrigger);
   }
 }

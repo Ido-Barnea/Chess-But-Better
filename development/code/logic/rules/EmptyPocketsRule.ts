@@ -4,14 +4,16 @@ import { BaseRule } from './BaseRule';
 
 export class EmptyPocketsRule extends BaseRule {
   constructor(isRevealed = false) {
-    const index = 5;
     const description = 'Empty pockets.';
-    let condition = () => false;
-    game.getPlayers().forEach((player) => {
-      if (player === game.getCurrentPlayer() && player.gold < 0) {
-        condition = () => true;
-      }
-    });
+    const condition = () => {
+      let result = false;
+      game.getPlayers().forEach((player) => {
+        if (player === game.getCurrentPlayer() && player.gold < 0) {
+          result = true;
+        }
+      });
+      return result;
+    };
     const onTrigger = () => {
       game.getPlayers().forEach((player) => {
         if (player === game.getCurrentPlayer() && player.gold < 0) {
@@ -22,6 +24,6 @@ export class EmptyPocketsRule extends BaseRule {
       });
     };
 
-    super(index, description, isRevealed, condition, onTrigger);
+    super(description, isRevealed, condition, onTrigger);
   }
 }

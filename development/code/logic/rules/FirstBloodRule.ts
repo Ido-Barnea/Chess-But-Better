@@ -4,7 +4,6 @@ import { BaseRule } from './BaseRule';
 
 export class FirstBloodRule extends BaseRule {
   constructor(isRevealed = false) {
-    const index = 1;
     const description = 'First Blood Bonus: The first to kill gets an extra XP.';
     const condition = () => game.getDeathCounter() == 1 && game.getIsPieceKilled();
     const onTrigger = () => {
@@ -13,6 +12,6 @@ export class FirstBloodRule extends BaseRule {
       player.xp++;
     };
 
-    super(index, description, isRevealed, condition, onTrigger);
+    super(description, isRevealed, condition, onTrigger);
   }
 }

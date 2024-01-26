@@ -4,7 +4,6 @@ import { BaseRule } from './BaseRule';
 
 export class WithAgeComesWisdomRule extends BaseRule {
   constructor(isRevealed = false) {
-    const index = 4;
     const description = 'With age comes wisdom.';
     const condition = () => game.getRoundCounter() === 20;
     const onTrigger = () => {
@@ -15,6 +14,6 @@ export class WithAgeComesWisdomRule extends BaseRule {
       });
     };
 
-    super(index, description, isRevealed, condition, onTrigger);
+    super(description, isRevealed, condition, onTrigger);
   }
 }

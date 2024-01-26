@@ -69,6 +69,7 @@ function endTurn() {
   });
 
   resetVariables();
+  updatePlayerDetails();
 
   currentPlayerIndex = currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
   turnCounter++;
@@ -91,6 +92,18 @@ function resetVariables() {
       piece.possibleEnPassantPositions = undefined;
       piece.isInitialDoubleStep = false;
       piece.diagonalAttackPosition = undefined;
+    }
+  });
+}
+
+function updatePlayerDetails() {
+  game.getPlayers().forEach(player => {
+    if (player === getCurrentPlayer()) {
+      if (player.gold < 0) {
+        player.inDebtForTurns++;
+      } else {
+        player.inDebtForTurns = 0;
+      }
     }
   });
 }

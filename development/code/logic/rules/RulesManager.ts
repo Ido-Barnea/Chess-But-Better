@@ -1,4 +1,5 @@
 import { BaseRule } from './BaseRule';
+import { CoupRule } from './CoupRule';
 import { EmptyPocketsRule } from './EmptyPocketsRule';
 import { ExperienceOnKillRule } from './ExperienceOnKillRule';
 import { FirstBloodRule } from './FirstBloodRule';
@@ -19,6 +20,7 @@ export class RulesManager {
       new FriendlyFireRule(),
       new WithAgeComesWisdomRule(),
       new EmptyPocketsRule(),
+      new CoupRule(),
     ];
   }
 }

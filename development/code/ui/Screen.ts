@@ -36,6 +36,6 @@ export function renderPlayersInformation() {
 
 export function renderNewRule(rule: BaseRule) {
   const ruleElement = document.createElement('p');
-  ruleElement.innerHTML = `<b>${rule.id + 1}) ${rule.description}</b>`;
+  ruleElement.innerHTML = `<b>- ${rule.description}</b>`;
   rulesContainer?.appendChild(ruleElement);
 }
