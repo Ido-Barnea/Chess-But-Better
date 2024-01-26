@@ -70,13 +70,13 @@ function endTurn() {
   });
 
   resetVariables();
+  updatePlayerDetails();
 
   currentPlayerIndex = currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
   turnCounter++;
   if (turnCounter % players.length === 0) {
     turnCounter = 0;
     roundCounter++;
-    updatePlayerDetails();
   }
 
   renderScreen();
@@ -99,10 +99,12 @@ function resetVariables() {
 
 function updatePlayerDetails() {
   game.getPlayers().forEach(player => {
-    if (player.gold < 0) {
-      player.inDebtForTurns++;
-    } else {
-      player.inDebtForTurns = 0;
+    if (player === getCurrentPlayer()) {
+      if (player.gold < 0) {
+        player.inDebtForTurns++;
+      } else {
+        player.inDebtForTurns = 0;
+      }
     }
   });
 }
