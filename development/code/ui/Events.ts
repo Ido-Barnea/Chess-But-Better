@@ -132,8 +132,6 @@ function onMouseClick(event: Event) {
     boardElement = boardElement?.parentElement ?? undefined;
   }
 
-  console.log(pieceElement);
-
   onPieceSelected(pieceElement, boardElement.id);
 }
 

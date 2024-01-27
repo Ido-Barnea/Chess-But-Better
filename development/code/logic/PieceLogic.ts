@@ -27,18 +27,40 @@ function validatePlayerAction(
   return legalMoves.some(position => comparePositions(position, target.position));
 }
 
-function simulatePath(piece: Piece, endPosition: Position) {
-  const legalMoves = piece.getLegalMoves();
+function getPathPositions(start: Position, end: Position): Array<Position> {
+  const path: Array<Position> = [];
+  const deltaX = end.coordinates[0] - start.coordinates[0];
+  const deltaY = end.coordinates[1] - start.coordinates[1];
 
-  const isTargetSquare = (position: Position) => comparePositions(position, endPosition);
-  const targetIndex = legalMoves.findIndex(isTargetSquare);
-  if (targetIndex === -1) return;
+  const xDirection = deltaX > 0 ? 1 : deltaX < 0 ? -1 : 0;
+  const yDirection = deltaY > 0 ? 1 : deltaY < 0 ? -1 : 0;
 
-  const positionsBeforeTarget = legalMoves.slice(0, targetIndex);
-  positionsBeforeTarget.forEach(position => {
-    game.getItems().forEach(item => {
-      if (comparePositions(item.position, position)) onActionPieceToItem(piece, item);
+  const moveSteps = Math.max(Math.abs(deltaX), Math.abs(deltaY));
+
+  for (let index = 1; index <= moveSteps; index++) {
+    const x = start.coordinates[0] + index * xDirection;
+    const y = start.coordinates[1] + index * yDirection;
+    path.push({
+      coordinates: [x, y],
+      boardId: start.boardId,
     });
+  }
+
+  return path;
+}
+
+function simulatePath(piece: Piece, targetPosition: Position) {
+  const currentPosition = piece.position;
+  const pathPositions = getPathPositions(currentPosition, targetPosition);
+  
+  pathPositions.forEach(position => {
+    game.getItems().forEach(item => {
+      if (comparePositions(item.position, position)) {
+        onActionPieceToItem(piece, item);
+      }
+    });
+
+    if (comparePositions(position, targetPosition)) return;
   });
 }
 
@@ -62,19 +84,14 @@ export function onPlayerAction(
     onActionAttackMove(draggedPiece, target);
   } else {
     const targetSquare = (target instanceof Item) ? { position: target.position } : (target as Square);
-    onActionNonAttackMove(draggedPiece, target, targetSquare);
+    onActionNonAttackMove(draggedPiece, targetSquare);
   }
 }
 
 function onActionNonAttackMove(
   draggedPiece: Piece,
-  target: Piece | Square | Item,
   targetSquare: Square,
 ) {
-  if (target instanceof Item) {
-    onActionPieceToItem(draggedPiece, target);
-  }
-
   onActionPieceToSquare(draggedPiece, targetSquare);
 }
 
