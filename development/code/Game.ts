@@ -88,6 +88,7 @@ function endTurn() {
   setTimeout(() => {  
     if (winner !== '') {
       showWinningAlert(winner);
+      window.location.reload();
     }
   }, 10);
 }
