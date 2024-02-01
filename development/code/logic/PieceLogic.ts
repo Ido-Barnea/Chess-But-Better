@@ -1,5 +1,5 @@
 import { game } from '../Game';
-import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard } from '../LogicAdapter';
+import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard, winGame } from '../LogicAdapter';
 import { Logger } from '../ui/Logger';
 import {
   HEAVEN_BOARD_ID,
@@ -278,6 +278,10 @@ export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
   logKillMessages(targetPiece, draggedPiece, true);
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
   commonKillPieceActions(targetPiece);
+
+  if (targetPiece instanceof King){
+    winGame(draggedPiece.player);
+  }
 }
 
 function onActionPieceToItem(piece: Piece, item: Item) {

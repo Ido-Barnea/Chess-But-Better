@@ -10,6 +10,7 @@ import { Piece } from './logic/pieces/Pieces';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
+import { showWinningAlert } from './ui/Screen';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -58,6 +59,7 @@ let isCastling = false;
 let isFriendlyFire = false;
 let isPieceKilled = false;
 let fellOffTheBoardPiece: Piece | undefined;
+let winner: Player | undefined = undefined;
 
 function initializeGame() {
   rulesManager = new RulesManager();
@@ -79,6 +81,16 @@ function endTurn() {
   }
 
   renderScreen();
+
+  // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
+  // To make sure the element is removed before displaying the winning alert, we need to add
+  // a small delay before displaying the alert.
+  setTimeout(() => {  
+    if (winner !== undefined) {
+      showWinningAlert(winner.color);
+      window.location.reload();
+    }
+  }, 10);
 }
 
 function resetVariables() {
@@ -180,6 +192,10 @@ function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 
+function setWinner(_winner: Player) {
+  winner = _winner;
+}
+
 export const game = {
   initialize: initializeGame,
   endTurn,
@@ -201,4 +217,5 @@ export const game = {
   setIsPieceKilled,
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
+  setWinner,
 };
