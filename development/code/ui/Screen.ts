@@ -37,6 +37,6 @@ export function renderNewRule(rule: BaseRule) {
   rulesContainer?.appendChild(ruleElement);
 }
 
-export function showWinningAlert(winnerColor: string) {
-  alert(winnerColor + ' wins!');
+export function showWinningAlert(winner: string) {
+  alert(winner + ' wins!');
 }
