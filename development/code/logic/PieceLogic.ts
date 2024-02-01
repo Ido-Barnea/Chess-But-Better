@@ -226,7 +226,6 @@ function killPiece(
   targetPosition = targetPiece.position,
 ) {
   draggedPiece.hasKilled = true;
-  commonKillPieceActions(targetPiece);
 
   logKillMessages(targetPiece, draggedPiece);
 
@@ -263,6 +262,7 @@ function handleOverworldKill(
   targetPiece: Piece,
   targetPosition: Position,
 ) {
+  commonKillPieceActions(targetPiece);
   targetPiece.position = targetPosition;
 
   if (targetPiece.hasKilled || targetPiece instanceof King) {
