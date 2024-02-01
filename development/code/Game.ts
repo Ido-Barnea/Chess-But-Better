@@ -59,7 +59,7 @@ let isCastling = false;
 let isFriendlyFire = false;
 let isPieceKilled = false;
 let fellOffTheBoardPiece: Piece | undefined;
-let winner = '';
+let winner: Player | undefined = undefined;
 
 function initializeGame() {
   rulesManager = new RulesManager();
@@ -86,8 +86,8 @@ function endTurn() {
   // To make sure the element is removed before displaying the winning alert, we need to add
   // a small delay before displaying the alert.
   setTimeout(() => {  
-    if (winner !== '') {
-      showWinningAlert(winner);
+    if (winner !== undefined) {
+      showWinningAlert(winner.color);
       window.location.reload();
     }
   }, 10);
@@ -192,8 +192,8 @@ function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 
-function setWinner(winnerColor: string) {
-  winner = winnerColor;
+function setWinner(_winner: Player) {
+  winner = _winner;
 }
 
 export const game = {
