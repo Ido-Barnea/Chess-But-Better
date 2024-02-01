@@ -17,7 +17,7 @@ import {
   highlightLastMove,
   getPieceElementBySquareId,
 } from './ui/BoardManager';
-import { renderPlayersInformation, renderNewRule} from './ui/Screen';
+import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -192,11 +192,9 @@ export function changePieceToAnotherPlayer(piece: Piece) {
 
 export function winGame(winnerPlayer: Player){
   const winnerColor =
-  winnerPlayer.color == PlayerColors.WHITE
-    ? 'White'
-    : 'Black';
+    winnerPlayer.color === PlayerColors.WHITE
+      ? 'White'
+      : 'Black';
 
   game.setWinner(winnerColor);
-
-  // showWinningAlert(winnerColor);
 }
