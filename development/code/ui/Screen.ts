@@ -39,3 +39,7 @@ export function renderNewRule(rule: BaseRule) {
   ruleElement.innerHTML = `<b>- ${rule.description}</b>`;
   rulesContainer?.appendChild(ruleElement);
 }
+
+export function showWinningAlert(winner: string) {
+  alert(winner + ' wins!');
+}
