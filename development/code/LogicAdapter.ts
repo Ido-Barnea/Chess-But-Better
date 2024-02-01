@@ -1,6 +1,6 @@
 import { game } from './Game';
 import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
-import { PlayerColors } from './logic/Players';
+import { Player, PlayerColors } from './logic/Players';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
@@ -19,7 +19,6 @@ import {
 } from './ui/BoardManager';
 import { switchShownInventory, showItemOnInventory } from './ui/InventoriesUI';
 import { renderPlayersInformation } from './ui/Screen';
-import { Player } from './logic/Players';
 
 export function renderScreen() {
   renderPlayersInformation();

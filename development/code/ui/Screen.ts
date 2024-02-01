@@ -32,3 +32,7 @@ export function renderPlayersInformation() {
 export function showWinningAlert(winner: string) {
   alert(`${winner} Won!`);
 }
+
+export function showWinningAlert(winner: string) {
+  alert(winner + ' wins!');
+}
