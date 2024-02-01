@@ -191,10 +191,5 @@ export function changePieceToAnotherPlayer(piece: Piece) {
 }
 
 export function winGame(winnerPlayer: Player){
-  const winnerColor =
-    winnerPlayer.color === PlayerColors.WHITE
-      ? 'White'
-      : 'Black';
-
-  game.setWinner(winnerColor);
+  game.setWinner(winnerPlayer);
 }
