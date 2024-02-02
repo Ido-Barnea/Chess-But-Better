@@ -18,7 +18,7 @@ export class BountyRule extends BaseRule {
     const onTrigger = () => {
       game.getPieces().forEach(piece => {
         if (piece.killCount >= 3) {
-          Logger.logRule(`There is an open bounty on a ${piece.player.color} ${piece.name}.`);
+          Logger.logRule(`There is an open bounty on a ${piece.player.color} ${piece.name} [${piece.position.coordinates.join(',')}].`);
         }
       });
     };
