@@ -203,6 +203,7 @@ function commonKillPieceActions(
   if (targetPiece.killCount >= 3 && draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
     draggedPiece.player.gold += 5;
   }
+  targetPiece.killCount = 0;
 }
 
 function logKillMessages(
