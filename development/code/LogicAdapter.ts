@@ -92,7 +92,7 @@ export function onFellOffTheBoardTriggered(
 
   const draggedElementPosition = getPositionFromSquareId(squareId, boardId);
   const draggedPiece = findPieceAtPosition(draggedElementPosition);
-  if (!draggedPiece || !isPlayerAllowedToAct(draggedPiece)) return;
+  if (!draggedPiece || !isPlayerAllowedToAct(draggedPiece.player)) return;
 
   onPieceFellOffTheBoard(draggedPiece);
 }
@@ -124,7 +124,7 @@ export function onPieceSelected(
 
   const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
   const piece = findPieceAtPosition(pieceElementPosition);
-  if (!piece || !isPlayerAllowedToAct(piece)) return;
+  if (!piece || !isPlayerAllowedToAct(piece.player)) return;
 
   highlightLegalMoves(piece, boardId);
 }
@@ -157,6 +157,8 @@ export function destroyPieceOnBoard(piece: Piece) {
 }
 
 export function destroyItemOnBoard(item: Item) {
+  if (!item.position) return;
+
   const itemCoordinates = item.position.coordinates;
   const squareId = itemCoordinates.join(',');
 
@@ -171,6 +173,8 @@ export function spawnPieceOnBoard(piece: Piece) {
 }
 
 export function spawnItemOnBoard(item: Item) {
+  if (!item.position) return;
+
   const itemCoordinates = item.position.coordinates;
   const squareId = itemCoordinates.join(',');
 

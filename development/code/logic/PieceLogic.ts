@@ -14,14 +14,15 @@ import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Pieces';
 import { Position, Square } from './pieces/PiecesUtilities';
+import { Player } from './Players';
 
 function validatePlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ): boolean {
-  if (!isPlayerAllowedToAct(draggedPiece)) return false;
+  if (!isPlayerAllowedToAct(draggedPiece.player)) return false;
   if (draggedPiece === target) return false;
-  if (draggedPiece.position.boardId !== target.position.boardId) return false;
+  if (draggedPiece.position.boardId !== target.position?.boardId) return false;
 
   const legalMoves = draggedPiece.getLegalMoves();
   return legalMoves.some(position => comparePositions(position, target.position));
@@ -68,7 +69,7 @@ export function onPlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ) {
-  if (!validatePlayerAction(draggedPiece, target)) {
+  if (!validatePlayerAction(draggedPiece, target) || !target.position) {
     movePieceOnBoard(draggedPiece, draggedPiece);
     return;
   }
@@ -170,8 +171,8 @@ function castle(
   return true;
 }
 
-export function isPlayerAllowedToAct(draggedPiece: Piece) {
-  return draggedPiece.player === game.getCurrentPlayer();
+export function isPlayerAllowedToAct(player: Player) {
+  return player === game.getCurrentPlayer();
 }
 
 function move(
@@ -305,7 +306,7 @@ function pieceMovedOnTrap(
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
-  if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
+  if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID && trap.position) {
     draggedPiece.position.coordinates = trap.position.coordinates;
     draggedPiece.position.boardId = draggedPiece.hasKilled
       ? HELL_BOARD_ID

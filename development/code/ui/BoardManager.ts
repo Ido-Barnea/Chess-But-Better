@@ -161,6 +161,7 @@ export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
 }
 
 export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
+  if (!item.position) return;
   const board = getBoardbyId(item.position.boardId);
 
   const squareElement = board.boardElement.querySelectorAll(`[square-id="${targetSquareId}"]`)[0] as HTMLElement;
