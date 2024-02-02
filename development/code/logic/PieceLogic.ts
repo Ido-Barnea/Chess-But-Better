@@ -192,10 +192,17 @@ function move(
   if (shouldEndTurn) game.endTurn();
 }
 
-function commonKillPieceActions(targetPiece: Piece) {
+function commonKillPieceActions(
+  targetPiece: Piece,
+  draggedPiece: Piece,
+) {
   game.increaseDeathCounter();
   game.setIsPieceKilled(true);
   destroyPieceOnBoard(targetPiece);
+
+  if (targetPiece.killCount >= 3 && draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
+    draggedPiece.player.gold += 5;
+  }
 }
 
 function logKillMessages(
@@ -224,14 +231,14 @@ function logKillMessages(
 function killPiece(
   draggedPiece: Piece,
   targetPiece: Piece,
-  targetPosition = targetPiece.position,
+  killedPieceNewPosition = targetPiece.position,
 ) {
   draggedPiece.killCount++;
 
   logKillMessages(targetPiece, draggedPiece);
 
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
-    handleOverworldKill(targetPiece, targetPosition);
+    handleOverworldKill(targetPiece, killedPieceNewPosition, draggedPiece);
   } else {
     permanentlyKillPiece(targetPiece, draggedPiece);
   }
@@ -262,8 +269,9 @@ function handlePieceSpawning(targetPiece: Piece) {
 function handleOverworldKill(
   targetPiece: Piece,
   targetPosition: Position,
+  draggedPiece: Piece,
 ) {
-  commonKillPieceActions(targetPiece);
+  commonKillPieceActions(targetPiece, draggedPiece);
   targetPiece.position = targetPosition;
 
   if (targetPiece.killCount > 0 || targetPiece instanceof King) {
@@ -275,10 +283,13 @@ function handleOverworldKill(
   handlePieceSpawning(targetPiece);
 }
 
-export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
+export function permanentlyKillPiece(
+  targetPiece: Piece,
+  draggedPiece: Piece,
+) {
   logKillMessages(targetPiece, draggedPiece, true);
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
-  commonKillPieceActions(targetPiece);
+  commonKillPieceActions(targetPiece, draggedPiece);
 
   if (targetPiece instanceof King){
     winGame(draggedPiece.player);
