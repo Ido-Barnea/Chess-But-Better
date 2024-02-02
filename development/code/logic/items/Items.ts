@@ -6,7 +6,8 @@ import { Player } from '../Players';
 interface ItemType {
     name: string,
     resource: string,
-    position: Position,
+    price: number,
+    position?: Position | undefined,
     use: (piece: Piece) => void;
     drop: (player: Player) => void;
 }
@@ -14,15 +15,22 @@ interface ItemType {
 export class Item implements ItemType {
   name: string;
   resource: string;
-  position: Position;
+  price: number;
+  position: Position | undefined;
 
   constructor(
     name: string,
     resource: string,
-    position: Position,
+    price: number,
+    position?: Position,
   ) {
     this.name = name;
     this.resource = resource;
+    this.price = price;
+    this.position = position;
+  }
+
+  setPosition(position: Position) {
     this.position = position;
   }
 

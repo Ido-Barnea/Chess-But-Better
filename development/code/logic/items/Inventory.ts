@@ -1,21 +1,20 @@
 import { Logger } from '../../ui/Logger';
-import { PlayerColors } from '../Players';
+import { Player } from '../Players';
 import { Item } from './Items';
 
 
 export class Inventory {
   items: Array<Item> = [];
 
-  addItem(playerColor: PlayerColors, item: Item) {
+  addItem(item: Item, player: Player) {
     this.items.push(item);
-    Logger.logGeneral(`${playerColor} received a ${item.name}.`);
+    Logger.logGeneral(`${player.color} received a ${item.name}.`);
   }
 
   removeItem(item: Item) {
     const index = this.items.indexOf(item);
     if (index !== -1) {
       this.items.splice(index, 1);
-      Logger.logGeneral(`${item.name} was destroyed.`);
     }
   }
 

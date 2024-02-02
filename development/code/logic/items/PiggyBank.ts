@@ -2,21 +2,21 @@ import { Item } from './Items';
 import { Piece } from '../pieces/Pieces';
 import { Logger } from '../../ui/Logger';
 import { coinResource } from '../../ui/Resources';
-import { Position } from '../pieces/PiecesUtilities';
 import { Player } from '../Players';
+import { Position } from '../pieces/PiecesUtilities';
 
 export class PiggyBank extends Item {
-  constructor(position: Position) {
-    super('piggy bank', coinResource, position);
+  constructor(position?: Position) {
+    super('piggy bank', coinResource, 1, position);
   }
 
-  getRandomAmountOfCoins(player: Player, max: number | undefined) {
+  getRandomAmountOfCoins(max?: number) {
     max = max || 5;
     return Math.floor(Math.random() * (max - 1)) + 1;
   }
 
   use(piece: Piece): void {
-    const amountOfCoins = this.getRandomAmountOfCoins(piece.player, undefined);
+    const amountOfCoins = this.getRandomAmountOfCoins();
     piece.player.gold += amountOfCoins;
     Logger.logGeneral(`
       ${piece.player.color} ${piece.name} opened a ${this.name} and recieved ${amountOfCoins} gold coins.
@@ -24,7 +24,7 @@ export class PiggyBank extends Item {
   }
 
   drop(player: Player): void {
-    const amountOfCoins = this.getRandomAmountOfCoins(player, player.gold);
+    const amountOfCoins = this.getRandomAmountOfCoins(player.gold);
     player.gold -= amountOfCoins;
     Logger.logGeneral(`${player.color} dropped a ${this.name} and lost ${amountOfCoins} gold coins.`);
   }
