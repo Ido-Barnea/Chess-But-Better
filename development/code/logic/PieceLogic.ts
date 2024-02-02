@@ -14,17 +14,18 @@ import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Pieces';
 import { Position, Square } from './pieces/PiecesUtilities';
+import { Player } from './Players';
 
 function validatePlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ): boolean {
-  if (!isPlayerAllowedToAct(draggedPiece)) return false;
+  if (!isPlayerAllowedToAct(draggedPiece.player)) return false;
   if (draggedPiece === target) return false;
-  if (draggedPiece.position.boardId !== target.position.boardId) return false;
+  if (draggedPiece.position.boardId !== target.position?.boardId) return false;
 
   const legalMoves = draggedPiece.getLegalMoves();
-  return legalMoves.some(position => comparePositions(position, target.position));
+  return legalMoves.some(position => target.position && comparePositions(position, target.position));
 }
 
 function getPathPositions(start: Position, end: Position): Array<Position> {
@@ -55,7 +56,7 @@ function simulatePath(piece: Piece, targetPosition: Position) {
   
   pathPositions.forEach(position => {
     game.getItems().forEach(item => {
-      if (comparePositions(item.position, position)) {
+      if (item.position && comparePositions(item.position, position)) {
         onActionPieceToItem(piece, item);
       }
     });
@@ -68,7 +69,7 @@ export function onPlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ) {
-  if (!validatePlayerAction(draggedPiece, target)) {
+  if (!validatePlayerAction(draggedPiece, target) || !target.position) {
     movePieceOnBoard(draggedPiece, draggedPiece);
     return;
   }
@@ -170,8 +171,8 @@ function castle(
   return true;
 }
 
-export function isPlayerAllowedToAct(draggedPiece: Piece) {
-  return draggedPiece.player === game.getCurrentPlayer();
+export function isPlayerAllowedToAct(player: Player) {
+  return player === game.getCurrentPlayer();
 }
 
 function move(
@@ -250,7 +251,7 @@ function handlePieceSpawning(targetPiece: Piece) {
   });
 
   game.getItems().forEach((item) => {
-    if (comparePositions(targetPiece.position, item.position)) {
+    if (item.position && comparePositions(targetPiece.position, item.position)) {
       onActionPieceToItem(targetPiece, item);
     }
   });
@@ -305,7 +306,7 @@ function pieceMovedOnTrap(
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
-  if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
+  if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID && trap.position) {
     draggedPiece.position.coordinates = trap.position.coordinates;
     draggedPiece.position.boardId = draggedPiece.hasKilled
       ? HELL_BOARD_ID

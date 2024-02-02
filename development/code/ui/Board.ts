@@ -169,6 +169,8 @@ export class ChessBoard {
   }
 
   spawnItemOnBoard(item: Item) {
+    if (!item.position) return;
+    
     const itemCoordinates = item.position.coordinates;
     const square = this.boardElement.querySelectorAll(`[square-id="${itemCoordinates}"]`)[0];
 
