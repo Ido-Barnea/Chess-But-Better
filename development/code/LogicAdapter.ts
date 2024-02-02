@@ -71,7 +71,7 @@ export function onActionTriggered(
     onPlayerAction(draggedPiece, targetPiece);
   } else if (targetElement.classList.contains('item')) {
     game.getItems().forEach((item) => {
-      if (item.position && comparePositions(item.position, targetElementPosition)) {
+      if (comparePositions(item.position, targetElementPosition)) {
         onPlayerAction(draggedPiece, item);
       }
     });
