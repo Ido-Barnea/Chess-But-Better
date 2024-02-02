@@ -9,7 +9,7 @@ export class CoupRule extends BaseRule {
     const description = 'Coup.';
     const condition = () => {
       let result = false;
-      game.getPlayers().forEach((player) => {
+      game.getPlayers().forEach(player => {
         if (player.inDebtForTurns === 2 && player === game.getCurrentPlayer()) {
           result = true;
         }

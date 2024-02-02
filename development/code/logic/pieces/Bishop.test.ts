@@ -3,8 +3,8 @@ import { HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Bishop } from './Bishop';
+import { Pawn } from './Pawn';
 import { Position } from './PiecesUtilities';
-import { Queen } from './Queen';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -63,8 +63,8 @@ describe('Piece killing', () => {
       coordinates: [5, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const victimPiece = new Queen(victimPosition, blackPlayer);
-    victimPiece.hasKilled = true;
+    const victimPiece = new Pawn(victimPosition, blackPlayer);
+    victimPiece.killCount = 1;
 
     game.initialize();
     game.setPieces([killerBishop, victimPiece]);

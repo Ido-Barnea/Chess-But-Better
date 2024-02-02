@@ -4,7 +4,7 @@ import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { Queen } from './Queen';
-import { Knight } from './Knight';
+import { Pawn } from './Pawn';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -70,8 +70,7 @@ describe('Piece killing', () => {
       coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const victimPiece = new Knight(victimPosition, blackPlayer);
-
+    const victimPiece = new Pawn(victimPosition, blackPlayer);
 
     game.initialize();
     game.setPieces([killerQueen,victimPiece]);
@@ -83,15 +82,15 @@ describe('Piece killing', () => {
     let killerNewCoordinates = killerQueen.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
-
     // Diagonal kill
+    killerQueen.position = initialKillerPosition;
+
     const otherVictimPosition: Position = {
       coordinates: [6, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const otherVictimPiece = new Queen(otherVictimPosition, blackPlayer);
-    otherVictimPiece.hasKilled = true;
-    killerQueen.position = initialKillerPosition;
+    const otherVictimPiece = new Pawn(otherVictimPosition, blackPlayer);
+    otherVictimPiece.killCount = 1;
 
     game.setPieces([killerQueen, otherVictimPiece]);
     onPlayerAction(killerQueen, otherVictimPiece);

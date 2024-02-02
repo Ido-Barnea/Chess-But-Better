@@ -1,16 +1,16 @@
 import { queenResource } from '../../ui/Resources';
-import { Piece } from './Pieces';
+import { Piece } from './Piece';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 
 export class Queen extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color === PlayerColors.WHITE
+    const icon = player.color === PlayerColors.WHITE
       ? '♕'
       : '♛';
 
-    super(position, player, queenResource, 'Queen', logo);
+    super(position, player, 'Queen', queenResource, icon);
   }
 
   getLegalMoves(): Array<Position> {

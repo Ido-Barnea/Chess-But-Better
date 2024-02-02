@@ -3,7 +3,7 @@ import { BOARD_WIDTH } from '../logic/Constants';
 import { comparePositions } from '../logic/Utilities';
 import { PiggyBank } from '../logic/items/PiggyBank';
 import { Item } from '../logic/items/Items';
-import { Piece } from '../logic/pieces/Pieces';
+import { Piece } from '../logic/pieces/Piece';
 import { Position } from '../logic/pieces/PiecesUtilities';
 import { dragPieceElement } from './Events';
 

@@ -12,7 +12,7 @@ import { Item } from './items/Items';
 import { Trap } from './items/Trap';
 import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
-import { Piece } from './pieces/Pieces';
+import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
 
@@ -107,7 +107,7 @@ function onActionAttackMove(
   targetPiece: Piece,
 ) {
   game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
-  killPiece(draggedPiece ,targetPiece);
+  killPiece(draggedPiece, targetPiece);
 
   const targetSquare: Square = { position: targetPiece.position };
   move(draggedPiece, targetSquare);
@@ -167,7 +167,7 @@ function castle(
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare, false);
 
-  Logger.logGeneral(`${kingPiece.pieceLogo} ${kingPiece.player.color} castled.`);
+  Logger.logGeneral(`${kingPiece.pieceIcon} ${kingPiece.player.color} castled.`);
   return true;
 }
 
@@ -192,10 +192,17 @@ function move(
   if (shouldEndTurn) game.endTurn();
 }
 
-function commonKillPieceActions(targetPiece: Piece) {
+function commonKillPieceActions(
+  targetPiece: Piece,
+  draggedPiece: Piece,
+) {
   game.increaseDeathCounter();
   game.setIsPieceKilled(true);
   destroyPieceOnBoard(targetPiece);
+
+  if (targetPiece.killCount >= 3 && draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
+    draggedPiece.player.gold += 5;
+  }
 }
 
 function logKillMessages(
@@ -204,34 +211,34 @@ function logKillMessages(
   permanent = false,
 ) {
   const {
-    pieceLogo: targetPieceLogo,
+    pieceIcon: targetPieceIcon,
     player: { color: targetPieceColor },
     name: targetPieceName,
   } = targetPiece;
 
   const {
-    pieceLogo: draggedPieceLogo,
+    pieceIcon: draggedPieceIcon,
     player: { color: draggedPieceColor },
     name: draggedPieceName,
   } = draggedPiece;
 
   Logger.logKill(`
-    A ${targetPieceLogo} ${targetPieceColor} ${targetPieceName} was ${permanent ? 'permanently ' : ''} killed
-    by a ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}.
+    A ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was ${permanent ? 'permanently ' : ''} killed
+    by a ${draggedPieceIcon} ${draggedPieceColor} ${draggedPieceName}.
   `);
 }
 
 function killPiece(
   draggedPiece: Piece,
   targetPiece: Piece,
-  targetPosition = targetPiece.position,
+  killedPieceNewPosition = targetPiece.position,
 ) {
-  draggedPiece.hasKilled = true;
+  draggedPiece.killCount++;
 
   logKillMessages(targetPiece, draggedPiece);
 
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
-    handleOverworldKill(targetPiece, targetPosition);
+    handleOverworldKill(targetPiece, killedPieceNewPosition, draggedPiece);
   } else {
     permanentlyKillPiece(targetPiece, draggedPiece);
   }
@@ -262,23 +269,28 @@ function handlePieceSpawning(targetPiece: Piece) {
 function handleOverworldKill(
   targetPiece: Piece,
   targetPosition: Position,
+  draggedPiece: Piece,
 ) {
-  commonKillPieceActions(targetPiece);
+  commonKillPieceActions(targetPiece, draggedPiece);
   targetPiece.position = targetPosition;
 
-  if (targetPiece.hasKilled || targetPiece instanceof King) {
+  if (targetPiece.killCount > 0 || targetPiece instanceof King) {
     targetPiece.position.boardId = HELL_BOARD_ID;
   } else {
     targetPiece.position.boardId = HEAVEN_BOARD_ID;
   }
 
   handlePieceSpawning(targetPiece);
+  targetPiece.killCount = 0;
 }
 
-export function permanentlyKillPiece(targetPiece: Piece, draggedPiece: Piece) {
+export function permanentlyKillPiece(
+  targetPiece: Piece,
+  draggedPiece: Piece,
+) {
   logKillMessages(targetPiece, draggedPiece, true);
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
-  commonKillPieceActions(targetPiece);
+  commonKillPieceActions(targetPiece, draggedPiece);
 
   if (targetPiece instanceof King){
     winGame(draggedPiece.player);
@@ -308,7 +320,7 @@ function pieceMovedOnTrap(
 
   if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID && trap.position) {
     draggedPiece.position.coordinates = trap.position.coordinates;
-    draggedPiece.position.boardId = draggedPiece.hasKilled
+    draggedPiece.position.boardId = draggedPiece.killCount > 0
       ? HELL_BOARD_ID
       : HEAVEN_BOARD_ID;
     spawnPieceOnBoard(draggedPiece);

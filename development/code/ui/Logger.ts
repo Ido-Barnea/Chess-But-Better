@@ -1,5 +1,5 @@
 import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../logic/Constants';
-import { Piece } from '../logic/pieces/Pieces';
+import { Piece } from '../logic/pieces/Piece';
 import { Square } from '../logic/pieces/PiecesUtilities';
 
 enum LogColor {
@@ -38,12 +38,12 @@ export class Logger {
       targetSquare.position.coordinates,
     );
 
-    const pieceLogo = `${draggedPiece.pieceLogo}`;
+    const pieceIcon = `${draggedPiece.pieceIcon}`;
     const pieceColor = `${draggedPiece.player.color}`;
     const pieceName = `${draggedPiece.name}`;
 
     this.log(
-      `${pieceLogo} ${pieceColor}  ${pieceName} moved from ${fromNotation} to ${toNotation}.`,
+      `${pieceIcon} ${pieceColor}  ${pieceName} moved from ${fromNotation} to ${toNotation}.`,
       LogColor.movement,
     );
   }

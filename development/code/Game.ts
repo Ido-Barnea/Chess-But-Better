@@ -6,7 +6,7 @@ import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';
 import { Knight } from './logic/pieces/Knight';
 import { Pawn } from './logic/pieces/Pawn';
-import { Piece } from './logic/pieces/Pieces';
+import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';

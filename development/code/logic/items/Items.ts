@@ -1,5 +1,5 @@
 import { Logger } from '../../ui/Logger';
-import { Piece } from '../pieces/Pieces';
+import { Piece } from '../pieces/Piece';
 import { Position } from '../pieces/PiecesUtilities';
 import { Player } from '../Players';
 
