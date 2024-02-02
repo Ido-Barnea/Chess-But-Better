@@ -1,5 +1,5 @@
 import { Item } from './Items';
-import { Piece } from '../pieces/Pieces';
+import { Piece } from '../pieces/Piece';
 import { Logger } from '../../ui/Logger';
 import { coinResource } from '../../ui/Resources';
 import { Player } from '../Players';

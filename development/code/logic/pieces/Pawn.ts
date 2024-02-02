@@ -1,5 +1,5 @@
 import { pawnResource } from '../../ui/Resources';
-import { Piece } from './Pieces';
+import { Piece } from './Piece';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { game } from '../../Game';
@@ -11,10 +11,11 @@ export class Pawn extends Piece {
   diagonalAttackPosition: Position | undefined;
 
   constructor(position: Position, player: Player) {
-    const logo = player.color === PlayerColors.WHITE
+    const icon = player.color === PlayerColors.WHITE
       ? '♙'
       : '♟';
-    super(position, player, pawnResource, 'Pawn', logo);
+    super(position, player, 'Pawn', pawnResource, icon);
+    
     this.possibleEnPassantPositions = undefined;
     this.isInitialDoubleStep = false;
     this.diagonalAttackPosition = undefined;

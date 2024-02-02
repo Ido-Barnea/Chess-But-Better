@@ -1,4 +1,5 @@
 import { BaseRule } from './BaseRule';
+import { BountyRule } from './BountyRule';
 import { CoupRule } from './CoupRule';
 import { EmptyPocketsRule } from './EmptyPocketsRule';
 import { ExperienceOnKillRule } from './ExperienceOnKillRule';
@@ -21,6 +22,7 @@ export class RulesManager {
       new WithAgeComesWisdomRule(),
       new EmptyPocketsRule(),
       new CoupRule(),
+      new BountyRule(),
     ];
   }
 }

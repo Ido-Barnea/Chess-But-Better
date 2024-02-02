@@ -12,7 +12,7 @@ import { Item } from './items/Items';
 import { Trap } from './items/Trap';
 import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
-import { Piece } from './pieces/Pieces';
+import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
 
@@ -167,7 +167,7 @@ function castle(
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare, false);
 
-  Logger.logGeneral(`${kingPiece.pieceLogo} ${kingPiece.player.color} castled.`);
+  Logger.logGeneral(`${kingPiece.pieceIcon} ${kingPiece.player.color} castled.`);
   return true;
 }
 
@@ -204,20 +204,20 @@ function logKillMessages(
   permanent = false,
 ) {
   const {
-    pieceLogo: targetPieceLogo,
+    pieceIcon: targetPieceIcon,
     player: { color: targetPieceColor },
     name: targetPieceName,
   } = targetPiece;
 
   const {
-    pieceLogo: draggedPieceLogo,
+    pieceIcon: draggedPieceIcon,
     player: { color: draggedPieceColor },
     name: draggedPieceName,
   } = draggedPiece;
 
   Logger.logKill(`
-    A ${targetPieceLogo} ${targetPieceColor} ${targetPieceName} was ${permanent ? 'permanently ' : ''} killed
-    by a ${draggedPieceLogo} ${draggedPieceColor} ${draggedPieceName}.
+    A ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was ${permanent ? 'permanently ' : ''} killed
+    by a ${draggedPieceIcon} ${draggedPieceColor} ${draggedPieceName}.
   `);
 }
 
@@ -226,7 +226,7 @@ function killPiece(
   targetPiece: Piece,
   targetPosition = targetPiece.position,
 ) {
-  draggedPiece.hasKilled = true;
+  draggedPiece.killCount++;
 
   logKillMessages(targetPiece, draggedPiece);
 
@@ -266,7 +266,7 @@ function handleOverworldKill(
   commonKillPieceActions(targetPiece);
   targetPiece.position = targetPosition;
 
-  if (targetPiece.hasKilled || targetPiece instanceof King) {
+  if (targetPiece.killCount > 0 || targetPiece instanceof King) {
     targetPiece.position.boardId = HELL_BOARD_ID;
   } else {
     targetPiece.position.boardId = HEAVEN_BOARD_ID;
@@ -308,7 +308,7 @@ function pieceMovedOnTrap(
 
   if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID && trap.position) {
     draggedPiece.position.coordinates = trap.position.coordinates;
-    draggedPiece.position.boardId = draggedPiece.hasKilled
+    draggedPiece.position.boardId = draggedPiece.killCount > 0
       ? HELL_BOARD_ID
       : HEAVEN_BOARD_ID;
     spawnPieceOnBoard(draggedPiece);

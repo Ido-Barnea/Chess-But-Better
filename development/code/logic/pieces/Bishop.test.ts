@@ -64,7 +64,7 @@ describe('Piece killing', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const victimPiece = new Queen(victimPosition, blackPlayer);
-    victimPiece.hasKilled = true;
+    victimPiece.killCount++;
 
     game.initialize();
     game.setPieces([killerBishop, victimPiece]);
