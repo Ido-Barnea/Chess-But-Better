@@ -4,26 +4,28 @@ import { PieceType, Position, Square } from './PiecesUtilities';
 export class Piece implements PieceType {
   position: Position;
   player: Player;
-  resource: string;
   name: string;
   hasMoved: boolean;
-  hasKilled: boolean;
-  pieceLogo: string;
+  killCount: number;
+
+  resource: string;
+  pieceIcon: string;
 
   constructor(
     position: Position,
     player: Player,
-    resource: string,
     name: string,
-    pieceLogo: string,
+    resource: string,
+    pieceIcon: string,
   ) {
     this.position = position;
     this.player = player;
-    this.resource = resource;
     this.name = name;
     this.hasMoved = false;
-    this.hasKilled = false;
-    this.pieceLogo = pieceLogo;
+    this.killCount = 0;
+    
+    this.resource = resource;
+    this.pieceIcon = pieceIcon;
   }
 
   getLegalMoves(): Array<Position> {

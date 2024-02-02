@@ -3,7 +3,7 @@ import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './
 import { Player, PlayerColors } from './logic/Players';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
-import { Piece } from './logic/pieces/Pieces';
+import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import { BaseRule } from './logic/rules/BaseRule';
 import { 

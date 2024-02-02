@@ -1,15 +1,15 @@
 import { rookResource } from '../../ui/Resources';
-import { Piece } from './Pieces';
+import { Piece } from './Piece';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 
 export class Rook extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color === PlayerColors.WHITE
+    const icon = player.color === PlayerColors.WHITE
       ? '♖'
       : '♜';
-    super(position, player, rookResource, 'Rook', logo);
+    super(position, player, 'Rook', rookResource, icon);
   }
 
   getLegalMoves(): Array<Position> {

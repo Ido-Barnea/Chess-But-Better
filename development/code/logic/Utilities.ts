@@ -1,5 +1,5 @@
 import { game } from '../Game';
-import { Piece } from './pieces/Pieces';
+import { Piece } from './pieces/Piece';
 import { Position } from './pieces/PiecesUtilities';
 
 export function comparePositions(

@@ -1,14 +1,14 @@
 import { knightResource } from '../../ui/Resources';
-import { Piece } from './Pieces';
+import { Piece } from './Piece';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
 
 export class Knight extends Piece {
   constructor(position: Position, player: Player) {
-    const logo = player.color === PlayerColors.WHITE
+    const icon = player.color === PlayerColors.WHITE
       ? '♘'
       : '♞';
-    super(position, player, knightResource, 'Knight', logo);
+    super(position, player, 'Knight', knightResource, icon);
   }
 
   getLegalMoves(): Array<Position> {

@@ -1,5 +1,5 @@
 import { Item } from './Items';
-import { Piece } from '../pieces/Pieces';
+import { Piece } from '../pieces/Piece';
 import { Logger } from '../../ui/Logger';
 import { trapResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';

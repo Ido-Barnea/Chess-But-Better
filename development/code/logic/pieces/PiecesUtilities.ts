@@ -1,4 +1,4 @@
-import { Piece } from './Pieces';
+import { Piece } from './Piece';
 import { Player } from '../Players';
 import { Item } from '../items/Items';
 import { comparePositions } from '../Utilities';
@@ -17,10 +17,12 @@ export type Square = {
 export interface PieceType {
   position: Position;
   player: Player;
-  resource: string;
   name: string;
   hasMoved: boolean;
-  hasKilled: boolean;
+  killCount: number;
+
+  resource: string;
+  pieceIcon: string;
 }
 
 export function getItemByPosition(
