@@ -3,9 +3,11 @@ import { Piece } from './pieces/Pieces';
 import { Position } from './pieces/PiecesUtilities';
 
 export function comparePositions(
-  firstPosition: Position,
-  secondPosition: Position,
+  firstPosition: Position | undefined,
+  secondPosition: Position | undefined,
 ): boolean {
+  if (!firstPosition|| !secondPosition) return false;
+
   const arePositionsEqual =
     firstPosition.coordinates[0] === secondPosition.coordinates[0] &&
     firstPosition.coordinates[1] === secondPosition.coordinates[1];

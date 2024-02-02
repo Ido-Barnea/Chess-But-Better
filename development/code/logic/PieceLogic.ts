@@ -25,7 +25,7 @@ function validatePlayerAction(
   if (draggedPiece.position.boardId !== target.position?.boardId) return false;
 
   const legalMoves = draggedPiece.getLegalMoves();
-  return legalMoves.some(position => target.position && comparePositions(position, target.position));
+  return legalMoves.some(position => comparePositions(position, target.position));
 }
 
 function getPathPositions(start: Position, end: Position): Array<Position> {
@@ -56,7 +56,7 @@ function simulatePath(piece: Piece, targetPosition: Position) {
   
   pathPositions.forEach(position => {
     game.getItems().forEach(item => {
-      if (item.position && comparePositions(item.position, position)) {
+      if (comparePositions(item.position, position)) {
         onActionPieceToItem(piece, item);
       }
     });
@@ -251,7 +251,7 @@ function handlePieceSpawning(targetPiece: Piece) {
   });
 
   game.getItems().forEach((item) => {
-    if (item.position && comparePositions(targetPiece.position, item.position)) {
+    if (comparePositions(targetPiece.position, item.position)) {
       onActionPieceToItem(targetPiece, item);
     }
   });

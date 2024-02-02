@@ -26,6 +26,6 @@ export interface PieceType {
 export function getItemByPosition(
   position: Position,
 ): Item | undefined {
-  return game.getItems().find((item) => item.position && comparePositions(position, item.position));
+  return game.getItems().find((item) => comparePositions(position, item.position));
 }
 
