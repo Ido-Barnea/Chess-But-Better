@@ -6,7 +6,7 @@ export function comparePositions(
   firstPosition: Position | undefined,
   secondPosition: Position | undefined,
 ): boolean {
-  if (!firstPosition|| !secondPosition) return false;
+  if (!firstPosition || !secondPosition) return false;
 
   const arePositionsEqual =
     firstPosition.coordinates[0] === secondPosition.coordinates[0] &&
