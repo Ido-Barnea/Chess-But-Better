@@ -47,7 +47,7 @@
         "caughtErrorsIgnorePattern": "_"
       }
     ],
-    "no-unneeded-ternary": ["warning"],
+    "no-unneeded-ternary": ["warn"],
     "max-len": [
       "warn",
       {
@@ -56,8 +56,8 @@
         "ignoreStrings": true
       }
     ],
-    "comma-dangle": ["warning", "always-multiline"],
-    "camelcase": ["warning"],
+    "comma-dangle": ["warn", "always-multiline"],
+    "camelcase": ["warn"],
     "no-constant-condition": "off"
   }
 }
