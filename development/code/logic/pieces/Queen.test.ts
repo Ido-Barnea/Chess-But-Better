@@ -89,8 +89,9 @@ describe('Piece killing', () => {
       coordinates: [6, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const otherVictimPiece = new Pawn(otherVictimPosition, blackPlayer);
-    otherVictimPiece.killCount = 1;
+    const otherVictimPiece = new Queen(otherVictimPosition, blackPlayer);
+    otherVictimPiece.killCount++;
+    killerQueen.position = initialKillerPosition;
 
     game.setPieces([killerQueen, otherVictimPiece]);
     onPlayerAction(killerQueen, otherVictimPiece);
