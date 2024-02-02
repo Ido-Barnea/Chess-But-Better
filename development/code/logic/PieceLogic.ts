@@ -107,7 +107,7 @@ function onActionAttackMove(
   targetPiece: Piece,
 ) {
   game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
-  killPiece(draggedPiece ,targetPiece);
+  killPiece(draggedPiece, targetPiece);
 
   const targetSquare: Square = { position: targetPiece.position };
   move(draggedPiece, targetSquare);
@@ -203,7 +203,6 @@ function commonKillPieceActions(
   if (targetPiece.killCount >= 3 && draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
     draggedPiece.player.gold += 5;
   }
-  targetPiece.killCount = 0;
 }
 
 function logKillMessages(
@@ -282,6 +281,7 @@ function handleOverworldKill(
   }
 
   handlePieceSpawning(targetPiece);
+  targetPiece.killCount = 0;
 }
 
 export function permanentlyKillPiece(
