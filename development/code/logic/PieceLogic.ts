@@ -15,6 +15,7 @@ import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
+import { Knight } from './pieces/Knight';
 
 function validatePlayerAction(
   draggedPiece: Piece,
@@ -52,8 +53,10 @@ function getPathPositions(start: Position, end: Position): Array<Position> {
 
 function simulatePath(piece: Piece, targetPosition: Position) {
   const currentPosition = piece.position;
-  const pathPositions = getPathPositions(currentPosition, targetPosition);
-  
+  const pathPositions: Array<Position> = piece instanceof Knight
+    ? [targetPosition]
+    : getPathPositions(currentPosition, targetPosition);
+
   pathPositions.forEach(position => {
     game.getItems().forEach(item => {
       if (comparePositions(item.position, position)) {
@@ -77,7 +80,8 @@ export function onPlayerAction(
   const pieceBoard = draggedPiece.position.boardId;
   simulatePath(draggedPiece, target.position);
   const newPieceBoard = draggedPiece.position.boardId;
-  // Checks if the piece stepped on a trap during the simulatePath function
+  // Checks if the piece stepped on a trap during the simulatePath function.
+  // If it did, return.
   if (pieceBoard !== newPieceBoard) return;
 
 
