@@ -12,7 +12,9 @@ export class Trap extends Item {
   }
 
   use(piece: Piece): void {
-    Logger.logGeneral(`${piece.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.`);
+    Logger.logGeneral(`
+      ${piece.player.color} ${piece.name} placed a ${this.name} on ${piece.position.coordinates}.
+    `);
 
     this.position = piece.position;
     game.getItems().push(this);

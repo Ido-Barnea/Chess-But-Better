@@ -187,7 +187,9 @@ export function changePieceToAnotherPlayer(piece: Piece) {
   const pieceElement = getPieceElementBySquareId(squareId, boadrId);
   if (pieceElement) {
     pieceElement.classList.remove(piece.player.color.toLowerCase());
-    const enemyPlayerColor = piece.player.color === PlayerColors.WHITE ? PlayerColors.BLACK : PlayerColors.WHITE;
+    const enemyPlayerColor = piece.player.color === PlayerColors.WHITE
+      ? PlayerColors.BLACK
+      : PlayerColors.WHITE;
     pieceElement.classList.add(enemyPlayerColor.toLowerCase());
   }
 

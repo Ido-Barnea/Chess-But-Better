@@ -143,7 +143,9 @@ export function moveElementOnBoard(
 export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
   const board = getBoardbyId(boardId);
 
-  const elementSquareElement = board.boardElement.querySelector(`[square-id="${targetSquareId}"]`) as HTMLElement;
+  const elementSquareElement = board.boardElement.querySelector(`
+    [square-id="${targetSquareId}"]
+  `) as HTMLElement;
   const element = elementSquareElement?.firstElementChild as HTMLElement;
 
   board.destroyElementOnBoard(element);
@@ -152,7 +154,9 @@ export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
 export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
   const board = getBoardbyId(piece.position.boardId);
 
-  const squareElement = board.boardElement.querySelectorAll(`[square-id="${targetSquareId}"]`)[0] as HTMLElement;
+  const squareElement = board.boardElement.querySelectorAll(`
+    [square-id="${targetSquareId}"]
+  `)[0] as HTMLElement;
 
   const pieceElement = board.createPieceElement(piece);
   board.spawnElementOnBoard(pieceElement, squareElement);
@@ -164,7 +168,9 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
   if (!item.position) return;
   const board = getBoardbyId(item.position.boardId);
 
-  const squareElement = board.boardElement.querySelectorAll(`[square-id="${targetSquareId}"]`)[0] as HTMLElement;
+  const squareElement = board.boardElement.querySelectorAll(`
+    [square-id="${targetSquareId}"]
+  `)[0] as HTMLElement;
 
   const pieceElement = board.createItemElement(item);
   board.spawnElementOnBoard(pieceElement, squareElement);
@@ -178,7 +184,11 @@ function findSquareElement(element: HTMLElement): HTMLElement | undefined {
   return element && element.classList.contains('square') ? element : undefined;
 }
 
-export function highlightSquare(targetElement: HTMLElement, shouldAddHighlight: boolean, isMouseHighlight: boolean) {
+export function highlightSquare(
+  targetElement: HTMLElement,
+  shouldAddHighlight: boolean,
+  isMouseHighlight: boolean,
+) {
   const squareElement = findSquareElement(targetElement);
 
   if (squareElement) {
@@ -189,7 +199,9 @@ export function highlightSquare(targetElement: HTMLElement, shouldAddHighlight: 
 
       targetElement.classList.add(LIGHT_GRAY_SQUARE_COLOR);
     } else {
-      const shouldRemoveMouseHighlight = isMouseHighlight && targetElement.classList.contains(MOUSE_HIGHLIGHT_CLASS);
+      const isCurrentlyMouseHighlighted = targetElement.classList.contains(MOUSE_HIGHLIGHT_CLASS);
+      
+      const shouldRemoveMouseHighlight = isMouseHighlight && isCurrentlyMouseHighlighted;
       const shouldRemoveHighlight = !isMouseHighlight || shouldRemoveMouseHighlight;
 
       if (shouldRemoveMouseHighlight) {

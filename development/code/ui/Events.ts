@@ -21,7 +21,11 @@ const OVERWORLD_BOARD_BUTTON = document.getElementById(
 const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID);
 const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
-let triggerOnHighlight: (target: HTMLElement, shouldAddHighlight: boolean, isMouseHighlight: boolean) => void;
+let triggerOnHighlight: (
+  target: HTMLElement,
+  shouldAddHighlight: boolean,
+  isMouseHighlight: boolean,
+) => void;
 
 export function initializeEventListeners() {
   const squares = document.querySelectorAll('.square');
@@ -91,7 +95,10 @@ export function dragPieceElement(element: HTMLElement) {
 
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
-    const droppedOnElements = document.elementsFromPoint(elementXPosition, elementYPosition) as Array<HTMLElement>;
+    const droppedOnElements = document.elementsFromPoint(
+      elementXPosition,
+      elementYPosition,
+    ) as Array<HTMLElement>;
     const droppedOnElement = droppedOnElements.filter(element => {
       return element.classList.contains('square') ||
         element.classList.contains('item') ||
@@ -155,7 +162,11 @@ export function setOnFellOffTheBoard(
 }
 
 export function setOnHighlight(
-  _triggerOnHighlight: (target: HTMLElement, shouldAddHighlight: boolean, isMouseHighlight: boolean) => void,
+  _triggerOnHighlight: (
+    target: HTMLElement,
+    shouldAddHighlight: boolean,
+    isMouseHighlight: boolean,
+  ) => void,
 ) {
   triggerOnHighlight = _triggerOnHighlight;
 }

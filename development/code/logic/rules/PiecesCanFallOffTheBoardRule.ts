@@ -7,8 +7,9 @@ export class PiecesCanFallOffTheBoardRule extends BaseRule {
     const description = 'Pieces can fall off the board.';
     const condition = () => !!game.getFellOffTheBoardPiece();
     const onTrigger = () => {
+      const fellOffTheBoard = game.getFellOffTheBoardPiece()?.name;
       Logger.logRule(`
-        A ${game.getFellOffTheBoardPiece()?.player.color} ${game.getFellOffTheBoardPiece()?.name} fell off the board.
+        A ${game.getFellOffTheBoardPiece()?.player.color} ${fellOffTheBoard} fell off the board.
       `);
     };
 
