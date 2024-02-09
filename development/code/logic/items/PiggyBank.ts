@@ -16,16 +16,16 @@ export class PiggyBank extends Item {
   }
 
   use(piece: Piece): void {
-    const amountOfCoins = this.getRandomAmountOfCoins();
-    piece.player.gold += amountOfCoins;
+    const gold = this.getRandomAmountOfCoins();
+    piece.player.gold += gold;
     Logger.logGeneral(`
-      ${piece.player.color} ${piece.name} opened a ${this.name} and recieved ${amountOfCoins} gold coins.
+      ${piece.player.color} ${piece.name} opened a ${this.name} and recieved ${gold} gold coins.
     `);
   }
 
   drop(player: Player): void {
-    const amountOfCoins = this.getRandomAmountOfCoins(player.gold);
-    player.gold -= amountOfCoins;
-    Logger.logGeneral(`${player.color} dropped a ${this.name} and lost ${amountOfCoins} gold coins.`);
+    const gold = this.getRandomAmountOfCoins(player.gold);
+    player.gold -= gold;
+    Logger.logGeneral(`${player.color} dropped a ${this.name} and lost ${gold} gold coins.`);
   }
 }

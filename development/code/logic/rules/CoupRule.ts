@@ -22,12 +22,14 @@ export class CoupRule extends BaseRule {
         if (player.inDebtForTurns === 2 && player === game.getCurrentPlayer()) {
           player.inDebtForTurns = -1;
           const playerPieces = game.getPieces().filter(piece => piece.player === player);
-          const randomAmountOfPieces = Math.floor(Math.random() * (playerPieces.length - 1) / 2) + 1;
+          const amountOfDeserters = Math.floor(Math.random() * (playerPieces.length - 1) / 2) + 1;
           
-          Logger.logRule(`${player.color} is deep in debt. ${randomAmountOfPieces} of their pieces desert.`);
+          Logger.logRule(`
+            ${player.color} is deep in debt. ${amountOfDeserters} of their pieces desert.
+          `);
 
           let desertedPiecesCounter = 0;
-          while (desertedPiecesCounter < randomAmountOfPieces) {
+          while (desertedPiecesCounter < amountOfDeserters) {
             const randomPieceIndex = Math.floor(Math.random() * (playerPieces.length - 1)) + 1;
             const piece = playerPieces[randomPieceIndex];
             if (piece instanceof King) continue;

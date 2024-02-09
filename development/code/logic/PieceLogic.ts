@@ -85,10 +85,9 @@ export function onPlayerAction(
     onActionAttackMove(draggedPiece, target);
     
   } else {
-    const targetSquare = (target instanceof Item) 
-      ? { position: target.position } 
+    const targetSquare = (target instanceof Item)
+      ? { position: target.position }
       : (target as Square);
-      
     onActionNonAttackMove(draggedPiece, targetSquare);
   }
 }

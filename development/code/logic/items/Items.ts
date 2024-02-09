@@ -35,7 +35,11 @@ export class Item implements ItemType {
   }
 
   use(piece: Piece) {
-    Logger.logGeneral(`${piece.player.color} ${piece.name} used a ${this.name} on ${piece.position.coordinates}.`);
+    const pieceColor = piece.player.color;
+    const pieceName = piece.name;
+    const itemName = this.name;
+    const pieceCoordinates = piece.position.coordinates;
+    Logger.logGeneral(`${pieceColor} ${pieceName} used a ${itemName} on ${pieceCoordinates}.`);
   }
 
   drop(player: Player) {
