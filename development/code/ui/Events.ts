@@ -86,6 +86,8 @@ export function dragPieceElement(element: HTMLElement) {
     document.onmousemove = null;
 
     const initialElement = draggedElement as HTMLElement;
+    if (!initialElement) return;
+
     let boardElement = initialElement.parentElement ?? undefined;
     while (boardElement && !boardElement.classList.contains('board')) {
       boardElement = boardElement.parentElement ?? undefined;
