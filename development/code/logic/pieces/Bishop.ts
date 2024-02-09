@@ -9,7 +9,7 @@ export class Bishop extends Piece {
     const icon = player.color === PlayerColors.WHITE
       ? '♗'
       : '♝';
-    super(position, player, 'Bishop', bishopResource, icon);
+    super(bishopResource, icon, 'Bishop', player, position);
   }
 
   getLegalMoves(): Array<Position> {

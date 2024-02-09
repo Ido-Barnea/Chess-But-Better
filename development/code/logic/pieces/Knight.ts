@@ -8,7 +8,7 @@ export class Knight extends Piece {
     const icon = player.color === PlayerColors.WHITE
       ? '♘'
       : '♞';
-    super(position, player, 'Knight', knightResource, icon);
+    super(knightResource, icon, 'Knight', player, position);
   }
 
   getLegalMoves(): Array<Position> {
