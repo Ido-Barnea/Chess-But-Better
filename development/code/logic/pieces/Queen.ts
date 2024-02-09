@@ -10,7 +10,7 @@ export class Queen extends Piece {
       ? '♕'
       : '♛';
 
-    super(position, player, 'Queen', queenResource, icon);
+    super(queenResource, icon, 'Queen', player, position);
   }
 
   getLegalMoves(): Array<Position> {

@@ -2,25 +2,27 @@ import { Player } from '../Players';
 import { PieceType, Position, Square } from './PiecesUtilities';
 
 export class Piece implements PieceType {
-  position: Position;
-  player: Player;
+  resource: string;
+  pieceIcon: string;
   name: string;
+  player: Player;
+  position: Position;
+  upgrades: Array<Piece>;
   hasMoved: boolean;
   killCount: number;
 
-  resource: string;
-  pieceIcon: string;
-
   constructor(
-    position: Position,
-    player: Player,
-    name: string,
     resource: string,
     pieceIcon: string,
+    name: string,
+    player: Player,
+    position: Position,
+    upgrades: Array<Piece> = [],
   ) {
-    this.position = position;
-    this.player = player;
     this.name = name;
+    this.player = player;
+    this.position = position;
+    this.upgrades = upgrades;
     this.hasMoved = false;
     this.killCount = 0;
     

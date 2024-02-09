@@ -12,7 +12,7 @@ export class King extends Piece {
       ? '♔'
       : '♚';
 
-    super(position, player, 'King', kingResource, icon);
+    super(kingResource, icon, 'King', player, position);
   }
 
   getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
@@ -45,7 +45,10 @@ export class King extends Piece {
     let currentY = start.coordinates[1] + deltaY;
 
     while (currentX !== end.coordinates[0] || currentY !== end.coordinates[1]) {
-      if (getPieceByPosition({ coordinates: [currentX, currentY], boardId: this.position.boardId })) {
+      if (getPieceByPosition({
+        coordinates: [currentX, currentY],
+        boardId: this.position.boardId,
+      })) {
         return false;
       }
 
