@@ -14,7 +14,7 @@ export class Pawn extends Piece {
     const icon = player.color === PlayerColors.WHITE
       ? '♙'
       : '♟';
-    super(position, player, 'Pawn', pawnResource, icon);
+    super(pawnResource, icon, 'Pawn', player, position);
     
     this.possibleEnPassantPositions = undefined;
     this.isInitialDoubleStep = false;
@@ -41,7 +41,9 @@ export class Pawn extends Piece {
   }
 
   getEnPassantPiece(targetPosition: Position): Piece | undefined {
-    const pawns = game.getPieces().filter(piece => piece instanceof Pawn && piece !== this) as Array<Pawn>;
+    const pawns = game.getPieces().filter(piece => {
+      return piece instanceof Pawn && piece !== this;
+    }) as Array<Pawn>;
     if (!pawns.length) return;
 
     const enPassantPawns = pawns.filter(pawn => {

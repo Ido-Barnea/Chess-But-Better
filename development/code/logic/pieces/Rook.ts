@@ -9,7 +9,7 @@ export class Rook extends Piece {
     const icon = player.color === PlayerColors.WHITE
       ? '♖'
       : '♜';
-    super(position, player, 'Rook', rookResource, icon);
+    super(rookResource, icon, 'Rook', player, position);
   }
 
   getLegalMoves(): Array<Position> {

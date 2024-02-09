@@ -15,14 +15,14 @@ export type Square = {
 };
 
 export interface PieceType {
-  position: Position;
-  player: Player;
-  name: string;
-  hasMoved: boolean;
-  killCount: number;
-
   resource: string;
   pieceIcon: string;
+  name: string;
+  player: Player;
+  position: Position;
+  upgrades: Array<Piece>;
+  hasMoved: boolean;
+  killCount: number;
 }
 
 export function getItemByPosition(
