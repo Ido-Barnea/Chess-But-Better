@@ -13,9 +13,9 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-#boards-container {
-  height: calc(calc(var(--square-size) * var(--board-squares-per-side)));
-  width: calc(var(--square-size) * calc(var(--board-squares-per-side) + 1));
+.boards-container {
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   padding-left: 25%;
   padding-top: 2%;
@@ -92,7 +92,7 @@ path {
 .piece, .item {
   height: var(--square-size);
   width: var(--square-size);
-  position: absolute;
+  position: relative;
   z-index: 1;
   cursor: grab;
 }
