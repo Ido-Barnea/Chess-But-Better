@@ -83,6 +83,8 @@ export function dragElement(element: HTMLElement) {
     document.onmouseup = null;
     document.onmousemove = null;
     const initialElement = draggedElement as HTMLElement;
+    if (!initialElement) return;
+
     let parentContainer = initialElement.parentElement ?? undefined;
     while (parentContainer && !(parentContainer.classList.contains('board') || parentContainer.classList.contains('player-inventory'))) {
       parentContainer = parentContainer.parentElement ?? undefined;
