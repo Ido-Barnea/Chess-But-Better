@@ -13,15 +13,13 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup
-        uses: nrwl/nx-set-shas@v3
       - run: npm ci
       - name: Lint
         run: npx nx run-many --target lint --no-cache
