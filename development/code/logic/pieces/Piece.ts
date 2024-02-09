@@ -8,6 +8,7 @@ export class Piece implements PieceType {
   player: Player;
   position: Position;
   upgrades: Array<Piece>;
+  price: number;
   hasMoved: boolean;
   killCount: number;
 
@@ -18,11 +19,13 @@ export class Piece implements PieceType {
     player: Player,
     position: Position,
     upgrades: Array<Piece> = [],
+    price = 1,
   ) {
     this.name = name;
     this.player = player;
     this.position = position;
     this.upgrades = upgrades;
+    this.price = price;
     this.hasMoved = false;
     this.killCount = 0;
     
