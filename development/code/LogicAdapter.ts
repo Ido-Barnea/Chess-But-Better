@@ -1,6 +1,6 @@
 import { game } from './Game';
 import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
-import { Player, PlayerColors } from './logic/Players';
+import { PlayerColors } from './logic/Players';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
@@ -131,16 +131,16 @@ export function onPieceSelected(
 
 export function movePieceOnBoard(
   draggedPiece: Piece,
-  targetSquare: Square,
+  targetPosition: Position,
 ) {
   const draggedPieceCoordinates = draggedPiece.position.coordinates;
   const originSquareId = draggedPieceCoordinates.join(',');
   
   const boardId = draggedPiece.position.boardId;
-  const targetSquareId = targetSquare.position.coordinates.join(',');
+  const targetSquareId = targetPosition.coordinates.join(',');
 
   // Ensure square is not highlighted if piece did not move
-  if (!comparePositions(draggedPiece.position, targetSquare.position)) {
+  if (!comparePositions(draggedPiece.position, targetPosition)) {
     const originSquareElement = getSquareElementById(originSquareId, boardId) as HTMLElement;
     const targetSquareElement = getSquareElementById(targetSquareId, boardId) as HTMLElement;
     highlightLastMove(originSquareElement, targetSquareElement, boardId);
@@ -196,6 +196,6 @@ export function changePieceToAnotherPlayer(piece: Piece) {
   piece.player = game.getPlayers().filter(_player => _player !== piece.player)[0];
 }
 
-export function winGame(winnerPlayer: Player){
-  game.setWinner(winnerPlayer);
+export function endGame(){
+  game.end();
 }
