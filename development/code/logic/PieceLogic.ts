@@ -16,6 +16,7 @@ import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
 import { Knight } from './pieces/Knight';
+import { Shield } from './items/Shield';
 
 function validatePlayerAction(
   draggedPiece: Piece,
@@ -68,12 +69,16 @@ function simulatePath(piece: Piece, targetPosition: Position) {
   });
 }
 
+function revertPieceMoveOnBoard(piece: Piece) {
+  movePieceOnBoard(piece, piece);
+}
+
 export function onPlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ) {
   if (!validatePlayerAction(draggedPiece, target) || !target.position) {
-    movePieceOnBoard(draggedPiece, draggedPiece);
+    revertPieceMoveOnBoard(draggedPiece);
     return;
   }
   
@@ -113,7 +118,8 @@ function onActionAttackMove(
   targetPiece: Piece,
 ) {
   game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
-  killPiece(draggedPiece, targetPiece);
+  const isSuccessfulKill = killPiece(draggedPiece, targetPiece);
+  if (!isSuccessfulKill) return;
 
   const targetSquare: Square = { position: targetPiece.position };
   move(draggedPiece, targetSquare);
@@ -123,15 +129,6 @@ function onActionPieceToSquare(
   draggedPiece: Piece,
   targetSquare: Square,
 ) {
-  if (game.getIsCaslting()) {
-    const isValidCastling = castle(draggedPiece as King, targetSquare);
-
-    if (!isValidCastling) {
-      game.switchIsCastling();
-      return;
-    }
-  }
-
   if (draggedPiece instanceof Pawn) {
     draggedPiece.checkInitialDoubleStep(targetSquare.position);
 
@@ -140,8 +137,18 @@ function onActionPieceToSquare(
         const enPassantPiece = draggedPiece.getEnPassantPiece(targetSquare.position);
         if (!enPassantPiece) return;
   
-        killPiece(draggedPiece, enPassantPiece, targetSquare.position);
+        const isSuccessfulKill = killPiece(draggedPiece, enPassantPiece, targetSquare.position);
+        if (!isSuccessfulKill) return;
       }
+    }
+  }
+
+  if (game.getIsCaslting()) {
+    const isValidCastling = castle(draggedPiece as King, targetSquare);
+
+    if (!isValidCastling) {
+      game.switchIsCastling();
+      return;
     }
   }
 
@@ -238,9 +245,14 @@ function killPiece(
   draggedPiece: Piece,
   targetPiece: Piece,
   killedPieceNewPosition = targetPiece.position,
-) {
-  draggedPiece.killCount++;
+): boolean {
+  if (targetPiece.equipedItem instanceof Shield) {
+    revertPieceMoveOnBoard(draggedPiece);
+    game.endTurn();
+    return false;
+  }
 
+  draggedPiece.killCount++;
   logKillMessages(targetPiece, draggedPiece);
 
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
@@ -248,28 +260,8 @@ function killPiece(
   } else {
     permanentlyKillPiece(targetPiece, draggedPiece);
   }
-}
 
-function handlePieceSpawning(targetPiece: Piece) {
-  game.getPieces().forEach((piece) => {
-    const areOnTheSamePosition = comparePositions(
-      targetPiece.position,
-      piece.position,
-    );
-    const areTheSame = piece === targetPiece;
-
-    if (areOnTheSamePosition && !areTheSame) {
-      permanentlyKillPiece(piece, targetPiece);
-    }
-  });
-
-  game.getItems().forEach((item) => {
-    if (comparePositions(targetPiece.position, item.position)) {
-      onActionPieceToItem(targetPiece, item);
-    }
-  });
-
-  spawnPieceOnBoard(targetPiece);
+  return true;
 }
 
 function handleOverworldKill(
@@ -303,6 +295,28 @@ export function permanentlyKillPiece(
   }
 }
 
+function handlePieceSpawning(targetPiece: Piece) {
+  game.getPieces().forEach((piece) => {
+    const areOnTheSamePosition = comparePositions(
+      targetPiece.position,
+      piece.position,
+    );
+    const areTheSame = piece === targetPiece;
+
+    if (areOnTheSamePosition && !areTheSame) {
+      permanentlyKillPiece(piece, targetPiece);
+    }
+  });
+
+  game.getItems().forEach((item) => {
+    if (comparePositions(targetPiece.position, item.position)) {
+      onActionPieceToItem(targetPiece, item);
+    }
+  });
+
+  spawnPieceOnBoard(targetPiece);
+}
+
 function onActionPieceToItem(piece: Piece, item: Item) {
   switch (item.name) {
     case ('piggy bank'): {
@@ -320,9 +334,10 @@ function pieceMovedOnTrap(
   draggedPiece: Piece,
   trap: Trap,
 ) {
-  permanentlyKillPiece(draggedPiece, draggedPiece);
+  const isSuccessfulKill = killPiece(draggedPiece, draggedPiece);
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
+  if (!isSuccessfulKill) return;
 
   if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID && trap.position) {
     draggedPiece.position.coordinates = trap.position.coordinates;
