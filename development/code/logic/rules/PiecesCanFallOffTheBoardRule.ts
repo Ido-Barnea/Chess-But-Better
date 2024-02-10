@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { KillLog } from '../../ui/logger/Log';
+import { KillLog } from '../../ui/logs/Log';
 import { BaseRule } from './BaseRule';
 
 export class PiecesCanFallOffTheBoardRule extends BaseRule {

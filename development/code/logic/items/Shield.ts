@@ -3,7 +3,7 @@ import { Piece } from '../pieces/Piece';
 import { shieldResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';
 import { game } from '../../Game';
-import { Log } from '../../ui/logger/Log';
+import { Log } from '../../ui/logs/Log';
 
 export class Shield extends Item {
   constructor(position?: Position) {

@@ -2,7 +2,7 @@ import { Item } from './Items';
 import { Piece } from '../pieces/Piece';
 import { piggyBankResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';
-import { Log } from '../../ui/logger/Log';
+import { Log } from '../../ui/logs/Log';
 
 export class PiggyBank extends Item {
   constructor(position?: Position) {
