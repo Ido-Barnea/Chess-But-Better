@@ -12,7 +12,7 @@ import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { initialiseInventoryUI } from './ui/InventoriesUI';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
-import { Logger } from './ui/logger/Logger';
+import { Logger } from './ui/logs/Logger';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);

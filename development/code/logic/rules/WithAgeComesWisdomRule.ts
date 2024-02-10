@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { RuleLog } from '../../ui/logger/Log';
+import { RuleLog } from '../../ui/logs/Log';
 import { BaseRule } from './BaseRule';
 
 export class WithAgeComesWisdomRule extends BaseRule {

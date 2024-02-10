@@ -19,7 +19,7 @@ jest.mock('../../ui/BoardManager.ts', () => ({
 jest.mock('../../ui/Screen.ts', () => ({
   renderPlayersInformation: jest.fn(),
 }));
-jest.mock('../../ui/Logger.ts');
+jest.mock('../../ui/logs/Logger.ts');
 jest.mock('../../ui/Events.ts', () => ({}));
 
 game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);

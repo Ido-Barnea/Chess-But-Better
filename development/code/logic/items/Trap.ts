@@ -4,7 +4,7 @@ import { trapResource } from '../../ui/Resources';
 import { spawnItemOnBoard } from '../../LogicAdapter';
 import { game } from '../../Game';
 import { Position } from '../pieces/PiecesUtilities';
-import { Log } from '../../ui/logger/Log';
+import { Log } from '../../ui/logs/Log';
 
 export class Trap extends Item {
   constructor(position?: Position) {

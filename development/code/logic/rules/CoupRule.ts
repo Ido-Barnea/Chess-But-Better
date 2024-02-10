@@ -1,6 +1,6 @@
 import { game } from '../../Game';
 import { changePieceToAnotherPlayer } from '../../LogicAdapter';
-import { RuleLog } from '../../ui/logger/Log';
+import { RuleLog } from '../../ui/logs/Log';
 import { King } from '../pieces/King';
 import { BaseRule } from './BaseRule';
 

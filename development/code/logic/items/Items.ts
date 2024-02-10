@@ -1,4 +1,4 @@
-import { Log } from '../../ui/logger/Log';
+import { Log } from '../../ui/logs/Log';
 import { Piece } from '../pieces/Piece';
 import { Position } from '../pieces/PiecesUtilities';
 import { Player } from '../Players';

@@ -2,8 +2,8 @@ import { game } from './Game';
 import { onActionTriggered, onFellOffTheBoardTriggered, renderScreen } from './LogicAdapter';
 import { highlightSquare, initializeBoards } from './ui/BoardManager';
 import { initializeEventListeners, setOnAction, setOnFellOffTheBoard, setOnHighlight } from './ui/Events';
-import { Log } from './ui/logger/Log';
-import { Logger } from './ui/logger/Logger';
+import { Log } from './ui/logs/Log';
+import { Logger } from './ui/logs/Logger';
 
 function setGameEventHandlers() {
   setOnAction(onActionTriggered);

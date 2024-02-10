@@ -1,5 +1,5 @@
 import { INVENTORY_CLASS_ID, INVENTORY_WIDTH } from '../Constants';
-import { Log } from '../../ui/logger/Log';
+import { Log } from '../../ui/logs/Log';
 import { Player } from '../Players';
 import { Item } from './Items';
 

@@ -17,7 +17,7 @@ import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
 import { Knight } from './pieces/Knight';
 import { Shield } from './items/Shield';
-import { KillLog, Log, MovementLog } from '../ui/logger/Log';
+import { KillLog, Log, MovementLog } from '../ui/logs/Log';
 
 function validatePlayerAction(
   draggedPiece: Piece,
