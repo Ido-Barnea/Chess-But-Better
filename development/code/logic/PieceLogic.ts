@@ -224,7 +224,7 @@ function logKillByPiece(
   } = draggedPiece;
 
   Logger.logKill(`
-    A ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed
+    ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed
     by ${draggedPieceIcon} ${draggedPieceColor} ${draggedPieceName}.
   `);
 }
@@ -240,7 +240,7 @@ function logKillByGame(
   } = targetPiece;
 
   Logger.logKill(`
-    A ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed by ${killCause}.
+    ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed by ${killCause}.
   `);
 }
 
@@ -356,7 +356,7 @@ function pieceMovedOnTrap(
     // If we entered this condition, something went terribly wrong.
     return;
   }
-  
+
   move(draggedPiece, trap.position);
   const isSuccessfulKill = killPieceByGame(draggedPiece, trap.name);
 
