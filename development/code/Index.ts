@@ -2,7 +2,8 @@ import { game } from './Game';
 import { onActionTriggered, onFellOffTheBoardTriggered, renderScreen } from './LogicAdapter';
 import { highlightSquare, initializeBoards } from './ui/BoardManager';
 import { initializeEventListeners, setOnAction, setOnFellOffTheBoard, setOnHighlight } from './ui/Events';
-import { Logger } from './ui/Logger';
+import { Log } from './ui/logs/Log';
+import { Logger } from './ui/logs/Logger';
 
 function setGameEventHandlers() {
   setOnAction(onActionTriggered);
@@ -20,4 +21,5 @@ function initializeUI() {
 initializeUI();
 game.initialize();
 
-Logger.logGeneral('Game started!');
+new Log('Game started!').addToQueue();
+Logger.logMessages();

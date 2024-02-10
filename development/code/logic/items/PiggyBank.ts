@@ -1,9 +1,8 @@
 import { Item } from './Items';
 import { Piece } from '../pieces/Piece';
-import { Logger } from '../../ui/Logger';
 import { piggyBankResource } from '../../ui/Resources';
-import { Player } from '../Players';
 import { Position } from '../pieces/PiecesUtilities';
+import { Log } from '../../ui/logs/Log';
 
 export class PiggyBank extends Item {
   constructor(position?: Position) {
@@ -18,14 +17,11 @@ export class PiggyBank extends Item {
   use(piece: Piece): void {
     const gold = this.getRandomAmountOfCoins();
     piece.player.gold += gold;
-    Logger.logGeneral(`
-      ${piece.player.color} ${piece.name} opened a ${this.name} and recieved ${gold} gold coins.
-    `);
-  }
 
-  drop(player: Player): void {
-    const gold = this.getRandomAmountOfCoins(player.gold);
-    player.gold -= gold;
-    Logger.logGeneral(`${player.color} dropped a ${this.name} and lost ${gold} gold coins.`);
+    const {
+      player: { color: pieceColor },
+      name: pieceName,
+    } = piece;
+    new Log(`${pieceColor} ${pieceName} claimed a ${this.name} and recieved ${gold} gold.`).addToQueue();
   }
 }

@@ -1,6 +1,6 @@
 import { game } from '../../Game';
 import { changePieceToAnotherPlayer } from '../../LogicAdapter';
-import { Logger } from '../../ui/Logger';
+import { RuleLog } from '../../ui/logs/Log';
 import { King } from '../pieces/King';
 import { BaseRule } from './BaseRule';
 
@@ -22,14 +22,12 @@ export class CoupRule extends BaseRule {
         if (player.inDebtForTurns === 2 && player === game.getCurrentPlayer()) {
           player.inDebtForTurns = -1;
           const playerPieces = game.getPieces().filter(piece => piece.player === player);
-          const amountOfDeserters = Math.floor(Math.random() * (playerPieces.length - 1) / 2) + 1;
+          const desertionSize = Math.floor(Math.random() * (playerPieces.length - 1) / 2) + 1;
           
-          Logger.logRule(`
-            ${player.color} is deep in debt. ${amountOfDeserters} of their pieces desert.
-          `);
+          new RuleLog(`${player.color} is deep in debt. ${desertionSize} of their pieces desert.`).addToQueue();
 
           let desertedPiecesCounter = 0;
-          while (desertedPiecesCounter < amountOfDeserters) {
+          while (desertedPiecesCounter < desertionSize) {
             const randomPieceIndex = Math.floor(Math.random() * (playerPieces.length - 1)) + 1;
             const piece = playerPieces[randomPieceIndex];
             if (piece instanceof King) continue;

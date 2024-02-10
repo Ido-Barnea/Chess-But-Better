@@ -1,8 +1,6 @@
 import { game } from '../Game';
-import { BaseRule } from '../logic/rules/BaseRule';
 
 const infoDisplay = document.getElementById('info-display');
-const rulesContainer = document.getElementById('rules-container');
 
 export function renderPlayersInformation() {
   if (infoDisplay) infoDisplay.textContent = '';
@@ -32,12 +30,6 @@ export function renderPlayersInformation() {
   });
 
   infoDisplay?.appendChild(playersElement);
-}
-
-export function renderNewRule(rule: BaseRule) {
-  const ruleElement = document.createElement('p');
-  ruleElement.innerHTML = `<b>- ${rule.description}</b>`;
-  rulesContainer?.appendChild(ruleElement);
 }
 
 export function showWinningAlert(winner: string) {
