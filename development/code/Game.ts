@@ -11,6 +11,7 @@ import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
+import { Logger } from './ui/logger/Logger';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -80,6 +81,7 @@ function endTurn() {
     roundCounter++;
   }
 
+  Logger.logMessages();
   renderScreen();
 
   // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.

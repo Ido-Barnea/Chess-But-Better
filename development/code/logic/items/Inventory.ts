@@ -1,14 +1,13 @@
-import { Logger } from '../../ui/Logger';
+import { Log } from '../../ui/logger/Log';
 import { Player } from '../Players';
 import { Item } from './Items';
-
 
 export class Inventory {
   items: Array<Item> = [];
 
   addItem(item: Item, player: Player) {
     this.items.push(item);
-    Logger.logGeneral(`${player.color} received a ${item.name}.`);
+    new Log(`${player.color} received a ${item.name}.`).addToQueue();
   }
 
   removeItem(item: Item) {

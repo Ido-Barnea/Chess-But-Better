@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { Logger } from '../../ui/Logger';
+import { RuleLog } from '../../ui/logger/Log';
 import { MIN_KILLINGS_FOR_BOUNTY } from '../Constants';
 import { BaseRule } from './BaseRule';
 
@@ -19,7 +19,12 @@ export class BountyRule extends BaseRule {
     const onTrigger = () => {
       game.getPieces().forEach(piece => {
         if (piece.killCount >= MIN_KILLINGS_FOR_BOUNTY) {
-          Logger.logRule(`There is an open bounty on a ${piece.player.color} ${piece.name} [${piece.position.coordinates.join(',')}].`);
+          const {
+            player: { color: playerColor },
+            name: pieceName,
+            position: { coordinates: pieceCoordinates },
+          } = piece;
+          new RuleLog(`There is an open bounty on a ${playerColor} ${pieceName} [${pieceCoordinates.join(',')}].`).addToQueue();
         }
       });
     };

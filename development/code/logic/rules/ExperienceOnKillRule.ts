@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { Logger } from '../../ui/Logger';
+import { RuleLog } from '../../ui/logger/Log';
 import { BaseRule } from './BaseRule';
 
 export class ExperienceOnKillRule extends BaseRule {
@@ -8,7 +8,7 @@ export class ExperienceOnKillRule extends BaseRule {
     const condition = () => game.getIsPieceKilled();
     const onTrigger = () => {
       const player = game.getCurrentPlayer();
-      Logger.logRule(`${player.color} received XP for killing another piece.`);
+      new RuleLog(`${player.color} received XP for killing another piece.`).addToQueue();
       player.xp++;
     };
 

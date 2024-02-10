@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { Logger } from '../../ui/Logger';
+import { RuleLog } from '../../ui/logger/Log';
 import { BaseRule } from './BaseRule';
 
 export class FirstBloodRule extends BaseRule {
@@ -8,7 +8,7 @@ export class FirstBloodRule extends BaseRule {
     const condition = () => game.getDeathCounter() == 1 && game.getIsPieceKilled();
     const onTrigger = () => {
       const player = game.getCurrentPlayer();
-      Logger.logRule(`${player.color} has made First Blood and received a bonus.`);
+      new RuleLog(`${player.color} has made First Blood and received a bonus.`).addToQueue();
       player.xp++;
     };
 
