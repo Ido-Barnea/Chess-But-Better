@@ -31,17 +31,12 @@ export class Logger {
   }
 
   static logMovement(draggedPiece: Piece, targetPosition: Position) {
-    const fromNotation = this.convertPositionToNotation(
-      draggedPiece.position.coordinates,
-    );
+    const fromNotation = this.convertPositionToNotation(draggedPiece.position.coordinates);
     const toNotation = this.convertPositionToNotation(targetPosition.coordinates);
 
-    const pieceIcon = `${draggedPiece.pieceIcon}`;
-    const pieceColor = `${draggedPiece.player.color}`;
-    const pieceName = `${draggedPiece.name}`;
-
+    const { pieceIcon, player, name } = draggedPiece;
     this.log(
-      `${pieceIcon} ${pieceColor}  ${pieceName} moved from ${fromNotation} to ${toNotation}.`,
+      `${pieceIcon} ${player.color} ${name} moved from ${fromNotation} to ${toNotation}.`,
       LogColor.movement,
     );
   }

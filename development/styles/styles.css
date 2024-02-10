@@ -109,24 +109,12 @@ path {
   position: absolute;
   padding: 0.5%;
   right: 0;
-  bottom: 0;
-  width: 25%;
-  height: 40%;
-  border: 0.25vw solid black;
-  overflow-x: none;
-  overflow-y: auto;
-}
-
-#rules-container {
-  border: 0.25vw solid black;
-  overflow-x: none;
-  overflow-y: auto;
-  padding: 0.5%;
-  position: absolute;
-  height: 40%;
-  width: 25%;
   top: 0;
-  right: 0;
+  width: 25%;
+  height: 70%;
+  border: 0.25vw solid black;
+  overflow-x: none;
+  overflow-y: auto;
 }
 
 .boards-buttons-container {

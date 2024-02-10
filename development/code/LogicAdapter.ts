@@ -5,7 +5,6 @@ import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
-import { BaseRule } from './logic/rules/BaseRule';
 import { 
   destroyElementOnBoard,
   getAllSquareElements,
@@ -19,14 +18,11 @@ import {
   destroyItemOnInventory,
 } from './ui/BoardManager';
 import { switchShownInventory, showItemOnInventory } from './ui/InventoriesUI';
-import { renderPlayersInformation, renderNewRule } from './ui/Screen';
+import { renderPlayersInformation } from './ui/Screen';
+import { Player } from './logic/Players';
 
 export function renderScreen() {
   renderPlayersInformation();
-}
-
-export function renderRules(newRule: BaseRule) {
-  renderNewRule(newRule);
 }
 
 function findPieceAtPosition(
