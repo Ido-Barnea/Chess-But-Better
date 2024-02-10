@@ -1,5 +1,4 @@
 import { game } from '../../Game';
-import { renderRules } from '../../LogicAdapter';
 import { Logger } from '../../ui/Logger';
 export interface Rule {
   description: string;
@@ -35,8 +34,6 @@ export class BaseRule implements Rule {
         Logger.logRule(`${player.color} received XP for revealing a new rule: ${this.description}`);
         player.xp++;
         this.isRevealed = true;
-
-        renderRules(this);
       }
     }
   }
