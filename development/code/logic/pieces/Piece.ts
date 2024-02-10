@@ -1,4 +1,5 @@
 import { Player } from '../Players';
+import { Item } from '../items/Items';
 import { PieceType, Position, Square } from './PiecesUtilities';
 
 export class Piece implements PieceType {
@@ -9,6 +10,7 @@ export class Piece implements PieceType {
   position: Position;
   upgrades: Array<Piece>;
   price: number;
+  equipedItem: Item | undefined;
   hasMoved: boolean;
   killCount: number;
 
@@ -20,17 +22,18 @@ export class Piece implements PieceType {
     position: Position,
     upgrades: Array<Piece> = [],
     price = 1,
+    equipedItem: Item | undefined = undefined,
   ) {
+    this.resource = resource;
+    this.pieceIcon = pieceIcon;
     this.name = name;
     this.player = player;
     this.position = position;
     this.upgrades = upgrades;
     this.price = price;
+    this.equipedItem = equipedItem;
     this.hasMoved = false;
     this.killCount = 0;
-    
-    this.resource = resource;
-    this.pieceIcon = pieceIcon;
   }
 
   getLegalMoves(): Array<Position> {
