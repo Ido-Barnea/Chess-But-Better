@@ -38,5 +38,5 @@ export function renderNewRule(rule: BaseRule) {
 }
 
 export function showWinningAlert(winner: string) {
-  alert(winner + ' wins!');
+  alert(`${winner} Won!`);
 }

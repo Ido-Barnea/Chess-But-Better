@@ -11,7 +11,7 @@ import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { initialiseInventoryUI } from './ui/InventoriesUI';
-import { showWinningAlert } from './ui/Screen';
+import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -61,7 +61,7 @@ let isFriendlyFire = false;
 let isPieceKilled = false;
 let itemPlacedDownRecently = false;
 let fellOffTheBoardPiece: Piece | undefined;
-let winner: Player | undefined = undefined;
+let isGameFinished = false;
 
 function initializeGame() {
   rulesManager = new RulesManager();
@@ -97,8 +97,10 @@ function endTurn() {
   // To make sure the element is removed before displaying the winning alert, we need to add
   // a small delay before displaying the alert.
   setTimeout(() => {  
-    if (winner !== undefined) {
-      showWinningAlert(winner.color);
+    if (isGameFinished) {
+      const livingKingPlayer = pieces.filter(piece => piece instanceof King)[0].player;
+
+      showGameEndAlert(livingKingPlayer.color);
       window.location.reload();
     }
   }, 10);
@@ -207,8 +209,8 @@ function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 
-function setWinner(_winner: Player) {
-  winner = _winner;
+function endGame() {
+  isGameFinished = true;
 }
 
 function changeItemPlacedRecently() {
@@ -221,6 +223,7 @@ function wasItemPlacedRecently(){
 
 export const game = {
   initialize: initializeGame,
+  end: endGame,
   endTurn,
   getCurrentPlayer,
   switchIsCastling,
@@ -241,7 +244,6 @@ export const game = {
   setIsPieceKilled,
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
-  setWinner,
   changeItemPlacedRecently,
   wasItemPlacedRecently,
 };

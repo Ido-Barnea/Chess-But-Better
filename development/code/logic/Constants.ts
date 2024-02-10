@@ -25,3 +25,4 @@ export const NOTATIONS_NUMBERS = ['8', '7', '6', '5', '4', '3', '2', '1'];
 export const BOARD_WIDTH = 8;
 
 export const INVENTORY_WIDTH = 2;
+export const MIN_KILLINGS_FOR_BOUNTY = 3;
