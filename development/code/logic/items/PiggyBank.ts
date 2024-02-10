@@ -1,13 +1,13 @@
 import { Item } from './Items';
 import { Piece } from '../pieces/Piece';
 import { Logger } from '../../ui/Logger';
-import { coinResource } from '../../ui/Resources';
+import { piggyBankResource } from '../../ui/Resources';
 import { Player } from '../Players';
 import { Position } from '../pieces/PiecesUtilities';
 
 export class PiggyBank extends Item {
   constructor(position?: Position) {
-    super('piggy bank', coinResource, 1, position);
+    super('piggy bank', piggyBankResource, 1, position);
   }
 
   getRandomAmountOfCoins(max?: number) {

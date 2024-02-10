@@ -1,7 +1,8 @@
 import { game } from '../Game';
-import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard, winGame } from '../LogicAdapter';
+import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard, endGame } from '../LogicAdapter';
 import { Logger } from '../ui/Logger';
 import {
+  MIN_KILLINGS_FOR_BOUNTY,
   HEAVEN_BOARD_ID,
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
@@ -16,6 +17,7 @@ import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
 import { Knight } from './pieces/Knight';
+import { Shield } from './items/Shield';
 
 function validatePlayerAction(
   draggedPiece: Piece,
@@ -68,12 +70,16 @@ function simulatePath(piece: Piece, targetPosition: Position) {
   });
 }
 
+function revertPieceMoveOnBoard(piece: Piece) {
+  movePieceOnBoard(piece, piece.position);
+}
+
 export function onPlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
 ) {
   if (!validatePlayerAction(draggedPiece, target) || !target.position) {
-    movePieceOnBoard(draggedPiece, draggedPiece);
+    revertPieceMoveOnBoard(draggedPiece);
     return;
   }
   
@@ -103,7 +109,7 @@ function onActionNonAttackMove(
 }
 
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
-  permanentlyKillPiece(draggedPiece, draggedPiece);
+  permanentlyKillPiece(draggedPiece);
   game.setFellOffTheBoardPiece(draggedPiece);
   game.endTurn();
 }
@@ -113,16 +119,31 @@ function onActionAttackMove(
   targetPiece: Piece,
 ) {
   game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
-  killPiece(draggedPiece, targetPiece);
+  const isSuccessfulKill = killPieceByAnotherPiece(targetPiece, draggedPiece);
+  if (!isSuccessfulKill) return;
 
   const targetSquare: Square = { position: targetPiece.position };
-  move(draggedPiece, targetSquare);
+  move(draggedPiece, targetSquare.position);
 }
 
 function onActionPieceToSquare(
   draggedPiece: Piece,
   targetSquare: Square,
 ) {
+  if (draggedPiece instanceof Pawn) {
+    draggedPiece.checkInitialDoubleStep(targetSquare.position);
+
+    if (draggedPiece.diagonalAttackPosition) {
+      if (comparePositions(draggedPiece.diagonalAttackPosition, targetSquare.position)) {
+        const enPassantPiece = draggedPiece.getEnPassantPiece(targetSquare.position);
+        if (!enPassantPiece) return;
+  
+        const isSuccessfulKill = killPieceByAnotherPiece(enPassantPiece, draggedPiece);
+        if (!isSuccessfulKill) return;
+      }
+    }
+  }
+
   if (game.getIsCaslting()) {
     const isValidCastling = castle(draggedPiece as King, targetSquare);
 
@@ -132,20 +153,7 @@ function onActionPieceToSquare(
     }
   }
 
-  if (draggedPiece instanceof Pawn) {
-    draggedPiece.checkInitialDoubleStep(targetSquare.position);
-
-    if (draggedPiece.diagonalAttackPosition) {
-      if (comparePositions(draggedPiece.diagonalAttackPosition, targetSquare.position)) {
-        const enPassantPiece = draggedPiece.getEnPassantPiece(targetSquare.position);
-        if (!enPassantPiece) return;
-  
-        killPiece(draggedPiece, enPassantPiece, targetSquare.position);
-      }
-    }
-  }
-
-  move(draggedPiece, targetSquare);
+  move(draggedPiece, targetSquare.position);
 }
 
 function castle(
@@ -171,7 +179,7 @@ function castle(
   };
 
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
-  move(rookPiece, rookPieceTargetSquare, false);
+  move(rookPiece, rookPieceTargetSquare.position, false);
 
   Logger.logGeneral(`${kingPiece.pieceIcon} ${kingPiece.player.color} castled.`);
   return true;
@@ -183,14 +191,14 @@ export function isPlayerAllowedToAct(player: Player) {
 
 function move(
   draggedPiece: Piece,
-  targetSquare: Square,
+  targetPosition: Position,
   shouldEndTurn = true,
 ) {
-  Logger.logMovement(draggedPiece, targetSquare);
-  movePieceOnBoard(draggedPiece, targetSquare);
+  Logger.logMovement(draggedPiece, targetPosition);
+  movePieceOnBoard(draggedPiece, targetPosition);
 
   draggedPiece.position = {
-    coordinates: targetSquare.position.coordinates,
+    coordinates: targetPosition.coordinates,
     boardId: draggedPiece.position.boardId,
   };
 
@@ -198,23 +206,9 @@ function move(
   if (shouldEndTurn) game.endTurn();
 }
 
-function commonKillPieceActions(
+function logKillByPiece(
   targetPiece: Piece,
   draggedPiece: Piece,
-) {
-  game.increaseDeathCounter();
-  game.setIsPieceKilled(true);
-  destroyPieceOnBoard(targetPiece);
-
-  if (targetPiece.killCount >= 3 && draggedPiece.position.boardId === OVERWORLD_BOARD_ID) {
-    draggedPiece.player.gold += 5;
-  }
-}
-
-function logKillMessages(
-  targetPiece: Piece,
-  draggedPiece: Piece,
-  permanent = false,
 ) {
   const {
     pieceIcon: targetPieceIcon,
@@ -229,25 +223,93 @@ function logKillMessages(
   } = draggedPiece;
 
   Logger.logKill(`
-    A ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was ${permanent ? 'permanently ' : ''} killed
-    by a ${draggedPieceIcon} ${draggedPieceColor} ${draggedPieceName}.
+    ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed
+    by ${draggedPieceIcon} ${draggedPieceColor} ${draggedPieceName}.
   `);
 }
 
-function killPiece(
-  draggedPiece: Piece,
+function logKillByGame(
   targetPiece: Piece,
-  killedPieceNewPosition = targetPiece.position,
+  killCause: string,
 ) {
-  draggedPiece.killCount++;
+  const {
+    pieceIcon: targetPieceIcon,
+    player: { color: targetPieceColor },
+    name: targetPieceName,
+  } = targetPiece;
 
-  logKillMessages(targetPiece, draggedPiece);
+  Logger.logKill(`
+    ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed by ${killCause}.
+  `);
+}
+
+function killPieceByAnotherPiece(
+  targetPiece: Piece,
+  draggedPiece: Piece,
+): boolean {
+  if (targetPiece.equipedItem instanceof Shield) {
+    revertPieceMoveOnBoard(draggedPiece);
+    game.endTurn();
+    return false;
+  }
+
+  draggedPiece.killCount++;
+  if (targetPiece.killCount >= MIN_KILLINGS_FOR_BOUNTY) {
+    draggedPiece.player.gold += targetPiece.killCount;
+  }
+
+  destroyPieceOnBoard(targetPiece);
+  killPiece(targetPiece);
+  logKillByPiece(targetPiece, draggedPiece);
+  return true;
+}
+
+function killPieceByGame(
+  targetPiece: Piece,
+  killCause: string,
+): boolean {
+  if (targetPiece.equipedItem instanceof Shield) {
+    game.endTurn();
+    return false;
+  }
+
+  destroyPieceOnBoard(targetPiece);
+  killPiece(targetPiece);
+  logKillByGame(targetPiece, killCause);
+  return true;
+}
+
+function killPiece(targetPiece: Piece) {
+  game.increaseDeathCounter();
+  game.setIsPieceKilled(true);
 
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
-    handleOverworldKill(targetPiece, killedPieceNewPosition, draggedPiece);
+    handleOverworldKill(targetPiece);
   } else {
-    permanentlyKillPiece(targetPiece, draggedPiece);
+    permanentlyKillPiece(targetPiece);
   }
+
+  targetPiece.killCount = 0;
+  return true;
+}
+
+function handleOverworldKill(targetPiece: Piece) {
+  if (targetPiece.killCount > 0 || targetPiece instanceof King) {
+    targetPiece.position.boardId = HELL_BOARD_ID;
+  } else {
+    targetPiece.position.boardId = HEAVEN_BOARD_ID;
+  }
+
+  handlePieceSpawning(targetPiece);
+}
+
+export function permanentlyKillPiece(targetPiece: Piece) {
+  game.increaseDeathCounter();
+  game.setIsPieceKilled(true);
+
+  game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
+
+  if (targetPiece instanceof King) endGame();
 }
 
 function handlePieceSpawning(targetPiece: Piece) {
@@ -259,7 +321,7 @@ function handlePieceSpawning(targetPiece: Piece) {
     const areTheSame = piece === targetPiece;
 
     if (areOnTheSamePosition && !areTheSame) {
-      permanentlyKillPiece(piece, targetPiece);
+      permanentlyKillPiece(targetPiece);
     }
   });
 
@@ -270,37 +332,6 @@ function handlePieceSpawning(targetPiece: Piece) {
   });
 
   spawnPieceOnBoard(targetPiece);
-}
-
-function handleOverworldKill(
-  targetPiece: Piece,
-  targetPosition: Position,
-  draggedPiece: Piece,
-) {
-  commonKillPieceActions(targetPiece, draggedPiece);
-  targetPiece.position = targetPosition;
-
-  if (targetPiece.killCount > 0 || targetPiece instanceof King) {
-    targetPiece.position.boardId = HELL_BOARD_ID;
-  } else {
-    targetPiece.position.boardId = HEAVEN_BOARD_ID;
-  }
-
-  handlePieceSpawning(targetPiece);
-  targetPiece.killCount = 0;
-}
-
-export function permanentlyKillPiece(
-  targetPiece: Piece,
-  draggedPiece: Piece,
-) {
-  logKillMessages(targetPiece, draggedPiece, true);
-  game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
-  commonKillPieceActions(targetPiece, draggedPiece);
-
-  if (targetPiece instanceof King){
-    winGame(draggedPiece.player);
-  }
 }
 
 function onActionPieceToItem(piece: Piece, item: Item) {
@@ -320,18 +351,18 @@ function pieceMovedOnTrap(
   draggedPiece: Piece,
   trap: Trap,
 ) {
-  permanentlyKillPiece(draggedPiece, draggedPiece);
+  if (!trap.position) {
+    // If we entered this condition, something went terribly wrong.
+    return;
+  }
+
+  move(draggedPiece, trap.position);
+  const isSuccessfulKill = killPieceByGame(draggedPiece, trap.name);
+
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
-  if (draggedPiece.position.boardId === OVERWORLD_BOARD_ID && trap.position) {
-    draggedPiece.position.coordinates = trap.position.coordinates;
-    draggedPiece.position.boardId = draggedPiece.killCount > 0
-      ? HELL_BOARD_ID
-      : HEAVEN_BOARD_ID;
-    spawnPieceOnBoard(draggedPiece);
-  }
-
+  if (!isSuccessfulKill) return;
   game.endTurn();
 }
 
