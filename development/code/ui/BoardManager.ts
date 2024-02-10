@@ -161,7 +161,7 @@ export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
   const pieceElement = board.createPieceElement(piece);
   board.spawnElementOnBoard(pieceElement, squareElement);
 
-  board.boardButtonElement.classList.remove('collapsed');
+  board.boardButtonElement.classList.remove('disabled');
 }
 
 export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {

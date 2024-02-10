@@ -46,6 +46,12 @@ body {
   z-index: 1;
 }
 
+.disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  background-color: lightgray !important;
+}
+
 .square {
   height: var(--square-size);
   width: var(--square-size);
@@ -118,18 +124,19 @@ path {
 }
 
 .boards-buttons-container {
+  position: absolute;
+  padding: 1%;
+  padding-bottom: 3%;
+  right: 0;
+  bottom: 0;
+  width: 25%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  width: calc(var(--square-size) * var(--board-squares-per-side));
-  margin-left: 25%;
-  padding-top: 1%;
 }
 
 .boards-buttons-container button {
-  width: 20%;
-  padding: 12px 24px;
+  width: 30%;
+  padding: 42px 24px;
   margin-left: 12px;
   margin-right: 12px;
   font-size: 0.85em;
