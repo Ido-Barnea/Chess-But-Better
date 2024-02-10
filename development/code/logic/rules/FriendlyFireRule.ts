@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { Logger } from '../../ui/Logger';
+import { RuleLog } from '../../ui/logger/Log';
 import { BaseRule } from './BaseRule';
 
 export class FriendlyFireRule extends BaseRule {
@@ -8,7 +8,7 @@ export class FriendlyFireRule extends BaseRule {
     const condition = () => game.getIsFriendlyFire();
     const onTrigger = () => {
       const player = game.getCurrentPlayer();
-      Logger.logRule(`${player.color} attacked his own piece and has to pay compensations.`);
+      new RuleLog(`${player.color} attacked his own piece and has to pay compensations.`).addToQueue();
       player.gold--;
     };
 

@@ -1,9 +1,9 @@
 import { Item } from './Items';
 import { Piece } from '../pieces/Piece';
-import { Logger } from '../../ui/Logger';
 import { shieldResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';
 import { game } from '../../Game';
+import { Log } from '../../ui/logger/Log';
 
 export class Shield extends Item {
   constructor(position?: Position) {
@@ -11,9 +11,7 @@ export class Shield extends Item {
   }
 
   use(piece: Piece): void {
-    Logger.logGeneral(`
-      ${piece.player.color} ${piece.name} placed a ${this.name} on ${piece}.
-    `);
+    new Log(`${piece.player.color} ${piece.name} placed a ${this.name} on ${piece}.`).addToQueue();
 
     piece.equipedItem = this;
     const updatedItems = game.getItems().filter(item => item !== this);

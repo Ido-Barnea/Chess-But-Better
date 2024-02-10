@@ -1,6 +1,5 @@
 import { game } from '../Game';
 import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard, endGame } from '../LogicAdapter';
-import { Logger } from '../ui/Logger';
 import {
   MIN_KILLINGS_FOR_BOUNTY,
   HEAVEN_BOARD_ID,
@@ -18,6 +17,7 @@ import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
 import { Knight } from './pieces/Knight';
 import { Shield } from './items/Shield';
+import { KillLog, Log, MovementLog } from '../ui/logger/Log';
 
 function validatePlayerAction(
   draggedPiece: Piece,
@@ -182,7 +182,7 @@ function castle(
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare.position, false);
 
-  Logger.logGeneral(`${kingPiece.pieceIcon} ${kingPiece.player.color} castled.`);
+  new Log(`${kingPiece.pieceIcon} ${kingPiece.player.color} castled.`).addToQueue();
   return true;
 }
 
@@ -195,7 +195,7 @@ function move(
   targetPosition: Position,
   shouldEndTurn = true,
 ) {
-  Logger.logMovement(draggedPiece, targetPosition);
+  new MovementLog(draggedPiece, targetPosition).addToQueue();
   movePieceOnBoard(draggedPiece, targetPosition);
 
   draggedPiece.position = {
@@ -205,43 +205,6 @@ function move(
 
   draggedPiece.hasMoved = true;
   if (shouldEndTurn) game.endTurn();
-}
-
-function logKillByPiece(
-  targetPiece: Piece,
-  draggedPiece: Piece,
-) {
-  const {
-    pieceIcon: targetPieceIcon,
-    player: { color: targetPieceColor },
-    name: targetPieceName,
-  } = targetPiece;
-
-  const {
-    pieceIcon: draggedPieceIcon,
-    player: { color: draggedPieceColor },
-    name: draggedPieceName,
-  } = draggedPiece;
-
-  Logger.logKill(`
-    ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed
-    by ${draggedPieceIcon} ${draggedPieceColor} ${draggedPieceName}.
-  `);
-}
-
-function logKillByGame(
-  targetPiece: Piece,
-  killCause: string,
-) {
-  const {
-    pieceIcon: targetPieceIcon,
-    player: { color: targetPieceColor },
-    name: targetPieceName,
-  } = targetPiece;
-
-  Logger.logKill(`
-    ${targetPieceIcon} ${targetPieceColor} ${targetPieceName} was killed by ${killCause}.
-  `);
 }
 
 function killPieceByAnotherPiece(
@@ -261,7 +224,7 @@ function killPieceByAnotherPiece(
 
   destroyPieceOnBoard(targetPiece);
   killPiece(targetPiece);
-  logKillByPiece(targetPiece, draggedPiece);
+  new KillLog(targetPiece, draggedPiece).addToQueue();
   return true;
 }
 
@@ -276,7 +239,7 @@ function killPieceByGame(
 
   destroyPieceOnBoard(targetPiece);
   killPiece(targetPiece);
-  logKillByGame(targetPiece, killCause);
+  new KillLog(targetPiece, killCause).addToQueue();
   return true;
 }
 

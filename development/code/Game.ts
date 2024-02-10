@@ -12,6 +12,7 @@ import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { initialiseInventoryUI } from './ui/InventoriesUI';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
+import { Logger } from './ui/logger/Logger';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -90,6 +91,11 @@ function endTurn() {
     changeShownInventory(player);
   });
 
+  players.forEach((player) => {
+    changeShownInventory(player);
+  });
+
+  Logger.logMessages();
   renderScreen();
   itemPlacedDownRecently = false;
 
