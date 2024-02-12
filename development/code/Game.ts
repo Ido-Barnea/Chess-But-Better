@@ -10,7 +10,7 @@ import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
-import { initialiseInventory } from './ui/InventoriesUI';
+import { initialiseInventoryUI } from './ui/InventoriesUI';
 import { showWinningAlert } from './ui/Screen';
 
 let rulesManager: RulesManager;
@@ -66,7 +66,7 @@ function initializeGame() {
   rulesManager = new RulesManager();
 
   players.forEach((player) => {
-    initialiseInventory(player.color);
+    initialiseInventoryUI(player.color);
   });
 }
 
@@ -84,8 +84,6 @@ function endTurn() {
     turnCounter = 0;
     roundCounter++;
   }
-
-
 
   players.forEach((player) => {
     changeShownInventory(player);

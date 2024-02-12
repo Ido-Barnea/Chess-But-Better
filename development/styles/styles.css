@@ -160,7 +160,7 @@ path {
   background-color: burlywood;
 }
 
-.inventories-container {
+.inventory-container {
   height: calc(var(--square-size) * var(--inventory-squares-per-side));
   width: calc(var(--square-size) * var(--inventory-squares-per-side));
   overflow: visible;

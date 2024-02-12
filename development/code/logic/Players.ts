@@ -13,13 +13,13 @@ export enum PlayerColors {
 };
 
 export class Player implements PlayerType {
-  color: string;
+  color: PlayerColors;
   xp: number;
   gold: number;
   inDebtForTurns: number;
   inventory: Inventory;
 
-  constructor(color: string) {
+  constructor(color: PlayerColors) {
     this.color = color;
     this.xp = 0;
     this.gold = 0;
