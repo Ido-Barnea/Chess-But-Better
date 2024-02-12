@@ -97,6 +97,7 @@ export function onPlayerAction(
     const targetSquare = (target instanceof Item)
       ? { position: target.position }
       : (target as Square);
+    
     onActionNonAttackMove(draggedPiece, targetSquare);
   }
 }

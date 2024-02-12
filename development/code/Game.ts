@@ -12,7 +12,7 @@ import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
-import { initialiseInventory } from './ui/InventoriesUI';
+import { initialiseInventoryUI } from './ui/InventoriesUI';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -67,7 +67,7 @@ function initializeGame() {
   rulesManager = new RulesManager();
 
   players.forEach((player) => {
-    initialiseInventory(player.color);
+    initialiseInventoryUI(player.color);
   });
 }
 

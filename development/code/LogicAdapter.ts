@@ -17,7 +17,7 @@ import {
   getPieceElementBySquareId,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
-import { changeInventoryVisibility, showItemOnInventory } from './ui/InventoriesUI';
+import { switchShownInventory, showItemOnInventory } from './ui/InventoriesUI';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -197,7 +197,7 @@ export function endGame(){
 }
 
 export function changeShownInventory(player: Player) {
-  if (changeInventoryVisibility(player.color)) {
+  if (switchShownInventory(player.color)) {
     player.inventory.items.forEach((item) =>  {
       console.log(item);
       showItemOnInventory(item,player.color);
