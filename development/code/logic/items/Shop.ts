@@ -11,7 +11,7 @@ export class Shop {
   buy(item: Item, player: Player) {
     if (isPlayerAllowedToAct(player) && player.gold >= item.price) {
       player.gold -= item.price;
-      player.inventory.addItem(item, player);
+      player.inventory.addItem(item);
     }
   }
 }

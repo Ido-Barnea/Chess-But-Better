@@ -23,10 +23,7 @@ export function renderPlayersInformation() {
     const status = `${title} ${player.xp} XP; ${player.gold} Gold.`;
     statusElement.innerHTML = status;
 
-    const inventoryElement = player.inventory.toHTMLElement();
-
     playerInformationElement.appendChild(statusElement);
-    playerInformationElement.appendChild(inventoryElement);
 
     playersElement.appendChild(playerInformationElement);
   });

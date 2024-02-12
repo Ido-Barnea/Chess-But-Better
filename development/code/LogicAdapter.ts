@@ -17,6 +17,7 @@ import {
   highlightLastMove,
   getPieceElementBySquareId,
 } from './ui/BoardManager';
+import { changeInventoryVisibility, showItemOnInventory } from './ui/InventoriesUI';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
 
 export function renderScreen() {
@@ -187,7 +188,10 @@ export function changePieceToAnotherPlayer(piece: Piece) {
   const pieceElement = getPieceElementBySquareId(squareId, boadrId);
   if (pieceElement) {
     pieceElement.classList.remove(piece.player.color.toLowerCase());
-    const enemyPlayerColor = piece.player.color === PlayerColors.WHITE ? PlayerColors.BLACK : PlayerColors.WHITE;
+    const enemyPlayerColor = 
+      piece.player.color === PlayerColors.WHITE 
+        ? PlayerColors.BLACK 
+        : PlayerColors.WHITE;
     pieceElement.classList.add(enemyPlayerColor.toLowerCase());
   }
 
@@ -196,4 +200,13 @@ export function changePieceToAnotherPlayer(piece: Piece) {
 
 export function winGame(winnerPlayer: Player){
   game.setWinner(winnerPlayer);
+}
+
+export function changeShownInventory(player: Player) {
+  if (changeInventoryVisibility(player.color)) {
+    player.inventory.items.forEach((item) =>  {
+      console.log(item);
+      showItemOnInventory(item,player.color);
+    });
+  }
 }

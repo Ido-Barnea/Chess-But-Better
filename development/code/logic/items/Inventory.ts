@@ -1,14 +1,20 @@
 import { Logger } from '../../ui/Logger';
+import { INVENTORY_CLASS_ID, INVENTORY_WIDTH } from '../Constants';
 import { Player } from '../Players';
 import { Item } from './Items';
 
 
 export class Inventory {
   items: Array<Item> = [];
+  player: Player;
 
-  addItem(item: Item, player: Player) {
+  constructor(_player: Player) {
+    this.player = _player;
+  }
+
+  addItem(item: Item) {
     this.items.push(item);
-    Logger.logGeneral(`${player.color} received a ${item.name}.`);
+    Logger.logGeneral(`${this.player.color} received a ${item.name}.`);
   }
 
   removeItem(item: Item) {
@@ -16,17 +22,5 @@ export class Inventory {
     if (index !== -1) {
       this.items.splice(index, 1);
     }
-  }
-
-  toHTMLElement(): HTMLElement {
-    const inventoryElement = document.createElement('ul');
-    this.items.forEach((item) => {
-      const inventoryItemElement = document.createElement('li');
-      inventoryItemElement.innerHTML = item.name;
-
-      inventoryElement.appendChild(inventoryItemElement);
-    });
-
-    return inventoryElement;
   }
 }

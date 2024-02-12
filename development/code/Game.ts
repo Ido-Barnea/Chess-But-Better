@@ -1,4 +1,4 @@
-import { renderScreen } from './LogicAdapter';
+import { changeShownInventory, renderScreen } from './LogicAdapter';
 import { OVERWORLD_BOARD_ID } from './logic/Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
@@ -10,6 +10,7 @@ import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
+import { initialiseInventory } from './ui/InventoriesUI';
 import { showWinningAlert } from './ui/Screen';
 
 let rulesManager: RulesManager;
@@ -63,6 +64,10 @@ let winner: Player | undefined = undefined;
 
 function initializeGame() {
   rulesManager = new RulesManager();
+
+  players.forEach((player) => {
+    initialiseInventory(player.color);
+  });
 }
 
 function endTurn() {
@@ -79,6 +84,12 @@ function endTurn() {
     turnCounter = 0;
     roundCounter++;
   }
+
+
+
+  players.forEach((player) => {
+    changeShownInventory(player);
+  });
 
   renderScreen();
 
