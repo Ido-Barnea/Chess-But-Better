@@ -24,6 +24,6 @@ export class Player implements PlayerType {
     this.xp = 0;
     this.gold = 0;
     this.inDebtForTurns = 0;
-    this.inventory = new Inventory();
+    this.inventory = new Inventory(this);
   }
 }

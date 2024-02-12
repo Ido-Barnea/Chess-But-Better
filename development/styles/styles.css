@@ -3,6 +3,7 @@
   --board-squares-per-side: 8;
   --piece-resource-padding: 12px;
   --notation-padding: 4px;
+  --inventory-squares-per-side: 2;
 }
 
 body {
@@ -43,10 +44,6 @@ body {
   flex-direction: column;
   position: absolute;
   z-index: 1;
-}
-
-.collapsed {
-  display: none;
 }
 
 .disabled {
@@ -158,6 +155,26 @@ path {
   background-color: burlywood;
 }
 
+.inventories-container {
+  height: calc(var(--square-size) * var(--inventory-squares-per-side));
+  width: calc(var(--square-size) * var(--inventory-squares-per-side));
+  overflow: visible;
+  padding-left: 5%;
+}
+
+.player-inventory {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.inventory-square {
+  outline: 2px solid;
+  height: var(--square-size);
+  width: var(--square-size);
+}
+
 .beige-background {
   background-color: burlywood;
 }
@@ -223,4 +240,8 @@ path {
 
 .log-color-item {
   color: DarkGoldenRod;
+}
+
+.collapsed {
+  display: none;
 }

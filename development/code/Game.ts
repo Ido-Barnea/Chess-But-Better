@@ -1,4 +1,4 @@
-import { renderScreen } from './LogicAdapter';
+import { changeShownInventory, renderScreen } from './LogicAdapter';
 import { OVERWORLD_BOARD_ID } from './logic/Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
@@ -12,6 +12,7 @@ import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
+import { initialiseInventory } from './ui/InventoriesUI';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -64,6 +65,10 @@ let isGameFinished = false;
 
 function initializeGame() {
   rulesManager = new RulesManager();
+
+  players.forEach((player) => {
+    initialiseInventory(player.color);
+  });
 }
 
 function endTurn() {
@@ -82,6 +87,11 @@ function endTurn() {
   }
 
   Logger.logMessages();
+
+  players.forEach((player) => {
+    changeShownInventory(player);
+  });
+
   renderScreen();
 
   // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
