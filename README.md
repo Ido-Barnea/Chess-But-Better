@@ -38,7 +38,7 @@
 Chess But Better acts as multiple additional layers on top of your average chess game. This innovative project aims to take the timeless game of chess and infuse it with a touch of excitement, complexity, and creativity. By incorporating a set of unique features, Chess But Better offers anyone the opportunity to explore a chess experience unlike any other!
 
 <!-- Contributing -->
-## :wave: Hall of Fame
+## :trophy: Hall of Fame
 
 <a href="https://github.com/Ido-Barnea/Chess-But-Better/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Ido-Barnea/Chess-But-Better" />
