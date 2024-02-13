@@ -95,7 +95,7 @@ path {
   z-index: -2;
 }
 
-.piece {
+.piece, .item {
   height: var(--square-size);
   width: var(--square-size);
   position: relative;
@@ -103,9 +103,10 @@ path {
   cursor: grab;
 }
 
-.piece:active {
+.piece:active, .item:active {
   cursor: grabbing;
 }
+
 
 #logs-container {
   position: absolute;
