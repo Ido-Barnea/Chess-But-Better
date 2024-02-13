@@ -18,8 +18,8 @@ export function showItemOnInventory(
   item: Item,
   playerColor: PlayerColors,
 ): HTMLElement | undefined {
-  const inventoryItemElement = document.createElement('li');
-  inventoryItemElement.innerHTML = item.name;
+  const inventoryItemElement = document.createElement('div');
+  inventoryItemElement.innerHTML = item.resource;
 
   const playerInventoryElement = document.getElementById(playerColor);
   
