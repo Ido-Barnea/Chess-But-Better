@@ -102,11 +102,12 @@ export function dragElement(element: HTMLElement) {
       elementYPosition,
     ) as Array<HTMLElement>;
     const droppedOnElement = droppedOnElements.filter(element => {
-      return element.classList.contains('square') ||
+      console.log(element);
+      return (element.classList.contains('square') ||
         element.classList.contains('item') ||
-        element.classList.contains('piece') && element !== draggedElement;
+        element.classList.contains('piece') ) && element !== draggedElement;
     })[0];
-
+    console.log(droppedOnElement);
 
     if (draggedElement.id === 'trap') {
       placeItemOnBoard(draggedElement, droppedOnElement);

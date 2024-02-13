@@ -22,13 +22,16 @@ export function showItemOnInventory(
   const inventoryItemElement = document.createElement('div') as HTMLElement;
   inventoryItemElement.id = item.name;
   inventoryItemElement.classList.add(playerColor.toLowerCase());
+  inventoryItemElement.classList.add('item');
   inventoryItemElement.innerHTML = item.resource;
   inventoryItemElement.draggable = true;
   
+  
+
   dragElement(inventoryItemElement);
 
   const playerInventoryElement = document.getElementById(playerColor);
-  
+
   playerInventoryElement?.childNodes.forEach((child) => {
     if (!child.hasChildNodes()) {
       child.appendChild(inventoryItemElement);
