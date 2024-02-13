@@ -16,6 +16,7 @@ import {
   spawnPieceElementOnBoard,
   highlightLastMove,
   getPieceElementBySquareId,
+  destroyItemOnInventory,
 } from './ui/BoardManager';
 import { switchShownInventory, showItemOnInventory } from './ui/InventoriesUI';
 import { renderPlayersInformation, renderNewRule } from './ui/Screen';
@@ -53,6 +54,8 @@ export function onActionTriggered(
   targetElement: HTMLElement,
   boardId: string,
 ) {
+  console.log(draggedElement);
+  console.log(targetElement);
   const originSquareId = getSquareIdByElement(draggedElement);
   if (!originSquareId) return;
 
@@ -62,7 +65,6 @@ export function onActionTriggered(
 
   const targetSquareId = getSquareIdByElement(targetElement);
   if (!targetSquareId) return;
-
   const targetElementPosition = getPositionFromSquareId(targetSquareId, boardId);
 
   if (targetElement.classList.contains('piece')) {
@@ -89,6 +91,7 @@ export function onFellOffTheBoardTriggered(
   boardId: string,
 ) {
   const squareId = getSquareIdByElement(draggedElement);
+  console.log('83');
   if (!squareId) return;
 
   const draggedElementPosition = getPositionFromSquareId(squareId, boardId);
@@ -209,4 +212,54 @@ export function changeShownInventory(player: Player) {
       showItemOnInventory(item,player.color);
     });
   }
+}
+
+export function placeItemOnBoard(itemElement: HTMLElement, squareElement: HTMLElement) {
+  const currentOpenBoardId = getCurrentBoardId();
+  if (!currentOpenBoardId) return;
+
+  const squareId = getSquareIdByElement(squareElement);
+  if (!squareId) return;
+
+  const squarePosition = getPositionFromSquareId(squareId, currentOpenBoardId);
+  
+
+  console.log(itemElement.id);
+  const usedItem = getCurrentPlayerItemById(itemElement.id);
+  if (!usedItem) return;
+
+  usedItem.position = squarePosition;
+  spawnItemOnBoard(usedItem);
+  game.addItem(usedItem);
+
+
+  destroyItemOnInventory(itemElement);
+
+  
+}
+
+export function getCurrentBoardId(): string | undefined {
+  const boards = document.getElementsByClassName('board');
+  let currentOpenBoard;
+  for (let i = 0; i < boards.length; i++) {
+    if (!boards[i].classList.contains('collapsed')) {
+      currentOpenBoard = boards[i];
+      break;
+    }
+  }
+
+  return currentOpenBoard?.id;
+}
+
+export function getCurrentPlayerItemById(itemId: string): Item | undefined {
+  const player = game.getCurrentPlayer();
+  let draggedItem = undefined;
+  player.inventory.items.forEach((item) => {
+    if (item.name === itemId) {
+      draggedItem = item;
+      return;
+    }
+  });
+
+  return draggedItem;
 }

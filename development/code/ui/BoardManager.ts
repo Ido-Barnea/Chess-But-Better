@@ -166,8 +166,8 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
 
   const squareElement = board.boardElement.querySelectorAll(`[square-id="${targetSquareId}"]`)[0] as HTMLElement;
 
-  const pieceElement = board.createItemElement(item);
-  board.spawnElementOnBoard(pieceElement, squareElement);
+  const itemElement = board.createItemElement(item);
+  board.spawnElementOnBoard(itemElement, squareElement);
 }
 
 function findSquareElement(element: HTMLElement): HTMLElement | undefined {
@@ -217,3 +217,6 @@ export function highlightLastMove(
   highlightSquare(targetSquareElement, true, false);
 }
 
+export function destroyItemOnInventory(itemElement: HTMLElement) {
+  itemElement.remove();
+}

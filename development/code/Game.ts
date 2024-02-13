@@ -2,6 +2,7 @@ import { changeShownInventory, renderScreen } from './LogicAdapter';
 import { OVERWORLD_BOARD_ID } from './logic/Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
+import { Trap } from './logic/items/Trap';
 import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';
 import { Knight } from './logic/pieces/Knight';
@@ -68,6 +69,9 @@ function initializeGame() {
   players.forEach((player) => {
     initialiseInventoryUI(player.color);
   });
+
+  const trap = new Trap();
+  blackPlayer.inventory.addItem(trap);
 }
 
 function endTurn() {
@@ -149,6 +153,10 @@ function getItems(): Array<Item> {
   return items;
 }
 
+function addItem(item: Item) {
+  items.push(item);
+}
+
 function setItems(updatedItems: Array<Item>) {
   items = updatedItems;
 }
@@ -215,6 +223,7 @@ export const game = {
   setPieces,
   getItems,
   setItems,
+  addItem,
   getRoundCounter,
   increaseRoundCounter,
   getDeathCounter,
