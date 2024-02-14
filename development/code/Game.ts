@@ -247,6 +247,6 @@ export const game = {
   setIsPieceKilled,
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
-  changeItemPlacedRecently: switchWasItemPlacedThisTurn,
+  switchWasItemPlacedThisTurn,
   getWasItemPlacedThisTurn,
 };

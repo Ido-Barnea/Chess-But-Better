@@ -58,7 +58,7 @@ export function onActionTriggered(
 
   const targetSquareId = getSquareIdByElement(targetElement);
   if (!targetSquareId) return;
-  
+
   const targetElementPosition = getPositionFromSquareId(targetSquareId, boardId);
 
   if (targetElement.classList.contains('piece')) {
@@ -236,7 +236,7 @@ export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLEl
   spawnItemOnBoard(usedItem);
   game.addItem(usedItem);
   game.getCurrentPlayer().inventory.removeItem(usedItem);
-  game.changeItemPlacedRecently();
+  game.switchWasItemPlacedThisTurn();
 
   destroyItemInInventory(itemElement);
 

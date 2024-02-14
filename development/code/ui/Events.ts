@@ -89,8 +89,8 @@ export function dragElement(element: HTMLElement) {
     let parentContainer = initialElement.parentElement ?? undefined;
     while (
       parentContainer &&
-       !(parentContainer.classList.contains('board') ||
-        parentContainer.classList.contains('player-inventory'))
+      !(parentContainer.classList.contains('board') ||
+      parentContainer.classList.contains('player-inventory'))
     ) {
       parentContainer = parentContainer.parentElement ?? undefined;
     }
