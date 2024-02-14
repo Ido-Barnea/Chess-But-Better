@@ -1,4 +1,4 @@
-import { renderScreen } from './LogicAdapter';
+import { switchInventory, renderScreen } from './LogicAdapter';
 import { OVERWORLD_BOARD_ID } from './logic/Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
@@ -12,6 +12,7 @@ import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
+import { initialiseInventoryUI } from './ui/InventoriesUI';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -59,11 +60,16 @@ let deathCounter = 0;
 let isCastling = false;
 let isFriendlyFire = false;
 let isPieceKilled = false;
+let wasItemPlacedThisTurn = false;
 let fellOffTheBoardPiece: Piece | undefined;
 let isGameFinished = false;
 
 function initializeGame() {
   rulesManager = new RulesManager();
+
+  players.forEach((player) => {
+    initialiseInventoryUI(player.color);
+  });
 }
 
 function endTurn() {
@@ -82,7 +88,13 @@ function endTurn() {
   }
 
   Logger.logMessages();
+
+  players.forEach((player) => {
+    switchInventory(player);
+  });
+
   renderScreen();
+  wasItemPlacedThisTurn = false;
 
   // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
   // To make sure the element is removed before displaying the winning alert, we need to add
@@ -144,6 +156,10 @@ function getItems(): Array<Item> {
   return items;
 }
 
+function addItem(item: Item) {
+  items.push(item);
+}
+
 function setItems(updatedItems: Array<Item>) {
   items = updatedItems;
 }
@@ -200,6 +216,14 @@ function endGame() {
   isGameFinished = true;
 }
 
+function switchWasItemPlacedThisTurn() {
+  wasItemPlacedThisTurn = true;
+}
+
+function getWasItemPlacedThisTurn(){
+  return wasItemPlacedThisTurn;
+}
+
 export const game = {
   initialize: initializeGame,
   end: endGame,
@@ -211,6 +235,7 @@ export const game = {
   setPieces,
   getItems,
   setItems,
+  addItem,
   getRoundCounter,
   increaseRoundCounter,
   getDeathCounter,
@@ -222,4 +247,6 @@ export const game = {
   setIsPieceKilled,
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
+  switchWasItemPlacedThisTurn,
+  getWasItemPlacedThisTurn,
 };

@@ -1,6 +1,6 @@
 import { game } from './Game';
 import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
-import { PlayerColors } from './logic/Players';
+import { Player, PlayerColors } from './logic/Players';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
@@ -15,8 +15,10 @@ import {
   spawnPieceElementOnBoard,
   highlightLastMove,
   getPieceElementBySquareId,
+  destroyItemInInventory,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
+import { switchShownInventory, showItemOnInventory } from './ui/InventoriesUI';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -193,4 +195,86 @@ export function changePieceToAnotherPlayer(piece: Piece) {
 
 export function endGame(){
   game.end();
+}
+
+export function switchInventory(player: Player) {
+  if (switchShownInventory(player.color)) {
+    player.inventory.items.forEach((item) =>  {
+      showItemOnInventory(item,player.color);
+    });
+  }
+}
+
+export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
+  if (game.getWasItemPlacedThisTurn() || !targetElement) return false;
+
+  switch (itemElement.id) {
+    case 'trap': {
+      if (!targetElement.classList.contains('square')) {
+        return false;
+      }
+      break;
+    }
+    default:
+      break;
+  }
+  
+  
+  const currentOpenBoardId = getCurrentBoardId();
+  if (!currentOpenBoardId) return false;
+
+  const squareId = getSquareIdByElement(targetElement);
+  if (!squareId) return false;
+
+  const squarePosition = getPositionFromSquareId(squareId, currentOpenBoardId);
+  
+
+  const usedItem = getCurrentPlayerItemById(itemElement.id);
+  if (!usedItem) return false;
+
+  usedItem.position = squarePosition;
+  spawnItemOnBoard(usedItem);
+  game.addItem(usedItem);
+  game.getCurrentPlayer().inventory.removeItem(usedItem);
+  game.switchWasItemPlacedThisTurn();
+
+  destroyItemInInventory(itemElement);
+
+  return true;
+}
+
+export function getCurrentBoardId(): string | undefined {
+  const boards = document.getElementsByClassName('board');
+  let currentOpenBoard;
+  for (let i = 0; i < boards.length; i++) {
+    if (!boards[i].classList.contains('collapsed')) {
+      currentOpenBoard = boards[i];
+      break;
+    }
+  }
+
+  return currentOpenBoard?.id;
+}
+
+export function getCurrentPlayerItemById(itemId: string): Item | undefined {
+  const player = game.getCurrentPlayer();
+  let draggedItem = undefined;
+  player.inventory.items.forEach((item) => {
+    if (item.name === itemId) {
+      draggedItem = item;
+      return;
+    }
+  });
+
+  return draggedItem;
+}
+
+export function returnItemToInventory(itemElement: HTMLElement) {
+  const usedItem = getCurrentPlayerItemById(itemElement.id);
+  if (!usedItem) return;
+  
+  destroyItemInInventory(itemElement);
+
+  const player = game.getCurrentPlayer();
+  showItemOnInventory(usedItem, player.color);
 }

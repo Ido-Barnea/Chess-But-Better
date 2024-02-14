@@ -3,6 +3,7 @@
   --board-squares-per-side: 8;
   --piece-resource-padding: 12px;
   --notation-padding: 4px;
+  --inventory-squares-per-side: 4;
 }
 
 body {
@@ -43,10 +44,6 @@ body {
   flex-direction: column;
   position: absolute;
   z-index: 1;
-}
-
-.collapsed {
-  display: none;
 }
 
 .disabled {
@@ -98,16 +95,20 @@ path {
   z-index: -2;
 }
 
-.piece {
+.piece, .item {
   height: var(--square-size);
   width: var(--square-size);
-  position: relative;
+  position: absolute;
   z-index: 1;
   cursor: grab;
 }
 
-.piece:active {
+.piece:active, .item:active {
   cursor: grabbing;
+}
+
+.inventory-item {
+  margin-top: 10px;
 }
 
 #logs-container {
@@ -156,6 +157,35 @@ path {
 
 .boards-buttons-container button:active {
   background-color: burlywood;
+}
+
+
+
+.inventory-container {
+  height: var(--square-size);
+  width: calc(var(--square-size) * var(--inventory-squares-per-side));
+  overflow: visible;
+  padding-left: 32px;
+  position: absolute;
+  bottom: 0px;
+  margin-bottom: 47px;
+}
+
+.player-inventory {
+  height: 100%;
+  width: 100%;
+  outline: 3px solid;
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.inventory-square {
+  outline: 2px solid;
+  box-sizing: border-box;
+  height: var(--square-size);
+  width: var(--square-size);
 }
 
 .beige-background {
@@ -223,4 +253,8 @@ path {
 
 .log-color-item {
   color: DarkGoldenRod;
+}
+
+.collapsed {
+  display: none;
 }

@@ -4,6 +4,7 @@ export const HEAVEN_BOARD_ID = 'board-heaven';
 export const VOID_BOARD_ID = 'board-void';
 export const BOTTOM_NOTATION_ID = 'bottom-notations';
 export const LEFT_NOTATION_ID = 'left-notations';
+export const INVENTORY_CLASS_ID = 'inventory-container';
 
 export const OVERWORLD_BOARD_BUTTON_ID = 'board-overworld-button';
 export const HELL_BOARD_BUTTON_ID = 'board-hell-button';
@@ -25,3 +26,4 @@ export const NOTATIONS_NUMBERS = ['8', '7', '6', '5', '4', '3', '2', '1'];
 export const BOARD_WIDTH = 8;
 
 export const MIN_KILLINGS_FOR_BOUNTY = 3;
+export const INVENTORY_WIDTH = 4;

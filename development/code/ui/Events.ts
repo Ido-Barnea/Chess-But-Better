@@ -1,5 +1,5 @@
 import { game } from '../Game';
-import { onPieceSelected } from '../LogicAdapter';
+import { onPieceSelected, placeItemOnBoard, returnItemToInventory } from '../LogicAdapter';
 import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
@@ -38,7 +38,7 @@ export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
   pieces.forEach(pieceElement => {
     pieceElement.addEventListener('click', onMouseClick);
-    dragPieceElement(pieceElement as HTMLElement);
+    dragElement(pieceElement as HTMLElement);
   });
 
   // Listen for boards' buttons clicks
@@ -47,27 +47,27 @@ export function initializeEventListeners() {
   HEAVEN_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
 }
 
-export function dragPieceElement(element: HTMLElement) {
+export function dragElement(element: HTMLElement) {
   let startMouseX = 0;
   let startMouseY = 0;
   let endMouseX = 0;
   let endMouseY = 0;
-  element.onmousedown = dragPieceOnMouseDown;
+  element.onmousedown = dragElementOnMouseDown;
 
-  function dragPieceOnMouseDown(event: MouseEvent) {
+  function dragElementOnMouseDown(event: MouseEvent) {
     event.preventDefault();
 
     const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
-    if (!element.classList.contains(currentTurnPlayerColor)) return;
-
+    if (!(element.classList.contains(currentTurnPlayerColor) || element.classList.contains('item'))) return;
     endMouseX = event.clientX;
     endMouseY = event.clientY;
-    document.onmousemove = pieceElementDrag;
-    document.onmouseup = stopPieceElementDrag;
+    document.onmousemove = elementDrag;
+    document.onmouseup = stopElementDrag;
   }
 
-  function pieceElementDrag(event: MouseEvent) {
+  function elementDrag(event: MouseEvent) {
     event.preventDefault();
+    element.style.marginTop = '0';
 
     triggerOnHighlight(element, false, true);
     draggedElement = element;
@@ -76,24 +76,26 @@ export function dragPieceElement(element: HTMLElement) {
     startMouseY = endMouseY - event.clientY;
     endMouseX = event.clientX;
     endMouseY = event.clientY;
-
     element.style.left = (element.offsetLeft - startMouseX) + 'px';
     element.style.top = (element.offsetTop - startMouseY) + 'px';
   }
 
-  function stopPieceElementDrag(_: MouseEvent) {
+  function stopElementDrag(_: MouseEvent) {
     document.onmouseup = null;
     document.onmousemove = null;
-
     const initialElement = draggedElement as HTMLElement;
     if (!initialElement) return;
 
-    let boardElement = initialElement.parentElement ?? undefined;
-    while (boardElement && !boardElement.classList.contains('board')) {
-      boardElement = boardElement.parentElement ?? undefined;
+    let parentContainer = initialElement.parentElement ?? undefined;
+    while (
+      parentContainer &&
+      !(parentContainer.classList.contains('board') ||
+      parentContainer.classList.contains('player-inventory'))
+    ) {
+      parentContainer = parentContainer.parentElement ?? undefined;
     }
 
-    if (!boardElement) return;
+    if (!parentContainer) return;
 
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
@@ -102,15 +104,18 @@ export function dragPieceElement(element: HTMLElement) {
       elementYPosition,
     ) as Array<HTMLElement>;
     const droppedOnElement = droppedOnElements.filter(element => {
-      return element.classList.contains('square') ||
+      return (element.classList.contains('square') ||
         element.classList.contains('item') ||
-        element.classList.contains('piece') && element !== draggedElement;
+        element.classList.contains('piece') ) && element !== draggedElement;
     })[0];
 
-    if (droppedOnElement === undefined) {
-      triggerOnFellOffTheBoard(draggedElement, boardElement.id);
+
+    if (draggedElement.classList.contains('item') && !placeItemOnBoard(draggedElement, droppedOnElement)) {
+      returnItemToInventory(draggedElement);
+    } else if (!droppedOnElement) {
+      triggerOnFellOffTheBoard(draggedElement, parentContainer.id);
     } else {
-      triggerOnAction(draggedElement, droppedOnElement, boardElement.id);
+      triggerOnAction(draggedElement, droppedOnElement, parentContainer.id);
     }
   }
 }

@@ -22,6 +22,11 @@ jest.mock('../../ui/Screen.ts', () => ({
 }));
 jest.mock('../../ui/logs/Logger.ts');
 jest.mock('../../ui/Events.ts', () => ({}));
+jest.mock('../../ui/InventoriesUI.ts', () => ({
+  initialiseInventoryUI: jest.fn(),
+  switchShownInventory: jest.fn(),
+  showItemOnInventory: jest.fn(),
+}));
 
 game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
