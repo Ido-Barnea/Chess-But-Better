@@ -84,7 +84,6 @@ export function onFellOffTheBoardTriggered(
   boardId: string,
 ) {
   const squareId = getSquareIdByElement(draggedElement);
-  console.log('83');
   if (!squareId) return;
 
   const draggedElementPosition = getPositionFromSquareId(squareId, boardId);
@@ -200,7 +199,6 @@ export function endGame(){
 export function changeShownInventory(player: Player) {
   if (switchShownInventory(player.color)) {
     player.inventory.items.forEach((item) =>  {
-      console.log(item);
       showItemOnInventory(item,player.color);
     });
   }
@@ -231,7 +229,6 @@ export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLEl
   const squarePosition = getPositionFromSquareId(squareId, currentOpenBoardId);
   
 
-  console.log(itemElement.id);
   const usedItem = getCurrentPlayerItemById(itemElement.id);
   if (!usedItem) return false;
 
