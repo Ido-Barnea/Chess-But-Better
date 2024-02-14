@@ -3,7 +3,7 @@
   --board-squares-per-side: 8;
   --piece-resource-padding: 12px;
   --notation-padding: 4px;
-  --inventory-squares-per-side: 2;
+  --inventory-squares-per-side: 4;
 }
 
 body {
@@ -101,6 +101,9 @@ path {
   cursor: grabbing;
 }
 
+.inventory-item {
+  padding-top: 10px;
+}
 
 #logs-container {
   position: absolute;
@@ -162,21 +165,25 @@ path {
 }
 
 .inventory-container {
-  height: calc(var(--square-size) * var(--inventory-squares-per-side));
+  height: var(--square-size);
   width: calc(var(--square-size) * var(--inventory-squares-per-side));
   overflow: visible;
-  padding-left: 5%;
+  padding-left: 64px;
 }
 
 .player-inventory {
   height: 100%;
   width: 100%;
+  outline: 3px solid;
   display: flex;
+  text-align: center;
   flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .inventory-square {
   outline: 2px solid;
+  box-sizing: border-box;
   height: var(--square-size);
   width: var(--square-size);
 }

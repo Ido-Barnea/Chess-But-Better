@@ -2,7 +2,6 @@ import { changeShownInventory, renderScreen } from './LogicAdapter';
 import { OVERWORLD_BOARD_ID } from './logic/Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
-import { Trap } from './logic/items/Trap';
 import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';
 import { Knight } from './logic/pieces/Knight';
@@ -60,6 +59,7 @@ let deathCounter = 0;
 let isCastling = false;
 let isFriendlyFire = false;
 let isPieceKilled = false;
+let itemPlacedDownRecently = false;
 let fellOffTheBoardPiece: Piece | undefined;
 let winner: Player | undefined = undefined;
 
@@ -69,9 +69,6 @@ function initializeGame() {
   players.forEach((player) => {
     initialiseInventoryUI(player.color);
   });
-
-  const trap = new Trap();
-  blackPlayer.inventory.addItem(trap);
 }
 
 function endTurn() {
@@ -94,6 +91,7 @@ function endTurn() {
   });
 
   renderScreen();
+  itemPlacedDownRecently = false;
 
   // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
   // To make sure the element is removed before displaying the winning alert, we need to add
@@ -213,6 +211,14 @@ function setWinner(_winner: Player) {
   winner = _winner;
 }
 
+function changeItemPlacedRecently() {
+  itemPlacedDownRecently = true;
+}
+
+function wasItemPlacedRecently(){
+  return itemPlacedDownRecently;
+}
+
 export const game = {
   initialize: initializeGame,
   endTurn,
@@ -236,4 +242,6 @@ export const game = {
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
   setWinner,
+  changeItemPlacedRecently,
+  wasItemPlacedRecently,
 };

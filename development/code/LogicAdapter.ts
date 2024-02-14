@@ -54,8 +54,6 @@ export function onActionTriggered(
   targetElement: HTMLElement,
   boardId: string,
 ) {
-  console.log(draggedElement);
-  console.log(targetElement);
   const originSquareId = getSquareIdByElement(draggedElement);
   if (!originSquareId) return;
 
@@ -214,28 +212,44 @@ export function changeShownInventory(player: Player) {
   }
 }
 
-export function placeItemOnBoard(itemElement: HTMLElement, squareElement: HTMLElement) {
-  const currentOpenBoardId = getCurrentBoardId();
-  if (!currentOpenBoardId) return;
+export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
+  if (game.wasItemPlacedRecently() || !targetElement) return false;
+  
 
-  const squareId = getSquareIdByElement(squareElement);
-  if (!squareId) return;
+  switch (itemElement.id) {
+    case 'trap': {
+      if (!targetElement.classList.contains('square')) {
+        return false;
+      }
+      break;
+    }
+    default:
+      break;
+  }
+  
+  
+  const currentOpenBoardId = getCurrentBoardId();
+  if (!currentOpenBoardId) return false;
+
+  const squareId = getSquareIdByElement(targetElement);
+  if (!squareId) return false;
 
   const squarePosition = getPositionFromSquareId(squareId, currentOpenBoardId);
   
 
   console.log(itemElement.id);
   const usedItem = getCurrentPlayerItemById(itemElement.id);
-  if (!usedItem) return;
+  if (!usedItem) return false;
 
   usedItem.position = squarePosition;
   spawnItemOnBoard(usedItem);
   game.addItem(usedItem);
-
+  game.getCurrentPlayer().inventory.removeItem(usedItem);
+  game.changeItemPlacedRecently();
 
   destroyItemOnInventory(itemElement);
 
-  
+  return true;
 }
 
 export function getCurrentBoardId(): string | undefined {
@@ -262,4 +276,14 @@ export function getCurrentPlayerItemById(itemId: string): Item | undefined {
   });
 
   return draggedItem;
+}
+
+export function returnItemToInventory(itemElement: HTMLElement) {
+  const usedItem = getCurrentPlayerItemById(itemElement.id);
+  if (!usedItem) return;
+  
+  destroyItemOnInventory(itemElement);
+
+  const player = game.getCurrentPlayer();
+  showItemOnInventory(usedItem, player.color);
 }
