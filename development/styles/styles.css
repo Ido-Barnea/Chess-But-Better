@@ -98,7 +98,7 @@ path {
 .piece, .item {
   height: var(--square-size);
   width: var(--square-size);
-  position: relative;
+  position: absolute;
   z-index: 1;
   cursor: grab;
 }
@@ -160,9 +160,7 @@ path {
 }
 
 
-/*   position: absolute;
-  top: 0px;
-  left: 24px; */
+
 .inventory-container {
   height: var(--square-size);
   width: calc(var(--square-size) * var(--inventory-squares-per-side));
