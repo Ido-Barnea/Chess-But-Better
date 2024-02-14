@@ -48,7 +48,7 @@ export function initialiseInventoryUI(playerColor: PlayerColors) {
   const playerInventoryElement = createPlayerInventoryElement(playerColor);
 
   for (let row = 0; row < INVENTORY_WIDTH; row++) {
-      createInventorySlotElement(playerInventoryElement, playerColor);
+    createInventorySlotElement(playerInventoryElement, playerColor);
   }
   
   if (playerColor === PlayerColors.BLACK) {

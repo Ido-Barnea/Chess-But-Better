@@ -13,6 +13,7 @@ import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initialiseInventoryUI } from './ui/InventoriesUI';
+import { Trap } from './logic/items/Trap';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -70,6 +71,9 @@ function initializeGame() {
   players.forEach((player) => {
     initialiseInventoryUI(player.color);
   });
+
+  const trap = new Trap();
+  blackPlayer.inventory.addItem(trap);
 }
 
 function endTurn() {

@@ -108,7 +108,7 @@ path {
 }
 
 .inventory-item {
-  padding-top: 10px;
+  margin-top: 10px;
 }
 
 #logs-container {
@@ -159,11 +159,18 @@ path {
   background-color: burlywood;
 }
 
+
+/*   position: absolute;
+  top: 0px;
+  left: 24px; */
 .inventory-container {
   height: var(--square-size);
   width: calc(var(--square-size) * var(--inventory-squares-per-side));
   overflow: visible;
-  padding-left: 64px;
+  padding-left: 32px;
+  position: absolute;
+  bottom: 0px;
+  margin-bottom: 47px;
 }
 
 .player-inventory {

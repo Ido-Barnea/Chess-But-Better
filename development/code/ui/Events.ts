@@ -68,6 +68,7 @@ export function dragElement(element: HTMLElement) {
   function elementDrag(event: MouseEvent) {
     event.preventDefault();
     element.style.marginTop = '0';
+
     triggerOnHighlight(element, false, true);
     draggedElement = element;
 
