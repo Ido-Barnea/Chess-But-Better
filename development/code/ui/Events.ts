@@ -1,5 +1,5 @@
 import { game } from '../Game';
-import { onPieceSelected, placeItemOnBoard } from '../LogicAdapter';
+import { onPieceSelected, placeItemOnBoard, returnItemToInventory } from '../LogicAdapter';
 import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
@@ -58,7 +58,7 @@ export function dragElement(element: HTMLElement) {
     event.preventDefault();
 
     const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
-    if (!element.classList.contains(currentTurnPlayerColor)) return;
+    if (!(element.classList.contains(currentTurnPlayerColor) || element.classList.contains('item'))) return;
     endMouseX = event.clientX;
     endMouseY = event.clientY;
     document.onmousemove = elementDrag;
@@ -67,8 +67,7 @@ export function dragElement(element: HTMLElement) {
 
   function elementDrag(event: MouseEvent) {
     event.preventDefault();
-    console.log('1');
-
+    element.style.marginTop = '0';
     triggerOnHighlight(element, false, true);
     draggedElement = element;
 
@@ -76,7 +75,6 @@ export function dragElement(element: HTMLElement) {
     startMouseY = endMouseY - event.clientY;
     endMouseX = event.clientX;
     endMouseY = event.clientY;
-    console.log('2');
     element.style.left = (element.offsetLeft - startMouseX) + 'px';
     element.style.top = (element.offsetTop - startMouseY) + 'px';
   }
@@ -84,17 +82,15 @@ export function dragElement(element: HTMLElement) {
   function stopElementDrag(_: MouseEvent) {
     document.onmouseup = null;
     document.onmousemove = null;
-    console.log('3');
     const initialElement = draggedElement as HTMLElement;
     if (!initialElement) return;
 
-    let boardElement = initialElement.parentElement ?? undefined;
-    while (boardElement && !(boardElement.classList.contains('board') || boardElement.classList.contains('player-inventory'))) {
-      boardElement = boardElement.parentElement ?? undefined;
+    let parentContainer = initialElement.parentElement ?? undefined;
+    while (parentContainer && !(parentContainer.classList.contains('board') || parentContainer.classList.contains('player-inventory'))) {
+      parentContainer = parentContainer.parentElement ?? undefined;
     }
 
-    if (!boardElement) return;
-    console.log('4');
+    if (!parentContainer) return;
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
     const droppedOnElements = document.elementsFromPoint(
@@ -107,17 +103,16 @@ export function dragElement(element: HTMLElement) {
         element.classList.contains('item') ||
         element.classList.contains('piece') ) && element !== draggedElement;
     })[0];
-    console.log(droppedOnElement);
 
-    if (draggedElement.id === 'trap') {
-      placeItemOnBoard(draggedElement, droppedOnElement);
+    if (draggedElement.classList.contains('item')) {
+      if (!placeItemOnBoard(draggedElement, droppedOnElement)) {
+        returnItemToInventory(draggedElement);
+      }
     }
     else if (droppedOnElement === undefined) {
-      console.log('87');
-      triggerOnFellOffTheBoard(draggedElement, boardElement.id);
+      triggerOnFellOffTheBoard(draggedElement, parentContainer.id);
     } else {
-      console.log('5');
-      triggerOnAction(draggedElement, droppedOnElement, boardElement.id);
+      triggerOnAction(draggedElement, droppedOnElement, parentContainer.id);
     }
   }
 }

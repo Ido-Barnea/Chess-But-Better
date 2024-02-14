@@ -21,8 +21,8 @@ export function showItemOnInventory(
 ): HTMLElement | undefined {
   const inventoryItemElement = document.createElement('div') as HTMLElement;
   inventoryItemElement.id = item.name;
-  inventoryItemElement.classList.add(playerColor.toLowerCase());
   inventoryItemElement.classList.add('item');
+  inventoryItemElement.classList.add('inventory-item');
   inventoryItemElement.innerHTML = item.resource;
   inventoryItemElement.draggable = true;
   
