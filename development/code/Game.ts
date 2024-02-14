@@ -216,7 +216,7 @@ function endGame() {
   isGameFinished = true;
 }
 
-function changewasItemPlacedThisTurn() {
+function switchWasItemPlacedThisTurn() {
   wasItemPlacedThisTurn = true;
 }
 
@@ -247,6 +247,6 @@ export const game = {
   setIsPieceKilled,
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
-  changeItemPlacedRecently: changewasItemPlacedThisTurn,
+  changeItemPlacedRecently: switchWasItemPlacedThisTurn,
   getWasItemPlacedThisTurn,
 };
