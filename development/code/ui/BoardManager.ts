@@ -229,6 +229,6 @@ export function highlightLastMove(
   highlightSquare(targetSquareElement, true, false);
 }
 
-export function destroyItemOnInventory(itemElement: HTMLElement) {
+export function destroyItemInInventory(itemElement: HTMLElement) {
   itemElement.remove();
 }

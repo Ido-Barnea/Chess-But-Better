@@ -1,4 +1,4 @@
-import { changeShownInventory, renderScreen } from './LogicAdapter';
+import { switchInventory, renderScreen } from './LogicAdapter';
 import { OVERWORLD_BOARD_ID } from './logic/Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
@@ -90,7 +90,7 @@ function endTurn() {
   Logger.logMessages();
 
   players.forEach((player) => {
-    changeShownInventory(player);
+    switchInventory(player);
   });
 
   renderScreen();

@@ -105,12 +105,9 @@ export function dragElement(element: HTMLElement) {
     })[0];
 
 
-    if (draggedElement.classList.contains('item')) {
-      if (!placeItemOnBoard(draggedElement, droppedOnElement)) {
-        returnItemToInventory(draggedElement);
-      }
-    }
-    else if (droppedOnElement === undefined) {
+    if (draggedElement.classList.contains('item') && !placeItemOnBoard(draggedElement, droppedOnElement)) {
+      returnItemToInventory(draggedElement);
+    } else if (droppedOnElement === undefined) {
       triggerOnFellOffTheBoard(draggedElement, parentContainer.id);
     } else {
       triggerOnAction(draggedElement, droppedOnElement, parentContainer.id);

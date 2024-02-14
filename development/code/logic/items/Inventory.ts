@@ -7,8 +7,8 @@ export class Inventory {
   items: Array<Item> = [];
   player: Player;
 
-  constructor(_player: Player) {
-    this.player = _player;
+  constructor(player: Player) {
+    this.player = player;
   }
 
   addItem(item: Item) {

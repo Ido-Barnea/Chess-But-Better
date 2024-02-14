@@ -15,7 +15,7 @@ import {
   spawnPieceElementOnBoard,
   highlightLastMove,
   getPieceElementBySquareId,
-  destroyItemOnInventory,
+  destroyItemInInventory,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
 import { switchShownInventory, showItemOnInventory } from './ui/InventoriesUI';
@@ -196,7 +196,7 @@ export function endGame(){
   game.end();
 }
 
-export function changeShownInventory(player: Player) {
+export function switchInventory(player: Player) {
   if (switchShownInventory(player.color)) {
     player.inventory.items.forEach((item) =>  {
       showItemOnInventory(item,player.color);
@@ -206,7 +206,6 @@ export function changeShownInventory(player: Player) {
 
 export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
   if (game.wasItemPlacedRecently() || !targetElement) return false;
-  
 
   switch (itemElement.id) {
     case 'trap': {
@@ -238,7 +237,7 @@ export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLEl
   game.getCurrentPlayer().inventory.removeItem(usedItem);
   game.changeItemPlacedRecently();
 
-  destroyItemOnInventory(itemElement);
+  destroyItemInInventory(itemElement);
 
   return true;
 }
@@ -273,7 +272,7 @@ export function returnItemToInventory(itemElement: HTMLElement) {
   const usedItem = getCurrentPlayerItemById(itemElement.id);
   if (!usedItem) return;
   
-  destroyItemOnInventory(itemElement);
+  destroyItemInInventory(itemElement);
 
   const player = game.getCurrentPlayer();
   showItemOnInventory(usedItem, player.color);

@@ -25,8 +25,6 @@ export function showItemOnInventory(
   inventoryItemElement.classList.add('inventory-item');
   inventoryItemElement.innerHTML = item.resource;
   inventoryItemElement.draggable = true;
-  
-  
 
   dragElement(inventoryItemElement);
 
@@ -38,16 +36,15 @@ export function showItemOnInventory(
       return;
     }
   });
-  if (playerInventoryElement) {
-    return playerInventoryElement;
-  }
+
+  if (playerInventoryElement) return playerInventoryElement;
   return undefined;
 }
 
 export function initialiseInventoryUI(playerColor: PlayerColors) {
   const playerInventoryElement = createPlayerInventoryElement(playerColor);
 
-  for (let row = 0; row < INVENTORY_WIDTH; row++) {
+  for (let index = 0; index < INVENTORY_WIDTH; index++) {
     createInventorySlotElement(playerInventoryElement, playerColor);
   }
   
@@ -67,10 +64,10 @@ function createInventorySlotElement(
   playerInventoryElement.appendChild(squareElement);
 }
 
-export function switchShownInventory(playerColor: PlayerColors): boolean | undefined {
+export function switchShownInventory(playerColor: PlayerColors): boolean {
   const playerInventoryElement = document.getElementById(playerColor);
   if (!playerInventoryElement) {
-    return;
+    return false;
   }
 
   const isCollapsed = playerInventoryElement.classList.contains('collapsed');
