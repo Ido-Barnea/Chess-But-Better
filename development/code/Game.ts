@@ -60,7 +60,7 @@ let deathCounter = 0;
 let isCastling = false;
 let isFriendlyFire = false;
 let isPieceKilled = false;
-let itemPlacedDownRecently = false;
+let wasItemPlacedThisTurn = false;
 let fellOffTheBoardPiece: Piece | undefined;
 let isGameFinished = false;
 
@@ -94,7 +94,7 @@ function endTurn() {
   });
 
   renderScreen();
-  itemPlacedDownRecently = false;
+  wasItemPlacedThisTurn = false;
 
   // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
   // To make sure the element is removed before displaying the winning alert, we need to add
@@ -216,12 +216,12 @@ function endGame() {
   isGameFinished = true;
 }
 
-function changeItemPlacedRecently() {
-  itemPlacedDownRecently = true;
+function changewasItemPlacedThisTurn() {
+  wasItemPlacedThisTurn = true;
 }
 
-function wasItemPlacedRecently(){
-  return itemPlacedDownRecently;
+function getWasItemPlacedThisTurn(){
+  return wasItemPlacedThisTurn;
 }
 
 export const game = {
@@ -247,6 +247,6 @@ export const game = {
   setIsPieceKilled,
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
-  changeItemPlacedRecently,
-  wasItemPlacedRecently,
+  changeItemPlacedRecently: changewasItemPlacedThisTurn,
+  getWasItemPlacedThisTurn,
 };

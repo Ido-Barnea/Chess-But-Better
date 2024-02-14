@@ -58,6 +58,7 @@ export function onActionTriggered(
 
   const targetSquareId = getSquareIdByElement(targetElement);
   if (!targetSquareId) return;
+  
   const targetElementPosition = getPositionFromSquareId(targetSquareId, boardId);
 
   if (targetElement.classList.contains('piece')) {
@@ -205,7 +206,7 @@ export function switchInventory(player: Player) {
 }
 
 export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
-  if (game.wasItemPlacedRecently() || !targetElement) return false;
+  if (game.getWasItemPlacedThisTurn() || !targetElement) return false;
 
   switch (itemElement.id) {
     case 'trap': {

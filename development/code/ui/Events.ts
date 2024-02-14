@@ -52,9 +52,9 @@ export function dragElement(element: HTMLElement) {
   let startMouseY = 0;
   let endMouseX = 0;
   let endMouseY = 0;
-  element.onmousedown = dragOnMouseDown;
+  element.onmousedown = dragElementOnMouseDown;
 
-  function dragOnMouseDown(event: MouseEvent) {
+  function dragElementOnMouseDown(event: MouseEvent) {
     event.preventDefault();
 
     const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
@@ -87,11 +87,16 @@ export function dragElement(element: HTMLElement) {
     if (!initialElement) return;
 
     let parentContainer = initialElement.parentElement ?? undefined;
-    while (parentContainer && !(parentContainer.classList.contains('board') || parentContainer.classList.contains('player-inventory'))) {
+    while (
+      parentContainer &&
+       !(parentContainer.classList.contains('board') ||
+        parentContainer.classList.contains('player-inventory'))
+    ) {
       parentContainer = parentContainer.parentElement ?? undefined;
     }
 
     if (!parentContainer) return;
+
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
     const droppedOnElements = document.elementsFromPoint(
@@ -107,7 +112,7 @@ export function dragElement(element: HTMLElement) {
 
     if (draggedElement.classList.contains('item') && !placeItemOnBoard(draggedElement, droppedOnElement)) {
       returnItemToInventory(draggedElement);
-    } else if (droppedOnElement === undefined) {
+    } else if (!droppedOnElement) {
       triggerOnFellOffTheBoard(draggedElement, parentContainer.id);
     } else {
       triggerOnAction(draggedElement, droppedOnElement, parentContainer.id);
