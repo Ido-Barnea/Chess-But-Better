@@ -71,9 +71,6 @@ function initializeGame() {
   players.forEach((player) => {
     initialiseInventoryUI(player.color);
   });
-
-  const trap = new Trap();
-  blackPlayer.inventory.addItem(trap);
 }
 
 function endTurn() {
