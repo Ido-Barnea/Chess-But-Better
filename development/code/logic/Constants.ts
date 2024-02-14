@@ -1,6 +1,7 @@
 export const OVERWORLD_BOARD_ID = 'board-overworld';
 export const HELL_BOARD_ID = 'board-hell';
 export const HEAVEN_BOARD_ID = 'board-heaven';
+export const VOID_BOARD_ID = 'board-void';
 export const BOTTOM_NOTATION_ID = 'bottom-notations';
 export const LEFT_NOTATION_ID = 'left-notations';
 

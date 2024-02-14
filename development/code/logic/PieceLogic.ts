@@ -5,6 +5,7 @@ import {
   HEAVEN_BOARD_ID,
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
+  VOID_BOARD_ID,
 } from './Constants';
 import { comparePositions } from './Utilities';
 import { PiggyBank } from './items/PiggyBank';
@@ -109,7 +110,8 @@ function onActionNonAttackMove(
 }
 
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
-  permanentlyKillPiece(draggedPiece);
+  draggedPiece.position.boardId = VOID_BOARD_ID;
+  killPieceByGame(draggedPiece, 'gravity');
   game.setFellOffTheBoardPiece(draggedPiece);
   game.endTurn();
 }
