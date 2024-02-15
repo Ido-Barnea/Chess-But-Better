@@ -86,3 +86,7 @@ function removeItemElements(playerInventoryElement: HTMLElement){
     child.firstChild?.remove();
   });
 }
+
+export function destroyItemInInventory(itemElement: HTMLElement) {
+  itemElement.remove();
+}

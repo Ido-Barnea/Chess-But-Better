@@ -15,10 +15,9 @@ import {
   spawnPieceElementOnBoard,
   highlightLastMove,
   getPieceElementBySquareId,
-  destroyItemInInventory,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
-import { switchShownInventory, showItemOnInventory } from './ui/InventoriesUI';
+import { switchShownInventory, showItemOnInventory, destroyItemInInventory } from './ui/InventoriesUI';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -227,12 +226,11 @@ export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLEl
   if (!squareId) return false;
 
   const squarePosition = getPositionFromSquareId(squareId, currentOpenBoardId);
-  
 
-  const usedItem = getCurrentPlayerItemById(itemElement.id);
+  const usedItem = getCurrentPlayerInventoryItemById(itemElement.id);
   if (!usedItem) return false;
 
-  usedItem.position = squarePosition;
+  usedItem.setPosition(squarePosition);
   spawnItemOnBoard(usedItem);
   game.addItem(usedItem);
   game.getCurrentPlayer().inventory.removeItem(usedItem);
@@ -256,21 +254,17 @@ export function getCurrentBoardId(): string | undefined {
   return currentOpenBoard?.id;
 }
 
-export function getCurrentPlayerItemById(itemId: string): Item | undefined {
+export function getCurrentPlayerInventoryItemById(itemId: string): Item | undefined {
   const player = game.getCurrentPlayer();
-  let draggedItem = undefined;
-  player.inventory.items.forEach((item) => {
-    if (item.name === itemId) {
-      draggedItem = item;
-      return;
-    }
-  });
+  const draggedItem = player.inventory.items.filter(item => {
+    return item.name === itemId;
+  })[0];
 
   return draggedItem;
 }
 
 export function returnItemToInventory(itemElement: HTMLElement) {
-  const usedItem = getCurrentPlayerItemById(itemElement.id);
+  const usedItem = getCurrentPlayerInventoryItemById(itemElement.id);
   if (!usedItem) return;
   
   destroyItemInInventory(itemElement);

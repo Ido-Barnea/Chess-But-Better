@@ -1,5 +1,5 @@
 import { Log } from '../../ui/logs/Log';
-import { INVENTORY_CLASS_ID, INVENTORY_WIDTH } from '../Constants';
+import { INVENTORY_WIDTH } from '../Constants';
 import { Player } from '../Players';
 import { Item } from './Items';
 
@@ -11,9 +11,11 @@ export class Inventory {
     this.player = player;
   }
 
-  addItem(item: Item) {
+  addItem(item: Item): boolean {
+    if (this.items.length >= INVENTORY_WIDTH) return false; 
     this.items.push(item);
     new Log(`${this.player.color} received a ${item.name}.`).addToQueue();
+    return true;
   }
 
   removeItem(item: Item) {

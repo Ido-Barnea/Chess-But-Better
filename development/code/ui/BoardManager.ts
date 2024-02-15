@@ -147,6 +147,7 @@ export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
     [square-id="${targetSquareId}"]
   `) as HTMLElement;
   const element = elementSquareElement?.firstElementChild as HTMLElement;
+  if (!element) return;
 
   board.destroyElementOnBoard(element);
 }
@@ -227,8 +228,4 @@ export function highlightLastMove(
 
   highlightSquare(originSquareElement, true, false);
   highlightSquare(targetSquareElement, true, false);
-}
-
-export function destroyItemInInventory(itemElement: HTMLElement) {
-  itemElement.remove();
 }
