@@ -108,8 +108,7 @@ export function dragElement(element: HTMLElement) {
         element.classList.contains('item') ||
         element.classList.contains('piece') ) && element !== draggedElement;
     })[0];
-
-
+      
     if (draggedElement.classList.contains('item') && !placeItemOnBoard(draggedElement, droppedOnElement)) {
       returnItemToInventory(draggedElement);
     } else if (!droppedOnElement) {

@@ -322,7 +322,7 @@ function pieceMovedOnTrap(
     return;
   }
 
-  move(draggedPiece, trap.position);
+  move(draggedPiece, trap.position, false);
   const isSuccessfulKill = killPieceByGame(draggedPiece, trap.name);
 
   game.setItems(game.getItems().filter((item) => item !== trap));
