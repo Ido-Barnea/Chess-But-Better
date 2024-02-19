@@ -95,11 +95,18 @@ path {
   z-index: -2;
 }
 
+.piece {
+  z-index: 10;
+}
+
+.item {
+  z-index: 9;
+}
+
 .piece, .item {
   height: var(--square-size);
   width: var(--square-size);
   position: absolute;
-  z-index: 1;
   cursor: grab;
 }
 
