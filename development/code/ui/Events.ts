@@ -21,12 +21,6 @@ const OVERWORLD_BOARD_BUTTON = document.getElementById(
 const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID);
 const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
-let triggerOnHighlight: (
-  target: HTMLElement,
-  shouldAddHighlight: boolean,
-  isMouseHighlight: boolean,
-) => void;
-
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
   pieces.forEach(pieceElement => {
@@ -65,7 +59,6 @@ export function dragElement(element: HTMLElement) {
     event.preventDefault();
     element.style.marginTop = '0';
 
-    triggerOnHighlight(element, false, true);
     draggedElement = element;
 
     startMouseX = endMouseX - event.clientX;
@@ -154,16 +147,6 @@ export function setOnFellOffTheBoard(
   ) => void,
 ) {
   triggerOnFellOffTheBoard = _triggerOnFellOffTheBoard;
-}
-
-export function setOnHighlight(
-  _triggerOnHighlight: (
-    target: HTMLElement,
-    shouldAddHighlight: boolean,
-    isMouseHighlight: boolean,
-  ) => void,
-) {
-  triggerOnHighlight = _triggerOnHighlight;
 }
 
 function showBoard(boardId: string) {
