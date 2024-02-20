@@ -136,6 +136,7 @@ path {
 
 .piece:active, .item:active {
   cursor: grabbing;
+  z-index: 100;
 }
 
 .inventory-item {
