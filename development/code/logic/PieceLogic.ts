@@ -89,6 +89,10 @@ export function onPlayerAction(
     revertPieceMoveOnBoard(draggedPiece);
     return;
   }
+
+  if (game.getMovesLeft() === 0) {
+    game.setMovesLeft(draggedPiece.moves);
+  }
   
   const pieceBoard = draggedPiece.position.boardId;
   simulatePath(draggedPiece, target.position);
@@ -96,10 +100,6 @@ export function onPlayerAction(
   // Checks if the piece died during the simulatePath function.
   // If it did, return.
   if (pieceBoard !== newPieceBoard) return;
-
-  if (game.getMovesLeft() === 0) {
-    game.setMovesLeft(draggedPiece.moves);
-  }
 
   if (target instanceof Piece) {
     onActionAttackMove(draggedPiece, target);
@@ -190,7 +190,7 @@ export function isPlayerAllowedToAct(player: Player) {
 function move(
   draggedPiece: Piece,
   targetPosition: Position,
-  shouldEndTurn = game.getMovesLeft() > 0,
+  shouldEndTurn = true,
 ) {
   new MovementLog(draggedPiece, targetPosition).addToQueue();
   movePieceOnBoard(draggedPiece, targetPosition);
@@ -233,17 +233,10 @@ function killPieceByAnotherPiece(
 function killPieceByGame(
   targetPiece: Piece,
   killCause: string,
-): boolean {
-  targetPiece.health--;
-  if (targetPiece.health > 0) {
-    failToKillPiece(targetPiece, false);
-    return false;
-  }
-
+) {
   destroyPieceOnBoard(targetPiece);
   killPiece(targetPiece);
   new KillLog(targetPiece, killCause).addToQueue();
-  return true;
 }
 
 function killPiece(targetPiece: Piece) {
@@ -323,12 +316,13 @@ function pieceMovedOnTrap(
     return;
   }
 
-  const isSuccessfulKill = killPieceByGame(draggedPiece, trap.name);
+  move(draggedPiece, trap.position, false);
+  draggedPiece.health = 1;
+  killPieceByGame(draggedPiece, trap.name);
 
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
-  if (!isSuccessfulKill) return;
   game.endMove(false);
 }
 
