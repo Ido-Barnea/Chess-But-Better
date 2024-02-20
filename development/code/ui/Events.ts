@@ -1,6 +1,15 @@
 import { game } from '../Game';
-import { onPieceSelected, canPlaceItemOnBoard, returnItemToInventory } from '../LogicAdapter';
-import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
+import {
+  buyItem,
+  onPieceSelected,
+  canPlaceItemOnBoard,
+  returnItemToInventory,
+} from '../LogicAdapter';
+import {
+  HEAVEN_BOARD_BUTTON_ID,
+  HELL_BOARD_BUTTON_ID,
+  OVERWORLD_BOARD_BUTTON_ID,
+} from '../Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
 const MOVEMENT_TO_CLICK_THRESHOLD = 10;
@@ -140,10 +149,21 @@ export function initializeDraggingListeners(element: HTMLElement) {
     const droppedOnElement = droppedOnElements.filter(element => {
       return (element.classList.contains('square') ||
         element.classList.contains('item') ||
-        element.classList.contains('piece') ) && element !== draggedElement;
+        element.classList.contains('piece')) && element !== draggedElement;
     })[0];
 
-    let parentContainer = droppedOnElement.parentElement ?? undefined;
+    let parentContainer = undefined;
+    if (!droppedOnElement) {
+      if (draggedElement.classList.contains('inventory-item')) {
+        returnItemToInventory(draggedElement);
+        return;
+      }
+      
+      parentContainer = draggedElement.parentElement ?? undefined;
+    } else {
+      parentContainer = droppedOnElement.parentElement ?? undefined;
+    }
+
     let isParentContainerABoard = parentContainer?.classList.contains('board');
     while (parentContainer && !isParentContainerABoard) {
       parentContainer = parentContainer.parentElement ?? undefined;
@@ -172,6 +192,18 @@ function onMouseClick(event: Event) {
 
   if (element.classList.contains('piece')) {
     onPieceClick(element);
+  }
+}
+
+export function onShopItemClick(event: Event) {
+  let element = event.target as HTMLElement;
+  // Prevent clicking if the user clicked on an untargetable area
+  while (element.classList.contains('untargetable')) {
+    element = element.parentElement as HTMLElement;
+  }
+
+  if (element.classList.contains('shop-item')){
+    buyItem(element.id);
   }
 }
 

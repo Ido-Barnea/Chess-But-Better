@@ -1,5 +1,5 @@
 import { switchInventory, renderScreen } from './LogicAdapter';
-import { OVERWORLD_BOARD_ID } from './logic/Constants';
+import { OVERWORLD_BOARD_ID } from './Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
 import { Bishop } from './logic/pieces/Bishop';
@@ -12,14 +12,16 @@ import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
-import { initialiseInventoryUI } from './ui/InventoriesUI';
-import { Trap } from './logic/items/Trap';
+import { initializeInventoryUI } from './ui/InventoriesUI';
+import { addItemToShop } from './ui/ShopUI';
+import { Shop } from './logic/items/Shop';
+
+export const shop = new Shop();
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
 const players: Array<Player> = [whitePlayer, blackPlayer];
-whitePlayer.inventory.addItem(new Trap());
 let pieces: Array<Piece> = [
   new Rook({ coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
   new Knight({ coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
@@ -64,14 +66,18 @@ let isFriendlyFire = false;
 let isPieceKilled = false;
 let wasItemPlacedThisTurn = false;
 let fellOffTheBoardPiece: Piece | undefined;
-let actionsLeft = 0;
+let movesLeft = 0;
 let isGameFinished = false;
 
 function initializeGame() {
   rulesManager = new RulesManager();
 
   players.forEach((player) => {
-    initialiseInventoryUI(player.color);
+    initializeInventoryUI(player.color);
+  });
+
+  shop.items.forEach((item) => {
+    addItemToShop(item);
   });
 }
 
@@ -94,13 +100,11 @@ function endMove(canRecover = true) {
     }
   }, 10);
 
+  movesLeft--;
+  if (!canRecover) movesLeft = 0;
+  if (movesLeft > 0) return;
+
   resetVariables();
-
-  
-  actionsLeft--;
-  if (!canRecover) actionsLeft = 0;
-  if (actionsLeft !== 0) return;
-
   endTurn();
 }
 
@@ -127,6 +131,7 @@ function resetVariables() {
   isPieceKilled = false;
   fellOffTheBoardPiece = undefined;
   wasItemPlacedThisTurn = false;
+  movesLeft = 0;
 
   pieces.forEach((piece) => {
     if (piece.player !== getCurrentPlayer() && piece instanceof Pawn) {
@@ -225,12 +230,12 @@ function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 
-function getActionsLeft() {
-  return actionsLeft;
+function getMovesLeft() {
+  return movesLeft;
 }
 
-function setActionsLeft(actions: number) {
-  actionsLeft = actions;
+function setMovesLeft(moves: number) {
+  movesLeft = moves;
 }
 
 function endGame() {
@@ -241,7 +246,7 @@ function switchWasItemPlacedThisTurn() {
   wasItemPlacedThisTurn = true;
 }
 
-function getWasItemPlacedThisTurn(){
+function getWasItemPlacedThisTurn() {
   return wasItemPlacedThisTurn;
 }
 
@@ -249,8 +254,8 @@ export const game = {
   initialize: initializeGame,
   end: endGame,
   endMove,
-  getActionsLeft,
-  setActionsLeft,
+  getMovesLeft,
+  setMovesLeft,
   getCurrentPlayer,
   switchIsCastling,
   getPlayers,

@@ -4,6 +4,7 @@
   --piece-resource-padding: 0.75vw;
   --notation-padding: 1vw;
   --inventory-squares-per-side: 4;
+  --shop-squares: 2;
 }
 
 body {
@@ -128,10 +129,13 @@ path {
   z-index: 9;
 }
 
-.piece, .item, .inventory-item {
+.piece, .item, .inventory-item, .shop-item, .untargetable-item {
   height: var(--square-size);
   width: var(--square-size);
   position: absolute;
+}
+
+.piece, .inventory-item, .shop-item {
   cursor: grab;
 }
 
@@ -211,18 +215,36 @@ path {
   box-sizing: border-box;
 }
 
-.inventory-square {
+.inventory-square, .shop-square {
   outline: 1px solid;
   box-sizing: border-box;
   height: var(--square-size);
   width: var(--square-size);
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.inventory-item, .shop-item {
+  width: 75%;
   display: grid;
   place-items: center;
 }
 
-.inventory-item {
-  display: grid;
-  place-items: center;
+.shop-item-price {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, 50%);
+}
+
+#shop-container {
+  width: 100%;
+  margin-top: 20%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 @media screen and (max-width: 1200px) {

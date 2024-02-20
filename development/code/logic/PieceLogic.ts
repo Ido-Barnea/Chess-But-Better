@@ -1,12 +1,12 @@
 import { game } from '../Game';
-import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard, endGame } from '../LogicAdapter';
+import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard, endGame, destroyItemOnPiece } from '../LogicAdapter';
 import {
   MIN_KILLINGS_FOR_BOUNTY,
   HEAVEN_BOARD_ID,
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
   VOID_BOARD_ID,
-} from './Constants';
+} from '../Constants';
 import { comparePositions } from './Utilities';
 import { PiggyBank } from './items/PiggyBank';
 import { Item } from './items/Items';
@@ -17,7 +17,6 @@ import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './Players';
 import { Knight } from './pieces/Knight';
-import { Shield } from './items/Shield';
 import { KillLog, Log, MovementLog } from '../ui/logs/Log';
 
 function validatePlayerAction(
@@ -90,17 +89,17 @@ export function onPlayerAction(
     revertPieceMoveOnBoard(draggedPiece);
     return;
   }
+
+  if (game.getMovesLeft() === 0) {
+    game.setMovesLeft(draggedPiece.moves);
+  }
   
   const pieceBoard = draggedPiece.position.boardId;
   simulatePath(draggedPiece, target.position);
   const newPieceBoard = draggedPiece.position.boardId;
-  // Checks if the piece stepped on a trap during the simulatePath function.
+  // Checks if the piece died during the simulatePath function.
   // If it did, return.
   if (pieceBoard !== newPieceBoard) return;
-
-  if (game.getActionsLeft() === 0) {
-    game.setActionsLeft(draggedPiece.actions);
-  }
 
   if (target instanceof Piece) {
     onActionAttackMove(draggedPiece, target);
@@ -111,13 +110,6 @@ export function onPlayerAction(
     
     onActionNonAttackMove(draggedPiece, targetSquare);
   }
-}
-
-function onActionNonAttackMove(
-  draggedPiece: Piece,
-  targetSquare: Square,
-) {
-  onActionPieceToSquare(draggedPiece, targetSquare);
 }
 
 function onActionAttackMove(
@@ -132,7 +124,7 @@ function onActionAttackMove(
   move(draggedPiece, targetSquare.position);
 }
 
-function onActionPieceToSquare(
+function onActionNonAttackMove(
   draggedPiece: Piece,
   targetSquare: Square,
 ) {
@@ -212,13 +204,18 @@ function move(
   if (shouldEndTurn) game.endMove();
 }
 
+function failToKillPiece(draggedPiece: Piece, shouldRevertMove = true) {
+  destroyItemOnPiece(draggedPiece);
+  if (shouldRevertMove) revertPieceMoveOnBoard(draggedPiece);
+}
+
 function killPieceByAnotherPiece(
   targetPiece: Piece,
   draggedPiece: Piece,
 ): boolean {
-  if (targetPiece.equipedItem instanceof Shield) {
-    revertPieceMoveOnBoard(draggedPiece);
-    game.endMove();
+  targetPiece.health--;
+  if (targetPiece.health > 0) {
+    failToKillPiece(draggedPiece);
     return false;
   }
 
@@ -236,16 +233,10 @@ function killPieceByAnotherPiece(
 function killPieceByGame(
   targetPiece: Piece,
   killCause: string,
-): boolean {
-  if (targetPiece.equipedItem instanceof Shield) {
-    game.endMove();
-    return false;
-  }
-
+) {
   destroyPieceOnBoard(targetPiece);
   killPiece(targetPiece);
   new KillLog(targetPiece, killCause).addToQueue();
-  return true;
 }
 
 function killPiece(targetPiece: Piece) {
@@ -326,12 +317,12 @@ function pieceMovedOnTrap(
   }
 
   move(draggedPiece, trap.position, false);
-  const isSuccessfulKill = killPieceByGame(draggedPiece, trap.name);
+  draggedPiece.health = 1;
+  killPieceByGame(draggedPiece, trap.name);
 
   game.setItems(game.getItems().filter((item) => item !== trap));
   destroyItemOnBoard(trap);
 
-  if (!isSuccessfulKill) return;
   game.endMove(false);
 }
 
@@ -342,5 +333,5 @@ export function pieceMovedOnPiggyBank(
   game.setItems(game.getItems().filter((item) => item !== piggyBank));
   destroyItemOnBoard(piggyBank);
 
-  piggyBank.use(draggedPiece);
+  piggyBank.use(draggedPiece.position);
 }

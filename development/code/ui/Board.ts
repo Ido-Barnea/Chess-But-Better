@@ -1,5 +1,5 @@
 import { game } from '../Game';
-import { BOARD_WIDTH } from '../logic/Constants';
+import { BOARD_WIDTH } from '../Constants';
 import { comparePositions } from '../logic/Utilities';
 import { PiggyBank } from '../logic/items/PiggyBank';
 import { Item } from '../logic/items/Items';

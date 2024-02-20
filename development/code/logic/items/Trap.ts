@@ -1,5 +1,4 @@
 import { Item } from './Items';
-import { Piece } from '../pieces/Piece';
 import { trapResource } from '../../ui/Resources';
 import { spawnItemOnBoard } from '../../LogicAdapter';
 import { game } from '../../Game';
@@ -11,15 +10,12 @@ export class Trap extends Item {
     super('trap', trapResource, 3, position);
   }
 
-  use(piece: Piece): void {
-    const {
-      position: { coordinates: pieceCoordinates },
-      player: { color: playerColor },
-      name: pieceName,
-    } = piece;
-    new Log(`${playerColor} ${pieceName} placed a ${this.name} on ${pieceCoordinates}.`).addToQueue();
+  use(position: Position): void {
+    const currentPlayer = game.getCurrentPlayer();
 
-    this.position = piece.position;
+    new Log(`${currentPlayer.color} placed a ${this.name} on ${position.coordinates}.`).addToQueue();
+
+    this.position = position;
     game.getItems().push(this);
 
     spawnItemOnBoard(this);
