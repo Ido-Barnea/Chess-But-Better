@@ -1,6 +1,5 @@
 {
   "name": "chess-but-better",
-  "version": "1.0.0",
   "description": "Chess with an added layer of complexity",
   "scripts": {
     "start": "npx webpack serve --mode development --config webpack.config.ts",
