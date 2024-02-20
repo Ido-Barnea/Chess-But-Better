@@ -220,10 +220,6 @@ path {
   background-color: #7f3b08;
 }
 
-.highlight-background {
-  position: relative;
-}
-
 .highlight-background::before {
   content: "";
   position: absolute;
@@ -232,7 +228,20 @@ path {
   bottom: 0;
   left: 0;
   background-color: rgb(255, 222, 100, 0.5);
-  z-index: 1; 
+}
+
+.highlight-legal-move::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  background-color: rgb(0, 0, 0, 0.25);
+  z-index: 100;
+  pointer-events: none;
 }
 
 .black {

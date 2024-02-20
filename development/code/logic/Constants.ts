@@ -17,6 +17,7 @@ export const DARK_HELL_SQUARE_COLOR = 'dark-red-background';
 export const LIGHT_HEAVEN_SQUARE_COLOR = 'water-background';
 export const DARK_HEAVEN_SQUARE_COLOR = 'blue-background';
 export const HIGHLIGHT_SQUARE_COLOR = 'highlight-background';
+export const HIGHLIGHT_LEGAL_MOVE = 'highlight-legal-move';
 
 export const SELECTED_PIECE_CLASS = 'selected-piece';
 

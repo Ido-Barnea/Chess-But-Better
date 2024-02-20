@@ -18,6 +18,7 @@ import {
   NOTATIONS_NUMBERS,
   OVERWORLD_BOARD_BUTTON_ID,
   OVERWORLD_BOARD_ID,
+  HIGHLIGHT_LEGAL_MOVE,
 } from '../logic/Constants';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Piece';
@@ -184,7 +185,7 @@ function findSquareElement(element: HTMLElement): HTMLElement | undefined {
   return element && element.classList.contains('square') ? element : undefined;
 }
 
-export function highlightSquare(
+function highlightSquare(
   targetElement: HTMLElement,
   shouldAddHighlight: boolean,
 ) {
@@ -210,4 +211,18 @@ export function highlightLastMove(
 
   highlightSquare(originSquareElement, true);
   highlightSquare(targetSquareElement, true);
+}
+
+export function highlightLegalMove(
+  targetElement: HTMLElement,
+  shouldAddHighlight: boolean,
+) {
+  const squareElement = findSquareElement(targetElement);
+  if (!squareElement) return;
+
+  if (shouldAddHighlight) {
+    targetElement.classList.add(HIGHLIGHT_LEGAL_MOVE);
+  } else {      
+    targetElement.classList.remove(HIGHLIGHT_LEGAL_MOVE);
+  }
 }
