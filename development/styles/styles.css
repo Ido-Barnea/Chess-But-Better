@@ -123,24 +123,21 @@ path {
   z-index: 10;
 }
 
-.item {
+.item
+.inventory-item {
   z-index: 9;
 }
 
-.piece, .item {
+.piece, .item, .inventory-item {
   height: var(--square-size);
   width: var(--square-size);
   position: absolute;
   cursor: grab;
 }
 
-.piece:active, .item:active {
+.piece:active, .item:active, .inventory-item {
   cursor: grabbing;
   z-index: 100;
-}
-
-.inventory-item {
-  margin-top: 10px;
 }
 
 #info-container {
@@ -150,16 +147,6 @@ path {
 
 #info-container p {
   font-size: 1em;
-}
-
-#inventory-container {
-  width: 100%;
-  max-width: calc(var(--square-size) * var(--inventory-squares-per-side));
-  overflow: visible;
-  box-sizing: border-box;
-  position: absolute;
-  bottom: 5%;
-  left: 5%;
 }
 
 #logs-container {
@@ -205,6 +192,16 @@ path {
   background-color: burlywood;
 }
 
+#inventory-container {
+  width: 100%;
+  max-width: calc(var(--square-size) * var(--inventory-squares-per-side));
+  overflow: visible;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+}
+
 .player-inventory {
   width: 100%;
   outline: 2px solid;
@@ -219,6 +216,13 @@ path {
   box-sizing: border-box;
   height: var(--square-size);
   width: var(--square-size);
+  display: grid;
+  place-items: center;
+}
+
+.inventory-item {
+  display: grid;
+  place-items: center;
 }
 
 @media screen and (max-width: 1200px) {

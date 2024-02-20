@@ -1,5 +1,5 @@
 import { game } from '../Game';
-import { onPieceSelected, placeItemOnBoard, returnItemToInventory } from '../LogicAdapter';
+import { onPieceSelected, canPlaceItemOnBoard, returnItemToInventory } from '../LogicAdapter';
 import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
@@ -49,12 +49,13 @@ function onPieceMouseDown(event: Event) {
 }
 
 export function initializeDraggingListeners(element: HTMLElement) {
-  let originalMouseX = 0;
-  let originalMouseY = 0;
   let startMouseX = 0;
   let startMouseY = 0;
   let endMouseX = 0;
   let endMouseY = 0;
+
+  let originalMouseX = 0;
+  let originalMouseY = 0;
   let isDragging = false;
 
   element.onmousedown = dragElementOnMouseDown;
@@ -64,10 +65,13 @@ export function initializeDraggingListeners(element: HTMLElement) {
 
     const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
     const isElementOfCurrentPlayer = element.classList.contains(currentTurnPlayerColor);
-    const isItemElement = element.classList.contains('item');
-    if (!(isElementOfCurrentPlayer || isItemElement)) return;
+    const isInventoryItemElement = element.classList.contains('inventory-item');
+    const isBoardItemElement = element.classList.contains('item');
+    if (!isElementOfCurrentPlayer && !isInventoryItemElement) return;
+    if (isBoardItemElement) return;
 
     isDragging = false; // Reset dragging flag
+    draggedElement = element;
 
     originalMouseX = event.clientX;
     originalMouseY = event.clientY;
@@ -124,21 +128,7 @@ export function initializeDraggingListeners(element: HTMLElement) {
 
   function handleDragEvent() {
     if (!draggedElement) return;
-  
-    const initialElement = draggedElement as HTMLElement;
-  
-    let parentContainer = initialElement.parentElement ?? undefined;
-    let isParentContainerABoard = parentContainer?.classList.contains('board');
-    let isParentContainerAnInventory = parentContainer?.classList.contains('player-inventory');
-    while (parentContainer && (!isParentContainerABoard || isParentContainerAnInventory)) {
-      parentContainer = parentContainer.parentElement ?? undefined;
-  
-      isParentContainerABoard = parentContainer?.classList.contains('board');
-      isParentContainerAnInventory = parentContainer?.classList.contains('player-inventory');
-    }
-  
-    if (!parentContainer) return;
-  
+
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
   
@@ -152,8 +142,18 @@ export function initializeDraggingListeners(element: HTMLElement) {
         element.classList.contains('item') ||
         element.classList.contains('piece') ) && element !== draggedElement;
     })[0];
+
+    let parentContainer = droppedOnElement.parentElement ?? undefined;
+    let isParentContainerABoard = parentContainer?.classList.contains('board');
+    while (parentContainer && !isParentContainerABoard) {
+      parentContainer = parentContainer.parentElement ?? undefined;
+  
+      isParentContainerABoard = parentContainer?.classList.contains('board');
+    }
+  
+    if (!parentContainer) return;
       
-    if (draggedElement.classList.contains('item') && !placeItemOnBoard(draggedElement, droppedOnElement)) {
+    if (draggedElement.classList.contains('inventory-item') && !canPlaceItemOnBoard(draggedElement, droppedOnElement)) {
       returnItemToInventory(draggedElement);
     } else if (!droppedOnElement) {
       triggerOnFellOffTheBoard(draggedElement, parentContainer.id);

@@ -13,11 +13,13 @@ import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initialiseInventoryUI } from './ui/InventoriesUI';
+import { Trap } from './logic/items/Trap';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
 const players: Array<Player> = [whitePlayer, blackPlayer];
+whitePlayer.inventory.addItem(new Trap());
 let pieces: Array<Piece> = [
   new Rook({ coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
   new Knight({ coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),

@@ -204,7 +204,7 @@ export function switchInventory(player: Player) {
   }
 }
 
-export function placeItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
+export function canPlaceItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
   if (game.getWasItemPlacedThisTurn() || !targetElement) return false;
 
   switch (itemElement.id) {
