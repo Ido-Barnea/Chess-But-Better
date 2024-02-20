@@ -75,6 +75,13 @@ function revertPieceMoveOnBoard(piece: Piece) {
   movePieceOnBoard(piece, piece.position);
 }
 
+export function onPieceFellOffTheBoard(draggedPiece: Piece) {
+  draggedPiece.position.boardId = VOID_BOARD_ID;
+  killPieceByGame(draggedPiece, 'gravity');
+  game.setFellOffTheBoardPiece(draggedPiece);
+  game.endMove(false);
+}
+
 export function onPlayerAction(
   draggedPiece: Piece,
   target: Piece | Square | Item,
@@ -91,6 +98,9 @@ export function onPlayerAction(
   // If it did, return.
   if (pieceBoard !== newPieceBoard) return;
 
+  if (game.getActionsLeft() === 0) {
+    game.setActionsLeft(draggedPiece.actions);
+  }
 
   if (target instanceof Piece) {
     onActionAttackMove(draggedPiece, target);
@@ -108,13 +118,6 @@ function onActionNonAttackMove(
   targetSquare: Square,
 ) {
   onActionPieceToSquare(draggedPiece, targetSquare);
-}
-
-export function onPieceFellOffTheBoard(draggedPiece: Piece) {
-  draggedPiece.position.boardId = VOID_BOARD_ID;
-  killPieceByGame(draggedPiece, 'gravity');
-  game.setFellOffTheBoardPiece(draggedPiece);
-  game.endTurn();
 }
 
 function onActionAttackMove(
@@ -206,7 +209,7 @@ function move(
   };
 
   draggedPiece.hasMoved = true;
-  if (shouldEndTurn) game.endTurn();
+  if (shouldEndTurn) game.endMove();
 }
 
 function killPieceByAnotherPiece(
@@ -215,7 +218,7 @@ function killPieceByAnotherPiece(
 ): boolean {
   if (targetPiece.equipedItem instanceof Shield) {
     revertPieceMoveOnBoard(draggedPiece);
-    game.endTurn();
+    game.endMove();
     return false;
   }
 
@@ -235,7 +238,7 @@ function killPieceByGame(
   killCause: string,
 ): boolean {
   if (targetPiece.equipedItem instanceof Shield) {
-    game.endTurn();
+    game.endMove();
     return false;
   }
 
@@ -329,7 +332,7 @@ function pieceMovedOnTrap(
   destroyItemOnBoard(trap);
 
   if (!isSuccessfulKill) return;
-  game.endTurn();
+  game.endMove(false);
 }
 
 export function pieceMovedOnPiggyBank(

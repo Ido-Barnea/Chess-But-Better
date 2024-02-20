@@ -13,6 +13,7 @@ import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initialiseInventoryUI } from './ui/InventoriesUI';
+import { DoubleQueen } from './logic/pieces/DoubleQueen';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -46,7 +47,7 @@ let pieces: Array<Piece> = [
   new Rook({ coordinates: [0, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Knight({ coordinates: [1, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Bishop({ coordinates: [2, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
-  new Queen({ coordinates: [3, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new DoubleQueen({ coordinates: [3, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new King({ coordinates: [4, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Bishop({ coordinates: [5, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Knight({ coordinates: [6, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
@@ -62,6 +63,7 @@ let isFriendlyFire = false;
 let isPieceKilled = false;
 let wasItemPlacedThisTurn = false;
 let fellOffTheBoardPiece: Piece | undefined;
+let actionsLeft = 0;
 let isGameFinished = false;
 
 function initializeGame() {
@@ -72,29 +74,12 @@ function initializeGame() {
   });
 }
 
-function endTurn() {
+function endMove(canRecover = true) {
   rulesManager.activeRules.forEach((rule) => {
     rule.trigger();
   });
 
-  resetVariables();
-  updatePlayerDetails();
-
-  currentPlayerIndex = currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
-  turnCounter++;
-  if (turnCounter % players.length === 0) {
-    turnCounter = 0;
-    roundCounter++;
-  }
-
   Logger.logMessages();
-
-  players.forEach((player) => {
-    switchInventory(player);
-  });
-
-  renderScreen();
-  wasItemPlacedThisTurn = false;
 
   // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
   // To make sure the element is removed before displaying the winning alert, we need to add
@@ -107,6 +92,32 @@ function endTurn() {
       window.location.reload();
     }
   }, 10);
+
+  resetVariables();
+
+  
+  actionsLeft--;
+  if (!canRecover) actionsLeft = 0;
+  if (actionsLeft !== 0) return;
+
+  endTurn();
+}
+
+function endTurn() {
+  updatePlayerDetails();
+
+  currentPlayerIndex = currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
+  turnCounter++;
+  if (turnCounter % players.length === 0) {
+    turnCounter = 0;
+    roundCounter++;
+  }
+
+  players.forEach((player) => {
+    switchInventory(player);
+  });
+
+  renderScreen();
 }
 
 function resetVariables() {
@@ -114,6 +125,7 @@ function resetVariables() {
   isFriendlyFire = false;
   isPieceKilled = false;
   fellOffTheBoardPiece = undefined;
+  wasItemPlacedThisTurn = false;
 
   pieces.forEach((piece) => {
     if (piece.player !== getCurrentPlayer() && piece instanceof Pawn) {
@@ -212,6 +224,14 @@ function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 
+function getActionsLeft() {
+  return actionsLeft;
+}
+
+function setActionsLeft(actions: number) {
+  actionsLeft = actions;
+}
+
 function endGame() {
   isGameFinished = true;
 }
@@ -227,7 +247,9 @@ function getWasItemPlacedThisTurn(){
 export const game = {
   initialize: initializeGame,
   end: endGame,
-  endTurn,
+  endMove,
+  getActionsLeft,
+  setActionsLeft,
   getCurrentPlayer,
   switchIsCastling,
   getPlayers,
