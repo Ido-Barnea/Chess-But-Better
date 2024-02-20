@@ -6,7 +6,7 @@ import {
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
   VOID_BOARD_ID,
-} from './Constants';
+} from '../Constants';
 import { comparePositions } from './Utilities';
 import { PiggyBank } from './items/PiggyBank';
 import { Item } from './items/Items';

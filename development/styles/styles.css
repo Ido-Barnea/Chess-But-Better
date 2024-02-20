@@ -4,6 +4,7 @@
   --piece-resource-padding: 0.75vw;
   --notation-padding: 1vw;
   --inventory-squares-per-side: 4;
+  --shop-squares: 2;
 }
 
 body {
@@ -211,7 +212,7 @@ path {
   box-sizing: border-box;
 }
 
-.inventory-square {
+.inventory-square, .shop-square {
   outline: 1px solid;
   box-sizing: border-box;
   height: var(--square-size);
@@ -223,6 +224,17 @@ path {
 .inventory-item {
   display: grid;
   place-items: center;
+}
+
+#shop-container {
+  width: calc(var(--square-size));
+  height: calc(var(--square-size)*var(--shop-squares));
+  overflow: visible;
+  box-sizing: border-box;
+  text-align:center;
+  position: absolute;
+  bottom: 40%;
+  left: 10%;
 }
 
 @media screen and (max-width: 1200px) {

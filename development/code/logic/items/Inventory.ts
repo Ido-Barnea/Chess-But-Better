@@ -1,5 +1,5 @@
 import { Log } from '../../ui/logs/Log';
-import { INVENTORY_WIDTH } from '../Constants';
+import { INVENTORY_WIDTH } from '../../Constants';
 import { Player } from '../Players';
 import { Item } from './Items';
 

@@ -19,7 +19,7 @@ import {
   OVERWORLD_BOARD_BUTTON_ID,
   OVERWORLD_BOARD_ID,
   HIGHLIGHT_LEGAL_MOVE,
-} from '../logic/Constants';
+} from '../Constants';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Piece';
 

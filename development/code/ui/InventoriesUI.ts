@@ -1,4 +1,4 @@
-import { INVENTORY_ELEMENT_ID, INVENTORY_WIDTH } from '../logic/Constants';
+import { INVENTORY_ELEMENT_ID, INVENTORY_WIDTH } from '../Constants';
 import { PlayerColors } from '../logic/Players';
 import { Item } from '../logic/items/Items';
 import { initializeDraggingListeners } from './Events';
@@ -40,7 +40,7 @@ export function showItemOnInventory(
   return undefined;
 }
 
-export function initialiseInventoryUI(playerColor: PlayerColors) {
+export function initializeInventoryUI(playerColor: PlayerColors) {
   const playerInventoryElement = createPlayerInventoryElement(playerColor);
 
   for (let index = 0; index < INVENTORY_WIDTH; index++) {

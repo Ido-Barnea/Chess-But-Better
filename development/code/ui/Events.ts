@@ -1,6 +1,15 @@
 import { game } from '../Game';
-import { onPieceSelected, canPlaceItemOnBoard, returnItemToInventory } from '../LogicAdapter';
-import { HEAVEN_BOARD_BUTTON_ID, HELL_BOARD_BUTTON_ID, OVERWORLD_BOARD_BUTTON_ID } from '../logic/Constants';
+import {
+  buyItem,
+  onPieceSelected,
+  canPlaceItemOnBoard,
+  returnItemToInventory,
+} from '../LogicAdapter';
+import {
+  HEAVEN_BOARD_BUTTON_ID,
+  HELL_BOARD_BUTTON_ID,
+  OVERWORLD_BOARD_BUTTON_ID,
+} from '../Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
 const MOVEMENT_TO_CLICK_THRESHOLD = 10;
@@ -25,7 +34,7 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
-  pieces.forEach(pieceElement => {
+  pieces.forEach((pieceElement) => {
     pieceElement.addEventListener('mousedown', onPieceMouseDown);
     pieceElement.addEventListener('click', onMouseClick);
   });
@@ -165,6 +174,7 @@ export function initializeDraggingListeners(element: HTMLElement) {
 
 function onMouseClick(event: Event) { 
   let element = event.target as HTMLElement;
+  console.log(element);
   // Prevent clicking if the user clicked on an untargetable area
   while (element.classList.contains('untargetable')) {
     element = element.parentElement as HTMLElement;
@@ -172,6 +182,19 @@ function onMouseClick(event: Event) {
 
   if (element.classList.contains('piece')) {
     onPieceClick(element);
+  }
+}
+
+export function onShopItemClick(event: Event) {
+  let element = event.target as HTMLElement;
+  console.log(element);
+  // Prevent clicking if the user clicked on an untargetable area
+  while (element.classList.contains('untargetable')) {
+    element = element.parentElement as HTMLElement;
+  }
+
+  if (element.classList.contains('shop-item')){
+    buyItem(element.id);
   }
 }
 

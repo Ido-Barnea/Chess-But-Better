@@ -1,4 +1,4 @@
-import { game } from './Game';
+import { game, shop } from './Game';
 import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
 import { Player, PlayerColors } from './logic/Players';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
@@ -271,4 +271,24 @@ export function returnItemToInventory(itemElement: HTMLElement) {
 
   const player = game.getCurrentPlayer();
   showItemOnInventory(usedItem, player.color);
+}
+
+export function getItemById(itemId: string) {
+  const purchaseableItems = shop.items;
+
+  const item = purchaseableItems.filter((item) => {
+    return item.name == itemId;
+  })[0];
+
+  return item;
+}
+
+export function buyItem(itemId: string){
+  const item = getItemById(itemId);
+  const currentPlayer = game.getCurrentPlayer();
+
+  if (shop.buy(item, currentPlayer)) {
+    showItemOnInventory(item, currentPlayer.color);
+  }
+  renderScreen();
 }

@@ -1,4 +1,4 @@
-import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../Constants';
+import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { Position, Square } from '../pieces/PiecesUtilities';
 import { PiggyBank } from './PiggyBank';
 import { Player, PlayerColors } from '../Players';

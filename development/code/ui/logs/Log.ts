@@ -1,4 +1,4 @@
-import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../../logic/Constants';
+import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../../Constants';
 import { Piece } from '../../logic/pieces/Piece';
 import { Position } from '../../logic/pieces/PiecesUtilities';
 import { Logger } from './Logger';

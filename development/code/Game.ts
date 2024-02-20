@@ -1,5 +1,5 @@
 import { switchInventory, renderScreen } from './LogicAdapter';
-import { OVERWORLD_BOARD_ID } from './logic/Constants';
+import { OVERWORLD_BOARD_ID } from './Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
 import { Bishop } from './logic/pieces/Bishop';
@@ -12,14 +12,17 @@ import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
-import { initialiseInventoryUI } from './ui/InventoriesUI';
-import { Trap } from './logic/items/Trap';
+import { initializeInventoryUI } from './ui/InventoriesUI';
+import { appendItemsToShopSquares } from './ui/ShopUI';
+import { Shop } from './logic/items/Shop';
+
+export const shop = new Shop();
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
 const players: Array<Player> = [whitePlayer, blackPlayer];
-whitePlayer.inventory.addItem(new Trap());
+
 let pieces: Array<Piece> = [
   new Rook({ coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
   new Knight({ coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
@@ -71,7 +74,11 @@ function initializeGame() {
   rulesManager = new RulesManager();
 
   players.forEach((player) => {
-    initialiseInventoryUI(player.color);
+    initializeInventoryUI(player.color);
+  });
+
+  shop.items.forEach((item) => {
+    appendItemsToShopSquares(item);
   });
 }
 
@@ -241,7 +248,7 @@ function switchWasItemPlacedThisTurn() {
   wasItemPlacedThisTurn = true;
 }
 
-function getWasItemPlacedThisTurn(){
+function getWasItemPlacedThisTurn() {
   return wasItemPlacedThisTurn;
 }
 
