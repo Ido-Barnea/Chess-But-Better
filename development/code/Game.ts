@@ -13,7 +13,6 @@ import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initialiseInventoryUI } from './ui/InventoriesUI';
-import { DoubleQueen } from './logic/pieces/DoubleQueen';
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
@@ -47,7 +46,7 @@ let pieces: Array<Piece> = [
   new Rook({ coordinates: [0, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Knight({ coordinates: [1, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Bishop({ coordinates: [2, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
-  new DoubleQueen({ coordinates: [3, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
+  new Queen({ coordinates: [3, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new King({ coordinates: [4, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Bishop({ coordinates: [5, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
   new Knight({ coordinates: [6, 7], boardId: OVERWORLD_BOARD_ID }, whitePlayer),
