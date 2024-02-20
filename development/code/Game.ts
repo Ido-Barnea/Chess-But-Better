@@ -13,7 +13,7 @@ import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert as showGameEndAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
-import { appendItemsToShopSquares } from './ui/ShopUI';
+import { addItemToShop } from './ui/ShopUI';
 import { Shop } from './logic/items/Shop';
 
 export const shop = new Shop();
@@ -78,7 +78,7 @@ function initializeGame() {
   });
 
   shop.items.forEach((item) => {
-    appendItemsToShopSquares(item);
+    addItemToShop(item);
   });
 }
 

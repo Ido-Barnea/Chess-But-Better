@@ -29,7 +29,6 @@ jest.mock('../../ui/InventoriesUI.ts', () => ({
 }));
 jest.mock('../../ui/ShopUI.ts');
 
-
 game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
 describe('Piece movements', () => {

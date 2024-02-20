@@ -34,7 +34,7 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
-  pieces.forEach((pieceElement) => {
+  pieces.forEach(pieceElement => {
     pieceElement.addEventListener('mousedown', onPieceMouseDown);
     pieceElement.addEventListener('click', onMouseClick);
   });
@@ -174,7 +174,6 @@ export function initializeDraggingListeners(element: HTMLElement) {
 
 function onMouseClick(event: Event) { 
   let element = event.target as HTMLElement;
-  console.log(element);
   // Prevent clicking if the user clicked on an untargetable area
   while (element.classList.contains('untargetable')) {
     element = element.parentElement as HTMLElement;
@@ -187,7 +186,6 @@ function onMouseClick(event: Event) {
 
 export function onShopItemClick(event: Event) {
   let element = event.target as HTMLElement;
-  console.log(element);
   // Prevent clicking if the user clicked on an untargetable area
   while (element.classList.contains('untargetable')) {
     element = element.parentElement as HTMLElement;

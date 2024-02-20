@@ -6,20 +6,19 @@ export function initializeShopUI() {
   const shopElement = document.getElementById('shop-container');
   if (!shopElement) return;
 
-  for (let i = 0; i < SHOP_WIDTH; i++) {
-    createItemSquare(shopElement);
+  for (let index = 0; index < SHOP_WIDTH; index++) {
+    createShopItemSquare(shopElement);
   }
-
 }
 
-export function createItemSquare(shopElement: HTMLElement) {
+export function createShopItemSquare(shopElement: HTMLElement) {
   const itemSquare = document.createElement('div');
   itemSquare.classList.add('shop-square');
 
   shopElement.appendChild(itemSquare);
 }
 
-export function appendItemsToShopSquares(item: Item) {
+export function addItemToShop(item: Item) {
   const itemElement = document.createElement('div') as HTMLElement;
   itemElement.id = item.name;
   itemElement.classList.add('shop-item');
