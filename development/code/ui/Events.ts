@@ -149,15 +149,15 @@ export function initializeDraggingListeners(element: HTMLElement) {
     const droppedOnElement = droppedOnElements.filter(element => {
       return (element.classList.contains('square') ||
         element.classList.contains('item') ||
-        element.classList.contains('piece') ) && element !== draggedElement;
+        element.classList.contains('piece')) && element !== draggedElement;
     })[0];
 
-    if (!droppedOnElement) {
+    if (!droppedOnElement && draggedElement.classList.contains('inventory-item')) {
       returnItemToInventory(draggedElement);
       return;
     }
 
-    let parentContainer = droppedOnElement.parentElement ?? undefined;
+    let parentContainer = draggedElement.parentElement ?? droppedOnElement.parentElement ?? undefined;
     let isParentContainerABoard = parentContainer?.classList.contains('board');
     while (parentContainer && !isParentContainerABoard) {
       parentContainer = parentContainer.parentElement ?? undefined;

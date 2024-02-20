@@ -67,7 +67,7 @@ let isFriendlyFire = false;
 let isPieceKilled = false;
 let wasItemPlacedThisTurn = false;
 let fellOffTheBoardPiece: Piece | undefined;
-let actionsLeft = 0;
+let movesLeft = 0;
 let isGameFinished = false;
 
 function initializeGame() {
@@ -101,13 +101,11 @@ function endMove(canRecover = true) {
     }
   }, 10);
 
+  movesLeft--;
+  if (!canRecover) movesLeft = 0;
+  if (movesLeft > 0) return;
+
   resetVariables();
-
-  
-  actionsLeft--;
-  if (!canRecover) actionsLeft = 0;
-  if (actionsLeft !== 0) return;
-
   endTurn();
 }
 
@@ -134,6 +132,7 @@ function resetVariables() {
   isPieceKilled = false;
   fellOffTheBoardPiece = undefined;
   wasItemPlacedThisTurn = false;
+  movesLeft = 0;
 
   pieces.forEach((piece) => {
     if (piece.player !== getCurrentPlayer() && piece instanceof Pawn) {
@@ -232,12 +231,12 @@ function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 
-function getActionsLeft() {
-  return actionsLeft;
+function getMovesLeft() {
+  return movesLeft;
 }
 
-function setActionsLeft(actions: number) {
-  actionsLeft = actions;
+function setMovesLeft(moves: number) {
+  movesLeft = moves;
 }
 
 function endGame() {
@@ -256,8 +255,8 @@ export const game = {
   initialize: initializeGame,
   end: endGame,
   endMove,
-  getActionsLeft,
-  setActionsLeft,
+  getMovesLeft,
+  setMovesLeft,
   getCurrentPlayer,
   switchIsCastling,
   getPlayers,

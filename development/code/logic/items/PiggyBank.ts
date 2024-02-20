@@ -1,8 +1,8 @@
 import { Item } from './Items';
-import { Piece } from '../pieces/Piece';
 import { piggyBankResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';
 import { Log } from '../../ui/logs/Log';
+import { getPieceByPosition } from '../Utilities';
 
 export class PiggyBank extends Item {
   constructor(position?: Position) {
@@ -14,7 +14,10 @@ export class PiggyBank extends Item {
     return Math.floor(Math.random() * (max - 1)) + 1;
   }
 
-  use(piece: Piece): void {
+  use(position: Position): void {
+    const piece = getPieceByPosition(position);
+    if (!piece) return;
+
     const gold = this.getRandomAmountOfCoins();
     piece.player.gold += gold;
 

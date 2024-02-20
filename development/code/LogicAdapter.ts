@@ -6,7 +6,7 @@ import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import { 
-  destroyElementOnBoard,
+  destroyElementOnBoard as destroyElementOnBoardByPosition,
   getAllSquareElements,
   getSquareElementById,
   moveElementOnBoard,
@@ -16,9 +16,12 @@ import {
   getPieceElementBySquareId,
   highlightLegalMove,
   spawnItemOnChildElement,
+  destroyElementOnPiece,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
 import { switchShownInventory, showItemOnInventory, destroyItemInInventory } from './ui/InventoriesUI';
+import { Shield } from './logic/items/Shield';
+import { Trap } from './logic/items/Trap';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -150,7 +153,7 @@ export function destroyPieceOnBoard(piece: Piece) {
   const tpieceCoordinates = piece.position.coordinates;
   const squareId = tpieceCoordinates.join(',');
 
-  destroyElementOnBoard(squareId, piece.position.boardId);
+  destroyElementOnBoardByPosition(squareId, piece.position.boardId);
 }
 
 export function destroyItemOnBoard(item: Item) {
@@ -159,7 +162,16 @@ export function destroyItemOnBoard(item: Item) {
   const itemCoordinates = item.position.coordinates;
   const squareId = itemCoordinates.join(',');
 
-  destroyElementOnBoard(squareId, item.position.boardId);
+  destroyElementOnBoardByPosition(squareId, item.position.boardId);
+}
+
+export function destroyItemOnPiece(piece: Piece) {
+  if (!piece.position) return;
+
+  const pieceCoordinates = piece.position.coordinates;
+  const squareId = pieceCoordinates.join(',');
+
+  destroyElementOnPiece(squareId, piece.position.boardId);
 }
 
 export function spawnPieceOnBoard(piece: Piece) {
@@ -233,13 +245,12 @@ export function canPlaceItemOnBoard(itemElement: HTMLElement, targetElement: HTM
   switch (itemElement.id) {
     case 'trap': {
       if (!targetElement.classList.contains('square')) return false;
-      spawnItemOnBoard(usedItem);
-      game.addItem(usedItem);
+      new Trap().use(squarePosition);
       break;
     }
     case 'shield': {
       if (!targetElement.classList.contains('piece')) return false;
-      spawnItemOnPiece(usedItem);
+      new Shield().use(squarePosition);
       break;
     }
     default:

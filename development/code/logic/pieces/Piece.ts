@@ -1,5 +1,4 @@
 import { Player } from '../Players';
-import { Item } from '../items/Items';
 import { Position, Square } from './PiecesUtilities';
 
 export class Piece {
@@ -8,10 +7,10 @@ export class Piece {
   name: string;
   player: Player;
   position: Position;
-  actions: number;
+  moves: number;
+  health: number;
   price: number;
   upgrades: Array<new (position: Position, player: Player) => Piece>;
-  equipedItem: Item | undefined;
   hasMoved: boolean;
   killCount: number;
 
@@ -28,10 +27,10 @@ export class Piece {
     this.player = player;
     this.position = position;
 
-    this.actions = 1;
+    this.moves = 1;
+    this.health = 1;
     this.price = 1;
     this.upgrades = [];
-    this.equipedItem = undefined;
     this.hasMoved = false;
     this.killCount = 0;
   }

@@ -131,10 +131,10 @@ export function moveElementOnBoard(
   targetSquareId: string,
 ) {
   const targetSquareElement = getSquareElementById(targetSquareId, boardId);
-  const movedElementSquareElement = getSquareElementById(originSquareId, boardId);
-  const movedElement = movedElementSquareElement?.firstElementChild as HTMLElement;
+  const originSquareElement = getSquareElementById(originSquareId, boardId);
+  const movedElement = originSquareElement?.firstElementChild as HTMLElement;
 
-  if (targetSquareElement && movedElementSquareElement) {
+  if (targetSquareElement && originSquareElement) {
     const board = getBoardbyId(boardId);
     board.moveElementOnBoard(movedElement, targetSquareElement);
   }
@@ -147,6 +147,21 @@ export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
     [square-id="${targetSquareId}"]
   `) as HTMLElement;
   const element = elementSquareElement?.firstElementChild as HTMLElement;
+  if (!element) return;
+
+  board.destroyElementOnBoard(element);
+}
+
+export function destroyElementOnPiece(targetSquareId: string, boardId: string) {
+  const board = getBoardbyId(boardId);
+
+  const elementSquareElement = board.boardElement.querySelector(`
+    [square-id="${targetSquareId}"]
+  `) as HTMLElement;
+  const pieceElement = elementSquareElement?.firstElementChild as HTMLElement;
+  if (!pieceElement) return;
+
+  const element = pieceElement.firstElementChild as HTMLElement;
   if (!element) return;
 
   board.destroyElementOnBoard(element);
@@ -185,14 +200,14 @@ export function spawnItemOnChildElement(item: Item, targetSquareId: string, isUn
     [square-id="${targetSquareId}"]
   `)[0] as HTMLElement;
 
-  const childElement = squareElement.firstChild as HTMLElement;
+  const childElement = squareElement.firstElementChild as HTMLElement;
 
   const itemElement = board.createItemElement(item);
   if (isUntargetable) {
     itemElement.classList.remove('item');
     itemElement.classList.add('untargetable-item');
   }
-  childElement.insertBefore(itemElement, childElement.firstChild);
+  childElement.insertBefore(itemElement, childElement.firstElementChild);
 }
 
 function findSquareElement(element: HTMLElement): HTMLElement | undefined {

@@ -12,7 +12,7 @@ export class DoubleQueen extends Piece {
 
     super(doubleQueenResource, icon, 'Double Queen', player, position);
 
-    this.actions = 2;
+    this.moves = 2;
     this.price = 5;
   }
 
