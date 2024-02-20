@@ -152,12 +152,18 @@ export function initializeDraggingListeners(element: HTMLElement) {
         element.classList.contains('piece')) && element !== draggedElement;
     })[0];
 
-    if (!droppedOnElement && draggedElement.classList.contains('inventory-item')) {
-      returnItemToInventory(draggedElement);
-      return;
+    let parentContainer = undefined;
+    if (!droppedOnElement) {
+      if (draggedElement.classList.contains('inventory-item')) {
+        returnItemToInventory(draggedElement);
+        return;
+      }
+      
+      parentContainer = draggedElement.parentElement ?? undefined;
+    } else {
+      parentContainer = droppedOnElement.parentElement ?? undefined;
     }
 
-    let parentContainer = draggedElement.parentElement ?? droppedOnElement.parentElement ?? undefined;
     let isParentContainerABoard = parentContainer?.classList.contains('board');
     while (parentContainer && !isParentContainerABoard) {
       parentContainer = parentContainer.parentElement ?? undefined;
