@@ -1,6 +1,6 @@
 import { game } from '../Game';
 
-const infoDisplay = document.getElementById('info-display');
+const infoDisplay = document.getElementById('info-container');
 
 export function renderPlayersInformation() {
   if (infoDisplay) infoDisplay.textContent = '';

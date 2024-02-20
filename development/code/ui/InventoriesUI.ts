@@ -1,10 +1,10 @@
-import { INVENTORY_CLASS_ID, INVENTORY_WIDTH } from '../logic/Constants';
+import { INVENTORY_ELEMENT_ID, INVENTORY_WIDTH } from '../logic/Constants';
 import { PlayerColors } from '../logic/Players';
 import { Item } from '../logic/items/Items';
 import { initializeDraggingListeners } from './Events';
 
 
-const inventoryElement = document.getElementsByClassName(INVENTORY_CLASS_ID)[0];
+const inventoryElement = document.getElementById(INVENTORY_ELEMENT_ID);
 
 function createPlayerInventoryElement(playerColor: PlayerColors): HTMLElement {
   const playerInventoryElement = document.createElement('div');

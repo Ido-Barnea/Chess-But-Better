@@ -4,7 +4,7 @@ export const HEAVEN_BOARD_ID = 'board-heaven';
 export const VOID_BOARD_ID = 'board-void';
 export const BOTTOM_NOTATION_ID = 'bottom-notations';
 export const LEFT_NOTATION_ID = 'left-notations';
-export const INVENTORY_CLASS_ID = 'inventory-container';
+export const INVENTORY_ELEMENT_ID = 'inventory-container';
 
 export const OVERWORLD_BOARD_BUTTON_ID = 'board-overworld-button';
 export const HELL_BOARD_BUTTON_ID = 'board-hell-button';

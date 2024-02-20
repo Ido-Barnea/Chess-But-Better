@@ -6,27 +6,32 @@
     <link rel="stylesheet" href="../styles/styles.css" />
   </head>
   <body>
-    <div class="boards-container">
-      <div class="bottom-notations-container" id="bottom-notations"></div>
-      <div class="left-notations-container" id="left-notations"></div>
-      <div class="board" id="board-overworld"></div>
-      <div class="board collapsed" id="board-hell"></div>
-      <div class="board collapsed" id="board-heaven"></div>
+    <div id="left-column">
+      <p id="info-container"></p>
+      <div id="inventory-container"></div>
     </div>
-    <p id="info-display"></p>
-    <div class="inventory-container"></div>
-    <div class="boards-buttons-container">
-      <button id="board-hell-button" class="disabled" value="board-hell">
-        Hell
-      </button>
-      <button id="board-overworld-button" value="board-overworld">
-        Overworld
-      </button>
-      <button id="board-heaven-button" class="disabled" value="board-heaven">
-        Heaven
-      </button>
+    <div id="center-column">
+      <div id="boards-container">
+        <div class="bottom-notations-container" id="bottom-notations"></div>
+        <div class="left-notations-container" id="left-notations"></div>
+        <div class="board" id="board-overworld"></div>
+        <div class="board collapsed" id="board-hell"></div>
+        <div class="board collapsed" id="board-heaven"></div>
+      </div>
     </div>
-    
-    <div id="logs-container"></div>
+    <div id="right-column">
+      <div id="logs-container"></div>
+      <div id="boards-buttons-container">
+        <button id="board-hell-button" class="disabled" value="board-hell">
+          Hell
+        </button>
+        <button id="board-overworld-button" value="board-overworld">
+          Overworld
+        </button>
+        <button id="board-heaven-button" class="disabled" value="board-heaven">
+          Heaven
+        </button>
+      </div>
+    </div>
   </body>
 </html>

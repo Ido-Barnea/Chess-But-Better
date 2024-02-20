@@ -1,25 +1,46 @@
 :root {
-  --square-size: 80px;
+  --square-size: 5vw;
   --board-squares-per-side: 8;
-  --piece-resource-padding: 12px;
-  --notation-padding: 4px;
+  --piece-resource-padding: 1vw;
+  --notation-padding: 1vw;
   --inventory-squares-per-side: 4;
 }
 
 body {
   overflow: hidden;
   margin: 0;
-  height: 100vh;
   font-family: system-ui, sans-serif;
   background-color: #ECECEC;
+  display: flex;
+  flex-direction: row;
 }
 
-.boards-container {
-  height: 100%;
-  width: 100%;
+#left-column {
+  flex: 1;
+  height: 100vh;
+}
+
+#center-column {
+  flex: 2;
+  height: 100vh;
+}
+
+#right-column {
+  flex: 1;
+  height: 100vh;
+}
+
+#boards-container {
+  height: calc(var(--square-size) * var(--board-squares-per-side));
+  width: calc(var(--square-size) * var(--board-squares-per-side));
   overflow: hidden;
-  padding-left: 25%;
-  padding-top: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
 }
 
 .board {
@@ -30,20 +51,18 @@ body {
 }
 
 .bottom-notations-container {
-  margin-top: calc(
-    var(--square-size) * var(--board-squares-per-side) - var(--square-size) / 3.5
-  );
   display: flex;
   flex-direction: row;
   position: absolute;
+  bottom: 0;
   z-index: 1;
 }
 
 .left-notations-container {
-  width: calc(var(--square-size) / 4);
   display: flex;
   flex-direction: column;
   position: absolute;
+  left: 0;
   z-index: 1;
 }
 
@@ -51,6 +70,10 @@ body {
   cursor: not-allowed !important;
   pointer-events: none !important;
   background-color: lightgray !important;
+}
+
+.collapsed {
+  display: none !important;
 }
 
 .square {
@@ -69,9 +92,9 @@ body {
 .notation {
   font-weight: bold;
   position: relative;
-  font-size: medium;
   margin: 0;
   padding: 0;
+  font-size: 1em;
 }
 
 .notation.number {
@@ -85,15 +108,9 @@ body {
   text-align: end;
 }
 
-#info-display {
-  position: absolute;
-  top: 0px;
-  left: 24px;
-}
-
 path {
   position: relative;
-  z-index: -2;
+  z-index: -10;
 }
 
 .piece {
@@ -119,40 +136,54 @@ path {
   margin-top: 10px;
 }
 
-#logs-container {
+#info-container {
+  position: relative;
+  margin: 2.5%;
+}
+
+#info-container p {
+  font-size: 1em;
+}
+
+#inventory-container {
+  width: 100%;
+  max-width: calc(var(--square-size) * var(--inventory-squares-per-side));
+  overflow: visible;
+  box-sizing: border-box;
   position: absolute;
-  padding: 0.5%;
-  right: 0;
-  top: 0;
-  width: 25%;
+  bottom: 5%;
+  left: 5%;
+}
+
+#logs-container {
+  width: 100%;
   height: 70%;
+  padding: 0.5%;
   border: 0.2vw solid black;
-  overflow-x: none;
   overflow-y: auto;
 }
 
-.boards-buttons-container {
-  position: absolute;
-  padding: 1%;
-  padding-bottom: 3%;
-  right: 0;
-  bottom: 0;
-  width: 25%;
-  display: flex;
-  justify-content: center;
+#logs-container p {
+  font-size: 1em;
 }
 
-.boards-buttons-container button {
-  width: 30%;
-  padding: 42px 24px;
-  margin-left: 12px;
-  margin-right: 12px;
+#boards-buttons-container {
+  width: 100%;
+  height: 30vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#boards-buttons-container button {
+  width: 25%;
+  padding: 10% 0;
   font-size: 0.85em;
   font-weight: bold;
   color: #ffffff;
   background-color: #5f0505;
   border: none;
-  border-radius: 6px;
+  border-radius: 5%;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -167,22 +198,9 @@ path {
   background-color: burlywood;
 }
 
-
-
-.inventory-container {
-  height: var(--square-size);
-  width: calc(var(--square-size) * var(--inventory-squares-per-side));
-  overflow: visible;
-  padding-left: 32px;
-  position: absolute;
-  bottom: 0px;
-  margin-bottom: 47px;
-}
-
 .player-inventory {
-  height: 100%;
   width: 100%;
-  outline: 3px solid;
+  outline: 2px solid;
   display: flex;
   text-align: center;
   flex-wrap: wrap;
@@ -190,10 +208,46 @@ path {
 }
 
 .inventory-square {
-  outline: 2px solid;
+  outline: 1px solid;
   box-sizing: border-box;
   height: var(--square-size);
   width: var(--square-size);
+}
+
+@media screen and (max-width: 1200px) {
+  .notation {
+    font-size: 0.6em;
+  }
+
+  #info-container p {
+    font-size: 0.8em;
+  }
+
+  #logs-container p {
+    font-size: 0.8em;
+  }
+
+  #boards-buttons-container button {
+    font-size: 0.6em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .notation {
+    font-size: 0.4em;
+  }
+
+  #info-container p {
+    font-size: 0.6em;
+  }
+
+  #logs-container p {
+    font-size: 0.6em;
+  }
+
+  #boards-buttons-container button {
+    font-size: 0.4em;
+  }
 }
 
 .beige-background {
@@ -266,12 +320,4 @@ path {
 
 .log-color-movement {
   color: gray;
-}
-
-.log-color-item {
-  color: DarkGoldenRod;
-}
-
-.collapsed {
-  display: none;
 }
