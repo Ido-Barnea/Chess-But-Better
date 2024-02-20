@@ -189,13 +189,12 @@ export function highlightSquare(
   shouldAddHighlight: boolean,
 ) {
   const squareElement = findSquareElement(targetElement);
+  if (!squareElement) return;
 
-  if (squareElement) {
-    if (shouldAddHighlight) {
-      targetElement.classList.add(HIGHLIGHT_SQUARE_COLOR);
-    } else {      
-      targetElement.classList.remove(HIGHLIGHT_SQUARE_COLOR);
-    }
+  if (shouldAddHighlight) {
+    targetElement.classList.add(HIGHLIGHT_SQUARE_COLOR);
+  } else {      
+    targetElement.classList.remove(HIGHLIGHT_SQUARE_COLOR);
   }
 }
 
