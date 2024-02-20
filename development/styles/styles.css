@@ -1,7 +1,7 @@
 :root {
   --square-size: 5vw;
   --board-squares-per-side: 8;
-  --piece-resource-padding: 1vw;
+  --piece-resource-padding: 0.75vw;
   --notation-padding: 1vw;
   --inventory-squares-per-side: 4;
 }
@@ -10,7 +10,6 @@ body {
   overflow: hidden;
   margin: 0;
   font-family: system-ui, sans-serif;
-  background-color: #ECECEC;
   display: flex;
   flex-direction: row;
 }
@@ -85,7 +84,9 @@ body {
 .square svg {
   height: calc(var(--square-size) - var(--piece-resource-padding));
   width: calc(var(--square-size) - var(--piece-resource-padding));
-  margin: calc(var(--piece-resource-padding) / 2);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   position: relative;
 }
 
@@ -113,6 +114,11 @@ path {
   z-index: -10;
 }
 
+.outline {
+  stroke: black;
+  stroke-width: 1em;
+}
+
 .piece {
   z-index: 10;
 }
@@ -130,6 +136,7 @@ path {
 
 .piece:active, .item:active {
   cursor: grabbing;
+  z-index: 100;
 }
 
 .inventory-item {
@@ -299,11 +306,11 @@ path {
 }
 
 .black {
-  fill: black;
+  fill: #333333;
 }
 
 .white {
-  fill: white;
+  fill: #f5f5f5;
 }
 
 .log-color-general {
