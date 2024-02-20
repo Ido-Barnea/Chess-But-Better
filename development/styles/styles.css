@@ -11,6 +11,7 @@ body {
   margin: 0;
   height: 100vh;
   font-family: system-ui, sans-serif;
+  background-color: #ECECEC;
 }
 
 .boards-container {
