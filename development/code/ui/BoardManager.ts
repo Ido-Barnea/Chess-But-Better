@@ -177,6 +177,24 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
   board.spawnElementOnBoard(itemElement, squareElement);
 }
 
+export function spawnItemOnChildElement(item: Item, targetSquareId: string, isUntargetable = false) {
+  if (!item.position) return;
+  const board = getBoardbyId(item.position.boardId);
+
+  const squareElement = board.boardElement.querySelectorAll(`
+    [square-id="${targetSquareId}"]
+  `)[0] as HTMLElement;
+
+  const childElement = squareElement.firstChild as HTMLElement;
+
+  const itemElement = board.createItemElement(item);
+  if (isUntargetable) {
+    itemElement.classList.remove('item');
+    itemElement.classList.add('untargetable-item');
+  }
+  childElement.insertBefore(itemElement, childElement.firstChild);
+}
+
 function findSquareElement(element: HTMLElement): HTMLElement | undefined {
   while (element && !element.classList.contains('square')) {
     element = element.parentElement as HTMLElement;

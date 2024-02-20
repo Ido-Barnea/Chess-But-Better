@@ -129,7 +129,7 @@ path {
   z-index: 9;
 }
 
-.piece, .item, .inventory-item, .shop-item {
+.piece, .item, .inventory-item, .shop-item, .untargetable-item {
   height: var(--square-size);
   width: var(--square-size);
   position: absolute;

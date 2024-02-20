@@ -15,6 +15,7 @@ import {
   highlightLastMove,
   getPieceElementBySquareId,
   highlightLegalMove,
+  spawnItemOnChildElement,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
 import { switchShownInventory, showItemOnInventory, destroyItemInInventory } from './ui/InventoriesUI';
@@ -177,6 +178,15 @@ export function spawnItemOnBoard(item: Item) {
   spawnItemElementOnBoard(item, squareId);
 }
 
+export function spawnItemOnPiece(item: Item) {
+  if (!item.position) return;
+
+  const itemCoordinates = item.position.coordinates;
+  const squareId = itemCoordinates.join(',');
+
+  spawnItemOnChildElement(item, squareId, true);
+}
+
 export function changePieceToAnotherPlayer(piece: Piece) {
   const squareId = piece.position.coordinates.join(',');
   const boadrId = piece.position.boardId;
@@ -207,35 +217,37 @@ export function switchInventory(player: Player) {
 export function canPlaceItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
   if (game.getWasItemPlacedThisTurn() || !targetElement) return false;
 
-  switch (itemElement.id) {
-    case 'trap': {
-      if (!targetElement.classList.contains('square')) {
-        return false;
-      }
-      break;
-    }
-    default:
-      break;
-  }
-  
-  
-  const currentOpenBoardId = getCurrentBoardId();
-  if (!currentOpenBoardId) return false;
+  const currentBoardId = getCurrentBoardId();
+  if (!currentBoardId) return false;
 
   const squareId = getSquareIdByElement(targetElement);
   if (!squareId) return false;
 
-  const squarePosition = getPositionFromSquareId(squareId, currentOpenBoardId);
+  const squarePosition = getPositionFromSquareId(squareId, currentBoardId);
 
   const usedItem = getCurrentPlayerInventoryItemById(itemElement.id);
   if (!usedItem) return false;
 
   usedItem.setPosition(squarePosition);
-  spawnItemOnBoard(usedItem);
-  game.addItem(usedItem);
+
+  switch (itemElement.id) {
+    case 'trap': {
+      if (!targetElement.classList.contains('square')) return false;
+      spawnItemOnBoard(usedItem);
+      game.addItem(usedItem);
+      break;
+    }
+    case 'shield': {
+      if (!targetElement.classList.contains('piece')) return false;
+      spawnItemOnPiece(usedItem);
+      break;
+    }
+    default:
+      break;
+  }
+
   game.getCurrentPlayer().inventory.removeItem(usedItem);
   game.switchWasItemPlacedThisTurn();
-
   destroyItemInInventory(itemElement);
 
   return true;
