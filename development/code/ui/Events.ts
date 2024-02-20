@@ -28,13 +28,6 @@ let triggerOnHighlight: (
 ) => void;
 
 export function initializeEventListeners() {
-  const squares = document.querySelectorAll('.square');
-  // Listen for mouse events
-  squares.forEach(square => {
-    square.addEventListener('mouseover', onMouseOver);
-    square.addEventListener('mouseout', onMouseOut);
-  });
-
   const pieces = document.querySelectorAll('.piece');
   pieces.forEach(pieceElement => {
     pieceElement.addEventListener('click', onMouseClick);
@@ -58,7 +51,10 @@ export function dragElement(element: HTMLElement) {
     event.preventDefault();
 
     const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
-    if (!(element.classList.contains(currentTurnPlayerColor) || element.classList.contains('item'))) return;
+    const isElementOfCurrentPlayer = element.classList.contains(currentTurnPlayerColor);
+    const isItemElement = element.classList.contains('item');
+    if (!(isElementOfCurrentPlayer || isItemElement)) return;
+
     endMouseX = event.clientX;
     endMouseY = event.clientY;
     document.onmousemove = elementDrag;
@@ -74,8 +70,10 @@ export function dragElement(element: HTMLElement) {
 
     startMouseX = endMouseX - event.clientX;
     startMouseY = endMouseY - event.clientY;
+
     endMouseX = event.clientX;
     endMouseY = event.clientY;
+
     element.style.left = (element.offsetLeft - startMouseX) + 'px';
     element.style.top = (element.offsetTop - startMouseY) + 'px';
   }
@@ -83,15 +81,14 @@ export function dragElement(element: HTMLElement) {
   function stopElementDrag(_: MouseEvent) {
     document.onmouseup = null;
     document.onmousemove = null;
+    
     const initialElement = draggedElement as HTMLElement;
     if (!initialElement) return;
 
     let parentContainer = initialElement.parentElement ?? undefined;
-    while (
-      parentContainer &&
-      !(parentContainer.classList.contains('board') ||
-      parentContainer.classList.contains('player-inventory'))
-    ) {
+    const isParentContainerABoard = parentContainer?.classList.contains('board');
+    const isParentContainerAnInventory = parentContainer?.classList.contains('player-inventory');
+    while (parentContainer && (!isParentContainerABoard || isParentContainerAnInventory)) {
       parentContainer = parentContainer.parentElement ?? undefined;
     }
 
@@ -99,10 +96,12 @@ export function dragElement(element: HTMLElement) {
 
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
+
     const droppedOnElements = document.elementsFromPoint(
       elementXPosition,
       elementYPosition,
     ) as Array<HTMLElement>;
+    
     const droppedOnElement = droppedOnElements.filter(element => {
       return (element.classList.contains('square') ||
         element.classList.contains('item') ||
@@ -117,19 +116,6 @@ export function dragElement(element: HTMLElement) {
       triggerOnAction(draggedElement, droppedOnElement, parentContainer.id);
     }
   }
-}
-
-function handleMouseEvents(event: Event, shouldAddHighlight: boolean) {
-  const targetElement = event.target as HTMLElement;
-  triggerOnHighlight(targetElement, shouldAddHighlight, true);
-}
-
-function onMouseOver(event: Event) {
-  handleMouseEvents(event, true);
-}
-
-function onMouseOut(event: Event) {
-  handleMouseEvents(event, false);
 }
 
 function onMouseClick(event: Event) {
