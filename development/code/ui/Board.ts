@@ -5,7 +5,7 @@ import { PiggyBank } from '../logic/items/PiggyBank';
 import { Item } from '../logic/items/Items';
 import { Piece } from '../logic/pieces/Piece';
 import { Position } from '../logic/pieces/PiecesUtilities';
-import { dragElement } from './Events';
+import { initializeDraggingListeners } from './Events';
 
 export class ChessBoard {
   boardId: string;
@@ -130,7 +130,7 @@ export class ChessBoard {
 
     pieceElement.innerHTML = piece.resource;
 
-    dragElement(pieceElement);
+    initializeDraggingListeners(pieceElement);
 
     return pieceElement;
   }

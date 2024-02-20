@@ -211,6 +211,11 @@ export function highlightLastMove(
 
   highlightSquare(originSquareElement, true);
   highlightSquare(targetSquareElement, true);
+
+  // Remove all legal moves highlights
+  for (const squareElement of allSquareElements) {
+    highlightLegalMove(squareElement, false);
+  }
 }
 
 export function highlightLegalMove(

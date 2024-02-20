@@ -1,7 +1,7 @@
 import { INVENTORY_CLASS_ID, INVENTORY_WIDTH } from '../logic/Constants';
 import { PlayerColors } from '../logic/Players';
 import { Item } from '../logic/items/Items';
-import { dragElement } from './Events';
+import { initializeDraggingListeners } from './Events';
 
 
 const inventoryElement = document.getElementsByClassName(INVENTORY_CLASS_ID)[0];
@@ -26,7 +26,7 @@ export function showItemOnInventory(
   inventoryItemElement.innerHTML = item.resource;
   inventoryItemElement.draggable = true;
 
-  dragElement(inventoryItemElement);
+  initializeDraggingListeners(inventoryItemElement);
 
   const playerInventoryElement = document.getElementById(playerColor);
 
