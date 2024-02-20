@@ -25,10 +25,15 @@ export function addItemToShop(item: Item) {
   itemElement.innerHTML = item.resource;
   itemElement.addEventListener('click', onShopItemClick);
 
+  const itemPriceElement = document.createElement('p') as HTMLElement;
+  itemPriceElement.classList.add('shop-item-price');
+  itemPriceElement.innerHTML = item.price.toString();
+
   const shopElement = document.getElementById('shop-container');
   shopElement?.childNodes.forEach((child) => {
     if (!child.hasChildNodes()) {
       child.appendChild(itemElement);
+      child.appendChild(itemPriceElement);
       return;
     }
   });

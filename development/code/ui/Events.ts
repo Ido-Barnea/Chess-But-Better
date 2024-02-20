@@ -152,6 +152,11 @@ export function initializeDraggingListeners(element: HTMLElement) {
         element.classList.contains('piece') ) && element !== draggedElement;
     })[0];
 
+    if (!droppedOnElement) {
+      returnItemToInventory(draggedElement);
+      return;
+    }
+
     let parentContainer = droppedOnElement.parentElement ?? undefined;
     let isParentContainerABoard = parentContainer?.classList.contains('board');
     while (parentContainer && !isParentContainerABoard) {
