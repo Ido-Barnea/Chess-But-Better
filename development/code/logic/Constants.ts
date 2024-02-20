@@ -18,7 +18,6 @@ export const LIGHT_HEAVEN_SQUARE_COLOR = 'water-background';
 export const DARK_HEAVEN_SQUARE_COLOR = 'blue-background';
 export const HIGHLIGHT_SQUARE_COLOR = 'highlight-background';
 
-export const MOUSE_HIGHLIGHT_CLASS = 'mouse-highlight';
 export const SELECTED_PIECE_CLASS = 'selected-piece';
 
 export const NOTATIONS_LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];

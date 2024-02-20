@@ -100,14 +100,14 @@ function highlightLegalMoves(
   // Remove all highlights
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
-    highlightSquare(squareElement, false, false);
+    highlightSquare(squareElement, false);
   }
 
   const legalMoves = piece.getLegalMoves();
   for (const position of legalMoves) {
     const positionSquareId = position.coordinates.join(',');
     const squareElement = getSquareElementById(positionSquareId, boardId) as HTMLElement;
-    highlightSquare(squareElement, true, false);
+    highlightSquare(squareElement, true);
   }
 }
 

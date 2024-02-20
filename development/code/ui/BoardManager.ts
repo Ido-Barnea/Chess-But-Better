@@ -14,7 +14,6 @@ import {
   LIGHT_HEAVEN_SQUARE_COLOR,
   LIGHT_HELL_SQUARE_COLOR,
   LIGHT_OVERWORLD_SQUARE_COLOR,
-  MOUSE_HIGHLIGHT_CLASS,
   NOTATIONS_LETTERS,
   NOTATIONS_NUMBERS,
   OVERWORLD_BOARD_BUTTON_ID,
@@ -188,30 +187,14 @@ function findSquareElement(element: HTMLElement): HTMLElement | undefined {
 export function highlightSquare(
   targetElement: HTMLElement,
   shouldAddHighlight: boolean,
-  isMouseHighlight: boolean,
 ) {
   const squareElement = findSquareElement(targetElement);
 
   if (squareElement) {
     if (shouldAddHighlight) {
-      if (isMouseHighlight && !targetElement.classList.contains(HIGHLIGHT_SQUARE_COLOR)) {
-        targetElement.classList.add(MOUSE_HIGHLIGHT_CLASS);
-      }
-
       targetElement.classList.add(HIGHLIGHT_SQUARE_COLOR);
-    } else {
-      const isCurrentlyMouseHighlighted = targetElement.classList.contains(MOUSE_HIGHLIGHT_CLASS);
-      
-      const shouldRemoveMouseHighlight = isMouseHighlight && isCurrentlyMouseHighlighted;
-      const shouldRemoveHighlight = !isMouseHighlight || shouldRemoveMouseHighlight;
-
-      if (shouldRemoveMouseHighlight) {
-        targetElement.classList.remove(MOUSE_HIGHLIGHT_CLASS);
-      }
-
-      if (shouldRemoveHighlight) {
-        targetElement.classList.remove(HIGHLIGHT_SQUARE_COLOR);
-      }
+    } else {      
+      targetElement.classList.remove(HIGHLIGHT_SQUARE_COLOR);
     }
   }
 }
@@ -223,9 +206,9 @@ export function highlightLastMove(
 ) {
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
-    highlightSquare(squareElement, false, false);
+    highlightSquare(squareElement, false);
   }
 
-  highlightSquare(originSquareElement, true, false);
-  highlightSquare(targetSquareElement, true, false);
+  highlightSquare(originSquareElement, true);
+  highlightSquare(targetSquareElement, true);
 }
