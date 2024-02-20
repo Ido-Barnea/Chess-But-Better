@@ -9,12 +9,12 @@ import {
   destroyElementOnBoard,
   getAllSquareElements,
   getSquareElementById,
-  highlightSquare,
   moveElementOnBoard,
   spawnItemElementOnBoard,
   spawnPieceElementOnBoard,
   highlightLastMove,
   getPieceElementBySquareId,
+  highlightLegalMove,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
 import { switchShownInventory, showItemOnInventory, destroyItemInInventory } from './ui/InventoriesUI';
@@ -100,14 +100,14 @@ function highlightLegalMoves(
   // Remove all highlights
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
-    highlightSquare(squareElement, false, false);
+    highlightLegalMove(squareElement, false);
   }
 
   const legalMoves = piece.getLegalMoves();
   for (const position of legalMoves) {
     const positionSquareId = position.coordinates.join(',');
     const squareElement = getSquareElementById(positionSquareId, boardId) as HTMLElement;
-    highlightSquare(squareElement, true, false);
+    highlightLegalMove(squareElement, true);
   }
 }
 
