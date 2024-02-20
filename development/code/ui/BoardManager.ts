@@ -5,7 +5,7 @@ import {
   DARK_HEAVEN_SQUARE_COLOR,
   DARK_HELL_SQUARE_COLOR,
   DARK_OVERWORLD_SQUARE_COLOR,
-  GRAY_SQUARE_COLOR as LIGHT_GRAY_SQUARE_COLOR,
+  HIGHLIGHT_SQUARE_COLOR,
   HEAVEN_BOARD_BUTTON_ID,
   HEAVEN_BOARD_ID,
   HELL_BOARD_BUTTON_ID,
@@ -194,11 +194,11 @@ export function highlightSquare(
 
   if (squareElement) {
     if (shouldAddHighlight) {
-      if (isMouseHighlight && !targetElement.classList.contains(LIGHT_GRAY_SQUARE_COLOR)) {
+      if (isMouseHighlight && !targetElement.classList.contains(HIGHLIGHT_SQUARE_COLOR)) {
         targetElement.classList.add(MOUSE_HIGHLIGHT_CLASS);
       }
 
-      targetElement.classList.add(LIGHT_GRAY_SQUARE_COLOR);
+      targetElement.classList.add(HIGHLIGHT_SQUARE_COLOR);
     } else {
       const isCurrentlyMouseHighlighted = targetElement.classList.contains(MOUSE_HIGHLIGHT_CLASS);
       
@@ -210,7 +210,7 @@ export function highlightSquare(
       }
 
       if (shouldRemoveHighlight) {
-        targetElement.classList.remove(LIGHT_GRAY_SQUARE_COLOR);
+        targetElement.classList.remove(HIGHLIGHT_SQUARE_COLOR);
       }
     }
   }

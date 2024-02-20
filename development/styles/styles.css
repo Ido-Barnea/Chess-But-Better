@@ -220,18 +220,18 @@ path {
   background-color: #7f3b08;
 }
 
-.light-gray-background {
+.highlight-background {
   position: relative;
 }
 
-.light-gray-background::before {
+.highlight-background::before {
   content: "";
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(230, 230, 230, 0.5);
+  background-color: rgb(255, 222, 100, 0.5);
   z-index: 1; 
 }
 

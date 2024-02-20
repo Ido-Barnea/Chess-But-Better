@@ -86,10 +86,13 @@ export function dragElement(element: HTMLElement) {
     if (!initialElement) return;
 
     let parentContainer = initialElement.parentElement ?? undefined;
-    const isParentContainerABoard = parentContainer?.classList.contains('board');
-    const isParentContainerAnInventory = parentContainer?.classList.contains('player-inventory');
+    let isParentContainerABoard = parentContainer?.classList.contains('board');
+    let isParentContainerAnInventory = parentContainer?.classList.contains('player-inventory');
     while (parentContainer && (!isParentContainerABoard || isParentContainerAnInventory)) {
       parentContainer = parentContainer.parentElement ?? undefined;
+
+      isParentContainerABoard = parentContainer?.classList.contains('board');
+      isParentContainerAnInventory = parentContainer?.classList.contains('player-inventory');
     }
 
     if (!parentContainer) return;
@@ -101,7 +104,7 @@ export function dragElement(element: HTMLElement) {
       elementXPosition,
       elementYPosition,
     ) as Array<HTMLElement>;
-    
+
     const droppedOnElement = droppedOnElements.filter(element => {
       return (element.classList.contains('square') ||
         element.classList.contains('item') ||
