@@ -1,15 +1,16 @@
 import { Player } from '../Players';
 import { Item } from '../items/Items';
-import { PieceType, Position, Square } from './PiecesUtilities';
+import { Position, Square } from './PiecesUtilities';
 
-export class Piece implements PieceType {
+export class Piece {
   resource: string;
   pieceIcon: string;
   name: string;
   player: Player;
   position: Position;
-  upgrades: Array<Piece>;
+  actions: number;
   price: number;
+  upgrades: Array<new (position: Position, player: Player) => Piece>;
   equipedItem: Item | undefined;
   hasMoved: boolean;
   killCount: number;
@@ -20,18 +21,17 @@ export class Piece implements PieceType {
     name: string,
     player: Player,
     position: Position,
-    upgrades: Array<Piece> = [],
-    price = 1,
-    equipedItem: Item | undefined = undefined,
   ) {
     this.resource = resource;
     this.pieceIcon = pieceIcon;
     this.name = name;
     this.player = player;
     this.position = position;
-    this.upgrades = upgrades;
-    this.price = price;
-    this.equipedItem = equipedItem;
+
+    this.actions = 1;
+    this.price = 1;
+    this.upgrades = [];
+    this.equipedItem = undefined;
     this.hasMoved = false;
     this.killCount = 0;
   }
