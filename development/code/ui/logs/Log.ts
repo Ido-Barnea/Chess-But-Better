@@ -70,8 +70,9 @@ export class KillLog extends Log {
     if (killedPiece.position.boardId === VOID_BOARD_ID) {
       message += 'permanently killed by ';
     } else {
-      const spawnedInBoard = killedPiece.position.boardId === HELL_BOARD_ID ? 'Hell' : 'Heaven';
-      message += `sent to ${spawnedInBoard} by `
+      const spawnedInBoard =
+        killedPiece.position.boardId === HELL_BOARD_ID ? 'Hell' : 'Heaven';
+      message += `sent to ${spawnedInBoard} by `;
     }
 
     if (cause instanceof Piece) {
