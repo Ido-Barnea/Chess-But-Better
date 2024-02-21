@@ -23,6 +23,8 @@ jobs:
       - run: npm ci
       - name: Lint
         run: npx nx run-many --target lint --no-cache
+      - name: Format
+        run: npx nx format:check
   check-commit-message:
     name: Check Commit Messages
     runs-on: ubuntu-latest

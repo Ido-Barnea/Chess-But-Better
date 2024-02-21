@@ -1,5 +1,12 @@
 import { game } from '../Game';
-import { destroyItemOnBoard, destroyPieceOnBoard, movePieceOnBoard, spawnPieceOnBoard, endGame, destroyItemOnPiece } from '../LogicAdapter';
+import {
+  destroyItemOnBoard,
+  destroyPieceOnBoard,
+  movePieceOnBoard,
+  spawnPieceOnBoard,
+  endGame,
+  destroyItemOnPiece,
+} from '../LogicAdapter';
 import {
   MIN_KILLINGS_FOR_BOUNTY,
   HEAVEN_BOARD_ID,
@@ -28,7 +35,9 @@ function validatePlayerAction(
   if (draggedPiece.position.boardId !== target.position?.boardId) return false;
 
   const legalMoves = draggedPiece.getLegalMoves();
-  return legalMoves.some(position => comparePositions(position, target.position));
+  return legalMoves.some((position) =>
+    comparePositions(position, target.position),
+  );
 }
 
 function getPathPositions(start: Position, end: Position): Array<Position> {
@@ -55,12 +64,13 @@ function getPathPositions(start: Position, end: Position): Array<Position> {
 
 function simulatePath(piece: Piece, targetPosition: Position) {
   const currentPosition = piece.position;
-  const pathPositions: Array<Position> = piece instanceof Knight
-    ? [targetPosition]
-    : getPathPositions(currentPosition, targetPosition);
+  const pathPositions: Array<Position> =
+    piece instanceof Knight
+      ? [targetPosition]
+      : getPathPositions(currentPosition, targetPosition);
 
-  pathPositions.forEach(position => {
-    game.getItems().forEach(item => {
+  pathPositions.forEach((position) => {
+    game.getItems().forEach((item) => {
       if (comparePositions(item.position, position)) {
         onActionPieceToItem(piece, item);
       }
@@ -93,7 +103,7 @@ export function onPlayerAction(
   if (game.getMovesLeft() === 0) {
     game.setMovesLeft(draggedPiece.moves);
   }
-  
+
   const pieceBoard = draggedPiece.position.boardId;
   simulatePath(draggedPiece, target.position);
   const newPieceBoard = draggedPiece.position.boardId;
@@ -104,18 +114,16 @@ export function onPlayerAction(
   if (target instanceof Piece) {
     onActionAttackMove(draggedPiece, target);
   } else {
-    const targetSquare = (target instanceof Item)
-      ? { position: target.position }
-      : (target as Square);
-    
+    const targetSquare =
+      target instanceof Item
+        ? { position: target.position }
+        : (target as Square);
+
     onActionNonAttackMove(draggedPiece, targetSquare);
   }
 }
 
-function onActionAttackMove(
-  draggedPiece: Piece,
-  targetPiece: Piece,
-) {
+function onActionAttackMove(draggedPiece: Piece, targetPiece: Piece) {
   game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
   const isSuccessfulKill = killPieceByAnotherPiece(targetPiece, draggedPiece);
   if (!isSuccessfulKill) return;
@@ -124,19 +132,26 @@ function onActionAttackMove(
   move(draggedPiece, targetSquare.position);
 }
 
-function onActionNonAttackMove(
-  draggedPiece: Piece,
-  targetSquare: Square,
-) {
+function onActionNonAttackMove(draggedPiece: Piece, targetSquare: Square) {
   if (draggedPiece instanceof Pawn) {
     draggedPiece.checkInitialDoubleStep(targetSquare.position);
 
     if (draggedPiece.diagonalAttackPosition) {
-      if (comparePositions(draggedPiece.diagonalAttackPosition, targetSquare.position)) {
-        const enPassantPiece = draggedPiece.getEnPassantPiece(targetSquare.position);
+      if (
+        comparePositions(
+          draggedPiece.diagonalAttackPosition,
+          targetSquare.position,
+        )
+      ) {
+        const enPassantPiece = draggedPiece.getEnPassantPiece(
+          targetSquare.position,
+        );
         if (!enPassantPiece) return;
-  
-        const isSuccessfulKill = killPieceByAnotherPiece(enPassantPiece, draggedPiece);
+
+        const isSuccessfulKill = killPieceByAnotherPiece(
+          enPassantPiece,
+          draggedPiece,
+        );
         if (!isSuccessfulKill) return;
       }
     }
@@ -154,16 +169,16 @@ function onActionNonAttackMove(
   move(draggedPiece, targetSquare.position);
 }
 
-function castle(
-  kingPiece: King,
-  targetSquare: Square,
-) {
+function castle(kingPiece: King, targetSquare: Square) {
   const targetXPosition = targetSquare.position.coordinates[0];
   const kingXPosition = kingPiece.position.coordinates[0];
   const deltaX = targetXPosition - kingXPosition;
   const isKingsideCastling = deltaX > 0;
-  
-  const rookPiece = kingPiece.getRookForCastling(kingPiece.player, isKingsideCastling);
+
+  const rookPiece = kingPiece.getRookForCastling(
+    kingPiece.player,
+    isKingsideCastling,
+  );
   if (!rookPiece) return false;
 
   const rookPieceTargetPosition: Position = {
@@ -179,7 +194,9 @@ function castle(
   const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
   move(rookPiece, rookPieceTargetSquare.position, false);
 
-  new Log(`${kingPiece.pieceIcon} ${kingPiece.player.color} castled.`).addToQueue();
+  new Log(
+    `${kingPiece.pieceIcon} ${kingPiece.player.color} castled.`,
+  ).addToQueue();
   return true;
 }
 
@@ -231,10 +248,7 @@ function killPieceByAnotherPiece(
   return true;
 }
 
-function killPieceByGame(
-  targetPiece: Piece,
-  killCause: string,
-) {
+function killPieceByGame(targetPiece: Piece, killCause: string) {
   destroyPieceOnBoard(targetPiece);
   killPiece(targetPiece);
   new KillLog(targetPiece, killCause).addToQueue();
@@ -297,21 +311,18 @@ function handlePieceSpawning(targetPiece: Piece) {
 
 function onActionPieceToItem(piece: Piece, item: Item) {
   switch (item.name) {
-    case ('piggy bank'): {
+    case 'piggy bank': {
       pieceMovedOnPiggyBank(piece, item as PiggyBank);
       break;
     }
-    case ('trap'): {
+    case 'trap': {
       pieceMovedOnTrap(piece, item as Trap);
       break;
     }
   }
 }
 
-function pieceMovedOnTrap(
-  draggedPiece: Piece,
-  trap: Trap,
-) {
+function pieceMovedOnTrap(draggedPiece: Piece, trap: Trap) {
   if (!trap.position) {
     // If we entered this condition, something went terribly wrong.
     return;

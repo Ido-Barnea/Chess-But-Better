@@ -1,5 +1,9 @@
 import { game } from '../../Game';
-import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
+import {
+  HEAVEN_BOARD_ID,
+  HELL_BOARD_ID,
+  OVERWORLD_BOARD_ID,
+} from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
@@ -53,7 +57,7 @@ describe('Piece movements', () => {
     };
     validMoves = queen.getLegalMoves();
     expect(validMoves).toContainEqual(newDiagonalPosition);
-    
+
     const invalidPosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
@@ -64,7 +68,7 @@ describe('Piece movements', () => {
 });
 
 describe('Piece killing', () => {
-  test ('Validating Queen killing', () => {
+  test('Validating Queen killing', () => {
     const initialKillerPosition: Position = {
       coordinates: [2, 2],
       boardId: OVERWORLD_BOARD_ID,
@@ -78,12 +82,12 @@ describe('Piece killing', () => {
     const victimPiece = new Pawn(victimPosition, blackPlayer);
 
     game.initialize();
-    game.setPieces([killerQueen,victimPiece]);
-    onPlayerAction(killerQueen,victimPiece);
-    
+    game.setPieces([killerQueen, victimPiece]);
+    onPlayerAction(killerQueen, victimPiece);
+
     const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
-    
+
     let killerNewCoordinates = killerQueen.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 

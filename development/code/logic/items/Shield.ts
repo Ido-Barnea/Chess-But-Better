@@ -14,11 +14,13 @@ export class Shield extends Item {
     const piece = getPieceByPosition(position);
     if (!piece) return;
 
-    new Log(`${piece.player.color} ${piece.name} placed a ${this.name} on ${piece}.`).addToQueue();
+    new Log(
+      `${piece.player.color} ${piece.name} placed a ${this.name} on ${piece}.`,
+    ).addToQueue();
 
     this.position = position;
     piece.health++;
-    
+
     spawnItemOnPiece(this);
   }
 }

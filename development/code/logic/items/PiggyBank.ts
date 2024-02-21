@@ -25,6 +25,8 @@ export class PiggyBank extends Item {
       player: { color: pieceColor },
       name: pieceName,
     } = piece;
-    new Log(`${pieceColor} ${pieceName} claimed a ${this.name} and recieved ${gold} gold.`).addToQueue();
+    new Log(
+      `${pieceColor} ${pieceName} claimed a ${this.name} and recieved ${gold} gold.`,
+    ).addToQueue();
   }
 }

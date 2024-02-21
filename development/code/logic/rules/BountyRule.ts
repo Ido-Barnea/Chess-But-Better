@@ -8,7 +8,7 @@ export class BountyRule extends BaseRule {
     const description = 'Bounty.';
     const condition = () => {
       let result = false;
-      game.getPieces().forEach(piece => {
+      game.getPieces().forEach((piece) => {
         if (piece.killCount >= MIN_KILLINGS_FOR_BOUNTY) {
           result = true;
         }
@@ -17,14 +17,16 @@ export class BountyRule extends BaseRule {
     };
 
     const onTrigger = () => {
-      game.getPieces().forEach(piece => {
+      game.getPieces().forEach((piece) => {
         if (piece.killCount >= MIN_KILLINGS_FOR_BOUNTY) {
           const {
             player: { color: playerColor },
             name: pieceName,
             position: { coordinates: pieceCoordinates },
           } = piece;
-          new RuleLog(`There is an open bounty on a ${playerColor} ${pieceName} [${pieceCoordinates.join(',')}].`).addToQueue();
+          new RuleLog(
+            `There is an open bounty on a ${playerColor} ${pieceName} [${pieceCoordinates.join(',')}].`,
+          ).addToQueue();
         }
       });
     };

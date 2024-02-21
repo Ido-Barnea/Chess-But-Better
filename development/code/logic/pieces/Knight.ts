@@ -5,9 +5,7 @@ import { Position } from './PiecesUtilities';
 
 export class Knight extends Piece {
   constructor(position: Position, player: Player) {
-    const icon = player.color === PlayerColors.WHITE
-      ? '♘'
-      : '♞';
+    const icon = player.color === PlayerColors.WHITE ? '♘' : '♞';
     super(knightResource, icon, 'Knight', player, position);
   }
 

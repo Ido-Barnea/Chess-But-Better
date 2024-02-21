@@ -10,7 +10,9 @@ export class UpgradesTree {
       player.xp -= upgradedToPiece.price;
 
       const currentPieces = game.getPieces();
-      const updatedPieces = currentPieces.filter(piece => piece !== originalPiece);
+      const updatedPieces = currentPieces.filter(
+        (piece) => piece !== originalPiece,
+      );
       upgradedToPiece.position = originalPiece.copyPosition();
       upgradedToPiece.player = originalPiece.player;
       updatedPieces.push(upgradedToPiece);

@@ -11,11 +11,9 @@ export class Pawn extends Piece {
   diagonalAttackPosition: Position | undefined;
 
   constructor(position: Position, player: Player) {
-    const icon = player.color === PlayerColors.WHITE
-      ? '♙'
-      : '♟';
+    const icon = player.color === PlayerColors.WHITE ? '♙' : '♟';
     super(pawnResource, icon, 'Pawn', player, position);
-    
+
     this.possibleEnPassantPositions = undefined;
     this.isInitialDoubleStep = false;
     this.diagonalAttackPosition = undefined;
@@ -41,14 +39,17 @@ export class Pawn extends Piece {
   }
 
   getEnPassantPiece(targetPosition: Position): Piece | undefined {
-    const pawns = game.getPieces().filter(piece => {
+    const pawns = game.getPieces().filter((piece) => {
       return piece instanceof Pawn && piece !== this;
     }) as Array<Pawn>;
     if (!pawns.length) return;
 
-    const enPassantPawns = pawns.filter(pawn => {
+    const enPassantPawns = pawns.filter((pawn) => {
       if (pawn.isInitialDoubleStep && pawn.possibleEnPassantPositions) {
-        return comparePositions(pawn.possibleEnPassantPositions[0], targetPosition);
+        return comparePositions(
+          pawn.possibleEnPassantPositions[0],
+          targetPosition,
+        );
       }
     });
     if (!enPassantPawns.length) return;
@@ -76,12 +77,21 @@ export class Pawn extends Piece {
       // Check two squares forward for the initial move
       if (!this.hasMoved) {
         const twoSquaresForward: Position = {
-          coordinates: [currentCoordinates[0], currentCoordinates[1] + 2 * stepY],
+          coordinates: [
+            currentCoordinates[0],
+            currentCoordinates[1] + 2 * stepY,
+          ],
           boardId: this.position.boardId,
         };
 
-        if (!getPieceByPosition(twoSquaresForward) && !getPieceByPosition(oneSquareForward)) {
-          this.possibleEnPassantPositions = [oneSquareForward, twoSquaresForward];
+        if (
+          !getPieceByPosition(twoSquaresForward) &&
+          !getPieceByPosition(oneSquareForward)
+        ) {
+          this.possibleEnPassantPositions = [
+            oneSquareForward,
+            twoSquaresForward,
+          ];
           validMoves.push(twoSquaresForward);
         }
       }
@@ -98,12 +108,18 @@ export class Pawn extends Piece {
       boardId: this.position.boardId,
     };
 
-    if (getPieceByPosition(leftDiagonal) || this.getEnPassantPiece(leftDiagonal)) {
+    if (
+      getPieceByPosition(leftDiagonal) ||
+      this.getEnPassantPiece(leftDiagonal)
+    ) {
       this.diagonalAttackPosition = leftDiagonal;
       validMoves.push(leftDiagonal);
     }
 
-    if (getPieceByPosition(rightDiagonal) || this.getEnPassantPiece(rightDiagonal)) {
+    if (
+      getPieceByPosition(rightDiagonal) ||
+      this.getEnPassantPiece(rightDiagonal)
+    ) {
       this.diagonalAttackPosition = rightDiagonal;
       validMoves.push(rightDiagonal);
     }

@@ -4,7 +4,5 @@ export default {
   coverageDirectory: './coverage/chess-but-better',
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: [
-    '<rootDir>/development/code/**/*.test.ts',
-  ],
+  testMatch: ['<rootDir>/development/code/**/*.test.ts'],
 };

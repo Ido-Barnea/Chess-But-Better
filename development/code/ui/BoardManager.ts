@@ -27,16 +27,30 @@ let overworldBoard: ChessBoard;
 let hellBoard: ChessBoard;
 let heavenBoard: ChessBoard;
 
-export const OVERWORLD_BOARD = document.getElementById(OVERWORLD_BOARD_ID) as HTMLElement;
+export const OVERWORLD_BOARD = document.getElementById(
+  OVERWORLD_BOARD_ID,
+) as HTMLElement;
 export const HELL_BOARD = document.getElementById(HELL_BOARD_ID) as HTMLElement;
-export const HEAVEN_BOARD = document.getElementById(HEAVEN_BOARD_ID) as HTMLElement;
+export const HEAVEN_BOARD = document.getElementById(
+  HEAVEN_BOARD_ID,
+) as HTMLElement;
 
-export const BOTTOM_NOTATION_CONTAINER = document.getElementById(BOTTOM_NOTATION_ID) as HTMLElement;
-export const LEFT_NOTATION_CONTAINER = document.getElementById(LEFT_NOTATION_ID) as HTMLElement;
+export const BOTTOM_NOTATION_CONTAINER = document.getElementById(
+  BOTTOM_NOTATION_ID,
+) as HTMLElement;
+export const LEFT_NOTATION_CONTAINER = document.getElementById(
+  LEFT_NOTATION_ID,
+) as HTMLElement;
 
-const OVERWORLD_BOARD_BUTTON = document.getElementById(OVERWORLD_BOARD_BUTTON_ID) as HTMLElement;
-const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID) as HTMLElement;
-const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID) as HTMLElement;
+const OVERWORLD_BOARD_BUTTON = document.getElementById(
+  OVERWORLD_BOARD_BUTTON_ID,
+) as HTMLElement;
+const HELL_BOARD_BUTTON = document.getElementById(
+  HELL_BOARD_BUTTON_ID,
+) as HTMLElement;
+const HEAVEN_BOARD_BUTTON = document.getElementById(
+  HEAVEN_BOARD_BUTTON_ID,
+) as HTMLElement;
 
 export function initializeBoards() {
   overworldBoard = new ChessBoard(
@@ -66,7 +80,7 @@ export function initializeBoards() {
   generateNotations();
 }
 
-export function generateNotations(){
+export function generateNotations() {
   for (let index = 0; index < BOARD_WIDTH; index++) {
     createNotationGraphics(NOTATIONS_NUMBERS[index]);
     createNotationGraphics(NOTATIONS_LETTERS[index]);
@@ -111,7 +125,9 @@ export function getSquareElementById(
   boardId: string,
 ): HTMLElement | undefined {
   const board = getBoardbyId(boardId);
-  return board.boardElement.querySelector(`[square-id="${squareId}"]`) as HTMLElement;
+  return board.boardElement.querySelector(
+    `[square-id="${squareId}"]`,
+  ) as HTMLElement;
 }
 
 export function getPieceElementBySquareId(
@@ -192,7 +208,11 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
   board.spawnElementOnBoard(itemElement, squareElement);
 }
 
-export function spawnItemOnChildElement(item: Item, targetSquareId: string, isUntargetable = false) {
+export function spawnItemOnChildElement(
+  item: Item,
+  targetSquareId: string,
+  isUntargetable = false,
+) {
   if (!item.position) return;
   const board = getBoardbyId(item.position.boardId);
 
@@ -227,12 +247,12 @@ function highlightSquare(
 
   if (shouldAddHighlight) {
     targetElement.classList.add(HIGHLIGHT_SQUARE_COLOR);
-  } else {      
+  } else {
     targetElement.classList.remove(HIGHLIGHT_SQUARE_COLOR);
   }
 }
 
-export function highlightLastMove(  
+export function highlightLastMove(
   originSquareElement: HTMLElement,
   targetSquareElement: HTMLElement,
   boardId: string,
@@ -260,7 +280,7 @@ export function highlightLegalMove(
 
   if (shouldAddHighlight) {
     targetElement.classList.add(HIGHLIGHT_LEGAL_MOVE);
-  } else {      
+  } else {
     targetElement.classList.remove(HIGHLIGHT_LEGAL_MOVE);
   }
 }

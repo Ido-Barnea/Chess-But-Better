@@ -92,9 +92,11 @@ function endMove(canRecover = true) {
   // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
   // To make sure the element is removed before displaying the winning alert, we need to add
   // a small delay before displaying the alert.
-  setTimeout(() => {  
+  setTimeout(() => {
     if (isGameFinished) {
-      const livingKingPlayer = pieces.filter(piece => piece instanceof King)[0].player;
+      const livingKingPlayer = pieces.filter(
+        (piece) => piece instanceof King,
+      )[0].player;
 
       showGameEndAlert(livingKingPlayer.color);
       window.location.reload();
@@ -112,7 +114,8 @@ function endMove(canRecover = true) {
 function endTurn() {
   updatePlayerDetails();
 
-  currentPlayerIndex = currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
+  currentPlayerIndex =
+    currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
   turnCounter++;
   if (turnCounter % players.length === 0) {
     turnCounter = 0;
@@ -144,7 +147,7 @@ function resetVariables() {
 }
 
 function updatePlayerDetails() {
-  game.getPlayers().forEach(player => {
+  game.getPlayers().forEach((player) => {
     if (player === getCurrentPlayer()) {
       if (player.gold < 0) {
         player.inDebtForTurns++;
