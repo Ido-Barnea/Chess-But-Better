@@ -42,7 +42,7 @@ describe('Piece movements', () => {
       coordinates: [0, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const bishop = new Bishop(initialPosition, whitePlayer);
+    const bishop = new Bishop(whitePlayer, initialPosition);
     game.setPieces([bishop]);
 
     const newPosition: Position = {
@@ -72,8 +72,8 @@ describe('Piece killing', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
 
-    const killerBishop = new Bishop(initialKillerPosition, whitePlayer);
-    const victimPiece = new Pawn(victimPosition, blackPlayer);
+    const killerBishop = new Bishop(whitePlayer, initialKillerPosition);
+    const victimPiece = new Pawn(blackPlayer, victimPosition);
 
     game.initialize();
 

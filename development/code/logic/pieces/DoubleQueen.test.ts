@@ -64,6 +64,21 @@ describe('Piece movements', () => {
     };
     validMoves = doubleQueen.getLegalMoves();
     expect(validMoves).not.toContainEqual(invalidPosition);
+
+    game.initialize();
+
+    game.setPieces([doubleQueen]);
+
+    const targetPosition: Position = {
+      coordinates: [1, 5],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+
+    onPlayerAction(doubleQueen, { position: targetPosition });
+    expect(game.getMovesLeft()).toEqual(1);
+
+    onPlayerAction(doubleQueen, { position: initialPosition });
+    expect(game.getMovesLeft()).toEqual(0);
   });
 });
 
@@ -82,7 +97,7 @@ describe('Piece killing', () => {
       initialKillerPosition,
       whitePlayer,
     );
-    const victimPiece = new Pawn(victimPosition, blackPlayer);
+    const victimPiece = new Pawn(blackPlayer, victimPosition);
 
     game.initialize();
 
@@ -102,7 +117,7 @@ describe('Piece killing', () => {
       coordinates: [6, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const otherVictimPiece = new Pawn(otherVictimPosition, blackPlayer);
+    const otherVictimPiece = new Pawn(blackPlayer, otherVictimPosition);
     otherVictimPiece.killCount = 1;
 
     game.setPieces([killerDoubleQueen, otherVictimPiece]);

@@ -42,7 +42,7 @@ describe('Piece movements', () => {
       coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const queen = new Queen(initialPosition, whitePlayer);
+    const queen = new Queen(whitePlayer, initialPosition);
     game.setPieces([queen]);
 
     const newStraightPosition: Position = {
@@ -79,14 +79,11 @@ describe('Piece killing', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
 
-    const killerQueen = new Queen(initialKillerPosition, whitePlayer);
-    const firstVictimPiece = new Pawn(
-      {
-        coordinates: initialVictimPosition.coordinates,
-        boardId: initialVictimPosition.boardId,
-      },
-      blackPlayer,
-    );
+    const killerQueen = new Queen(whitePlayer, initialKillerPosition);
+    const firstVictimPiece = new Pawn(blackPlayer, {
+      coordinates: initialVictimPosition.coordinates,
+      boardId: initialVictimPosition.boardId,
+    });
 
     game.initialize();
 
@@ -104,7 +101,7 @@ describe('Piece killing', () => {
       coordinates: [3, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const diagonlaVictimPiece = new Pawn(diagonalVictimPosition, blackPlayer);
+    const diagonlaVictimPiece = new Pawn(blackPlayer, diagonalVictimPosition);
 
     game.setPieces([killerQueen, diagonlaVictimPiece]);
     onPlayerAction(killerQueen, diagonlaVictimPiece);

@@ -7,7 +7,7 @@ import { Rook } from './Rook';
 import { game } from '../../Game';
 
 export class King extends Piece {
-  constructor(position: Position, player: Player) {
+  constructor(player: Player, position: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♔' : '♚';
 
     super(kingResource, icon, 'King', player, position);
