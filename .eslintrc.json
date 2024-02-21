@@ -21,6 +21,6 @@
     "camelcase": ["warn"],
     "no-constant-condition": "off",
     "prefer-const": ["error"],
-    "quotes": ["warning", "single"]
+    "quotes": [1, "single"]
   }
 }
