@@ -15,8 +15,12 @@ export class Shield extends Item {
     const piece = getPieceByPosition(position);
     if (!piece) return;
 
-    const logCoordinates = MovementLog.convertPositionToNotation(piece.position.coordinates);
-    new Log(`${piece.player.color} ${piece.name} on ${logCoordinates} equiped a ${this.name}.`).addToQueue();
+    const logCoordinates = MovementLog.convertPositionToNotation(
+      piece.position.coordinates,
+    );
+    new Log(
+      `${piece.player.color} ${piece.name} on ${logCoordinates} equiped a ${this.name}.`,
+    ).addToQueue();
     Logger.logMessages();
 
     this.position = position;
