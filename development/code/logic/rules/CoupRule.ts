@@ -4,13 +4,18 @@ import { RuleLog } from '../../ui/logs/Log';
 import { King } from '../pieces/King';
 import { BaseRule } from './BaseRule';
 
+const IN_DEBT_FOR_TURNS_THRESHOLD = 4;
+
 export class CoupRule extends BaseRule {
   constructor(isRevealed = false) {
     const description = 'Coup.';
     const condition = () => {
       let result = false;
       game.getPlayers().forEach((player) => {
-        if (player.inDebtForTurns === 2 && player === game.getCurrentPlayer()) {
+        if (
+          player.inDebtForTurns === IN_DEBT_FOR_TURNS_THRESHOLD &&
+          player === game.getCurrentPlayer()
+        ) {
           result = true;
         }
       });
@@ -19,7 +24,10 @@ export class CoupRule extends BaseRule {
 
     const onTrigger = () => {
       game.getPlayers().forEach((player) => {
-        if (player.inDebtForTurns === 2 && player === game.getCurrentPlayer()) {
+        if (
+          player.inDebtForTurns === IN_DEBT_FOR_TURNS_THRESHOLD &&
+          player === game.getCurrentPlayer()
+        ) {
           player.inDebtForTurns = -1;
           const playerPieces = game
             .getPieces()
