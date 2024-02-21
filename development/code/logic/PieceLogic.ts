@@ -86,7 +86,7 @@ function revertPieceMoveOnBoard(piece: Piece) {
 
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
   draggedPiece.position.boardId = VOID_BOARD_ID;
-  killPieceByGame(draggedPiece, 'gravity');
+  killPieceByGame(draggedPiece, 'the void');
   game.setFellOffTheBoardPiece(draggedPiece);
   game.endMove(false);
 }
@@ -282,6 +282,7 @@ export function permanentlyKillPiece(targetPiece: Piece) {
   game.increaseDeathCounter();
   game.setIsPieceKilled(true);
 
+  targetPiece.position.boardId = VOID_BOARD_ID;
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
 
   if (targetPiece instanceof King) endGame();
