@@ -3,6 +3,7 @@ import {
   HEAVEN_BOARD_ID,
   HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
+  VOID_BOARD_ID,
 } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
@@ -73,44 +74,45 @@ describe('Piece killing', () => {
       coordinates: [2, 2],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killerQueen = new Queen(initialKillerPosition, whitePlayer);
-
-    const victimPosition: Position = {
+    const initialVictimPosition: Position = {
       coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const victimPiece = new Pawn(victimPosition, blackPlayer);
+
+    const killerQueen = new Queen(initialKillerPosition, whitePlayer);
+    const firstVictimPiece = new Pawn(
+      {
+        coordinates: initialVictimPosition.coordinates,
+        boardId: initialVictimPosition.boardId,
+      },
+      blackPlayer,
+    );
 
     game.initialize();
-    game.setPieces([killerQueen, victimPiece]);
-    onPlayerAction(killerQueen, victimPiece);
 
-    const victimPieceBoardId = victimPiece.position.boardId;
-    expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+    game.setPieces([killerQueen, firstVictimPiece]);
+    onPlayerAction(killerQueen, firstVictimPiece);
+
+    let firstVictimPieceBoardId = firstVictimPiece.position.boardId;
+    expect(firstVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
     let killerNewCoordinates = killerQueen.position.coordinates;
-    expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
+    expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
 
     // Diagonal kill
-    killerQueen.position = initialKillerPosition;
-
-    const otherVictimPosition: Position = {
-      coordinates: [6, 6],
+    const diagonalVictimPosition: Position = {
+      coordinates: [3, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const otherVictimPiece = new Pawn(otherVictimPosition, blackPlayer);
-    otherVictimPiece.killCount = 1;
+    const diagonlaVictimPiece = new Pawn(diagonalVictimPosition, blackPlayer);
 
-    game.setPieces([killerQueen, otherVictimPiece]);
-    onPlayerAction(killerQueen, otherVictimPiece);
-
-    const otherVictimPieceBoardId = otherVictimPiece.position.boardId;
-    expect(otherVictimPieceBoardId).toEqual(HELL_BOARD_ID);
+    game.setPieces([killerQueen, diagonlaVictimPiece]);
+    onPlayerAction(killerQueen, diagonlaVictimPiece);
 
     killerNewCoordinates = killerQueen.position.coordinates;
-    expect(killerNewCoordinates).toEqual(otherVictimPosition.coordinates);
+    expect(killerNewCoordinates).toEqual(diagonalVictimPosition.coordinates);
 
-    const playerXP = killerQueen.player.xp;
+    let playerXP = killerQueen.player.xp;
     expect(playerXP).toBeGreaterThan(0);
   });
 });

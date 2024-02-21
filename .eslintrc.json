@@ -20,6 +20,7 @@
     "comma-dangle": ["warn", "always-multiline"],
     "camelcase": ["warn"],
     "no-constant-condition": "off",
-    "prefer-const": ["error"]
+    "prefer-const": ["error"],
+    "quotes": ["warning", "single"]
   }
 }

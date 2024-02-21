@@ -1,10 +1,15 @@
 import { game } from '../../Game';
-import { HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
+import {
+  HEAVEN_BOARD_ID,
+  HELL_BOARD_ID,
+  OVERWORLD_BOARD_ID,
+} from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Bishop } from './Bishop';
 import { Pawn } from './Pawn';
 import { Position } from './PiecesUtilities';
+import { HEAVEN_BOARD } from '../../ui/BoardManager';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -62,21 +67,21 @@ describe('Piece killing', () => {
       coordinates: [1, 1],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killerBishop = new Bishop(initialKillerPosition, whitePlayer);
-
     const victimPosition: Position = {
       coordinates: [5, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
+
+    const killerBishop = new Bishop(initialKillerPosition, whitePlayer);
     const victimPiece = new Pawn(victimPosition, blackPlayer);
-    victimPiece.killCount = 1;
 
     game.initialize();
+
     game.setPieces([killerBishop, victimPiece]);
     onPlayerAction(killerBishop, victimPiece);
 
     const victimPieceBoardId = victimPiece.position.boardId;
-    expect(victimPieceBoardId).toEqual(HELL_BOARD_ID);
+    expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
     const killerNewCoordinates = killerBishop.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
