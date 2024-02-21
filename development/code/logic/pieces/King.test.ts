@@ -36,7 +36,7 @@ describe('Piece movements', () => {
       coordinates: [4, 7],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const king = new King(initialPosition, whitePlayer);
+    const king = new King(whitePlayer, initialPosition);
     game.setPieces([king]);
 
     const newStraightPosition: Position = {
@@ -73,8 +73,8 @@ describe('Piece killing', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
 
-    const killerKing = new King(initialKillerPosition, whitePlayer);
-    const victimPiece = new King(victimPosition, blackPlayer);
+    const killerKing = new King(whitePlayer, initialKillerPosition);
+    const victimPiece = new King(blackPlayer, victimPosition);
 
     game.initialize();
 

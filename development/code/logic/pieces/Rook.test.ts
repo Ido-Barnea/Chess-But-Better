@@ -43,7 +43,7 @@ describe('Piece movements', () => {
       coordinates: [0, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const rook = new Rook(initialPosition, whitePlayer);
+    const rook = new Rook(whitePlayer, initialPosition);
     game.setPieces([rook]);
 
     const newPosition: Position = {
@@ -68,19 +68,16 @@ describe('Piece killing', () => {
       coordinates: [3, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killerRook = new Rook(initialKillerPosition, whitePlayer);
+    const killerRook = new Rook(whitePlayer, initialKillerPosition);
 
     const initialVictimPosition: Position = {
       coordinates: [3, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const firstVictimPiece = new Pawn(
-      {
-        coordinates: initialVictimPosition.coordinates,
-        boardId: initialVictimPosition.boardId,
-      },
-      blackPlayer,
-    );
+    const firstVictimPiece = new Pawn(blackPlayer, {
+      coordinates: initialVictimPosition.coordinates,
+      boardId: initialVictimPosition.boardId,
+    });
 
     game.initialize();
 
@@ -96,13 +93,10 @@ describe('Piece killing', () => {
     let playerXP = killerRook.player.xp;
     expect(playerXP).toBeGreaterThan(0);
 
-    const secondVictimPiece = new Pawn(
-      {
-        coordinates: initialKillerPosition.coordinates,
-        boardId: initialKillerPosition.boardId,
-      },
-      blackPlayer,
-    );
+    const secondVictimPiece = new Pawn(blackPlayer, {
+      coordinates: initialKillerPosition.coordinates,
+      boardId: initialKillerPosition.boardId,
+    });
     secondVictimPiece.killCount = 1;
     game.setPieces([killerRook, secondVictimPiece]);
     onPlayerAction(killerRook, secondVictimPiece);
@@ -116,13 +110,10 @@ describe('Piece killing', () => {
     playerXP = killerRook.player.xp;
     expect(playerXP).toBeGreaterThan(1);
 
-    const thirdVictimPiece = new Pawn(
-      {
-        coordinates: initialVictimPosition.coordinates,
-        boardId: initialVictimPosition.boardId,
-      },
-      blackPlayer,
-    );
+    const thirdVictimPiece = new Pawn(blackPlayer, {
+      coordinates: initialVictimPosition.coordinates,
+      boardId: initialVictimPosition.boardId,
+    });
     game.setPieces([killerRook, firstVictimPiece, thirdVictimPiece]);
     onPlayerAction(killerRook, thirdVictimPiece);
 

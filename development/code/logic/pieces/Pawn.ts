@@ -10,7 +10,7 @@ export class Pawn extends Piece {
   isInitialDoubleStep: boolean;
   diagonalAttackPosition: Position | undefined;
 
-  constructor(position: Position, player: Player) {
+  constructor(player: Player, position: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♙' : '♟';
     super(pawnResource, icon, 'Pawn', player, position);
 

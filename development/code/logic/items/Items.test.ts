@@ -37,7 +37,7 @@ describe('Items test', () => {
       coordinates: [4, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const piece = new Rook(initialPiecePosition, whitePlayer);
+    const piece = new Rook(whitePlayer, initialPiecePosition);
 
     const itemPosition: Position = {
       coordinates: [2, 4],
@@ -89,7 +89,7 @@ describe('Items test', () => {
       coordinates: [3, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const piece = new Rook(initialPiecePosition, whitePlayer);
+    const piece = new Rook(whitePlayer, initialPiecePosition);
 
     const itemPosition: Position = {
       coordinates: [2, 4],
@@ -115,7 +115,7 @@ describe('Items test', () => {
       coordinates: [2, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const otherPiece = new Rook(initialOtherPiecePosition, whitePlayer);
+    const otherPiece = new Rook(whitePlayer, initialOtherPiecePosition);
 
     const otherItemPosition: Position = {
       coordinates: [2, 2],

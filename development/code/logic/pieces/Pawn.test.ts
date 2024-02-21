@@ -36,7 +36,7 @@ describe('Piece movements', () => {
       coordinates: [0, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const pawn = new Pawn(initialPosition, whitePlayer);
+    const pawn = new Pawn(whitePlayer, initialPosition);
     game.setPieces([pawn]);
 
     const singleStepMove: Position = {
@@ -50,7 +50,7 @@ describe('Piece movements', () => {
       coordinates: [1, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const blackPawn = new Pawn(blackPawnPosition, blackPlayer);
+    const blackPawn = new Pawn(blackPlayer, blackPawnPosition);
     blackPawn.possibleEnPassantPositions = [
       {
         coordinates: [1, 5],
@@ -108,8 +108,8 @@ describe('Piece killing', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
 
-    const killerPawn = new Pawn(initialKillerPosition, whitePlayer);
-    const victimPiece = new Pawn(victimPosition, blackPlayer);
+    const killerPawn = new Pawn(whitePlayer, initialKillerPosition);
+    const victimPiece = new Pawn(blackPlayer, victimPosition);
 
     game.initialize();
 
@@ -126,7 +126,7 @@ describe('Piece killing', () => {
       coordinates: [2, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const enPassantPawn = new Pawn(enPassantVictimPosition, blackPlayer);
+    const enPassantPawn = new Pawn(blackPlayer, enPassantVictimPosition);
     enPassantPawn.possibleEnPassantPositions = [
       {
         coordinates: [2, 2],

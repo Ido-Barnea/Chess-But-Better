@@ -6,7 +6,7 @@ import { getPieceByPosition } from '../Utilities';
 import { DoubleQueen } from './DoubleQueen';
 
 export class Queen extends Piece {
-  constructor(position: Position, player: Player) {
+  constructor(player: Player, position: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♕' : '♛';
 
     super(queenResource, icon, 'Queen', player, position);
