@@ -1,9 +1,10 @@
 import { Item } from './Items';
 import { shieldResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';
-import { Log } from '../../ui/logs/Log';
+import { Log, MovementLog } from '../../ui/logs/Log';
 import { getPieceByPosition } from '../Utilities';
 import { spawnItemOnPiece } from '../../LogicAdapter';
+import { Logger } from '../../ui/logs/Logger';
 
 export class Shield extends Item {
   constructor(position?: Position) {
@@ -14,9 +15,9 @@ export class Shield extends Item {
     const piece = getPieceByPosition(position);
     if (!piece) return;
 
-    new Log(
-      `${piece.player.color} ${piece.name} placed a ${this.name} on ${piece}.`,
-    ).addToQueue();
+    const logCoordinates = MovementLog.convertPositionToNotation(piece.position.coordinates);
+    new Log(`${piece.player.color} ${piece.name} on ${logCoordinates} equiped a ${this.name}.`).addToQueue();
+    Logger.logMessages();
 
     this.position = position;
     piece.health++;
