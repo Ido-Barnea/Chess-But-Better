@@ -1,10 +1,12 @@
 import {
+  HELL_BOARD_ID,
   NOTATIONS_LETTERS,
   NOTATIONS_NUMBERS,
   VOID_BOARD_ID,
 } from '../../Constants';
 import { Piece } from '../../logic/pieces/Piece';
 import { Position } from '../../logic/pieces/PiecesUtilities';
+import { HELL_BOARD } from '../BoardManager';
 import { Logger } from './Logger';
 
 export enum LogColor {
@@ -66,9 +68,11 @@ export class KillLog extends Log {
     let message = `${killedPieceIcon} ${killedPieceColor} ${killedPieceName} was `;
 
     if (killedPiece.position.boardId === VOID_BOARD_ID) {
-      message += 'permanently ';
+      message += 'permanently killed by ';
+    } else {
+      const spawnedInBoard = killedPiece.position.boardId === HELL_BOARD_ID ? 'Hell' : 'Heaven';
+      message += `sent to ${spawnedInBoard} by `
     }
-    message += 'killed by ';
 
     if (cause instanceof Piece) {
       const {
