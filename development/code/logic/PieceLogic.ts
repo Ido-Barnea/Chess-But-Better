@@ -204,9 +204,10 @@ function move(
   if (shouldEndTurn) game.endMove();
 }
 
-function failToKillPiece(draggedPiece: Piece, shouldRevertMove = true) {
-  destroyItemOnPiece(draggedPiece);
-  if (shouldRevertMove) revertPieceMoveOnBoard(draggedPiece);
+function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
+  destroyItemOnPiece(targetPiece);
+  revertPieceMoveOnBoard(draggedPiece);
+  game.endMove();
 }
 
 function killPieceByAnotherPiece(
@@ -215,7 +216,7 @@ function killPieceByAnotherPiece(
 ): boolean {
   targetPiece.health--;
   if (targetPiece.health > 0) {
-    failToKillPiece(draggedPiece);
+    failToKillPiece(draggedPiece, targetPiece);
     return false;
   }
 
