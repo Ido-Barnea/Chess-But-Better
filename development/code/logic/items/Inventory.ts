@@ -2,6 +2,7 @@ import { Log } from '../../ui/logs/Log';
 import { INVENTORY_WIDTH } from '../../Constants';
 import { Player } from '../Players';
 import { Item } from './Items';
+import { Logger } from '../../ui/logs/Logger';
 
 export class Inventory {
   items: Array<Item> = [];
@@ -15,6 +16,7 @@ export class Inventory {
     if (this.items.length >= INVENTORY_WIDTH) return false;
     this.items.push(item);
     new Log(`${this.player.color} received a ${item.name}.`).addToQueue();
+    Logger.logMessages();
     return true;
   }
 
