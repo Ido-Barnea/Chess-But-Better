@@ -73,7 +73,10 @@ describe('Piece killing', () => {
       coordinates: [2, 2],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killerDoubleQueen = new DoubleQueen(initialKillerPosition, whitePlayer);
+    const killerDoubleQueen = new DoubleQueen(
+      initialKillerPosition,
+      whitePlayer,
+    );
 
     const victimPosition: Position = {
       coordinates: [2, 5],
