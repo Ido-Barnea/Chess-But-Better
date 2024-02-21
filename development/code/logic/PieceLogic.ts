@@ -288,26 +288,26 @@ export function permanentlyKillPiece(targetPiece: Piece) {
   if (targetPiece instanceof King) endGame();
 }
 
-function handlePieceSpawning(targetPiece: Piece) {
+function handlePieceSpawning(spawningPiece: Piece) {
   game.getPieces().forEach((piece) => {
     const areOnTheSamePosition = comparePositions(
-      targetPiece.position,
+      spawningPiece.position,
       piece.position,
     );
-    const areTheSame = piece === targetPiece;
+    const areTheSame = piece === spawningPiece;
 
     if (areOnTheSamePosition && !areTheSame) {
-      permanentlyKillPiece(targetPiece);
+      permanentlyKillPiece(piece);
     }
   });
 
   game.getItems().forEach((item) => {
-    if (comparePositions(targetPiece.position, item.position)) {
-      onActionPieceToItem(targetPiece, item);
+    if (comparePositions(spawningPiece.position, item.position)) {
+      onActionPieceToItem(spawningPiece, item);
     }
   });
 
-  spawnPieceOnBoard(targetPiece);
+  spawnPieceOnBoard(spawningPiece);
 }
 
 function onActionPieceToItem(piece: Piece, item: Item) {
