@@ -1,4 +1,8 @@
-import { NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../../Constants';
+import {
+  NOTATIONS_LETTERS,
+  NOTATIONS_NUMBERS,
+  VOID_BOARD_ID,
+} from '../../Constants';
 import { Piece } from '../../logic/pieces/Piece';
 import { Position } from '../../logic/pieces/PiecesUtilities';
 import { Logger } from './Logger';
@@ -59,7 +63,13 @@ export class KillLog extends Log {
       name: killedPieceName,
     } = killedPiece;
 
-    let message = `${killedPieceIcon} ${killedPieceColor} ${killedPieceName} was killed by `;
+    let message = `${killedPieceIcon} ${killedPieceColor} ${killedPieceName} was `;
+
+    if (killedPiece.position.boardId === VOID_BOARD_ID) {
+      message += 'permanently ';
+    }
+    message += 'killed by ';
+
     if (cause instanceof Piece) {
       const {
         pieceIcon: killerPieceIcon,
