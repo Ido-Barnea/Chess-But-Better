@@ -7,9 +7,7 @@ import { DoubleQueen } from './DoubleQueen';
 
 export class Queen extends Piece {
   constructor(position: Position, player: Player) {
-    const icon = player.color === PlayerColors.WHITE
-      ? '♕'
-      : '♛';
+    const icon = player.color === PlayerColors.WHITE ? '♕' : '♛';
 
     super(queenResource, icon, 'Queen', player, position);
 

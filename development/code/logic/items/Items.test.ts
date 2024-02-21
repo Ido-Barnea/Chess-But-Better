@@ -31,7 +31,6 @@ jest.mock('../../ui/ShopUI.ts');
 
 game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
-  
 describe('Items test', () => {
   test('PiggyBank test', () => {
     const initialPiecePosition: Position = {
@@ -45,7 +44,7 @@ describe('Items test', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const piggyBankItem = new PiggyBank(itemPosition);
-    
+
     game.initialize();
     game.setItems([piggyBankItem]);
     game.setPieces([piece]);
@@ -56,7 +55,7 @@ describe('Items test', () => {
 
     const isPiggyBankThere = game.getItems().includes(piggyBankItem);
     expect(isPiggyBankThere).toBe(false);
-    
+
     let newPieceCoordinates = piece.position.coordinates;
     expect(newPieceCoordinates).not.toEqual(initialPiecePosition.coordinates);
 
@@ -65,7 +64,7 @@ describe('Items test', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const otherPiggyBankItem = new PiggyBank(otherItemPosition);
-    
+
     const targetSquarePosition: Position = {
       coordinates: [2, 1],
       boardId: OVERWORLD_BOARD_ID,
@@ -91,13 +90,13 @@ describe('Items test', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const piece = new Rook(initialPiecePosition, whitePlayer);
-    
+
     const itemPosition: Position = {
       coordinates: [2, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
     const trapItem = new Trap(itemPosition);
-    
+
     game.initialize();
     game.setItems([trapItem]);
     game.setPieces([piece]);
@@ -123,7 +122,7 @@ describe('Items test', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const otherTrapItem = new Trap(otherItemPosition);
-    
+
     const targetSquarePosition: Position = {
       coordinates: [2, 1],
       boardId: OVERWORLD_BOARD_ID,
@@ -132,7 +131,7 @@ describe('Items test', () => {
 
     game.setItems([otherTrapItem]);
     onPlayerAction(otherPiece, targetSquare);
-    
+
     const otherPieceNewBoard = otherPiece.position.boardId;
     expect(otherPieceNewBoard).toEqual(HEAVEN_BOARD_ID);
 

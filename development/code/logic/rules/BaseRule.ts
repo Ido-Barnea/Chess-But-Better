@@ -32,7 +32,9 @@ export class BaseRule implements Rule {
       this.onTrigger();
       if (!this.isRevealed) {
         const player = game.getCurrentPlayer();
-        new RuleLog(`${player.color} received XP for revealing a new rule: ${this.description}`).addToQueue();
+        new RuleLog(
+          `${player.color} received XP for revealing a new rule: ${this.description}`,
+        ).addToQueue();
         player.xp++;
         this.isRevealed = true;
       }

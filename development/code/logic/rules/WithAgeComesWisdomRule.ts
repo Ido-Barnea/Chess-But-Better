@@ -7,7 +7,9 @@ export class WithAgeComesWisdomRule extends BaseRule {
     const description = 'With age comes wisdom.';
     const condition = () => game.getRoundCounter() === 20;
     const onTrigger = () => {
-      new RuleLog('Children of war, you have grown old. Each player gains five XP.').addToQueue();
+      new RuleLog(
+        'Children of war, you have grown old. Each player gains five XP.',
+      ).addToQueue();
       game.getPlayers().forEach((player) => {
         player.xp += 5;
       });

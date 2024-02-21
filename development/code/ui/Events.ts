@@ -34,7 +34,7 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
-  pieces.forEach(pieceElement => {
+  pieces.forEach((pieceElement) => {
     pieceElement.addEventListener('mousedown', onPieceMouseDown);
     pieceElement.addEventListener('click', onMouseClick);
   });
@@ -53,7 +53,7 @@ function onPieceMouseDown(event: Event) {
   if (element.classList.contains('untargetable')) {
     return;
   }
-  
+
   initializeDraggingListeners(element);
 }
 
@@ -73,7 +73,9 @@ export function initializeDraggingListeners(element: HTMLElement) {
     event.preventDefault();
 
     const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
-    const isElementOfCurrentPlayer = element.classList.contains(currentTurnPlayerColor);
+    const isElementOfCurrentPlayer = element.classList.contains(
+      currentTurnPlayerColor,
+    );
     const isInventoryItemElement = element.classList.contains('inventory-item');
     const isBoardItemElement = element.classList.contains('item');
     if (!isElementOfCurrentPlayer && !isInventoryItemElement) return;
@@ -98,7 +100,10 @@ export function initializeDraggingListeners(element: HTMLElement) {
     const distanceX = Math.abs(event.clientX - originalMouseX);
     const distanceY = Math.abs(event.clientY - originalMouseY);
 
-    if (distanceX > MOVEMENT_TO_CLICK_THRESHOLD || distanceY > MOVEMENT_TO_CLICK_THRESHOLD) {
+    if (
+      distanceX > MOVEMENT_TO_CLICK_THRESHOLD ||
+      distanceY > MOVEMENT_TO_CLICK_THRESHOLD
+    ) {
       // If the mouse moves more than MOVEMENT_TO_CLICK_THRESHOLD pixels in any direction, consider it a drag
       isDragging = true;
     }
@@ -113,8 +118,8 @@ export function initializeDraggingListeners(element: HTMLElement) {
       endMouseX = event.clientX;
       endMouseY = event.clientY;
 
-      element.style.left = (element.offsetLeft - startMouseX) + 'px';
-      element.style.top = (element.offsetTop - startMouseY) + 'px';
+      element.style.left = element.offsetLeft - startMouseX + 'px';
+      element.style.top = element.offsetTop - startMouseY + 'px';
     }
   }
 
@@ -140,16 +145,19 @@ export function initializeDraggingListeners(element: HTMLElement) {
 
     const elementXPosition = endMouseX - startMouseX;
     const elementYPosition = endMouseY - startMouseY;
-  
+
     const droppedOnElements = document.elementsFromPoint(
       elementXPosition,
       elementYPosition,
     ) as Array<HTMLElement>;
-  
-    const droppedOnElement = droppedOnElements.filter(element => {
-      return (element.classList.contains('square') ||
-        element.classList.contains('item') ||
-        element.classList.contains('piece')) && element !== draggedElement;
+
+    const droppedOnElement = droppedOnElements.filter((element) => {
+      return (
+        (element.classList.contains('square') ||
+          element.classList.contains('item') ||
+          element.classList.contains('piece')) &&
+        element !== draggedElement
+      );
     })[0];
 
     let parentContainer = undefined;
@@ -158,7 +166,7 @@ export function initializeDraggingListeners(element: HTMLElement) {
         returnItemToInventory(draggedElement);
         return;
       }
-      
+
       parentContainer = draggedElement.parentElement ?? undefined;
     } else {
       parentContainer = droppedOnElement.parentElement ?? undefined;
@@ -167,13 +175,16 @@ export function initializeDraggingListeners(element: HTMLElement) {
     let isParentContainerABoard = parentContainer?.classList.contains('board');
     while (parentContainer && !isParentContainerABoard) {
       parentContainer = parentContainer.parentElement ?? undefined;
-  
+
       isParentContainerABoard = parentContainer?.classList.contains('board');
     }
-  
+
     if (!parentContainer) return;
-      
-    if (draggedElement.classList.contains('inventory-item') && !canPlaceItemOnBoard(draggedElement, droppedOnElement)) {
+
+    if (
+      draggedElement.classList.contains('inventory-item') &&
+      !canPlaceItemOnBoard(draggedElement, droppedOnElement)
+    ) {
       returnItemToInventory(draggedElement);
     } else if (!droppedOnElement) {
       triggerOnFellOffTheBoard(draggedElement, parentContainer.id);
@@ -183,7 +194,7 @@ export function initializeDraggingListeners(element: HTMLElement) {
   }
 }
 
-function onMouseClick(event: Event) { 
+function onMouseClick(event: Event) {
   let element = event.target as HTMLElement;
   // Prevent clicking if the user clicked on an untargetable area
   while (element.classList.contains('untargetable')) {
@@ -202,13 +213,13 @@ export function onShopItemClick(event: Event) {
     element = element.parentElement as HTMLElement;
   }
 
-  if (element.classList.contains('shop-item')){
+  if (element.classList.contains('shop-item')) {
     buyItem(element.id);
   }
 }
 
 function onPieceClick(pieceElement: HTMLElement) {
-  let boardElement= pieceElement.parentElement ?? undefined;
+  let boardElement = pieceElement.parentElement ?? undefined;
 
   while (!boardElement?.classList.contains('board')) {
     boardElement = boardElement?.parentElement ?? undefined;

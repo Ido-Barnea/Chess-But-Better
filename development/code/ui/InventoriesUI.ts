@@ -3,7 +3,6 @@ import { PlayerColors } from '../logic/Players';
 import { Item } from '../logic/items/Items';
 import { initializeDraggingListeners } from './Events';
 
-
 const inventoryElement = document.getElementById(INVENTORY_ELEMENT_ID);
 
 function createPlayerInventoryElement(playerColor: PlayerColors): HTMLElement {
@@ -11,7 +10,7 @@ function createPlayerInventoryElement(playerColor: PlayerColors): HTMLElement {
   playerInventoryElement.id = playerColor;
   playerInventoryElement.classList.add('player-inventory');
   inventoryElement?.appendChild(playerInventoryElement);
-  
+
   return playerInventoryElement;
 }
 
@@ -46,7 +45,7 @@ export function initializeInventoryUI(playerColor: PlayerColors) {
   for (let index = 0; index < INVENTORY_WIDTH; index++) {
     createInventorySlotElement(playerInventoryElement, playerColor);
   }
-  
+
   if (playerColor === PlayerColors.BLACK) {
     playerInventoryElement?.classList.add('collapsed');
   }
@@ -80,7 +79,7 @@ export function switchShownInventory(playerColor: PlayerColors): boolean {
   return isCollapsed;
 }
 
-function removeItemElements(playerInventoryElement: HTMLElement){
+function removeItemElements(playerInventoryElement: HTMLElement) {
   playerInventoryElement.childNodes.forEach((child) => {
     child.firstChild?.remove();
   });

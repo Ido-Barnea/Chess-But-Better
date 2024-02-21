@@ -12,7 +12,7 @@ export class Inventory {
   }
 
   addItem(item: Item): boolean {
-    if (this.items.length >= INVENTORY_WIDTH) return false; 
+    if (this.items.length >= INVENTORY_WIDTH) return false;
     this.items.push(item);
     new Log(`${this.player.color} received a ${item.name}.`).addToQueue();
     return true;

@@ -124,22 +124,29 @@ path {
   z-index: 10;
 }
 
-.item
-.inventory-item {
+.item .inventory-item {
   z-index: 9;
 }
 
-.piece, .item, .inventory-item, .shop-item, .untargetable-item {
+.piece,
+.item,
+.inventory-item,
+.shop-item,
+.untargetable-item {
   height: var(--square-size);
   width: var(--square-size);
   position: absolute;
 }
 
-.piece, .inventory-item, .shop-item {
+.piece,
+.inventory-item,
+.shop-item {
   cursor: grab;
 }
 
-.piece:active, .item:active, .inventory-item {
+.piece:active,
+.item:active,
+.inventory-item {
   cursor: grabbing;
   z-index: 100;
 }
@@ -215,7 +222,8 @@ path {
   box-sizing: border-box;
 }
 
-.inventory-square, .shop-square {
+.inventory-square,
+.shop-square {
   outline: 1px solid;
   box-sizing: border-box;
   height: var(--square-size);
@@ -225,7 +233,8 @@ path {
   position: relative;
 }
 
-.inventory-item, .shop-item {
+.inventory-item,
+.shop-item {
   width: 75%;
   display: grid;
   place-items: center;
@@ -308,7 +317,7 @@ path {
 }
 
 .highlight-background::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   right: 0;
@@ -318,7 +327,7 @@ path {
 }
 
 .highlight-legal-move::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;

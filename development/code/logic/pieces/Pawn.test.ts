@@ -50,10 +50,7 @@ describe('Piece movements', () => {
       coordinates: [1, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const blackPawn = new Pawn(
-      blackPawnPosition,
-      blackPlayer,
-    );
+    const blackPawn = new Pawn(blackPawnPosition, blackPlayer);
     blackPawn.possibleEnPassantPositions = [
       {
         coordinates: [1, 5],
@@ -65,7 +62,7 @@ describe('Piece movements', () => {
       },
     ];
     blackPawn.isInitialDoubleStep = true;
-    
+
     const pieces = game.getPieces();
     pieces.push(blackPawn);
     game.setPieces(pieces);
@@ -101,7 +98,7 @@ describe('Piece movements', () => {
 });
 
 describe('Piece killing', () => {
-  test ('Validating Pawn killing', () => {
+  test('Validating Pawn killing', () => {
     const initialKillerPosition: Position = {
       coordinates: [4, 4],
       boardId: OVERWORLD_BOARD_ID,
@@ -117,10 +114,10 @@ describe('Piece killing', () => {
     game.initialize();
     game.setPieces([killerPawn, victimPiece]);
     onPlayerAction(killerPawn, victimPiece);
-    
+
     const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
-    
+
     let killerNewCoordinates = killerPawn.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
@@ -142,14 +139,14 @@ describe('Piece killing', () => {
     enPassantPawn.isInitialDoubleStep = true;
 
     const enPassantAttackSquare = enPassantPawn.possibleEnPassantPositions[0];
-    const enPassantSquare: Square = { position: enPassantAttackSquare };    
-    
+    const enPassantSquare: Square = { position: enPassantAttackSquare };
+
     game.setPieces([killerPawn, enPassantPawn]);
     onPlayerAction(killerPawn, enPassantSquare);
 
     const enPassantPawnBoardId = enPassantPawn.position.boardId;
     expect(enPassantPawnBoardId).toEqual(HEAVEN_BOARD_ID);
-    
+
     killerNewCoordinates = killerPawn.position.coordinates;
     expect(killerNewCoordinates).toEqual(enPassantAttackSquare.coordinates);
 
@@ -157,4 +154,3 @@ describe('Piece killing', () => {
     expect(playerXP).toBeGreaterThan(0);
   });
 });
-

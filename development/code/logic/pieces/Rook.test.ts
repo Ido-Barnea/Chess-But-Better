@@ -46,7 +46,7 @@ describe('Piece movements', () => {
     };
     let validMoves = rook.getLegalMoves();
     expect(validMoves).toContainEqual(newPosition);
-    
+
     const invalidPosition: Position = {
       coordinates: [7, 7],
       boardId: OVERWORLD_BOARD_ID,
@@ -57,7 +57,7 @@ describe('Piece movements', () => {
 });
 
 describe('Piece killing', () => {
-  test ('Validating Rook killing', () => {
+  test('Validating Rook killing', () => {
     const initialKillerPosition: Position = {
       coordinates: [3, 3],
       boardId: OVERWORLD_BOARD_ID,
@@ -73,10 +73,10 @@ describe('Piece killing', () => {
     game.initialize();
     game.setPieces([killerRook, victimPiece]);
     onPlayerAction(killerRook, victimPiece);
-    
+
     const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
-    
+
     const killerNewCoordinates = killerRook.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 

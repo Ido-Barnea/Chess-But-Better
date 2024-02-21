@@ -6,9 +6,7 @@ import { getPieceByPosition } from '../Utilities';
 
 export class Rook extends Piece {
   constructor(position: Position, player: Player) {
-    const icon = player.color === PlayerColors.WHITE
-      ? '♖'
-      : '♜';
+    const icon = player.color === PlayerColors.WHITE ? '♖' : '♜';
     super(rookResource, icon, 'Rook', player, position);
   }
 

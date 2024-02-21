@@ -10,7 +10,7 @@ type PlayerType = {
 export enum PlayerColors {
   WHITE = 'White',
   BLACK = 'Black',
-};
+}
 
 export class Player implements PlayerType {
   color: PlayerColors;

@@ -1,10 +1,10 @@
 import { Log } from './Log';
 
 export class Logger {
-  static queue: Array<Log> = []; 
+  static queue: Array<Log> = [];
 
   static logMessages() {
-    this.queue.forEach(log => {
+    this.queue.forEach((log) => {
       this.logMessage(log);
     });
     this.queue = [];

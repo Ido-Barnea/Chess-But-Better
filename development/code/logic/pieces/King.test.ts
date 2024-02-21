@@ -5,7 +5,6 @@ import { Player, PlayerColors } from '../Players';
 import { King } from './King';
 import { Position } from './PiecesUtilities';
 
-
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
 
@@ -53,7 +52,7 @@ describe('Piece movements', () => {
     };
     validMoves = king.getLegalMoves();
     expect(validMoves).toContainEqual(newDiagonalPosition);
-    
+
     const invalidPosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
@@ -91,4 +90,3 @@ describe('Piece killing', () => {
     expect(playerXP).toBeGreaterThan(0);
   });
 });
-

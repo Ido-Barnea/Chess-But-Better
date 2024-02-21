@@ -86,7 +86,7 @@ describe('Piece killing', () => {
     };
     const otherVictimPiece = new Rook(othervictimPosition, blackPlayer);
     killerKnight.position = initialKillerPosition;
-  
+
     game.setPieces([killerKnight, otherVictimPiece]);
     onPlayerAction(killerKnight, otherVictimPiece);
 

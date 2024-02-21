@@ -13,7 +13,9 @@ export class Trap extends Item {
   use(position: Position): void {
     const currentPlayer = game.getCurrentPlayer();
 
-    new Log(`${currentPlayer.color} placed a ${this.name} on ${position.coordinates}.`).addToQueue();
+    new Log(
+      `${currentPlayer.color} placed a ${this.name} on ${position.coordinates}.`,
+    ).addToQueue();
 
     this.position = position;
     game.getItems().push(this);

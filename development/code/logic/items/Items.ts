@@ -23,7 +23,7 @@ export abstract class Item {
   setPosition(position: Position) {
     this.position = position;
   }
-  
+
   drop(player: Player) {
     new Log(`${player.color} dropped a ${this.name}.`).addToQueue();
   }

@@ -28,8 +28,12 @@ export class MovementLog extends Log {
   constructor(draggedPiece: Piece, targetPosition: Position) {
     const { position, pieceIcon, player, name } = draggedPiece;
 
-    const fromNotation = MovementLog.convertPositionToNotation(position.coordinates);
-    const toNotation = MovementLog.convertPositionToNotation(targetPosition.coordinates);
+    const fromNotation = MovementLog.convertPositionToNotation(
+      position.coordinates,
+    );
+    const toNotation = MovementLog.convertPositionToNotation(
+      targetPosition.coordinates,
+    );
 
     const message = `${pieceIcon} ${player.color} ${name} moved from ${fromNotation} to ${toNotation}.`;
 
@@ -54,7 +58,7 @@ export class KillLog extends Log {
       player: { color: killedPieceColor },
       name: killedPieceName,
     } = killedPiece;
-    
+
     let message = `${killedPieceIcon} ${killedPieceColor} ${killedPieceName} was killed by `;
     if (cause instanceof Piece) {
       const {
@@ -67,7 +71,7 @@ export class KillLog extends Log {
     } else {
       message += ` ${cause}.`;
     }
-    
+
     super(message, LogColor.KILL);
   }
 }

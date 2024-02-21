@@ -46,7 +46,7 @@ describe('Piece movements', () => {
     };
     let validMoves = bishop.getLegalMoves();
     expect(validMoves).toContainEqual(newPosition);
-    
+
     const invalidPosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
@@ -57,7 +57,7 @@ describe('Piece movements', () => {
 });
 
 describe('Piece killing', () => {
-  test ('Validating Bishop killing', () => {
+  test('Validating Bishop killing', () => {
     const initialKillerPosition: Position = {
       coordinates: [1, 1],
       boardId: OVERWORLD_BOARD_ID,
@@ -74,10 +74,10 @@ describe('Piece killing', () => {
     game.initialize();
     game.setPieces([killerBishop, victimPiece]);
     onPlayerAction(killerBishop, victimPiece);
-    
+
     const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HELL_BOARD_ID);
-    
+
     const killerNewCoordinates = killerBishop.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 

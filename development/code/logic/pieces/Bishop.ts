@@ -6,9 +6,7 @@ import { getPieceByPosition } from '../Utilities';
 
 export class Bishop extends Piece {
   constructor(position: Position, player: Player) {
-    const icon = player.color === PlayerColors.WHITE
-      ? '♗'
-      : '♝';
+    const icon = player.color === PlayerColors.WHITE ? '♗' : '♝';
     super(bishopResource, icon, 'Bishop', player, position);
   }
 

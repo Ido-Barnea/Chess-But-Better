@@ -41,7 +41,9 @@ export class ChessBoard {
     if (!isCollapsed) {
       game.getPieces().forEach((piece) => {
         const pieceElement = this.createPieceElement(piece);
-        const square = document.querySelectorAll(`[square-id="${piece.position.coordinates}"]`)[0];
+        const square = document.querySelectorAll(
+          `[square-id="${piece.position.coordinates}"]`,
+        )[0];
         square.appendChild(pieceElement);
       });
     }
@@ -65,7 +67,9 @@ export class ChessBoard {
     game.getItems().push(coin);
 
     const coinElement = this.createItemElement(coin);
-    const square = this.boardElement.querySelectorAll(`[square-id="${position.coordinates}"]`)[0];
+    const square = this.boardElement.querySelectorAll(
+      `[square-id="${position.coordinates}"]`,
+    )[0];
     square.appendChild(coinElement);
   }
 
@@ -82,9 +86,10 @@ export class ChessBoard {
           coordinates: coordinates,
           boardId: this.boardId,
         };
-        const isPieceOnTargetSquare: boolean = (game.getPieces().filter(piece => {
-          return comparePositions(currentPosition, piece.position);
-        })).length !== 0;
+        const isPieceOnTargetSquare: boolean =
+          game.getPieces().filter((piece) => {
+            return comparePositions(currentPosition, piece.position);
+          }).length !== 0;
         if (random < COIN_GENERATION_CHANCE && !isPieceOnTargetSquare) {
           const position: Position = {
             coordinates: coordinates,
@@ -145,15 +150,13 @@ export class ChessBoard {
     return itemElement;
   }
 
-  moveElementOnBoard(
-    element: HTMLElement,
-    targetSquareElement: HTMLElement,
-  ) {
+  moveElementOnBoard(element: HTMLElement, targetSquareElement: HTMLElement) {
     targetSquareElement.appendChild(element);
 
     // Calculate the center position of the square
     const centerX = (targetSquareElement.clientWidth - element.clientWidth) / 2;
-    const centerY = (targetSquareElement.clientHeight - element.clientHeight) / 2;
+    const centerY =
+      (targetSquareElement.clientHeight - element.clientHeight) / 2;
 
     // Set the moved elemenet's position
     element.style.left = centerX + 'px';
@@ -170,9 +173,11 @@ export class ChessBoard {
 
   spawnItemOnBoard(item: Item) {
     if (!item.position) return;
-    
+
     const itemCoordinates = item.position.coordinates;
-    const square = this.boardElement.querySelectorAll(`[square-id="${itemCoordinates}"]`)[0];
+    const square = this.boardElement.querySelectorAll(
+      `[square-id="${itemCoordinates}"]`,
+    )[0];
 
     const itemElement = this.createItemElement(item);
     square.appendChild(itemElement);

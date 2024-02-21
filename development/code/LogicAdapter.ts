@@ -1,11 +1,15 @@
 import { game, shop } from './Game';
-import { isPlayerAllowedToAct, onPieceFellOffTheBoard, onPlayerAction } from './logic/PieceLogic';
+import {
+  isPlayerAllowedToAct,
+  onPieceFellOffTheBoard,
+  onPlayerAction,
+} from './logic/PieceLogic';
 import { Player, PlayerColors } from './logic/Players';
 import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
-import { 
+import {
   destroyElementOnBoard as destroyElementOnBoardByPosition,
   getAllSquareElements,
   getSquareElementById,
@@ -19,7 +23,11 @@ import {
   destroyElementOnPiece,
 } from './ui/BoardManager';
 import { renderPlayersInformation } from './ui/Screen';
-import { switchShownInventory, showItemOnInventory, destroyItemInInventory } from './ui/InventoriesUI';
+import {
+  switchShownInventory,
+  showItemOnInventory,
+  destroyItemInInventory,
+} from './ui/InventoriesUI';
 import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 
@@ -27,10 +35,10 @@ export function renderScreen() {
   renderPlayersInformation();
 }
 
-function findPieceAtPosition(
-  position: Position,
-): Piece | undefined {
-  return game.getPieces().find((piece) => comparePositions(piece.position, position));
+function findPieceAtPosition(position: Position): Piece | undefined {
+  return game
+    .getPieces()
+    .find((piece) => comparePositions(piece.position, position));
 }
 
 function getSquareIdByElement(element: HTMLElement): string | undefined {
@@ -55,14 +63,20 @@ export function onActionTriggered(
   const originSquareId = getSquareIdByElement(draggedElement);
   if (!originSquareId) return;
 
-  const draggedElementPosition = getPositionFromSquareId(originSquareId, boardId);
+  const draggedElementPosition = getPositionFromSquareId(
+    originSquareId,
+    boardId,
+  );
   const draggedPiece = findPieceAtPosition(draggedElementPosition);
   if (!draggedPiece) return;
 
   const targetSquareId = getSquareIdByElement(targetElement);
   if (!targetSquareId) return;
 
-  const targetElementPosition = getPositionFromSquareId(targetSquareId, boardId);
+  const targetElementPosition = getPositionFromSquareId(
+    targetSquareId,
+    boardId,
+  );
 
   if (targetElement.classList.contains('piece')) {
     const targetPiece = findPieceAtPosition(targetElementPosition);
@@ -97,10 +111,7 @@ export function onFellOffTheBoardTriggered(
   onPieceFellOffTheBoard(draggedPiece);
 }
 
-function highlightLegalMoves(
-  piece: Piece,
-  boardId: string,
-) {
+function highlightLegalMoves(piece: Piece, boardId: string) {
   // Remove all highlights
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
@@ -110,15 +121,15 @@ function highlightLegalMoves(
   const legalMoves = piece.getLegalMoves();
   for (const position of legalMoves) {
     const positionSquareId = position.coordinates.join(',');
-    const squareElement = getSquareElementById(positionSquareId, boardId) as HTMLElement;
+    const squareElement = getSquareElementById(
+      positionSquareId,
+      boardId,
+    ) as HTMLElement;
     highlightLegalMove(squareElement, true);
   }
 }
 
-export function onPieceSelected(
-  pieceElement: HTMLElement,
-  boardId: string,
-) {
+export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const squareId = getSquareIdByElement(pieceElement);
   if (!squareId) return;
 
@@ -135,18 +146,28 @@ export function movePieceOnBoard(
 ) {
   const draggedPieceCoordinates = draggedPiece.position.coordinates;
   const originSquareId = draggedPieceCoordinates.join(',');
-  
+
   const boardId = draggedPiece.position.boardId;
   const targetSquareId = targetPosition.coordinates.join(',');
 
   // Ensure square is not highlighted if piece did not move
   if (!comparePositions(draggedPiece.position, targetPosition)) {
-    const originSquareElement = getSquareElementById(originSquareId, boardId) as HTMLElement;
-    const targetSquareElement = getSquareElementById(targetSquareId, boardId) as HTMLElement;
+    const originSquareElement = getSquareElementById(
+      originSquareId,
+      boardId,
+    ) as HTMLElement;
+    const targetSquareElement = getSquareElementById(
+      targetSquareId,
+      boardId,
+    ) as HTMLElement;
     highlightLastMove(originSquareElement, targetSquareElement, boardId);
   }
-  
-  moveElementOnBoard(draggedPiece.position.boardId, originSquareId, targetSquareId);
+
+  moveElementOnBoard(
+    draggedPiece.position.boardId,
+    originSquareId,
+    targetSquareId,
+  );
 }
 
 export function destroyPieceOnBoard(piece: Piece) {
@@ -205,28 +226,34 @@ export function changePieceToAnotherPlayer(piece: Piece) {
   const pieceElement = getPieceElementBySquareId(squareId, boadrId);
   if (pieceElement) {
     pieceElement.classList.remove(piece.player.color.toLowerCase());
-    const enemyPlayerColor = piece.player.color === PlayerColors.WHITE
-      ? PlayerColors.BLACK
-      : PlayerColors.WHITE;
+    const enemyPlayerColor =
+      piece.player.color === PlayerColors.WHITE
+        ? PlayerColors.BLACK
+        : PlayerColors.WHITE;
     pieceElement.classList.add(enemyPlayerColor.toLowerCase());
   }
 
-  piece.player = game.getPlayers().filter(_player => _player !== piece.player)[0];
+  piece.player = game
+    .getPlayers()
+    .filter((_player) => _player !== piece.player)[0];
 }
 
-export function endGame(){
+export function endGame() {
   game.end();
 }
 
 export function switchInventory(player: Player) {
   if (switchShownInventory(player.color)) {
-    player.inventory.items.forEach((item) =>  {
-      showItemOnInventory(item,player.color);
+    player.inventory.items.forEach((item) => {
+      showItemOnInventory(item, player.color);
     });
   }
 }
 
-export function canPlaceItemOnBoard(itemElement: HTMLElement, targetElement: HTMLElement): boolean {
+export function canPlaceItemOnBoard(
+  itemElement: HTMLElement,
+  targetElement: HTMLElement,
+): boolean {
   if (game.getWasItemPlacedThisTurn() || !targetElement) return false;
 
   const currentBoardId = getCurrentBoardId();
@@ -277,9 +304,11 @@ export function getCurrentBoardId(): string | undefined {
   return currentOpenBoard?.id;
 }
 
-export function getCurrentPlayerInventoryItemById(itemId: string): Item | undefined {
+export function getCurrentPlayerInventoryItemById(
+  itemId: string,
+): Item | undefined {
   const player = game.getCurrentPlayer();
-  const draggedItem = player.inventory.items.filter(item => {
+  const draggedItem = player.inventory.items.filter((item) => {
     return item.name === itemId;
   })[0];
 
@@ -289,7 +318,7 @@ export function getCurrentPlayerInventoryItemById(itemId: string): Item | undefi
 export function returnItemToInventory(itemElement: HTMLElement) {
   const usedItem = getCurrentPlayerInventoryItemById(itemElement.id);
   if (!usedItem) return;
-  
+
   destroyItemInInventory(itemElement);
 
   const player = game.getCurrentPlayer();
@@ -306,13 +335,13 @@ export function getShopItemById(itemId: string) {
   return item;
 }
 
-export function buyItem(itemId: string){
+export function buyItem(itemId: string) {
   const item = getShopItemById(itemId);
   const currentPlayer = game.getCurrentPlayer();
 
   if (shop.buy(item, currentPlayer)) {
     showItemOnInventory(item, currentPlayer.color);
   }
-  
+
   renderScreen();
 }
