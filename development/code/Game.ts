@@ -21,7 +21,6 @@ export const shop = new Shop();
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
-whitePlayer.gold = 20;
 const players: Array<Player> = [whitePlayer, blackPlayer];
 let pieces: Array<Piece> = [
   new Rook({ coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }, blackPlayer),
