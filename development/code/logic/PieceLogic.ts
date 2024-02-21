@@ -242,14 +242,12 @@ function killPieceByAnotherPiece(
     draggedPiece.player.gold += targetPiece.killCount;
   }
 
-  destroyPieceOnBoard(targetPiece);
   killPiece(targetPiece);
   new KillLog(targetPiece, draggedPiece).addToQueue();
   return true;
 }
 
 function killPieceByGame(targetPiece: Piece, killCause: string) {
-  destroyPieceOnBoard(targetPiece);
   killPiece(targetPiece);
   new KillLog(targetPiece, killCause).addToQueue();
 }
@@ -269,6 +267,8 @@ function killPiece(targetPiece: Piece) {
 }
 
 function handleOverworldKill(targetPiece: Piece) {
+  destroyPieceOnBoard(targetPiece);
+  
   if (targetPiece.killCount > 0 || targetPiece instanceof King) {
     targetPiece.position.boardId = HELL_BOARD_ID;
   } else {

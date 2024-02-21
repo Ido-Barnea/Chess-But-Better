@@ -171,8 +171,8 @@ export function movePieceOnBoard(
 }
 
 export function destroyPieceOnBoard(piece: Piece) {
-  const tpieceCoordinates = piece.position.coordinates;
-  const squareId = tpieceCoordinates.join(',');
+  const pieceCoordinates = piece.position.coordinates;
+  const squareId = pieceCoordinates.join(',');
 
   destroyElementOnBoardByPosition(squareId, piece.position.boardId);
 }
