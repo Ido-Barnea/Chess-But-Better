@@ -1,0 +1,76 @@
+.outline {
+  stroke: black;
+  stroke-width: 1em;
+}
+
+.highlight-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(255, 222, 100, 0.5);
+}
+
+.highlight-legal-move::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  background-color: rgb(0, 0, 0, 0.25);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.beige-background {
+  background-color: burlywood;
+}
+
+.brown-background {
+  background-color: brown;
+}
+
+.dark-red-background {
+  background-color: #5f0505;
+}
+
+.blue-background {
+  background-color: #0da5ce;
+}
+
+.water-background {
+  background-color: #cef0f9;
+}
+
+.dark-orange-background {
+  background-color: #7f3b08;
+}
+
+.black {
+  fill: #333333;
+}
+
+.white {
+  fill: #f5f5f5;
+}
+
+.log-color-general {
+  color: black;
+}
+
+.log-color-kill {
+  color: red;
+}
+
+.log-color-rule {
+  color: plum;
+}
+
+.log-color-movement {
+  color: gray;
+}

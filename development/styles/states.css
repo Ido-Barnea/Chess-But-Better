@@ -1,0 +1,9 @@
+.disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  background-color: lightgray !important;
+}
+
+.collapsed {
+  display: none !important;
+}
