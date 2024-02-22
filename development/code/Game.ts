@@ -4,7 +4,7 @@ import {
   destroyPieceOnBoard,
   spawnPieceOnBoard,
 } from './LogicAdapter';
-import { BOARD_WIDTH, OVERWORLD_BOARD_ID } from './Constants';
+import { BOARD_WIDTH, OVERWORLD_BOARD_ID, VOID_BOARD_ID } from './Constants';
 import { Player, PlayerColors } from './logic/Players';
 import { Item } from './logic/items/Items';
 import { Bishop } from './logic/pieces/Bishop';
@@ -126,6 +126,7 @@ function checkForUpgradeablePawns() {
         piece.player === blackPlayer &&
         piece.position.coordinates[1] === BOARD_WIDTH - 1;
       if (whitePawnReachedEndOfBoard || blackPawnReachedEndOfBoard) {
+        piece.position.boardId = VOID_BOARD_ID;
         destroyPieceOnBoard(piece);
         pieces.splice(index, 1);
 

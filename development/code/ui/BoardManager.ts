@@ -156,7 +156,11 @@ export function moveElementOnBoard(
   }
 }
 
-export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
+export function destroyElementOnBoard(
+  targetSquareId: string,
+  boardId: string,
+  fadeDirection = 0,
+) {
   const board = getBoardbyId(boardId);
 
   const elementSquareElement = board.boardElement.querySelector(`
@@ -165,7 +169,7 @@ export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
   const element = elementSquareElement?.firstElementChild as HTMLElement;
   if (!element) return;
 
-  board.destroyElementOnBoard(element);
+  board.destroyElementOnBoard(element, fadeDirection);
 }
 
 export function destroyElementOnPiece(targetSquareId: string, boardId: string) {

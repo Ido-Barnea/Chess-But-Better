@@ -10,7 +10,7 @@ import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import {
-  destroyElementOnBoard as destroyElementOnBoardByPosition,
+  destroyElementOnBoard,
   getAllSquareElements,
   getSquareElementById,
   moveElementOnBoard,
@@ -30,6 +30,7 @@ import {
 } from './ui/InventoriesUI';
 import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
+import { HEAVEN_BOARD_ID, HELL_BOARD_ID, VOID_BOARD_ID } from './Constants';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -170,11 +171,30 @@ export function movePieceOnBoard(
   );
 }
 
-export function destroyPieceOnBoard(piece: Piece) {
+export function destroyPieceOnBoard(
+  piece: Piece,
+  originBoardId = piece.position.boardId,
+) {
   const pieceCoordinates = piece.position.coordinates;
   const squareId = pieceCoordinates.join(',');
 
-  destroyElementOnBoardByPosition(squareId, piece.position.boardId);
+  let fadeDirection;
+  switch(piece.position.boardId) {
+    case VOID_BOARD_ID: {
+      fadeDirection = 0;
+      break;
+    }
+    case HEAVEN_BOARD_ID: {
+      fadeDirection = 1;
+      break;
+    }
+    case HELL_BOARD_ID: {
+      fadeDirection = -1;
+      break;
+    }
+  }
+
+  destroyElementOnBoard(squareId, originBoardId, fadeDirection);
 }
 
 export function destroyItemOnBoard(item: Item) {
@@ -183,7 +203,7 @@ export function destroyItemOnBoard(item: Item) {
   const itemCoordinates = item.position.coordinates;
   const squareId = itemCoordinates.join(',');
 
-  destroyElementOnBoardByPosition(squareId, item.position.boardId);
+  destroyElementOnBoard(squareId, item.position.boardId);
 }
 
 export function destroyItemOnPiece(piece: Piece) {

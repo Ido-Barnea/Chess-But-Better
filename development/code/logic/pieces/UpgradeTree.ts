@@ -1,3 +1,4 @@
+import { VOID_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { destroyPieceOnBoard, spawnPieceOnBoard } from '../../LogicAdapter';
 import { isPlayerAllowedToAct } from '../PieceLogic';
@@ -19,6 +20,7 @@ export class UpgradesTree {
 
       game.setPieces(updatedPieces);
 
+      originalPiece.position.boardId = VOID_BOARD_ID;
       destroyPieceOnBoard(originalPiece);
       spawnPieceOnBoard(upgradedToPiece);
     }

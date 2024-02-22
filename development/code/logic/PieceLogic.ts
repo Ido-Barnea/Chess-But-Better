@@ -267,14 +267,15 @@ function killPiece(targetPiece: Piece) {
 }
 
 function handleOverworldKill(targetPiece: Piece) {
-  destroyPieceOnBoard(targetPiece);
-
+  const originBoardId = targetPiece.position.boardId;
+  
   if (targetPiece.killCount > 0 || targetPiece instanceof King) {
     targetPiece.position.boardId = HELL_BOARD_ID;
   } else {
     targetPiece.position.boardId = HEAVEN_BOARD_ID;
   }
 
+  destroyPieceOnBoard(targetPiece, originBoardId);
   handlePieceSpawning(targetPiece);
 }
 
