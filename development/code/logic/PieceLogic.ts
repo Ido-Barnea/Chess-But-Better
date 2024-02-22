@@ -228,11 +228,11 @@ function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
   const targetYPosition = targetPiece.position.coordinates[1];
   const deltaX = draggedPiece.position.coordinates[0] - targetXPosition;
   const deltaY = draggedPiece.position.coordinates[1] - targetYPosition;
-  const absX = (deltaX) / (Math.abs(deltaX));
-  const absY = (deltaY) / (Math.abs(deltaY));
+  const signX = (deltaX) / (Math.abs(deltaX));
+  const signY = (deltaY) / (Math.abs(deltaY));
 
   const newPosition: Position = {
-    coordinates: [targetXPosition + absX, targetYPosition + absY],
+    coordinates: [targetXPosition + signX, targetYPosition + signY],
     boardId: draggedPiece.position.boardId,
   }
   movePieceOnBoard(draggedPiece, newPosition);
