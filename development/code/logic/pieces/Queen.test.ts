@@ -90,7 +90,7 @@ describe('Piece killing', () => {
     game.setPieces([killerQueen, firstVictimPiece]);
     onPlayerAction(killerQueen, firstVictimPiece);
 
-    let firstVictimPieceBoardId = firstVictimPiece.position.boardId;
+    const firstVictimPieceBoardId = firstVictimPiece.position.boardId;
     expect(firstVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
     let killerNewCoordinates = killerQueen.position.coordinates;
@@ -109,7 +109,7 @@ describe('Piece killing', () => {
     killerNewCoordinates = killerQueen.position.coordinates;
     expect(killerNewCoordinates).toEqual(diagonalVictimPosition.coordinates);
 
-    let playerXP = killerQueen.player.xp;
+    const playerXP = killerQueen.player.xp;
     expect(playerXP).toBeGreaterThan(0);
   });
 });

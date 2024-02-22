@@ -223,7 +223,31 @@ function move(
 
 function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
   destroyItemOnPiece(targetPiece);
-  revertPieceMoveOnBoard(draggedPiece);
+
+  // Takes the difference of the dragged and target positions in both axis,
+  // if the dragged position is higher - it would be positive, if lower - negative
+  // then I use that to determine the direction to move away from the target position
+  // and divide it by itself cause I wanna move by 1 in any direction
+  let directionX = 0;
+  let directionY = 0;
+  const targetXPosition = targetPiece.position.coordinates[0];
+  const targetYPosition = targetPiece.position.coordinates[1];
+  const deltaX = draggedPiece.position.coordinates[0] - targetXPosition;
+  const deltaY = draggedPiece.position.coordinates[1] - targetYPosition;
+  if (deltaX !== 0) {
+    directionX = deltaX / Math.abs(deltaX);
+  }
+  if (deltaY !== 0) {
+    directionY = deltaY / Math.abs(deltaY);
+  }
+
+  const newPosition: Position = {
+    coordinates: [targetXPosition + directionX, targetYPosition + directionY],
+    boardId: draggedPiece.position.boardId,
+  };
+  movePieceOnBoard(draggedPiece, newPosition);
+  draggedPiece.position = newPosition;
+
   game.endMove();
 }
 
