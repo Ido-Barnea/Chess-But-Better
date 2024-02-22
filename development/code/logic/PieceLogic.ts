@@ -223,7 +223,21 @@ function move(
 
 function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
   destroyItemOnPiece(targetPiece);
-  revertPieceMoveOnBoard(draggedPiece);
+  
+  const targetXPosition = targetPiece.position.coordinates[0];
+  const targetYPosition = targetPiece.position.coordinates[1];
+  const deltaX = draggedPiece.position.coordinates[0] - targetXPosition;
+  const deltaY = draggedPiece.position.coordinates[1] - targetYPosition;
+  const absX = (deltaX) / (Math.abs(deltaX));
+  const absY = (deltaY) / (Math.abs(deltaY));
+
+  const newPosition: Position = {
+    coordinates: [targetXPosition + absX, targetYPosition + absY],
+    boardId: draggedPiece.position.boardId,
+  }
+  movePieceOnBoard(draggedPiece, newPosition);
+  draggedPiece.position = newPosition;
+
   game.endMove();
 }
 
