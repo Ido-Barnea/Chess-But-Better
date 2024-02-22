@@ -227,12 +227,19 @@ function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
   // Takes the difference of the dragged and target positions in both axis,
   // if the dragged position is higher - it would be positive, if lower - negative 
   // then I use that to determine the direction to move away from the target position
+  // and divide it by itself cause I wanna move by 1 in any direction 
+  let directionX = 0;
+  let directionY = 0;
   const targetXPosition = targetPiece.position.coordinates[0];
   const targetYPosition = targetPiece.position.coordinates[1];
   const deltaX = draggedPiece.position.coordinates[0] - targetXPosition;
   const deltaY = draggedPiece.position.coordinates[1] - targetYPosition;
-  const directionX = (deltaX) / (Math.abs(deltaX));
-  const directionY = (deltaY) / (Math.abs(deltaY));
+  if (deltaX !== 0) {
+     directionX = (deltaX) / (Math.abs(deltaX));
+  }
+  if (deltaY !== 0) {
+    directionY = (deltaY) / (Math.abs(deltaY));
+  }
 
   const newPosition: Position = {
     coordinates: [targetXPosition + directionX, targetYPosition + directionY],
