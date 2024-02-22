@@ -180,10 +180,6 @@ export function destroyPieceOnBoard(
 
   let fadeDirection;
   switch(piece.position.boardId) {
-    case VOID_BOARD_ID: {
-      fadeDirection = 0;
-      break;
-    }
     case HEAVEN_BOARD_ID: {
       fadeDirection = 1;
       break;
@@ -191,6 +187,9 @@ export function destroyPieceOnBoard(
     case HELL_BOARD_ID: {
       fadeDirection = -1;
       break;
+    }
+    default: {
+      fadeDirection = 0;
     }
   }
 
