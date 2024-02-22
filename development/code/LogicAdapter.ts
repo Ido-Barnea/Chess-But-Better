@@ -179,7 +179,7 @@ export function destroyPieceOnBoard(
   const squareId = pieceCoordinates.join(',');
 
   let fadeDirection;
-  switch(piece.position.boardId) {
+  switch (piece.position.boardId) {
     case HEAVEN_BOARD_ID: {
       fadeDirection = 1;
       break;

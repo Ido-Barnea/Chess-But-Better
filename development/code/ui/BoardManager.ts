@@ -168,7 +168,9 @@ export function destroyElementOnBoard(
   `) as HTMLElement;
   // Get first element without the class 'destroyed'.
   // This is necessary because there is a short delay when an element is destroyed (for the fade effect).
-  const element = elementSquareElement.querySelector('div:not(.destroyed)') as HTMLElement;
+  const element = elementSquareElement.querySelector(
+    'div:not(.destroyed)',
+  ) as HTMLElement;
   if (!element) return;
 
   board.destroyElementOnBoard(element, fadeDirection);
