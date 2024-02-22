@@ -163,8 +163,22 @@ export class ChessBoard {
     element.style.top = centerY + 'px';
   }
 
-  destroyElementOnBoard(element: HTMLElement) {
-    element.remove();
+  /*
+  fadeDirection dictionary:
+  0 - no fade
+  1 - fade up
+  -1 - fade down
+  */
+  destroyElementOnBoard(element: HTMLElement, fadeDirection = 0) {
+    element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    element.style.opacity = '0';
+    element.style.transform = `translateY(${-50 * fadeDirection}%)`;
+
+    element.classList.add('destroyed');
+
+    setTimeout(() => {
+      element.remove();
+    }, 500);
   }
 
   spawnElementOnBoard(element: HTMLElement, parentElement: HTMLElement) {

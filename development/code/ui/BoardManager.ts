@@ -156,16 +156,24 @@ export function moveElementOnBoard(
   }
 }
 
-export function destroyElementOnBoard(targetSquareId: string, boardId: string) {
+export function destroyElementOnBoard(
+  targetSquareId: string,
+  boardId: string,
+  fadeDirection = 0,
+) {
   const board = getBoardbyId(boardId);
 
   const elementSquareElement = board.boardElement.querySelector(`
     [square-id="${targetSquareId}"]
   `) as HTMLElement;
-  const element = elementSquareElement?.firstElementChild as HTMLElement;
+  // Get first element without the class 'destroyed'.
+  // This is necessary because there is a short delay when an element is destroyed (for the fade effect).
+  const element = elementSquareElement.querySelector(
+    'div:not(.destroyed)',
+  ) as HTMLElement;
   if (!element) return;
 
-  board.destroyElementOnBoard(element);
+  board.destroyElementOnBoard(element, fadeDirection);
 }
 
 export function destroyElementOnPiece(targetSquareId: string, boardId: string) {
