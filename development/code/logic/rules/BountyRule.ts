@@ -25,7 +25,9 @@ export class BountyRule extends BaseRule {
             position: { coordinates: pieceCoordinates },
           } = piece;
           new RuleLog(
-            `There is an open bounty on a ${playerColor} ${pieceName} [${pieceCoordinates.join(',')}].`,
+            `There is an open bounty on a ${playerColor} ${pieceName} [${pieceCoordinates.join(
+              ',',
+            )}].`,
           ).addToQueue();
         }
       });
