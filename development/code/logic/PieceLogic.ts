@@ -224,15 +224,18 @@ function move(
 function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
   destroyItemOnPiece(targetPiece);
   
+  // Takes the difference of the dragged and target positions in both axis,
+  // if the dragged position is higher - it would be positive, if lower - negative 
+  // then I use that to determine the direction to move away from the target position
   const targetXPosition = targetPiece.position.coordinates[0];
   const targetYPosition = targetPiece.position.coordinates[1];
   const deltaX = draggedPiece.position.coordinates[0] - targetXPosition;
   const deltaY = draggedPiece.position.coordinates[1] - targetYPosition;
-  const signX = (deltaX) / (Math.abs(deltaX));
-  const signY = (deltaY) / (Math.abs(deltaY));
+  const directionX = (deltaX) / (Math.abs(deltaX));
+  const directionY = (deltaY) / (Math.abs(deltaY));
 
   const newPosition: Position = {
-    coordinates: [targetXPosition + signX, targetYPosition + signY],
+    coordinates: [targetXPosition + directionX, targetYPosition + directionY],
     boardId: draggedPiece.position.boardId,
   }
   movePieceOnBoard(draggedPiece, newPosition);
