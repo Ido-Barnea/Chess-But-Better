@@ -1,0 +1,14 @@
+#left-column {
+  flex: 1;
+  height: 100vh;
+}
+
+#center-column {
+  flex: 2;
+  height: 100vh;
+}
+
+#right-column {
+  flex: 1;
+  height: 100vh;
+}

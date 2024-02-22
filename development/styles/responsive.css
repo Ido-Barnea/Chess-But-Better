@@ -1,0 +1,35 @@
+@media screen and (max-width: 1200px) {
+  .notation {
+    font-size: 0.6em;
+  }
+
+  #info-container p {
+    font-size: 0.8em;
+  }
+
+  #logs-container p {
+    font-size: 0.8em;
+  }
+
+  #boards-buttons-container button {
+    font-size: 0.6em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .notation {
+    font-size: 0.4em;
+  }
+
+  #info-container p {
+    font-size: 0.6em;
+  }
+
+  #logs-container p {
+    font-size: 0.6em;
+  }
+
+  #boards-buttons-container button {
+    font-size: 0.4em;
+  }
+}

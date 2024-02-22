@@ -1,0 +1,16 @@
+:root {
+  --square-size: 5vw;
+  --board-squares-per-side: 8;
+  --piece-resource-padding: 0.75vw;
+  --notation-padding: 1vw;
+  --inventory-squares-per-side: 4;
+  --shop-squares: 2;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  display: flex;
+  flex-direction: row;
+}
