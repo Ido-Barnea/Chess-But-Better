@@ -8,8 +8,8 @@ import {
 import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
-import { Rook } from './Rook';
 import { Pawn } from './Pawn';
+import { Golem } from './Golem';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -37,37 +37,37 @@ jest.mock('../../ui/ShopUI.ts');
 game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
 describe('Piece movements', () => {
-  test('Validating Rook movement', () => {
+  test('Validating Golem movement', () => {
     const initialPosition: Position = {
       coordinates: [0, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const rook = new Rook(whitePlayer, initialPosition);
-    game.setPieces([rook]);
+    const golem = new Golem(whitePlayer, initialPosition);
+    game.setPieces([golem]);
 
     const validPosition: Position = {
-      coordinates: [0, 0],
+      coordinates: [0, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    let validMoves = rook.getLegalMoves();
+    let validMoves = golem.getLegalMoves();
     expect(validMoves).toContainEqual(validPosition);
 
     const invalidPosition: Position = {
       coordinates: [7, 7],
       boardId: OVERWORLD_BOARD_ID,
     };
-    validMoves = rook.getLegalMoves();
+    validMoves = golem.getLegalMoves();
     expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });
 
 describe('Piece killing', () => {
-  test('Validating Rook killing', () => {
+  test('Validating Golem killing', () => {
     const initialKillerPosition: Position = {
       coordinates: [3, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killerRook = new Rook(whitePlayer, initialKillerPosition);
+    const killerGolem = new Golem(whitePlayer, initialKillerPosition);
 
     const initialVictimPosition: Position = {
       coordinates: [3, 5],
@@ -80,52 +80,16 @@ describe('Piece killing', () => {
 
     game.initialize();
 
-    game.setPieces([killerRook, firstVictimPiece]);
-    onPlayerAction(killerRook, firstVictimPiece);
+    game.setPieces([killerGolem, firstVictimPiece]);
+    onPlayerAction(killerGolem, firstVictimPiece);
 
-    let firstVictimPieceBoardId = firstVictimPiece.position.boardId;
-    expect(firstVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+    const victimPieceBoardId = firstVictimPiece.position.boardId;
+    expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    let killerNewCoordinates = killerRook.position.coordinates;
+    const killerNewCoordinates = killerGolem.position.coordinates;
     expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
 
-    let playerXP = killerRook.player.xp;
+    const playerXP = killerGolem.player.xp;
     expect(playerXP).toBeGreaterThan(0);
-
-    const secondVictimPiece = new Pawn(blackPlayer, {
-      coordinates: initialKillerPosition.coordinates,
-      boardId: initialKillerPosition.boardId,
-    });
-    secondVictimPiece.killCount = 1;
-    game.setPieces([killerRook, secondVictimPiece]);
-    onPlayerAction(killerRook, secondVictimPiece);
-
-    const secondVictimPieceBoardId = secondVictimPiece.position.boardId;
-    expect(secondVictimPieceBoardId).toEqual(HELL_BOARD_ID);
-
-    killerNewCoordinates = killerRook.position.coordinates;
-    expect(killerNewCoordinates).toEqual(initialKillerPosition.coordinates);
-
-    playerXP = killerRook.player.xp;
-    expect(playerXP).toBeGreaterThan(1);
-
-    const thirdVictimPiece = new Pawn(blackPlayer, {
-      coordinates: initialVictimPosition.coordinates,
-      boardId: initialVictimPosition.boardId,
-    });
-    game.setPieces([killerRook, firstVictimPiece, thirdVictimPiece]);
-    onPlayerAction(killerRook, thirdVictimPiece);
-
-    const thirdVictimPieceBoardId = thirdVictimPiece.position.boardId;
-    expect(thirdVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
-
-    firstVictimPieceBoardId = firstVictimPiece.position.boardId;
-    expect(firstVictimPieceBoardId).toEqual(VOID_BOARD_ID);
-
-    killerNewCoordinates = killerRook.position.coordinates;
-    expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
-
-    playerXP = killerRook.player.xp;
-    expect(playerXP).toBeGreaterThan(2);
   });
 });

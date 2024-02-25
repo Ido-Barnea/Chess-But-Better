@@ -11,7 +11,7 @@ export class DoubleQueen extends Piece {
     super(doubleQueenResource, icon, 'Double Queen', player, position);
 
     this.moves = 2;
-    this.price = 5;
+    this.price = 8;
   }
 
   getLegalMoves(): Array<Position> {
