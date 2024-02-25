@@ -10,7 +10,7 @@ export class Piece {
   moves: number;
   health: number;
   price: number;
-  upgrades: Array<new (position: Position, player: Player) => Piece>;
+  upgrades: Array<new (player: Player, position: Position) => Piece>;
   hasMoved: boolean;
   killCount: number;
 

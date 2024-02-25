@@ -41,7 +41,7 @@ describe('Piece movements', () => {
       coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const doubleQueen = new DoubleQueen(initialPosition, whitePlayer);
+    const doubleQueen = new DoubleQueen(whitePlayer, initialPosition);
     game.setPieces([doubleQueen]);
 
     const newStraightPosition: Position = {
@@ -94,8 +94,8 @@ describe('Piece killing', () => {
     };
 
     const killerDoubleQueen = new DoubleQueen(
-      initialKillerPosition,
       whitePlayer,
+      initialKillerPosition,
     );
     const victimPiece = new Pawn(blackPlayer, victimPosition);
 
