@@ -42,6 +42,7 @@ const config: CustomConfiguration = {
     new HtmlWebpackPlugin({
       template: './development/views/index.html',
       filename: 'index.html',
+      favicon: './assets/logo.svg',
     }),
   ],
 };
