@@ -1,16 +1,15 @@
-import { rookResource } from '../../ui/Resources';
+import { golemResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player, PlayerColors } from '../Players';
+import { Player } from '../Players';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
-import { Golem } from './Golem';
 
-export class Rook extends Piece {
+export class Golem extends Piece {
   constructor(player: Player, position: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♖' : '♜';
-    super(rookResource, icon, 'Rook', player, position);
-    
-    this.upgrades = [Golem];
+    super(golemResource, '🗿', 'Golem', player, position);
+
+    this.health = 3;
+    this.price = 4;
   }
 
   getLegalMoves(): Array<Position> {
@@ -29,8 +28,11 @@ export class Rook extends Piece {
       let stepX = direction.deltaX;
       let stepY = direction.deltaY;
 
+      const MAX_MOVEMENT_DISTANCE = 2;
+      let movementDistance = 0;
+
       // Iterate until the edge of the board
-      while (true) {
+      while (movementDistance < MAX_MOVEMENT_DISTANCE) {
         const nextX = currentCoordinates[0] + stepX;
         const nextY = currentCoordinates[1] + stepY;
 
@@ -55,6 +57,7 @@ export class Rook extends Piece {
         // Move further in the current direction
         stepX += direction.deltaX;
         stepY += direction.deltaY;
+        movementDistance++;
       }
     }
 
