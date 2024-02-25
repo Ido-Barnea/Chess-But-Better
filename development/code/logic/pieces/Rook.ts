@@ -9,7 +9,7 @@ export class Rook extends Piece {
   constructor(player: Player, position: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♖' : '♜';
     super(rookResource, icon, 'Rook', player, position);
-    
+
     this.upgrades = [Golem];
   }
 
