@@ -6,6 +6,8 @@ import { Position } from './PiecesUtilities';
 export class Unicorn extends Piece {
   constructor(player: Player, position: Position) {
     super(unicornResource, '🦄', 'Unicorn', player, position);
+
+    this.price = 4;
   }
 
   getLegalMoves(): Array<Position> {

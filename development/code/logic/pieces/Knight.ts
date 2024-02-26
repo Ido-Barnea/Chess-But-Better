@@ -2,11 +2,14 @@ import { knightResource } from '../../ui/Resources';
 import { Piece } from './Piece';
 import { Player, PlayerColors } from '../Players';
 import { Position } from './PiecesUtilities';
+import { Unicorn } from './Unicorn';
 
 export class Knight extends Piece {
   constructor(player: Player, position: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♘' : '♞';
     super(knightResource, icon, 'Knight', player, position);
+
+    this.upgrades = [Unicorn];
   }
 
   getLegalMoves(): Array<Position> {
