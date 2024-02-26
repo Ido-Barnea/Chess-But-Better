@@ -5,7 +5,11 @@ import {
   onPlayerAction,
 } from './logic/PieceLogic';
 import { Player, PlayerColors } from './logic/Players';
-import { comparePositions, convertSquareIdToPosition, getPieceByPosition } from './logic/Utilities';
+import {
+  comparePositions,
+  convertSquareIdToPosition,
+  getPieceByPosition,
+} from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
