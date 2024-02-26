@@ -278,7 +278,7 @@ function killPieceByGame(targetPiece: Piece, killCause: string) {
 }
 
 function killPiece(targetPiece: Piece) {
-  game.increaseDeathCounter();
+  const originBoardId = targetPiece.position.boardId;
 
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
     handleOverworldKill(targetPiece);
@@ -286,20 +286,19 @@ function killPiece(targetPiece: Piece) {
     permanentlyKillPiece(targetPiece);
   }
 
-  targetPiece.killCount = 0;
+  game.increaseDeathCounter();
+  destroyPieceOnBoard(targetPiece, originBoardId);
   return true;
 }
 
 function handleOverworldKill(targetPiece: Piece) {
-  const originBoardId = targetPiece.position.boardId;
-
   if (targetPiece.killCount > 0 || targetPiece instanceof King) {
     targetPiece.position.boardId = HELL_BOARD_ID;
   } else {
     targetPiece.position.boardId = HEAVEN_BOARD_ID;
   }
 
-  destroyPieceOnBoard(targetPiece, originBoardId);
+  targetPiece.killCount = 0;
   handlePieceSpawning(targetPiece);
 }
 

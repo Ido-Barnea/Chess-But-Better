@@ -1,7 +1,7 @@
 #boards-container {
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
