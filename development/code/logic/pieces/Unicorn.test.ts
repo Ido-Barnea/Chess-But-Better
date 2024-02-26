@@ -1,15 +1,10 @@
 import { game } from '../../Game';
-import {
-  HEAVEN_BOARD_ID,
-  HELL_BOARD_ID,
-  OVERWORLD_BOARD_ID,
-} from '../../Constants';
+import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player, PlayerColors } from '../Players';
-import { Bishop } from './Bishop';
-import { Pawn } from './Pawn';
 import { Position } from './PiecesUtilities';
-import { HEAVEN_BOARD } from '../../ui/BoardManager';
+import { Rook } from './Rook';
+import { Unicorn } from './Unicorn';
 
 const whitePlayer = new Player(PlayerColors.WHITE);
 const blackPlayer = new Player(PlayerColors.BLACK);
@@ -37,56 +32,75 @@ jest.mock('../../ui/ShopUI.ts');
 game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
 
 describe('Piece movements', () => {
-  test('Validating Bishop movement', () => {
+  test('Validating Unicorn movement', () => {
     const initialPosition: Position = {
-      coordinates: [0, 5],
+      coordinates: [1, 7],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const bishop = new Bishop(whitePlayer, initialPosition);
-    game.setPieces([bishop]);
+    const unicorn = new Unicorn(whitePlayer, initialPosition);
+    game.setPieces([unicorn]);
 
     const validPosition: Position = {
-      coordinates: [2, 3],
+      coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    let validMoves = bishop.getLegalMoves();
+    let validMoves = unicorn.getLegalMoves();
     expect(validMoves).toContainEqual(validPosition);
 
     const invalidPosition: Position = {
-      coordinates: [0, 0],
+      coordinates: [1, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
-    validMoves = bishop.getLegalMoves();
+    validMoves = unicorn.getLegalMoves();
     expect(validMoves).not.toContainEqual(invalidPosition);
   });
 });
 
 describe('Piece killing', () => {
-  test('Validating Bishop killing', () => {
+  test('Validating Unicorn killing', () => {
     const initialKillerPosition: Position = {
-      coordinates: [1, 1],
+      coordinates: [3, 3],
       boardId: OVERWORLD_BOARD_ID,
     };
     const victimPosition: Position = {
-      coordinates: [5, 5],
+      coordinates: [1, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
 
-    const killerBishop = new Bishop(whitePlayer, initialKillerPosition);
-    const victimPiece = new Pawn(blackPlayer, victimPosition);
+    const killerUnicorn = new Unicorn(whitePlayer, initialKillerPosition);
+    const victimPiece = new Unicorn(blackPlayer, victimPosition);
 
     game.initialize();
 
-    game.setPieces([killerBishop, victimPiece]);
-    onPlayerAction(killerBishop, victimPiece);
+    game.setPieces([killerUnicorn, victimPiece]);
+    onPlayerAction(killerUnicorn, victimPiece);
 
     const victimPieceBoardId = victimPiece.position.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    const killerNewCoordinates = killerBishop.position.coordinates;
+    let killerNewCoordinates = killerUnicorn.position.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
-    const playerXP = killerBishop.player.xp;
+    const othervictimPosition: Position = {
+      coordinates: [2, 5],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const otherVictimPiece = new Rook(blackPlayer, othervictimPosition);
+    killerUnicorn.position = initialKillerPosition;
+
+    game.setPieces([killerUnicorn, otherVictimPiece]);
+    onPlayerAction(killerUnicorn, otherVictimPiece);
+
+    const otherVictimPieceBoardId = otherVictimPiece.position.boardId;
+    expect(otherVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
+
+    killerNewCoordinates = killerUnicorn.position.coordinates;
+    expect(killerNewCoordinates).toEqual(othervictimPosition.coordinates);
+
+    const playerXP = killerUnicorn.player.xp;
     expect(playerXP).toBeGreaterThan(0);
+
+    const playerGold = killerUnicorn.player.gold;
+    expect(playerGold).toBeGreaterThan(0);
   });
 });

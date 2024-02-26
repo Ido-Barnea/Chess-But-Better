@@ -40,12 +40,12 @@ describe('Piece movements', () => {
     const knight = new Knight(whitePlayer, initialPosition);
     game.setPieces([knight]);
 
-    const newPosition: Position = {
+    const validPosition: Position = {
       coordinates: [2, 5],
       boardId: OVERWORLD_BOARD_ID,
     };
     let validMoves = knight.getLegalMoves();
-    expect(validMoves).toContainEqual(newPosition);
+    expect(validMoves).toContainEqual(validPosition);
 
     const invalidPosition: Position = {
       coordinates: [1, 5],
