@@ -77,8 +77,8 @@ export class ChessBoard {
     let generatedPiggyBank = false;
     for (let row = 0; row < BOARD_WIDTH; row++) {
       for (let column = 0; column < BOARD_WIDTH; column++) {
-        // A number between 1-100 that determines the chance of a coin generating on any square.
-        const COIN_GENERATION_CHANCE = 5;
+        // A number between 1-100 that determines the chance of a piggy bank being generated on any square.
+        const COIN_GENERATION_CHANCE = 7;
         const random = Math.floor(Math.random() * 100) + 1;
 
         const coordinates: [number, number] = [column, row];

@@ -11,7 +11,7 @@ export class PiggyBank extends Item {
 
   getRandomAmountOfCoins(max?: number) {
     max = max || 5;
-    return Math.floor(Math.random() * (max - 1)) + 1;
+    return Math.floor(Math.random() * max) + 1;
   }
 
   use(position: Position): void {
@@ -26,7 +26,7 @@ export class PiggyBank extends Item {
       name: pieceName,
     } = piece;
     new Log(
-      `${pieceColor} ${pieceName} claimed a ${this.name} and recieved ${gold} gold.`,
+      `${pieceColor} ${pieceName} claimed a ${this.name} and recieved ${gold} gold coins.`,
     ).addToQueue();
   }
 }
