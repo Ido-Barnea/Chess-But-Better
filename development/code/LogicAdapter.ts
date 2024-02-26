@@ -5,7 +5,7 @@ import {
   onPlayerAction,
 } from './logic/PieceLogic';
 import { Player, PlayerColors } from './logic/Players';
-import { comparePositions, convertSquareIdToPosition } from './logic/Utilities';
+import { comparePositions, convertSquareIdToPosition, getPieceByPosition } from './logic/Utilities';
 import { Item } from './logic/items/Items';
 import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
@@ -206,11 +206,12 @@ export function destroyItemOnBoard(item: Item) {
 }
 
 export function destroyItemOnPiece(piece: Piece) {
-  if (!piece.position) return;
+  if (!piece.position || !piece.isEquipedItem) return;
 
   const pieceCoordinates = piece.position.coordinates;
   const squareId = pieceCoordinates.join(',');
 
+  piece.isEquipedItem = false;
   destroyElementOnPiece(squareId, piece.position.boardId);
 }
 
@@ -296,7 +297,13 @@ export function canPlaceItemOnBoard(
     }
     case 'shield': {
       if (!targetElement.classList.contains('piece')) return false;
+
+      const targetPiece = getPieceByPosition(squarePosition);
+      if (!targetPiece) return false;
+
+      targetPiece.isEquipedItem = true;
       new Shield().use(squarePosition);
+
       break;
     }
     default:
