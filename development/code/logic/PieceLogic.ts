@@ -267,6 +267,7 @@ function killPieceByAnotherPiece(
   }
 
   killPiece(targetPiece);
+  game.setKillerPiece(draggedPiece);
   new KillLog(targetPiece, draggedPiece).addToQueue();
   return true;
 }
@@ -278,7 +279,6 @@ function killPieceByGame(targetPiece: Piece, killCause: string) {
 
 function killPiece(targetPiece: Piece) {
   game.increaseDeathCounter();
-  game.setIsPieceKilled(true);
 
   if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
     handleOverworldKill(targetPiece);
@@ -305,7 +305,6 @@ function handleOverworldKill(targetPiece: Piece) {
 
 export function permanentlyKillPiece(targetPiece: Piece) {
   game.increaseDeathCounter();
-  game.setIsPieceKilled(true);
 
   targetPiece.position.boardId = VOID_BOARD_ID;
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
@@ -349,10 +348,7 @@ function onActionPieceToItem(piece: Piece, item: Item) {
 }
 
 function pieceMovedOnTrap(draggedPiece: Piece, trap: Trap) {
-  if (!trap.position) {
-    // If we entered this condition, something went terribly wrong.
-    return;
-  }
+  if (!trap.position) return;
 
   move(draggedPiece, trap.position, false);
   draggedPiece.health = 1;

@@ -68,7 +68,7 @@ let roundCounter = 1;
 let deathCounter = 0;
 let isCastling = false;
 let isFriendlyFire = false;
-let isPieceKilled = false;
+let killerPiece: Piece | undefined = undefined;
 let wasItemPlacedThisTurn = false;
 let fellOffTheBoardPiece: Piece | undefined;
 let movesLeft = 0;
@@ -93,7 +93,7 @@ function endMove(canRecover = true) {
 
   Logger.logMessages();
 
-  // element.remove() is scheduled to run in the next event sycle while alert() runs immedietely.
+  // element.remove() is scheduled to run in the next event cycle while alert() runs immedietely.
   // To make sure the element is removed before displaying the winning alert, we need to add
   // a small delay before displaying the alert.
   setTimeout(() => {
@@ -141,7 +141,7 @@ function checkForUpgradeablePawns() {
 function resetVariables() {
   isCastling = false;
   isFriendlyFire = false;
-  isPieceKilled = false;
+  killerPiece = undefined;
   fellOffTheBoardPiece = undefined;
   wasItemPlacedThisTurn = false;
   movesLeft = 0;
@@ -245,12 +245,12 @@ function setIsFriendlyFire(_isFriendlyFire: boolean) {
   isFriendlyFire = _isFriendlyFire;
 }
 
-function getIsPieceKilled(): boolean {
-  return isPieceKilled;
+function getKillerPiece(): Piece | undefined {
+  return killerPiece;
 }
 
-function setIsPieceKilled(_isPieceKilled: boolean) {
-  isPieceKilled = _isPieceKilled;
+function setKillerPiece(_killerPiece: Piece) {
+  killerPiece = _killerPiece;
 }
 
 function getFellOffTheBoardPiece(): Piece | undefined {
@@ -302,8 +302,8 @@ export const game = {
   getIsCaslting,
   getIsFriendlyFire,
   setIsFriendlyFire,
-  getIsPieceKilled,
-  setIsPieceKilled,
+  getKillerPiece,
+  setKillerPiece,
   getFellOffTheBoardPiece,
   setFellOffTheBoardPiece,
   switchWasItemPlacedThisTurn,

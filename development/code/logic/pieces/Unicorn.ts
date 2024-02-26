@@ -1,23 +1,21 @@
-import { knightResource } from '../../ui/Resources';
+import { unicornResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player, PlayerColors } from '../Players';
+import { Player } from '../Players';
 import { Position } from './PiecesUtilities';
-import { Unicorn } from './Unicorn';
 
-export class Knight extends Piece {
+export class Unicorn extends Piece {
   constructor(player: Player, position: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♘' : '♞';
-    super(knightResource, icon, 'Knight', player, position);
+    super(unicornResource, '🦄', 'Unicorn', player, position);
 
-    this.upgrades = [Unicorn];
+    this.price = 4;
   }
 
   getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 
-    // Define all possible knight move offsets
-    const knightMoveOffsets = [
+    // Define all possible unicorn move offsets
+    const unicornMoveOffsets = [
       { deltaX: 2, deltaY: 1 },
       { deltaX: 2, deltaY: -1 },
       { deltaX: -2, deltaY: 1 },
@@ -28,7 +26,7 @@ export class Knight extends Piece {
       { deltaX: -1, deltaY: -2 },
     ];
 
-    for (const offset of knightMoveOffsets) {
+    for (const offset of unicornMoveOffsets) {
       const nextX = currentCoordinates[0] + offset.deltaX;
       const nextY = currentCoordinates[1] + offset.deltaY;
 

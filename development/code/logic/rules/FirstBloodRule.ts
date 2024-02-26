@@ -7,7 +7,7 @@ export class FirstBloodRule extends BaseRule {
     const description =
       'First Blood Bonus: The first to kill gets an extra XP.';
     const condition = () =>
-      game.getDeathCounter() == 1 && game.getIsPieceKilled();
+      game.getDeathCounter() == 1 && !!game.getKillerPiece();
     const onTrigger = () => {
       const player = game.getCurrentPlayer();
       new RuleLog(
