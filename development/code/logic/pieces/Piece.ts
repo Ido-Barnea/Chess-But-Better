@@ -10,6 +10,7 @@ export class Piece {
   moves: number;
   health: number;
   price: number;
+  isEquipedItem: boolean;
   upgrades: Array<new (player: Player, position: Position) => Piece>;
   hasMoved: boolean;
   killCount: number;
@@ -30,6 +31,7 @@ export class Piece {
     this.moves = 1;
     this.health = 1;
     this.price = 1;
+    this.isEquipedItem = false;
     this.upgrades = [];
     this.hasMoved = false;
     this.killCount = 0;
