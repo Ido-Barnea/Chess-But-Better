@@ -20,6 +20,9 @@ export class EmptyPocketsRule extends BaseRule {
           new RuleLog(
             `${player.color} is in debt. They lose XP for not being prudent.`,
           ).addToQueue();
+          new RuleLog(
+            `${player.color} is in debt. Soon, some of their pieces might desert!`,
+          ).addToQueue();
           player.xp--;
           return;
         }
