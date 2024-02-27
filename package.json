@@ -5,7 +5,6 @@
     "lint": "npx nx run-many --target lint",
     "format": "npx nx format:write",
     "test": "npx nx run-many --target test --all",
-    "dev": "webpack serve --config webpack.config.ts",
     "build": "webpack --config webpack.config.ts",
     "start": "node server.js"
   },
