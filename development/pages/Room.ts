@@ -1,7 +1,15 @@
 import { game } from '../Game';
-import { onActionTriggered, onFellOffTheBoardTriggered, renderScreen } from '../LogicAdapter';
+import {
+  onActionTriggered,
+  onFellOffTheBoardTriggered,
+  renderScreen,
+} from '../LogicAdapter';
 import { initializeBoards } from '../ui/BoardManager';
-import { initializeEventListeners, setOnAction, setOnFellOffTheBoard } from '../ui/Events';
+import {
+  initializeEventListeners,
+  setOnAction,
+  setOnFellOffTheBoard,
+} from '../ui/Events';
 import { initializeShopUI } from '../ui/ShopUI';
 import { Log } from '../ui/logs/Log';
 import { Logger } from '../ui/logs/Logger';

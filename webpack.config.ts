@@ -53,9 +53,7 @@ const config: CustomConfiguration = {
       favicon: './assets/logo.svg',
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: 'styles', to: 'styles' },
-      ],
+      patterns: [{ from: 'styles', to: 'styles' }],
     }),
   ],
   devServer: {

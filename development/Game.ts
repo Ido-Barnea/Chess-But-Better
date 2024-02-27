@@ -255,9 +255,8 @@ function setMovesLeft(moves: number) {
 }
 
 function endGame() {
-  const livingKingPlayer = pieces.filter(
-    (piece) => piece instanceof King,
-  )[0].player;
+  const livingKingPlayer = pieces.filter((piece) => piece instanceof King)[0]
+    .player;
 
   showWinningAlert(livingKingPlayer.color);
 }
