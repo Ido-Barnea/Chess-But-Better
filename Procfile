@@ -1,1 +1,1 @@
-web: webpack serve --config webpack.config.prod.ts
+web: npm run build && npm run start

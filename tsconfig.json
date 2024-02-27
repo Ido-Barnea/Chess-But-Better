@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
+    "module": "CommonJS",
     "target": "es2016",
     "experimentalDecorators": true,
     "jsxImportSource": "preact",
-    "module": "commonjs",
-    "rootDir": ".",
+    "rootDir": "./core",
     "sourceMap": true,
-    "outDir": "output",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+  },
+  "include": [
+    "core/**/*.ts"
+  ]
 }
