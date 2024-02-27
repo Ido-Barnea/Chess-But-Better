@@ -1,0 +1,1 @@
+web: webpack serve --config webpack.config.prod.ts
