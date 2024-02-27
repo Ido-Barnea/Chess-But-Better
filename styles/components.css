@@ -203,3 +203,11 @@
   flex-direction: row;
   justify-content: center;
 }
+
+.centered-container {
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}

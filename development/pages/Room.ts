@@ -1,18 +1,18 @@
-import { game } from './Game';
+import { game } from '../Game';
 import {
   onActionTriggered,
   onFellOffTheBoardTriggered,
   renderScreen,
-} from './LogicAdapter';
-import { initializeBoards } from './ui/BoardManager';
+} from '../LogicAdapter';
+import { initializeBoards } from '../ui/BoardManager';
 import {
   initializeEventListeners,
   setOnAction,
   setOnFellOffTheBoard,
-} from './ui/Events';
-import { initializeShopUI } from './ui/ShopUI';
-import { Log } from './ui/logs/Log';
-import { Logger } from './ui/logs/Logger';
+} from '../ui/Events';
+import { initializeShopUI } from '../ui/ShopUI';
+import { Log } from '../ui/logs/Log';
+import { Logger } from '../ui/logs/Logger';
 
 function setGameEventHandlers() {
   setOnAction(onActionTriggered);

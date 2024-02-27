@@ -11,10 +11,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "development/code/**/*.ts",
-          "development/code/*.ts"
-        ],
+        "lintFilePatterns": ["development/**/*.ts", "development/*.ts"],
         "config": ".eslintrc.json"
       }
     },

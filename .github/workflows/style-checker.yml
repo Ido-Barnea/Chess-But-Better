@@ -10,7 +10,7 @@ on:
       - synchronize
 
 jobs:
-  Lint:
+  Sanitize:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

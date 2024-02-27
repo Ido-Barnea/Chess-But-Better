@@ -15,7 +15,7 @@ import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
-import { showWinningAlert as showGameEndAlert } from './ui/Screen';
+import { showWinningAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
 import { addItemToShop } from './ui/ShopUI';
@@ -72,7 +72,6 @@ let killerPiece: Piece | undefined = undefined;
 let wasItemPlacedThisTurn = false;
 let fellOffTheBoardPiece: Piece | undefined;
 let movesLeft = 0;
-let isGameFinished = false;
 
 function initializeGame() {
   rulesManager = new RulesManager();
@@ -92,20 +91,6 @@ function endMove(canRecover = true) {
   });
 
   Logger.logMessages();
-
-  // element.remove() is scheduled to run in the next event cycle while alert() runs immedietely.
-  // To make sure the element is removed before displaying the winning alert, we need to add
-  // a small delay before displaying the alert.
-  setTimeout(() => {
-    if (isGameFinished) {
-      const livingKingPlayer = pieces.filter(
-        (piece) => piece instanceof King,
-      )[0].player;
-
-      showGameEndAlert(livingKingPlayer.color);
-      window.location.reload();
-    }
-  }, 10);
 
   movesLeft--;
   if (!canRecover) movesLeft = 0;
@@ -270,7 +255,10 @@ function setMovesLeft(moves: number) {
 }
 
 function endGame() {
-  isGameFinished = true;
+  const livingKingPlayer = pieces.filter((piece) => piece instanceof King)[0]
+    .player;
+
+  showWinningAlert(livingKingPlayer.color);
 }
 
 function switchWasItemPlacedThisTurn() {

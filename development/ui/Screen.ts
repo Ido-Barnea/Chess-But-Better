@@ -30,5 +30,6 @@ export function renderPlayersInformation() {
 }
 
 export function showWinningAlert(winner: string) {
-  alert(`${winner} Won!`);
+  window.alert(`${winner} Won!`);
+  window.location.href = '/';
 }
