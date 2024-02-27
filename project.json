@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "command": "npx webpack --mode production --config webpack.config.ts"
+      "command": "npx webpack --mode development --config webpack.config.ts"
     },
     "lint": {
       "executor": "@nx/linter:eslint",
