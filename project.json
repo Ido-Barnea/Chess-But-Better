@@ -8,7 +8,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["development/**/*.ts", "development/*.ts"],
+        "lintFilePatterns": ["core/**/*.ts", "./*.ts"],
         "config": ".eslintrc.json"
       }
     },
