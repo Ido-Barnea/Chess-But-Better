@@ -12,8 +12,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "development/code/**/*.ts",
-          "development/code/*.ts"
+          "development/**/*.ts",
+          "development/*.ts"
         ],
         "config": ".eslintrc.json"
       }
