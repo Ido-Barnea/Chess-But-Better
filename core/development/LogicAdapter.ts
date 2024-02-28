@@ -35,7 +35,7 @@ import {
 import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
-import { showUpgradeElement } from './ui/UpgradeUI';
+import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -151,9 +151,7 @@ export function showUpgrades(piece: Piece) {
   const pieceUpgrades = piece.upgrades;
   if (!pieceUpgrades) return;
 
-  pieceUpgrades.forEach((upgradeablePiece) => {
-    showUpgradeElement(new upgradeablePiece(game.getCurrentPlayer()));
-  });
+  showUpgradeablePiecesElements(pieceUpgrades);
 }
 
 export function movePieceOnBoard(

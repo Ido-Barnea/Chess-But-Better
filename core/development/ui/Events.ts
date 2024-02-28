@@ -34,7 +34,7 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
 const SHOP_UPGRADE_SWAPPER = document.getElementById('shop-upgrade-swapper');
 const SHOP_CONTAINER = document.getElementById('shop-container');
-const UPGRADES_CONTAINER = document.getElementById('upgrade-container');
+const UPGRADES_CONTAINER = document.getElementById('piece-upgrades-container');
 
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');

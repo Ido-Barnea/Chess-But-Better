@@ -161,7 +161,7 @@
 
 #inventory-container,
 #shop-container,
-#upgrade-container {
+#piece-upgrades-container {
   width: auto;
   position: absolute;
   left: 5%;
@@ -177,7 +177,7 @@
 }
 
 #shop-container,
-#upgrade-container {
+#piece-upgrades-container {
   bottom: 50%;
 }
 
