@@ -3,8 +3,9 @@ import { Piece } from '../logic/pieces/Piece';
 export function showUpgradeElement(upgradePiece: Piece) {
   const upgradeElement = document.createElement('div');
   upgradeElement.id = upgradePiece.name;
-  upgradeElement.classList.add('upgradeable-piece');
+  upgradeElement.classList.add('upgraded-piece');
   upgradeElement.innerHTML = upgradePiece.resource;
+  //TODO: upgradeElement.addEventListener('click', onUpgradedPieceClick);
 
   const upgradesContainer = document.getElementById('upgrade-container');
   upgradesContainer?.childNodes.forEach((child) => {

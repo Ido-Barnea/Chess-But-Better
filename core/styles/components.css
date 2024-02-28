@@ -184,7 +184,7 @@
 
 .inventory-item,
 .shop-item,
-.upgradeable-piece {
+.upgraded-piece {
   width: 75%;
   display: grid;
   place-items: center;
