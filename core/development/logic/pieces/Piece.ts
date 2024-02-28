@@ -12,7 +12,7 @@ export class Piece {
   health: number;
   price: number;
   isEquipedItem: boolean;
-  upgrades: Array<new (player: Player, position?: Position | undefined) => Piece>;
+  upgrades: Array<new (player: Player, position?: Position) => Piece>;
   hasMoved: boolean;
   killCount: number;
 
@@ -21,7 +21,7 @@ export class Piece {
     pieceIcon: string,
     name: string,
     player: Player,
-    position: Position | undefined = undefined ,
+    position?: Position,
   ) {
     this.resource = resource;
     this.pieceIcon = pieceIcon;

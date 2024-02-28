@@ -104,12 +104,13 @@ function endMove(canRecover = true) {
 function checkForUpgradeablePawns() {
   for (let index = 0; index < pieces.length; index++) {
     const piece = pieces[index];
-    if (piece instanceof Pawn) {
+    if (piece instanceof Pawn && piece.position) {
       const whitePawnReachedEndOfBoard =
         piece.player === whitePlayer && piece.position?.coordinates[1] === 0;
       const blackPawnReachedEndOfBoard =
         piece.player === blackPlayer &&
         piece.position?.coordinates[1] === BOARD_WIDTH - 1;
+      
       if (whitePawnReachedEndOfBoard || blackPawnReachedEndOfBoard) {
         piece.position.boardId = VOID_BOARD_ID;
         destroyPieceOnBoard(piece);

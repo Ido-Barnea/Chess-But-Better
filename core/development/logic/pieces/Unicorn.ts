@@ -4,13 +4,15 @@ import { Player } from '../Players';
 import { Position } from './PiecesUtilities';
 
 export class Unicorn extends Piece {
-  constructor(player: Player, position: Position) {
+  constructor(player: Player, position?: Position) {
     super(unicornResource, '🦄', 'Unicorn', player, position);
 
     this.price = 4;
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

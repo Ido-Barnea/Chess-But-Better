@@ -5,7 +5,7 @@ import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 
 export class DoubleQueen extends Piece {
-  constructor(player: Player, position: Position) {
+  constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♕x2' : '♛x2';
     super(doubleQueenResource, icon, 'Double Queen', player, position);
 
@@ -14,8 +14,9 @@ export class DoubleQueen extends Piece {
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+
     const validMoves: Array<Position> = [];
-    if (!this.position) return validMoves;
     const currentCoordinates = this.position.coordinates;
 
     // Iterate over all possible directions for the queen

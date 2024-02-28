@@ -7,7 +7,7 @@ import { Rook } from './Rook';
 import { game } from '../../Game';
 
 export class King extends Piece {
-  constructor(player: Player, position: Position | undefined = undefined) {
+  constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♔' : '♚';
 
     super(kingResource, icon, 'King', player, position);
@@ -70,8 +70,9 @@ export class King extends Piece {
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+
     const validMoves: Array<Position> = [];
-    if (!this.position) return validMoves;
     const currentCoordinates = this.position.coordinates;
 
     // Define possible directions for the king to move

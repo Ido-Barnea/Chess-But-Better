@@ -6,7 +6,7 @@ import { getPieceByPosition } from '../Utilities';
 import { Golem } from './Golem';
 
 export class Rook extends Piece {
-  constructor(player: Player, position: Position | undefined = undefined) {
+  constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♖' : '♜';
     super(rookResource, icon, 'Rook', player, position);
 
@@ -14,8 +14,9 @@ export class Rook extends Piece {
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+    
     const validMoves: Array<Position> = [];
-    if (!this.position) return validMoves;
     const currentCoordinates = this.position.coordinates;
     // Iterate over possible horizontal and vertical directions
     const directions = [
