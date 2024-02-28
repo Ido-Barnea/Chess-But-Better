@@ -172,7 +172,6 @@
 #shop-container,
 #upgrade-container {
   bottom: 50%;
-  border: 0.1vh solid black;
 }
 
 .player-inventory {
