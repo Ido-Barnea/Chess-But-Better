@@ -35,6 +35,7 @@ const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
 const SHOP_UPGRADE_SWAPPER = document.getElementById('shop-upgrade-swapper');
 const SHOP_CONTAINER = document.getElementById('shop-container');
+const UPGRADES_CONTAINER = document.getElementById('upgrade-container');
 
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
@@ -271,7 +272,9 @@ export function setOnFellOffTheBoard(
 function swapShopAndUpgrade() {
   if (SHOP_CONTAINER?.classList.contains('collapsed')) {
     SHOP_CONTAINER.classList.remove('collapsed');
+    UPGRADES_CONTAINER?.classList.add('collapsed');
     return;
   }
   SHOP_CONTAINER?.classList.add('collapsed');
+  UPGRADES_CONTAINER?.classList.remove('collapsed');
 }

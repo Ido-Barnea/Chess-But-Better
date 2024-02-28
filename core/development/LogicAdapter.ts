@@ -35,6 +35,9 @@ import {
 import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, VOID_BOARD_ID } from './Constants';
+import { showUpgradeElement } from './ui/UpgradeUI';
+import { PiecesCanFallOffTheBoardRule } from './logic/rules/PiecesCanFallOffTheBoardRule';
+import { UpgradesTree } from './logic/pieces/UpgradeTree';
 
 export let selectedPiece: Piece | undefined = undefined;
 
@@ -144,7 +147,7 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const piece = findPieceAtPosition(pieceElementPosition);
   if (!piece || !isPlayerAllowedToAct(piece.player)) return;
 
-  selectedPiece = piece;
+  showUpgrades(piece);
   highlightLegalMoves(piece, boardId);
   
 }
@@ -153,7 +156,7 @@ export function showUpgrades(piece: Piece) {
   const pieceUpgrades = piece.upgrades;
   if (!pieceUpgrades) return;
   pieceUpgrades.forEach((upgrade)  => {
-    
+    showUpgradeElement(new upgrade(game.getCurrentPlayer()));
   });
 }
 

@@ -12,7 +12,7 @@ export class Piece {
   health: number;
   price: number;
   isEquipedItem: boolean;
-  upgrades: Array<new (player: Player, position: Position) => Piece>;
+  upgrades: Array<new (player: Player, position?: Position | undefined) => Piece>;
   hasMoved: boolean;
   killCount: number;
 
