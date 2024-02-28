@@ -150,8 +150,9 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
 export function showUpgrades(piece: Piece) {
   const pieceUpgrades = piece.upgrades;
   if (!pieceUpgrades) return;
-  pieceUpgrades.forEach((upgrade) => {
-    showUpgradeElement(new upgrade(game.getCurrentPlayer()));
+
+  pieceUpgrades.forEach((upgradeablePiece) => {
+    showUpgradeElement(new upgradeablePiece(game.getCurrentPlayer()));
   });
 }
 
