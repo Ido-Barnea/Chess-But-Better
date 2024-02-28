@@ -171,7 +171,8 @@
 }
 
 .inventory-square,
-.shop-square {
+.shop-square,
+.upgrade-square {
   outline: 1px solid;
   box-sizing: border-box;
   height: var(--square-size);
@@ -182,7 +183,8 @@
 }
 
 .inventory-item,
-.shop-item {
+.shop-item,
+.upgradeable-piece {
   width: 75%;
   display: grid;
   place-items: center;
@@ -195,7 +197,8 @@
   transform: translate(-50%, 50%);
 }
 
-#shop-container {
+#shop-container,
+#upgrade-container {
   width: 100%;
   margin-top: 20%;
   box-sizing: border-box;

@@ -1,7 +1,7 @@
 import { Piece } from '../logic/pieces/Piece';
 
 export function showUpgradeElement(upgradePiece: Piece) {
-  const upgradeElement = document.createElement('div') as HTMLElement;
+  const upgradeElement = document.createElement('div');
   upgradeElement.id = upgradePiece.name;
   upgradeElement.classList.add('upgradeable-piece');
   upgradeElement.innerHTML = upgradePiece.resource;
@@ -11,5 +11,9 @@ export function showUpgradeElement(upgradePiece: Piece) {
     child.remove();
   });
 
-  upgradesContainer?.appendChild(upgradeElement);
+  const upgradeSquare = document.createElement('div');
+  upgradeSquare.classList.add('upgrade-square');
+  upgradeSquare.appendChild(upgradeElement);
+
+  upgradesContainer?.appendChild(upgradeSquare);
 }
