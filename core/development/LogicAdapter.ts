@@ -36,6 +36,8 @@ import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID, VOID_BOARD_ID } from './Constants';
 
+export let selectedPiece: Piece | undefined = undefined;
+
 export function renderScreen() {
   renderPlayersInformation();
 }
@@ -142,13 +144,24 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const piece = findPieceAtPosition(pieceElementPosition);
   if (!piece || !isPlayerAllowedToAct(piece.player)) return;
 
+  selectedPiece = piece;
   highlightLegalMoves(piece, boardId);
+  
+}
+
+export function showUpgrades(piece: Piece) {
+  const pieceUpgrades = piece.upgrades;
+  if (!pieceUpgrades) return;
+  pieceUpgrades.forEach((upgrade)  => {
+    
+  });
 }
 
 export function movePieceOnBoard(
   draggedPiece: Piece,
   targetPosition: Position,
 ) {
+  if (!draggedPiece.position) return;
   const draggedPieceCoordinates = draggedPiece.position.coordinates;
   const originSquareId = draggedPieceCoordinates.join(',');
 
@@ -177,8 +190,11 @@ export function movePieceOnBoard(
 
 export function destroyPieceOnBoard(
   piece: Piece,
-  originBoardId = piece.position.boardId,
+  originBoardId?: string,
 ) {
+  if (!piece.position) return;
+
+  originBoardId = originBoardId || piece.position.boardId;
   const pieceCoordinates = piece.position.coordinates;
   const squareId = pieceCoordinates.join(',');
 
@@ -220,9 +236,10 @@ export function destroyItemOnPiece(piece: Piece) {
 }
 
 export function spawnPieceOnBoard(piece: Piece) {
-  const pieceCoordinates = piece.position.coordinates;
-  const squareId = pieceCoordinates.join(',');
+  const pieceCoordinates = piece.position?.coordinates;
+  const squareId = pieceCoordinates?.join(',');
 
+  if (!squareId) return;
   spawnPieceElementOnBoard(piece, squareId);
 }
 
@@ -245,9 +262,10 @@ export function spawnItemOnPiece(item: Item) {
 }
 
 export function changePieceToAnotherPlayer(piece: Piece) {
-  const squareId = piece.position.coordinates.join(',');
-  const boadrId = piece.position.boardId;
-  const pieceElement = getPieceElementBySquareId(squareId, boadrId);
+  const squareId = piece.position?.coordinates.join(',');
+  const boardId = piece.position?.boardId;
+  if (!boardId || !squareId) return;
+  const pieceElement = getPieceElementBySquareId(squareId, boardId);
   if (pieceElement) {
     pieceElement.classList.remove(piece.player.color.toLowerCase());
     const enemyPlayerColor =

@@ -116,10 +116,10 @@ describe('Piece killing', () => {
     game.setPieces([killerPawn, victimPiece]);
     onPlayerAction(killerPawn, victimPiece);
 
-    const victimPieceBoardId = victimPiece.position.boardId;
+    const victimPieceBoardId = victimPiece.position?.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    let killerNewCoordinates = killerPawn.position.coordinates;
+    let killerNewCoordinates = killerPawn.position?.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
     const enPassantVictimPosition: Position = {
@@ -145,10 +145,10 @@ describe('Piece killing', () => {
     game.setPieces([killerPawn, enPassantPawn]);
     onPlayerAction(killerPawn, enPassantSquare);
 
-    const enPassantPawnBoardId = enPassantPawn.position.boardId;
+    const enPassantPawnBoardId = enPassantPawn.position?.boardId;
     expect(enPassantPawnBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    killerNewCoordinates = killerPawn.position.coordinates;
+    killerNewCoordinates = killerPawn.position?.coordinates;
     expect(killerNewCoordinates).toEqual(enPassantAttackSquare.coordinates);
 
     const playerXP = killerPawn.player.xp;

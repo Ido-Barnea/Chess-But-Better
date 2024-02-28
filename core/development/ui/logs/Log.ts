@@ -33,7 +33,7 @@ export class Log {
 export class MovementLog extends Log {
   constructor(draggedPiece: Piece, targetPosition: Position) {
     const { position, pieceIcon, player, name } = draggedPiece;
-
+    if (!position) return;
     const fromNotation = MovementLog.convertPositionToNotation(
       position.coordinates,
     );
@@ -67,11 +67,11 @@ export class KillLog extends Log {
 
     let message = `${killedPieceIcon} ${killedPieceColor} ${killedPieceName} was `;
 
-    if (killedPiece.position.boardId === VOID_BOARD_ID) {
+    if (killedPiece.position?.boardId === VOID_BOARD_ID) {
       message += 'permanently killed by ';
     } else {
       const spawnedInBoard =
-        killedPiece.position.boardId === HELL_BOARD_ID ? 'Hell' : 'Heaven';
+        killedPiece.position?.boardId === HELL_BOARD_ID ? 'Hell' : 'Heaven';
       message += `sent to ${spawnedInBoard} by `;
     }
 

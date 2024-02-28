@@ -56,7 +56,7 @@ describe('Items test', () => {
     const isPiggyBankThere = game.getItems().includes(piggyBankItem);
     expect(isPiggyBankThere).toBe(false);
 
-    let newPieceCoordinates = piece.position.coordinates;
+    let newPieceCoordinates = piece.position?.coordinates;
     expect(newPieceCoordinates).not.toEqual(initialPiecePosition.coordinates);
 
     const otherItemPosition: Position = {
@@ -80,7 +80,7 @@ describe('Items test', () => {
     const isOtherPiggyBankThere = game.getItems().includes(otherPiggyBankItem);
     expect(isOtherPiggyBankThere).toBe(false);
 
-    newPieceCoordinates = piece.position.coordinates;
+    newPieceCoordinates = piece.position?.coordinates;
     expect(newPieceCoordinates).toEqual(targetSquarePosition.coordinates);
   });
 
@@ -102,13 +102,13 @@ describe('Items test', () => {
     game.setPieces([piece]);
     onPlayerAction(piece, trapItem);
 
-    const pieceNewBoard = piece.position.boardId;
+    const pieceNewBoard = piece.position?.boardId;
     expect(pieceNewBoard).toEqual(HEAVEN_BOARD_ID);
 
     const isTrapThere = game.getItems().includes(trapItem);
     expect(isTrapThere).toBe(false);
 
-    const newPieceCoordinates = piece.position.coordinates;
+    const newPieceCoordinates = piece.position?.coordinates;
     expect(newPieceCoordinates).toEqual(itemPosition.coordinates);
 
     const initialOtherPiecePosition: Position = {
@@ -132,13 +132,13 @@ describe('Items test', () => {
     game.setItems([otherTrapItem]);
     onPlayerAction(otherPiece, targetSquare);
 
-    const otherPieceNewBoard = otherPiece.position.boardId;
+    const otherPieceNewBoard = otherPiece.position?.boardId;
     expect(otherPieceNewBoard).toEqual(HEAVEN_BOARD_ID);
 
     const isOtherTrapThere = game.getItems().includes(trapItem);
     expect(isOtherTrapThere).toBe(false);
 
-    const newOtherPiecePosition = otherPiece.position.coordinates;
+    const newOtherPiecePosition = otherPiece.position?.coordinates;
     expect(newOtherPiecePosition).toEqual(otherItemPosition.coordinates);
   });
 });

@@ -18,6 +18,7 @@ export class BountyRule extends BaseRule {
 
     const onTrigger = () => {
       game.getPieces().forEach((piece) => {
+        if (!piece.position) return;
         if (piece.killCount >= MIN_KILLINGS_FOR_BOUNTY) {
           const {
             player: { color: playerColor },

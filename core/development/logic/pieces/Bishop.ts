@@ -5,13 +5,14 @@ import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 
 export class Bishop extends Piece {
-  constructor(player: Player, position: Position) {
+  constructor(player: Player, position: Position | undefined = undefined) {
     const icon = player.color === PlayerColors.WHITE ? '♗' : '♝';
     super(bishopResource, icon, 'Bishop', player, position);
   }
 
   getLegalMoves(): Array<Position> {
     const validMoves: Array<Position> = [];
+    if (!this.position) return validMoves;
     const currentCoordinates = this.position.coordinates;
 
     // Iterate over all possible directions (diagonals) for the bishop

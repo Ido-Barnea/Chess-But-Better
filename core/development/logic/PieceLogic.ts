@@ -32,7 +32,7 @@ function validatePlayerAction(
 ): boolean {
   if (!isPlayerAllowedToAct(draggedPiece.player)) return false;
   if (draggedPiece === target) return false;
-  if (draggedPiece.position.boardId !== target.position?.boardId) return false;
+  if (draggedPiece.position?.boardId !== target.position?.boardId) return false;
 
   const legalMoves = draggedPiece.getLegalMoves();
   return legalMoves.some((position) =>
@@ -64,6 +64,7 @@ function getPathPositions(start: Position, end: Position): Array<Position> {
 
 function simulatePath(piece: Piece, targetPosition: Position) {
   const currentPosition = piece.position;
+  if (!currentPosition) return;
   const pathPositions: Array<Position> =
     piece instanceof Knight
       ? [targetPosition]
@@ -81,10 +82,12 @@ function simulatePath(piece: Piece, targetPosition: Position) {
 }
 
 function revertPieceMoveOnBoard(piece: Piece) {
+  if (!piece.position) return;
   movePieceOnBoard(piece, piece.position);
 }
 
 export function onPieceFellOffTheBoard(draggedPiece: Piece) {
+  if (!draggedPiece.position) return;
   draggedPiece.position.boardId = VOID_BOARD_ID;
   killPieceByGame(draggedPiece, 'the void');
   game.setFellOffTheBoardPiece(draggedPiece);
@@ -104,9 +107,9 @@ export function onPlayerAction(
     game.setMovesLeft(draggedPiece.moves);
   }
 
-  const pieceBoard = draggedPiece.position.boardId;
+  const pieceBoard = draggedPiece.position?.boardId;
   simulatePath(draggedPiece, target.position);
-  const newPieceBoard = draggedPiece.position.boardId;
+  const newPieceBoard = draggedPiece.position?.boardId;
   // Checks if the piece died during the simulatePath function.
   // If it did, return.
   if (pieceBoard !== newPieceBoard) return;
@@ -124,6 +127,7 @@ export function onPlayerAction(
 }
 
 function onActionAttackMove(draggedPiece: Piece, targetPiece: Piece) {
+  if (!targetPiece.position) return;
   game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
   const isSuccessfulKill = killPieceByAnotherPiece(targetPiece, draggedPiece);
   if (!isSuccessfulKill) return;
@@ -170,6 +174,7 @@ function onActionNonAttackMove(draggedPiece: Piece, targetSquare: Square) {
 }
 
 function castle(kingPiece: King, targetSquare: Square) {
+  if (!kingPiece.position) return;
   const targetXPosition = targetSquare.position.coordinates[0];
   const kingXPosition = kingPiece.position.coordinates[0];
   const deltaX = targetXPosition - kingXPosition;
@@ -179,7 +184,7 @@ function castle(kingPiece: King, targetSquare: Square) {
     kingPiece.player,
     isKingsideCastling,
   );
-  if (!rookPiece) return false;
+  if (!rookPiece || !rookPiece.position) return false;
 
   const rookPieceTargetPosition: Position = {
     coordinates: [
@@ -211,6 +216,7 @@ function move(
 ) {
   new MovementLog(draggedPiece, targetPosition).addToQueue();
   movePieceOnBoard(draggedPiece, targetPosition);
+  if (!draggedPiece.position) return;
 
   draggedPiece.position = {
     coordinates: targetPosition.coordinates,
@@ -222,6 +228,7 @@ function move(
 }
 
 function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
+  if (!targetPiece.position || !draggedPiece.position) return;
   destroyItemOnPiece(targetPiece);
 
   // Takes the difference of the dragged and target positions in both axis,
@@ -278,9 +285,9 @@ function killPieceByGame(targetPiece: Piece, killCause: string) {
 }
 
 function killPiece(targetPiece: Piece) {
-  const originBoardId = targetPiece.position.boardId;
+  const originBoardId = targetPiece.position?.boardId;
 
-  if (targetPiece.position.boardId === OVERWORLD_BOARD_ID) {
+  if (targetPiece.position?.boardId === OVERWORLD_BOARD_ID) {
     handleOverworldKill(targetPiece);
   } else {
     permanentlyKillPiece(targetPiece);
@@ -292,6 +299,9 @@ function killPiece(targetPiece: Piece) {
 }
 
 function handleOverworldKill(targetPiece: Piece) {
+  if (!targetPiece.position) return;
+  destroyPieceOnBoard(targetPiece);
+
   if (targetPiece.killCount > 0 || targetPiece instanceof King) {
     targetPiece.position.boardId = HELL_BOARD_ID;
   } else {
@@ -303,6 +313,7 @@ function handleOverworldKill(targetPiece: Piece) {
 }
 
 export function permanentlyKillPiece(targetPiece: Piece) {
+  if (!targetPiece.position) return;
   game.increaseDeathCounter();
 
   targetPiece.position.boardId = VOID_BOARD_ID;
@@ -363,8 +374,8 @@ export function pieceMovedOnPiggyBank(
   draggedPiece: Piece,
   piggyBank: PiggyBank,
 ) {
+  if (!draggedPiece.position) return;
   game.setItems(game.getItems().filter((item) => item !== piggyBank));
   destroyItemOnBoard(piggyBank);
-
   piggyBank.use(draggedPiece.position);
 }
