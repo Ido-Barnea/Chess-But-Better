@@ -34,12 +34,8 @@ import {
 } from './ui/InventoriesUI';
 import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
-import { HEAVEN_BOARD_ID, HELL_BOARD_ID, VOID_BOARD_ID } from './Constants';
+import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeElement } from './ui/UpgradeUI';
-import { PiecesCanFallOffTheBoardRule } from './logic/rules/PiecesCanFallOffTheBoardRule';
-import { UpgradesTree } from './logic/pieces/UpgradeTree';
-
-export let selectedPiece: Piece | undefined = undefined;
 
 export function renderScreen() {
   renderPlayersInformation();
