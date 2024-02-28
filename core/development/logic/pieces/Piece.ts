@@ -7,7 +7,7 @@ export class Piece {
   pieceIcon: string;
   name: string;
   player: Player;
-  position: Position | undefined ;
+  position: Position | undefined;
   moves: number;
   health: number;
   price: number;
@@ -38,7 +38,6 @@ export class Piece {
     this.killCount = 0;
   }
 
-
   getLegalMoves(): Array<Position> {
     return [];
   }
@@ -48,7 +47,7 @@ export class Piece {
   }
 
   copyPosition(): Position | undefined {
-    if (!this.position) return; 
+    if (!this.position) return;
     return {
       coordinates: Array.from(this.position.coordinates) as [number, number],
       boardId: this.position.boardId,

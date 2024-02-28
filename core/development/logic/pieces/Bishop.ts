@@ -12,7 +12,7 @@ export class Bishop extends Piece {
 
   getLegalMoves(): Array<Position> {
     if (!this.position) return [];
-    
+
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

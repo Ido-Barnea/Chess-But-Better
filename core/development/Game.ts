@@ -110,7 +110,7 @@ function checkForUpgradeablePawns() {
       const blackPawnReachedEndOfBoard =
         piece.player === blackPlayer &&
         piece.position?.coordinates[1] === BOARD_WIDTH - 1;
-      
+
       if (whitePawnReachedEndOfBoard || blackPawnReachedEndOfBoard) {
         piece.position.boardId = VOID_BOARD_ID;
         destroyPieceOnBoard(piece);

@@ -16,7 +16,7 @@ export class UpgradesTree {
       const updatedPieces = currentPieces.filter(
         (piece) => piece !== originalPiece,
       );
-      
+
       upgradedToPiece.position = originalPiece.copyPosition();
       upgradedToPiece.player = originalPiece.player;
       updatedPieces.push(upgradedToPiece);

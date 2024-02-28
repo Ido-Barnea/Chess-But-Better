@@ -32,7 +32,6 @@ const OVERWORLD_BOARD_BUTTON = document.getElementById(
 const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID);
 const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
-
 const SHOP_UPGRADE_SWAPPER = document.getElementById('shop-upgrade-swapper');
 const SHOP_CONTAINER = document.getElementById('shop-container');
 const UPGRADES_CONTAINER = document.getElementById('upgrade-container');

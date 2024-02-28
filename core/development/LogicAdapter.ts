@@ -149,13 +149,12 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
 
   showUpgrades(piece);
   highlightLegalMoves(piece, boardId);
-  
 }
 
 export function showUpgrades(piece: Piece) {
   const pieceUpgrades = piece.upgrades;
   if (!pieceUpgrades) return;
-  pieceUpgrades.forEach((upgrade)  => {
+  pieceUpgrades.forEach((upgrade) => {
     showUpgradeElement(new upgrade(game.getCurrentPlayer()));
   });
 }
@@ -191,10 +190,7 @@ export function movePieceOnBoard(
   );
 }
 
-export function destroyPieceOnBoard(
-  piece: Piece,
-  originBoardId?: string,
-) {
+export function destroyPieceOnBoard(piece: Piece, originBoardId?: string) {
   if (!piece.position) return;
 
   originBoardId = originBoardId || piece.position.boardId;

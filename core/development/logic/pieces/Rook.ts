@@ -15,7 +15,7 @@ export class Rook extends Piece {
 
   getLegalMoves(): Array<Position> {
     if (!this.position) return [];
-    
+
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
     // Iterate over possible horizontal and vertical directions
