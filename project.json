@@ -4,14 +4,11 @@
   "sourceRoot": "Chess But Better",
   "projectType": "library",
   "targets": {
-    "build": {
-      "command": "npx webpack --mode development --config webpack.config.ts"
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["development/**/*.ts", "development/*.ts"],
+        "lintFilePatterns": ["core/**/*.ts", "./*.ts"],
         "config": ".eslintrc.json"
       }
     },
