@@ -151,14 +151,28 @@
   background-color: burlywood;
 }
 
-#inventory-container {
+#inventory-container,
+#shop-container,
+#upgrade-container {
   width: 100%;
   max-width: calc(var(--square-size) * var(--inventory-squares-per-side));
+  position: absolute;
+  left: 5%;
   overflow: visible;
   box-sizing: border-box;
-  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+#inventory-container {
   bottom: 5%;
-  left: 5%;
+  flex-direction: row;
+}
+
+#shop-container,
+#upgrade-container {
+  bottom: 50%;
+  border: 0.1vh solid black;
 }
 
 .player-inventory {
@@ -195,22 +209,4 @@
   bottom: 0;
   right: 0;
   transform: translate(-50%, 50%);
-}
-
-#shop-container,
-#upgrade-container {
-  width: 100%;
-  margin-top: 20%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.centered-container {
-  text-align: center;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
 }
