@@ -23,9 +23,14 @@ export function showUpgradeablePiecesElements(
       upgradePiece(piece, upgradeablePiece);
     });
 
+    const upgradePriceElement = document.createElement('p');
+    upgradePriceElement.classList.add('shop-item-price');
+    upgradePriceElement.innerHTML = upgradeablePiece.price.toString();
+
     const upgradeSquare = document.createElement('div');
     upgradeSquare.classList.add('upgrade-square');
     upgradeSquare.appendChild(upgradeElement);
+    upgradeSquare.appendChild(upgradePriceElement);
 
     upgradesContainer.appendChild(upgradeSquare);
   });
