@@ -1,9 +1,14 @@
 import path from 'path';
 import webpack from 'webpack';
+import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-const config: webpack.Configuration = {
+interface CustomConfiguration extends webpack.Configuration {
+  devServer?: DevServerConfiguration;
+}
+
+const config: CustomConfiguration = {
   mode: 'production',
   entry: {
     room: './core/development/pages/Room.ts',
@@ -51,6 +56,22 @@ const config: webpack.Configuration = {
       patterns: [{ from: './core/styles', to: 'styles' }],
     }),
   ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    port: 8080,
+    client: {
+      logging: 'none',
+    },
+    historyApiFallback: {
+      rewrites: [
+        { from: /^\/(home)?$/, to: '/views/home.html' },
+        { from: /^\/room$/, to: '/views/room.html' },
+        { from: /./, to: '/views/404.html' },
+      ],
+    },
+  },
 };
 
 export default config;
