@@ -155,6 +155,10 @@ export function showUpgrades(piece: Piece) {
 }
 
 export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
+  const currentPlayer = game.getCurrentPlayer();
+  if (currentPlayer.xp < upgradedPiece.price) return;
+  currentPlayer.xp -= upgradedPiece.price;
+
   // Destroy piece
   destroyPieceOnBoard(upgradeablePiece);
   game.setPieces(
