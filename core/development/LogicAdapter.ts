@@ -151,7 +151,21 @@ export function showUpgrades(piece: Piece) {
   const pieceUpgrades = piece.upgrades;
   if (!pieceUpgrades) return;
 
-  showUpgradeablePiecesElements(pieceUpgrades);
+  showUpgradeablePiecesElements(piece, pieceUpgrades);
+}
+
+export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
+  // Destroy piece
+  destroyPieceOnBoard(upgradeablePiece);
+  game.setPieces(game.getPieces().filter((piece) => piece !== upgradeablePiece));
+
+  // Spawn upgraded piece
+  upgradedPiece.position = upgradeablePiece.position;
+
+  const gamePieces = game.getPieces();
+  gamePieces.push(upgradedPiece);
+
+  spawnPieceOnBoard(upgradedPiece);
 }
 
 export function movePieceOnBoard(

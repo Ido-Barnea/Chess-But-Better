@@ -1,8 +1,10 @@
 import { game } from '../Game';
+import { upgradePiece } from '../LogicAdapter';
 import { Player } from '../logic/Players';
 import { Piece } from '../logic/pieces/Piece';
 
 export function showUpgradeablePiecesElements(
+  piece: Piece,
   upgradeablePieces: Array<new (player: Player) => Piece>,
 ) {
   const upgradesContainer = document.getElementById('piece-upgrades-container');
@@ -17,7 +19,9 @@ export function showUpgradeablePiecesElements(
     upgradeElement.id = upgradeablePiece.name;
     upgradeElement.classList.add('upgraded-piece');
     upgradeElement.innerHTML = upgradeablePiece.resource;
-    //TODO: upgradeElement.addEventListener('click', onUpgradedPieceClick);
+    upgradeElement.addEventListener('click', () => {
+      upgradePiece(piece, upgradeablePiece);
+    });
 
     const upgradeSquare = document.createElement('div');
     upgradeSquare.classList.add('upgrade-square');
