@@ -9,7 +9,6 @@ interface CustomConfiguration extends webpack.Configuration {
 }
 
 const config: CustomConfiguration = {
-  mode: 'production',
   entry: {
     room: './core/development/pages/Room.ts',
   },

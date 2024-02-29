@@ -4,11 +4,15 @@ import {
   onPieceSelected,
   canPlaceItemOnBoard,
   returnItemToInventory,
+  removeAllHighlights,
 } from '../LogicAdapter';
 import {
   HEAVEN_BOARD_BUTTON_ID,
+  HEAVEN_BOARD_ID,
   HELL_BOARD_BUTTON_ID,
+  HELL_BOARD_ID,
   OVERWORLD_BOARD_BUTTON_ID,
+  OVERWORLD_BOARD_ID,
 } from '../Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
 
@@ -40,15 +44,16 @@ export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
   pieces.forEach((pieceElement) => {
     pieceElement.addEventListener('mousedown', onPieceMouseDown);
-    pieceElement.addEventListener('click', onMouseClick);
+    pieceElement.addEventListener('click', onPieceMouseClick);
   });
 
-  // Listen for boards' buttons clicks
-  OVERWORLD_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
-  HELL_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
-  HEAVEN_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
+  OVERWORLD_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
+  HELL_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
+  HEAVEN_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
 
   SHOP_UPGRADE_SWAPPER?.addEventListener('click', swapShopAndUpgrade);
+
+  document.addEventListener('click', onClickOnScreen);
 }
 
 function onPieceMouseDown(event: Event) {
@@ -200,7 +205,7 @@ export function initializeDraggingListeners(element: HTMLElement) {
   }
 }
 
-function onMouseClick(event: Event) {
+function onPieceMouseClick(event: Event) {
   let element = event.target as HTMLElement;
   // Prevent clicking if the user clicked on an untargetable area
   while (element.classList.contains('untargetable')) {
@@ -244,7 +249,7 @@ function showBoard(boardId: string) {
   boardElement.classList.remove('collapsed');
 }
 
-function handleButtonPress(event: Event) {
+function handleBoardButtonPress(event: Event) {
   const buttonValue = (event.target as HTMLButtonElement).value;
   showBoard(buttonValue);
 }
@@ -276,4 +281,18 @@ function swapShopAndUpgrade() {
   }
   SHOP_CONTAINER?.classList.add('collapsed');
   UPGRADES_CONTAINER?.classList.remove('collapsed');
+}
+
+function onClickOnScreen(event: Event) {
+  let element = event.target as HTMLElement;
+  // Prevent clicking if the user clicked on an untargetable area
+  while (element.classList.contains('untargetable')) {
+    element = element.parentElement as HTMLElement;
+  }
+
+  if (element.classList.contains('piece')) return;
+
+  removeAllHighlights(OVERWORLD_BOARD_ID);
+  removeAllHighlights(HELL_BOARD_ID);
+  removeAllHighlights(HEAVEN_BOARD_ID);
 }

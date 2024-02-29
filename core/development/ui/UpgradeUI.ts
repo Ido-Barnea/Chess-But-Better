@@ -11,7 +11,7 @@ export function showUpgradeablePiecesElements(
   if (!upgradesContainer) return;
 
   upgradesContainer.innerHTML = '';
-  
+
   if (upgradeablePieces.length === 0) {
     const noAvailableUpgradesTextElement = document.createElement('p');
     noAvailableUpgradesTextElement.classList.add('piece-upgrades-message');
@@ -20,8 +20,10 @@ export function showUpgradeablePiecesElements(
     upgradesContainer.appendChild(noAvailableUpgradesTextElement);
   } else {
     upgradeablePieces.forEach((upgradeablePieceType) => {
-      const upgradeablePiece = new upgradeablePieceType(game.getCurrentPlayer());
-  
+      const upgradeablePiece = new upgradeablePieceType(
+        game.getCurrentPlayer(),
+      );
+
       const upgradeElement = document.createElement('div');
       upgradeElement.id = upgradeablePiece.name;
       upgradeElement.classList.add('upgraded-piece');
@@ -29,16 +31,16 @@ export function showUpgradeablePiecesElements(
       upgradeElement.addEventListener('click', () => {
         upgradePiece(piece, upgradeablePiece);
       });
-  
+
       const upgradePriceElement = document.createElement('p');
       upgradePriceElement.classList.add('piece-upgrade-item-price');
       upgradePriceElement.innerHTML = upgradeablePiece.price.toString();
-  
+
       const upgradeSquare = document.createElement('div');
       upgradeSquare.classList.add('upgrade-square');
       upgradeSquare.appendChild(upgradeElement);
       upgradeSquare.appendChild(upgradePriceElement);
-  
+
       upgradesContainer.appendChild(upgradeSquare);
     });
   }

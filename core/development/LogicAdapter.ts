@@ -135,6 +135,13 @@ function highlightLegalMoves(piece: Piece, boardId: string) {
   }
 }
 
+export function removeAllHighlights(boardId: string) {
+  const allSquareElements = getAllSquareElements(boardId);
+  for (const squareElement of allSquareElements) {
+    highlightLegalMove(squareElement, false);
+  }
+}
+
 export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const squareId = getSquareIdByElement(pieceElement);
   if (!squareId) return;

@@ -5,9 +5,9 @@
     "lint": "npx nx run-many --target lint",
     "format": "npx nx format:write",
     "test": "npx nx run-many --target test --all",
-    "build": "webpack --config webpack.config.ts",
+    "build": "webpack --mode production --config webpack.config.ts",
     "start": "node server.js",
-    "dev": "webpack serve --config webpack.config.ts"
+    "dev": "webpack serve --mode development --config webpack.config.ts"
   },
   "author": "Ido Barnea",
   "license": "Apache-2.0",
