@@ -157,7 +157,9 @@ export function showUpgrades(piece: Piece) {
 export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
   // Destroy piece
   destroyPieceOnBoard(upgradeablePiece);
-  game.setPieces(game.getPieces().filter((piece) => piece !== upgradeablePiece));
+  game.setPieces(
+    game.getPieces().filter((piece) => piece !== upgradeablePiece),
+  );
 
   // Spawn upgraded piece
   upgradedPiece.position = upgradeablePiece.position;

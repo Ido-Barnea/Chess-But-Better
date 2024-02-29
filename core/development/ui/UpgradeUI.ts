@@ -9,10 +9,10 @@ export function showUpgradeablePiecesElements(
 ) {
   const upgradesContainer = document.getElementById('piece-upgrades-container');
   if (!upgradesContainer) return;
-  
+
   upgradesContainer.innerHTML = '';
 
-  upgradeablePieces.forEach(upgradeablePieceType => {
+  upgradeablePieces.forEach((upgradeablePieceType) => {
     const upgradeablePiece = new upgradeablePieceType(game.getCurrentPlayer());
 
     const upgradeElement = document.createElement('div');
