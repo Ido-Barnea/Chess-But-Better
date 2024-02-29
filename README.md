@@ -44,6 +44,7 @@
 
 ## About The Project
 Chess But Better acts as multiple additional layers on top of your average chess game. This innovative project aims to take the timeless game of chess and infuse it with a touch of excitement, complexity, and creativity. By incorporating a set of unique features, Chess But Better offers anyone the opportunity to explore a chess experience unlike any other!
+You can visit Chess But Better at https://chess-but-better.onrender.com.
 
 ## Setup Project
 1. Clone the repository: `git clone https://github.com/Ido-Barnea/Chess-But-Better.git`
