@@ -172,6 +172,7 @@ export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
   gamePieces.push(upgradedPiece);
 
   spawnPieceOnBoard(upgradedPiece);
+  renderScreen();
 }
 
 export function movePieceOnBoard(
