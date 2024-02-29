@@ -202,9 +202,15 @@
   place-items: center;
 }
 
-.shop-item-price {
+.shop-item-price,
+.piece-upgrade-item-price {
   position: absolute;
   bottom: 0;
   right: 0;
   transform: translate(-50%, 50%);
+}
+
+.piece-upgrades-message {
+  width: 100%;
+  text-align: center;
 }

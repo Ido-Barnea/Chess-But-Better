@@ -143,15 +143,8 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const piece = findPieceAtPosition(pieceElementPosition);
   if (!piece || !isPlayerAllowedToAct(piece.player)) return;
 
-  showUpgrades(piece);
+  showUpgradeablePiecesElements(piece, piece.upgrades);
   highlightLegalMoves(piece, boardId);
-}
-
-export function showUpgrades(piece: Piece) {
-  const pieceUpgrades = piece.upgrades;
-  if (!pieceUpgrades) return;
-
-  showUpgradeablePiecesElements(piece, pieceUpgrades);
 }
 
 export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
