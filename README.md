@@ -49,7 +49,7 @@ You can visit Chess But Better at https://chess-but-better.onrender.com.
 ## Setup Project
 1. Clone the repository: `git clone https://github.com/Ido-Barnea/Chess-But-Better.git`
 2. Install dependencies: `npm install`
-3. Run the application: `npm start`
+3. Run the application: `npm run dev`
 
 ## License
 Distributed under the Apache-2.0 license. See LICENSE.txt for more information.
