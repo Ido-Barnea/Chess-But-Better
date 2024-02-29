@@ -19,13 +19,13 @@ export function createShopItemSquare(shopElement: HTMLElement) {
 }
 
 export function addItemToShop(item: Item) {
-  const itemElement = document.createElement('div') as HTMLElement;
+  const itemElement = document.createElement('div');
   itemElement.id = item.name;
   itemElement.classList.add('shop-item');
   itemElement.innerHTML = item.resource;
   itemElement.addEventListener('click', onShopItemClick);
 
-  const itemPriceElement = document.createElement('p') as HTMLElement;
+  const itemPriceElement = document.createElement('p');
   itemPriceElement.classList.add('shop-item-price');
   itemPriceElement.innerHTML = item.price.toString();
 

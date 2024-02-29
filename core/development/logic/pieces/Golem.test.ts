@@ -83,10 +83,10 @@ describe('Piece killing', () => {
     game.setPieces([killerGolem, firstVictimPiece]);
     onPlayerAction(killerGolem, firstVictimPiece);
 
-    const victimPieceBoardId = firstVictimPiece.position.boardId;
+    const victimPieceBoardId = firstVictimPiece.position?.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    const killerNewCoordinates = killerGolem.position.coordinates;
+    const killerNewCoordinates = killerGolem.position?.coordinates;
     expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
 
     const playerXP = killerGolem.player.xp;

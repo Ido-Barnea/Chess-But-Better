@@ -6,6 +6,8 @@ import { Piece } from './Piece';
 
 export class UpgradesTree {
   upgrade(originalPiece: Piece, upgradedToPiece: Piece) {
+    if (!originalPiece.position) return;
+
     const player = originalPiece.player;
     if (isPlayerAllowedToAct(player) && player.xp >= upgradedToPiece.price) {
       player.xp -= upgradedToPiece.price;
@@ -14,6 +16,7 @@ export class UpgradesTree {
       const updatedPieces = currentPieces.filter(
         (piece) => piece !== originalPiece,
       );
+
       upgradedToPiece.position = originalPiece.copyPosition();
       upgradedToPiece.player = originalPiece.player;
       updatedPieces.push(upgradedToPiece);

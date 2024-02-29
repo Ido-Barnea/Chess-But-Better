@@ -7,7 +7,7 @@ import { Rook } from './Rook';
 import { game } from '../../Game';
 
 export class King extends Piece {
-  constructor(player: Player, position: Position) {
+  constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♔' : '♚';
 
     super(kingResource, icon, 'King', player, position);
@@ -15,6 +15,7 @@ export class King extends Piece {
 
   getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
     const rank = player.color === PlayerColors.WHITE ? 0 : 7;
+    if (!this.position) return;
 
     if (kingside) {
       // Kingside castling
@@ -38,7 +39,7 @@ export class King extends Piece {
   isPathClear(start: Position, end: Position): boolean {
     const deltaX = Math.sign(end.coordinates[0] - start.coordinates[0]);
     const deltaY = Math.sign(end.coordinates[1] - start.coordinates[1]);
-
+    if (!this.position) return false;
     let currentX = start.coordinates[0] + deltaX;
     let currentY = start.coordinates[1] + deltaY;
 
@@ -69,6 +70,8 @@ export class King extends Piece {
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

@@ -42,7 +42,7 @@ export class ChessBoard {
       game.getPieces().forEach((piece) => {
         const pieceElement = this.createPieceElement(piece);
         const square = document.querySelectorAll(
-          `[square-id="${piece.position.coordinates}"]`,
+          `[square-id="${piece.position?.coordinates}"]`,
         )[0];
         square.appendChild(pieceElement);
       });

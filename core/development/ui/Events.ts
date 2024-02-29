@@ -32,6 +32,10 @@ const OVERWORLD_BOARD_BUTTON = document.getElementById(
 const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID);
 const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
 
+const SHOP_UPGRADE_SWAPPER = document.getElementById('shop-upgrade-swapper');
+const SHOP_CONTAINER = document.getElementById('shop-container');
+const UPGRADES_CONTAINER = document.getElementById('piece-upgrades-container');
+
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
   pieces.forEach((pieceElement) => {
@@ -43,6 +47,8 @@ export function initializeEventListeners() {
   OVERWORLD_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
   HELL_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
   HEAVEN_BOARD_BUTTON?.addEventListener('click', handleButtonPress);
+
+  SHOP_UPGRADE_SWAPPER?.addEventListener('click', swapShopAndUpgrade);
 }
 
 function onPieceMouseDown(event: Event) {
@@ -260,4 +266,14 @@ export function setOnFellOffTheBoard(
   ) => void,
 ) {
   triggerOnFellOffTheBoard = _triggerOnFellOffTheBoard;
+}
+
+function swapShopAndUpgrade() {
+  if (SHOP_CONTAINER?.classList.contains('collapsed')) {
+    SHOP_CONTAINER.classList.remove('collapsed');
+    UPGRADES_CONTAINER?.classList.add('collapsed');
+    return;
+  }
+  SHOP_CONTAINER?.classList.add('collapsed');
+  UPGRADES_CONTAINER?.classList.remove('collapsed');
 }

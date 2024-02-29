@@ -83,10 +83,10 @@ describe('Piece killing', () => {
     game.setPieces([killerRook, firstVictimPiece]);
     onPlayerAction(killerRook, firstVictimPiece);
 
-    let firstVictimPieceBoardId = firstVictimPiece.position.boardId;
+    let firstVictimPieceBoardId = firstVictimPiece.position?.boardId;
     expect(firstVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    let killerNewCoordinates = killerRook.position.coordinates;
+    let killerNewCoordinates = killerRook.position?.coordinates;
     expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
 
     let playerXP = killerRook.player.xp;
@@ -100,10 +100,10 @@ describe('Piece killing', () => {
     game.setPieces([killerRook, secondVictimPiece]);
     onPlayerAction(killerRook, secondVictimPiece);
 
-    const secondVictimPieceBoardId = secondVictimPiece.position.boardId;
+    const secondVictimPieceBoardId = secondVictimPiece.position?.boardId;
     expect(secondVictimPieceBoardId).toEqual(HELL_BOARD_ID);
 
-    killerNewCoordinates = killerRook.position.coordinates;
+    killerNewCoordinates = killerRook.position?.coordinates;
     expect(killerNewCoordinates).toEqual(initialKillerPosition.coordinates);
 
     playerXP = killerRook.player.xp;
@@ -116,13 +116,13 @@ describe('Piece killing', () => {
     game.setPieces([killerRook, firstVictimPiece, thirdVictimPiece]);
     onPlayerAction(killerRook, thirdVictimPiece);
 
-    const thirdVictimPieceBoardId = thirdVictimPiece.position.boardId;
+    const thirdVictimPieceBoardId = thirdVictimPiece.position?.boardId;
     expect(thirdVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    firstVictimPieceBoardId = firstVictimPiece.position.boardId;
+    firstVictimPieceBoardId = firstVictimPiece.position?.boardId;
     expect(firstVictimPieceBoardId).toEqual(VOID_BOARD_ID);
 
-    killerNewCoordinates = killerRook.position.coordinates;
+    killerNewCoordinates = killerRook.position?.coordinates;
     expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);
 
     playerXP = killerRook.player.xp;

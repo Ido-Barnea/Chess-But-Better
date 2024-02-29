@@ -192,6 +192,7 @@ export function destroyElementOnPiece(targetSquareId: string, boardId: string) {
 }
 
 export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
+  if (!piece.position) return;
   const board = getBoardbyId(piece.position.boardId);
 
   const squareElement = board.boardElement.querySelectorAll(`

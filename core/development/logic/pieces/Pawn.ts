@@ -10,7 +10,7 @@ export class Pawn extends Piece {
   isInitialDoubleStep: boolean;
   diagonalAttackPosition: Position | undefined;
 
-  constructor(player: Player, position: Position) {
+  constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♙' : '♟';
     super(pawnResource, icon, 'Pawn', player, position);
 
@@ -20,6 +20,8 @@ export class Pawn extends Piece {
   }
 
   checkInitialDoubleStep(targetPosition: Position): boolean {
+    if (!this.position) return false;
+
     const currentCoordinates = this.position.coordinates;
     const currentPlayer = game.getCurrentPlayer();
     // Determine the direction of pawn movement based on the player's color
@@ -58,6 +60,8 @@ export class Pawn extends Piece {
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
     const currentPlayer = game.getCurrentPlayer();

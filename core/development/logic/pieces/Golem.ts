@@ -5,7 +5,7 @@ import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 
 export class Golem extends Piece {
-  constructor(player: Player, position: Position) {
+  constructor(player: Player, position?: Position) {
     super(golemResource, '🗿', 'Golem', player, position);
 
     this.health = 3;
@@ -13,8 +13,10 @@ export class Golem extends Piece {
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+
     const validMoves: Array<Position> = [];
-    const currentCoordinates = this.position.coordinates;
+    const currentCoordinates = this.position?.coordinates;
 
     // Iterate over possible horizontal and vertical directions
     const directions = [

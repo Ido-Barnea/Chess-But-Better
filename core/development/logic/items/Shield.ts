@@ -13,7 +13,7 @@ export class Shield extends Item {
 
   use(position: Position): void {
     const piece = getPieceByPosition(position);
-    if (!piece) return;
+    if (!piece || !piece.position) return;
 
     const logCoordinates = MovementLog.convertPositionToNotation(
       piece.position.coordinates,

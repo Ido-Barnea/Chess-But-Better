@@ -5,7 +5,7 @@ import { Position } from './PiecesUtilities';
 import { Unicorn } from './Unicorn';
 
 export class Knight extends Piece {
-  constructor(player: Player, position: Position) {
+  constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColors.WHITE ? '♘' : '♞';
     super(knightResource, icon, 'Knight', player, position);
 
@@ -13,6 +13,8 @@ export class Knight extends Piece {
   }
 
   getLegalMoves(): Array<Position> {
+    if (!this.position) return [];
+
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 

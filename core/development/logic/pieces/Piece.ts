@@ -1,3 +1,4 @@
+import { VOID_BOARD_ID } from '../../Constants';
 import { Player } from '../Players';
 import { Position, Square } from './PiecesUtilities';
 
@@ -6,12 +7,12 @@ export class Piece {
   pieceIcon: string;
   name: string;
   player: Player;
-  position: Position;
+  position: Position | undefined;
   moves: number;
   health: number;
   price: number;
   isEquipedItem: boolean;
-  upgrades: Array<new (player: Player, position: Position) => Piece>;
+  upgrades: Array<new (player: Player, position?: Position) => Piece>;
   hasMoved: boolean;
   killCount: number;
 
@@ -20,7 +21,7 @@ export class Piece {
     pieceIcon: string,
     name: string,
     player: Player,
-    position: Position,
+    position?: Position,
   ) {
     this.resource = resource;
     this.pieceIcon = pieceIcon;
@@ -45,7 +46,8 @@ export class Piece {
     return false;
   }
 
-  copyPosition(): Position {
+  copyPosition(): Position | undefined {
+    if (!this.position) return;
     return {
       coordinates: Array.from(this.position.coordinates) as [number, number],
       boardId: this.position.boardId,

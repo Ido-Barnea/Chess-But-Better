@@ -12,3 +12,16 @@
   flex: 1;
   height: 100vh;
 }
+
+.center-horizontally {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-vertically {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}

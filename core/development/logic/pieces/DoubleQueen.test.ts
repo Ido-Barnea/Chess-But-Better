@@ -104,10 +104,10 @@ describe('Piece killing', () => {
     game.setPieces([killerDoubleQueen, victimPiece]);
     onPlayerAction(killerDoubleQueen, victimPiece);
 
-    const victimPieceBoardId = victimPiece.position.boardId;
+    const victimPieceBoardId = victimPiece.position?.boardId;
     expect(victimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
-    let killerNewCoordinates = killerDoubleQueen.position.coordinates;
+    let killerNewCoordinates = killerDoubleQueen.position?.coordinates;
     expect(killerNewCoordinates).toEqual(victimPosition.coordinates);
 
     // Diagonal kill
@@ -123,7 +123,7 @@ describe('Piece killing', () => {
     game.setPieces([killerDoubleQueen, otherVictimPiece]);
     onPlayerAction(killerDoubleQueen, otherVictimPiece);
 
-    const otherVictimPieceBoardId = otherVictimPiece.position.boardId;
+    const otherVictimPieceBoardId = otherVictimPiece.position?.boardId;
     expect(otherVictimPieceBoardId).toEqual(HELL_BOARD_ID);
 
     killerNewCoordinates = killerDoubleQueen.position.coordinates;
