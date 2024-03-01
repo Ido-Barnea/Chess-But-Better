@@ -249,11 +249,9 @@ input[type='checkbox']:checked::before {
   display: flex;
   margin: 7px;
 }
-
 input#shop-upgrade-swapper {
   margin: 18px 8px;
 }
-
 .checkbox-container p {
   font-size: 1em;
 }
