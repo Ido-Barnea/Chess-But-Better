@@ -160,7 +160,21 @@ Confused about the rules of Chess But Better? Not to worry! This guide is your c
 <br/>
 
 ## Items
-TBD
+### Trap
+**Price (Gold):** 4
+
+#### Use
+- You can place the trap on any non-occupied square on any revealed board.
+- A piece that moves on the trap (whether directly or indirectly) will lose a single health point.
+
+<br/>
+
+### Shield
+**Price (Gold):** 4
+
+#### Use
+- You can place the shield on any of your pieces.
+- The shield gives the target piece an extra health point.
 
 <br/>
 
