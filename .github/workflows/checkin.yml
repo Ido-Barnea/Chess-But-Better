@@ -10,6 +10,21 @@ on:
       - synchronize
 
 jobs:
+  Style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: npm ci
+      - name: Lint
+        run: npx nx run-many --target lint --no-cache
+      - name: Format
+        run: npx nx format:check
   Build:
     runs-on: ubuntu-latest
     steps:
