@@ -214,3 +214,44 @@
   width: 100%;
   text-align: center;
 }
+
+/* toggle button */
+input[type='checkbox'] {
+  position: relative;
+  width: 6vh;
+  height: 3vh;
+  appearance: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  color: red;
+  border: 2px black solid;
+}
+
+input[type='checkbox']::before {
+  content: '';
+  width: 30%;
+  height: 70%;
+  border-radius: 50%;
+  top: 15%;
+  left: 10%;
+  background: red;
+  position: absolute;
+  transition: 0.3s;
+}
+
+input[type='checkbox']:checked::before {
+  transform: translateX(165%);
+}
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+input#shop-upgrade-swapper {
+  margin: 5%;
+}
+
+.checkbox-container p {
+  font-size: 1em;
+}

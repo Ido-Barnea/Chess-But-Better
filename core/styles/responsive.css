@@ -7,6 +7,10 @@
     font-size: 0.8em;
   }
 
+  .checkbox-container p {
+    font-size: 0.8em;
+  }
+
   #logs-container p {
     font-size: 0.8em;
   }
@@ -22,6 +26,10 @@
   }
 
   #info-container p {
+    font-size: 0.6em;
+  }
+
+  .checkbox-container p {
     font-size: 0.6em;
   }
 
