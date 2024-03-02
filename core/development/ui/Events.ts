@@ -51,8 +51,7 @@ export function initializeEventListeners() {
   HELL_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
   HEAVEN_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
 
-  // SHOP_UPGRADE_SWAPPER?.addEventListener('click', swapShopAndUpgrade);
-  SHOP_UPGRADE_SWAPPER?.addEventListener('change', () => swapShopAndUpgrade());
+  SHOP_UPGRADE_SWAPPER?.addEventListener('change', swapShopAndUpgrade);
 
   document.addEventListener('click', onClickOnScreen);
 }

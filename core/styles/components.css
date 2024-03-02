@@ -219,7 +219,7 @@
 
 input[type='checkbox'] {
   position: relative;
-  width: 80px;
+  width: 40px;
   height: 20px;
   appearance: none;
   border-radius: 2rem;
@@ -231,9 +231,7 @@ input[type='checkbox'] {
 
 input[type='checkbox']::before {
   content: '';
-  margin-top: 2.5px;
-  margin-bottom: 2.5px;
-  margin-left: 2.5px;
+  margin: 2.5px;
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -243,15 +241,17 @@ input[type='checkbox']::before {
 }
 
 input[type='checkbox']:checked::before {
-  transform: translateX(60px);
+  transform: translateX(175%);
 }
 .checkbox-container {
   display: flex;
   margin: 7px;
 }
+
 input#shop-upgrade-swapper {
-  margin: 18px 8px;
+  margin: 5%;
 }
+
 .checkbox-container p {
   font-size: 1em;
 }
