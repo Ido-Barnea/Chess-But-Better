@@ -4,7 +4,7 @@ Confused about the rules of Chess But Better? Not to worry! This guide is your c
 
 ## Table of Contents
 
-1. [What's Different From Chess](#what's-different-from-chess)
+1. [What's Different From Chess](#whats-different-from-chess)
 2. [Pieces](#pieces)
     - [Pawns](#pawns)
     - [Knights](#knights)
