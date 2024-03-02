@@ -16,7 +16,17 @@ Confused about the rules of Chess But Better? Not to worry! This guide is your c
     - [Double Queens](#double-queens)
     - [Jesters](#jesters)
 3. [Items](#items)
+    - [Trap](#trap)
+    - [Shield](#shield)
 4. [Secret Rules](#secret-rules)
+    - [First Blood](#first-blood)
+    - [Experience On Kill](#experience-on-kill)
+    - [Friendly Fire](#friendly-fire)
+    - [Empty Pockets](#empty-pockets)
+    - [Coup](#coup)
+    - [Bounty](#bounty)
+    - [Pieces Can Fall Off The Board](#pieces-can-fall-off-the-board)
+    - [With Age Comes Wisdom](#with-age-comes-wisdom)
 
 
 
@@ -179,4 +189,34 @@ Confused about the rules of Chess But Better? Not to worry! This guide is your c
 <br/>
 
 ## Secret Rules
-TBD
+### First Blood
+The first to kill gets an extra XP.
+<br/>
+
+### Experience On Kill
+Players gain XP on a kill.
+<br/>
+
+### Friendly Fire
+Friendly Fire! Players can attack their own pieces (for a price).
+<br/>
+
+### Empty Pockets
+When a player has a negative amount of gold, they are in debt. They lose XP for not being prudent.
+<br/>
+
+### Coup
+If a player is in debt for five turns in a row, some of their pieces might desert to the enemy side.
+<br/>
+
+### Bounty
+If a piece kills three other pieces and lives to tell the tale, it receives a bounty on its head. The first to kill that piece gains five gold coins.
+<br/>
+
+### Pieces Can Fall Off The Board
+Pieces can fall off the board.
+<br/>
+
+### With Age Comes Wisdom
+If a game continues for over fifty rounds, each player gains a bonus of XP to represent the wisdom they gained in life.
+<br/>
