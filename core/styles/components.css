@@ -216,36 +216,36 @@
 }
 
 /* toggle button */
-
 input[type='checkbox'] {
   position: relative;
-  width: 40px;
-  height: 20px;
+  width: 6vh;
+  height: 3vh;
   appearance: none;
   border-radius: 2rem;
   cursor: pointer;
   color: red;
   border: 2px black solid;
-  padding-right: 4px;
 }
 
 input[type='checkbox']::before {
   content: '';
-  margin: 2.5px;
-  width: 12px;
-  height: 12px;
+  width: 30%;
+  height: 70%;
   border-radius: 50%;
+  top: 15%;
+  left: 10%;
   background: red;
   position: absolute;
   transition: 0.3s;
 }
 
 input[type='checkbox']:checked::before {
-  transform: translateX(175%);
+  transform: translateX(165%);
 }
 .checkbox-container {
   display: flex;
-  margin: 7px;
+  flex-direction: row;
+  justify-content: center;
 }
 
 input#shop-upgrade-swapper {
