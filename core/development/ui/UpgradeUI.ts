@@ -23,10 +23,11 @@ export function showUpgradeablePiecesElements(
       const upgradeablePiece = new upgradeablePieceType(
         game.getCurrentPlayer(),
       );
-
+      
       const upgradeElement = document.createElement('div');
       upgradeElement.id = upgradeablePiece.name;
       upgradeElement.classList.add('upgraded-piece');
+      upgradeElement.classList.add(upgradeablePiece.player.color.toLowerCase());
       upgradeElement.innerHTML = upgradeablePiece.resource;
       upgradeElement.addEventListener('click', () => {
         upgradePiece(piece, upgradeablePiece);
