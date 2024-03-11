@@ -1,5 +1,6 @@
 import { game, shop } from './Game';
 import {
+  handleOverworldKill,
   isPlayerAllowedToAct,
   onPieceFellOffTheBoard,
   onPlayerAction,
@@ -26,7 +27,7 @@ import {
   spawnItemOnChildElement,
   destroyElementOnPiece,
 } from './ui/BoardManager';
-import { renderPlayersInformation } from './ui/Screen';
+import { hideUnicornAttackButton, renderPlayersInformation, showUnicornAttackButton } from './ui/Screen';
 import {
   switchShownInventory,
   showItemOnInventory,
@@ -36,6 +37,7 @@ import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
+import { Unicorn } from './logic/pieces/Unicorn';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -149,6 +151,12 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
   const piece = findPieceAtPosition(pieceElementPosition);
   if (!piece || !isPlayerAllowedToAct(piece.player)) return;
+  
+  if (piece instanceof Unicorn) {
+    showUnicornAttackButton();
+  } else {
+    hideUnicornAttackButton();
+  }
 
   showUpgradeablePiecesElements(piece, piece.upgrades);
   highlightLegalMoves(piece, boardId);
@@ -407,4 +415,19 @@ export function buyItem(itemId: string) {
   }
 
   renderScreen();
+}
+
+export function unicornAttackAttempt(pieceElement: HTMLElement, boardId: string    ) {
+  const squareId = getSquareIdByElement(pieceElement);
+  if (!squareId) return;
+
+  const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
+  const piece = findPieceAtPosition(pieceElementPosition);
+  if (!(piece instanceof Unicorn)) return;
+
+  const targetablePieces = piece.getAttackablePieces();
+  if (!targetablePieces) return;
+
+  const targetPiece = targetablePieces[0];
+  handleOverworldKill(targetPiece);
 }

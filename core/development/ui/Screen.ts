@@ -33,3 +33,15 @@ export function showWinningAlert(winner: string) {
   window.alert(`${winner} Won!`);
   window.location.href = '/';
 }
+
+export function hideUnicornAttackButton() {
+  const unicornAttackButton = document.getElementById('unicorn-attack');
+  if (!unicornAttackButton) return;
+  unicornAttackButton.classList.add('collapsed');
+}
+
+export function showUnicornAttackButton() {
+  const unicornAttackButton = document.getElementById('unicorn-attack');
+  if (!unicornAttackButton) return;
+  unicornAttackButton.classList.remove('collapsed');
+}
