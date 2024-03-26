@@ -25,6 +25,8 @@ export class Unicorn extends Piece {
       { deltaX: -1, deltaY: 0 },
       { deltaX: 0, deltaY: -1 },
       { deltaX: -1, deltaY: -1 },
+      { deltaX: -1, deltaY: 1 },
+      { deltaX: 1, deltaY: -1},
     ]
 
     for (const offset of attackPositionsOffsets) {

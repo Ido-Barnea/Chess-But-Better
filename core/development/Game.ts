@@ -75,7 +75,6 @@ let movesLeft = 0;
 
 function initializeGame() {
   rulesManager = new RulesManager();
-
   players.forEach((player) => {
     initializeInventoryUI(player.color);
   });
@@ -138,6 +137,10 @@ function resetVariables() {
       piece.diagonalAttackPosition = undefined;
     }
   });
+
+  players.forEach((player) => {
+    player.usedAbility = false;
+  })
 }
 
 function endTurn() {
