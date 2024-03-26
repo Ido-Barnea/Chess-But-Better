@@ -5,6 +5,7 @@ import {
   canPlaceItemOnBoard,
   returnItemToInventory,
   removeAllHighlights,
+  unicornAttackAttempt,
 } from '../LogicAdapter';
 import {
   HEAVEN_BOARD_BUTTON_ID,
@@ -15,10 +16,15 @@ import {
   OVERWORLD_BOARD_ID,
 } from '../Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
+import { hideUnicornAttackButton } from './Screen';
 
 const MOVEMENT_TO_CLICK_THRESHOLD = 10;
 
 let draggedElement: HTMLElement | undefined;
+
+let selectedPieceElement: HTMLElement | undefined = undefined;
+
+let attackingUnicorn: HTMLElement | undefined = undefined;
 
 let triggerOnAction: (
   draggedElement: HTMLElement,
@@ -40,6 +46,8 @@ const SHOP_UPGRADE_SWAPPER = document.getElementById('shop-upgrade-swapper');
 const SHOP_CONTAINER = document.getElementById('shop-container');
 const UPGRADES_CONTAINER = document.getElementById('piece-upgrades-container');
 
+const UNICORN_ATTACK_BUTTON = document.getElementById('unicorn-attack')
+
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
   pieces.forEach((pieceElement) => {
@@ -50,6 +58,8 @@ export function initializeEventListeners() {
   OVERWORLD_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
   HELL_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
   HEAVEN_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
+
+  UNICORN_ATTACK_BUTTON?.addEventListener('click', onUnicornAttackButtonPressed);
 
   SHOP_UPGRADE_SWAPPER?.addEventListener('change', swapShopAndUpgrade);
 
@@ -177,7 +187,6 @@ export function initializeDraggingListeners(element: HTMLElement) {
         returnItemToInventory(draggedElement);
         return;
       }
-
       parentContainer = draggedElement.parentElement ?? undefined;
     } else {
       parentContainer = droppedOnElement.parentElement ?? undefined;
@@ -235,7 +244,14 @@ function onPieceClick(pieceElement: HTMLElement) {
   while (!boardElement?.classList.contains('board')) {
     boardElement = boardElement?.parentElement ?? undefined;
   }
+  if (attackingUnicorn) {
+      unicornAttackAttempt(attackingUnicorn, pieceElement, boardElement.id);
+      selectedPieceElement = attackingUnicorn = undefined;
+      hideUnicornAttackButton();
+      return;
+  }
 
+  selectedPieceElement = pieceElement;
   onPieceSelected(pieceElement, boardElement.id);
 }
 
@@ -295,4 +311,13 @@ function onClickOnScreen(event: Event) {
   removeAllHighlights(OVERWORLD_BOARD_ID);
   removeAllHighlights(HELL_BOARD_ID);
   removeAllHighlights(HEAVEN_BOARD_ID);
+}
+
+function onUnicornAttackButtonPressed() {
+  if (!selectedPieceElement) return;
+  let boardElement = selectedPieceElement.parentElement ?? undefined;
+  while (!boardElement?.classList.contains('board')) {
+    boardElement = boardElement?.parentElement ?? undefined;
+  }
+  attackingUnicorn = selectedPieceElement;
 }

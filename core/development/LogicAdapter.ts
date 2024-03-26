@@ -1,5 +1,6 @@
 import { game, shop } from './Game';
 import {
+  handleOverworldKill,
   isPlayerAllowedToAct,
   onPieceFellOffTheBoard,
   onPlayerAction,
@@ -26,7 +27,7 @@ import {
   spawnItemOnChildElement,
   destroyElementOnPiece,
 } from './ui/BoardManager';
-import { renderPlayersInformation } from './ui/Screen';
+import { hideUnicornAttackButton, renderPlayersInformation, showUnicornAttackButton } from './ui/Screen';
 import {
   switchShownInventory,
   showItemOnInventory,
@@ -36,6 +37,7 @@ import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
+import { Unicorn } from './logic/pieces/Unicorn';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -149,6 +151,12 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
   const piece = findPieceAtPosition(pieceElementPosition);
   if (!piece || !isPlayerAllowedToAct(piece.player)) return;
+  
+  if (piece instanceof Unicorn) {
+    showUnicornAttackButton();
+  } else {
+    hideUnicornAttackButton();
+  }
 
   showUpgradeablePiecesElements(piece, piece.upgrades);
   highlightLegalMoves(piece, boardId);
@@ -407,4 +415,28 @@ export function buyItem(itemId: string) {
   }
 
   renderScreen();
+}
+
+export function getPieceByElement(pieceElement: HTMLElement, boardId: string) {
+  const squareId = getSquareIdByElement(pieceElement);
+  if (!squareId) return;
+
+  const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
+  const piece = findPieceAtPosition(pieceElementPosition);
+  return piece;
+}
+
+export function unicornAttackAttempt(pieceElement: HTMLElement, targetPieceElement: HTMLElement, boardId: string) {
+  const unicornPiece = getPieceByElement(pieceElement, boardId);
+  if (!(unicornPiece instanceof Unicorn) || unicornPiece.player.usedAbility) return;
+
+  const targetPiece = getPieceByElement(targetPieceElement, boardId);
+  if (!targetPiece) return;
+
+  const targetablePieces = unicornPiece.getAttackablePieces();
+
+  // If the piece is not in the array, return
+  if (targetablePieces.filter(piece => piece === targetPiece).length === 0) return;
+  unicornPiece.player.usedAbility = true;
+  handleOverworldKill(targetPiece);
 }
