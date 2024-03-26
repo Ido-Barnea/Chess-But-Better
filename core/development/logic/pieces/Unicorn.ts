@@ -12,7 +12,7 @@ export class Unicorn extends Piece {
   }
 
   getAttackablePieces(): Array<Piece> {
-    if (!this . position) return [];
+    if (!this.position) return [];
 
     const currentCoordinates = this.position.coordinates;
     const attackablePieces = [];

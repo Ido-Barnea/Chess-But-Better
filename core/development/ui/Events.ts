@@ -16,12 +16,15 @@ import {
   OVERWORLD_BOARD_ID,
 } from '../Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
+import { hideUnicornAttackButton } from './Screen';
 
 const MOVEMENT_TO_CLICK_THRESHOLD = 10;
 
 let draggedElement: HTMLElement | undefined;
 
 let selectedPieceElement: HTMLElement | undefined = undefined;
+
+let attackingUnicorn: HTMLElement | undefined = undefined;
 
 let triggerOnAction: (
   draggedElement: HTMLElement,
@@ -184,7 +187,6 @@ export function initializeDraggingListeners(element: HTMLElement) {
         returnItemToInventory(draggedElement);
         return;
       }
-
       parentContainer = draggedElement.parentElement ?? undefined;
     } else {
       parentContainer = droppedOnElement.parentElement ?? undefined;
@@ -241,6 +243,12 @@ function onPieceClick(pieceElement: HTMLElement) {
 
   while (!boardElement?.classList.contains('board')) {
     boardElement = boardElement?.parentElement ?? undefined;
+  }
+  if (attackingUnicorn) {
+      unicornAttackAttempt(attackingUnicorn, pieceElement, boardElement.id);
+      selectedPieceElement = attackingUnicorn = undefined;
+      hideUnicornAttackButton();
+      return;
   }
 
   selectedPieceElement = pieceElement;
@@ -311,5 +319,5 @@ function onUnicornAttackButtonPressed() {
   while (!boardElement?.classList.contains('board')) {
     boardElement = boardElement?.parentElement ?? undefined;
   }
-  unicornAttackAttempt(selectedPieceElement, boardElement.id);
+  attackingUnicorn = selectedPieceElement;
 }

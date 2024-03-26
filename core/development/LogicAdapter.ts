@@ -417,17 +417,25 @@ export function buyItem(itemId: string) {
   renderScreen();
 }
 
-export function unicornAttackAttempt(pieceElement: HTMLElement, boardId: string    ) {
+export function getPieceByElement(pieceElement: HTMLElement, boardId: string) {
   const squareId = getSquareIdByElement(pieceElement);
   if (!squareId) return;
 
   const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
   const piece = findPieceAtPosition(pieceElementPosition);
-  if (!(piece instanceof Unicorn)) return;
+  return piece;
+}
 
-  const targetablePieces = piece.getAttackablePieces();
-  if (!targetablePieces) return;
+export function unicornAttackAttempt(pieceElement: HTMLElement, targetPieceElement: HTMLElement, boardId: string) {
+  const unicornPiece = getPieceByElement(pieceElement, boardId);
+  if (!(unicornPiece instanceof Unicorn)) return;
 
-  const targetPiece = targetablePieces[0];
+  const targetPiece = getPieceByElement(targetPieceElement, boardId);
+  if (!targetPiece) return;
+
+  const targetablePieces = unicornPiece.getAttackablePieces();
+  // If the piece is not in the array, return
+  if (!targetablePieces.filter(piece => piece === targetPiece)) return;
+
   handleOverworldKill(targetPiece);
 }

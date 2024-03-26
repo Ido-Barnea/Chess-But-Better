@@ -2,6 +2,9 @@ import { game } from '../Game';
 
 const infoDisplay = document.getElementById('info-container');
 
+const unicornAttackButton = document.getElementById('unicorn-attack');
+
+
 export function renderPlayersInformation() {
   if (infoDisplay) infoDisplay.textContent = '';
 
@@ -34,14 +37,17 @@ export function showWinningAlert(winner: string) {
   window.location.href = '/';
 }
 
+export function initializeAbility() {
+  if (!unicornAttackButton) return;
+  unicornAttackButton.innerHTML = '<button>ATTACK</button>';
+}
+
 export function hideUnicornAttackButton() {
-  const unicornAttackButton = document.getElementById('unicorn-attack');
   if (!unicornAttackButton) return;
   unicornAttackButton.classList.add('collapsed');
 }
 
 export function showUnicornAttackButton() {
-  const unicornAttackButton = document.getElementById('unicorn-attack');
   if (!unicornAttackButton) return;
   unicornAttackButton.classList.remove('collapsed');
 }
