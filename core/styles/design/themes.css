@@ -32,14 +32,12 @@ body {
   color: var(--text-color);
 }
 
-button 
-{
+button {
   background-color: var(--accent-color);
   color: var(--text-color);
 }
 
-button:hover 
-{
+button:hover {
   background-color: var(--accent-color-hover);
 }
 
