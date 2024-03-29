@@ -9,6 +9,7 @@ export class PlayerInventory implements ItemsHolder {
   constructor() {
     this._items = [];
   }
+  
   getItems(): BaseItem[] {
     return this._items;
   }
