@@ -1,11 +1,11 @@
 import { knightResource } from '../../ui/Resources';
-import { Piece } from './Piece';
 import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { Unicorn } from './Unicorn';
 import { PlayerColor } from '../players/types/PlayerColor';
+import { BasePiece } from './abstract/BasePiece';
 
-export class Knight extends Piece {
+export class Knight extends BasePiece {
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♘' : '♞';
     super(knightResource, icon, 'Knight', player, position);

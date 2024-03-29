@@ -4,8 +4,8 @@ import {
   NOTATIONS_NUMBERS,
   VOID_BOARD_ID,
 } from '../../Constants';
-import { Piece } from '../../logic/pieces/Piece';
 import { Position } from '../../logic/pieces/PiecesUtilities';
+import { BasePiece } from '../../logic/pieces/abstract/BasePiece';
 import { Logger } from './Logger';
 
 export enum LogColor {
@@ -30,7 +30,7 @@ export class Log {
 }
 
 export class MovementLog extends Log {
-  constructor(draggedPiece: Piece, targetPosition: Position) {
+  constructor(draggedPiece: BasePiece, targetPosition: Position) {
     const { position, pieceIcon, player, name } = draggedPiece;
     if (!position) return;
     const fromNotation = MovementLog.convertPositionToNotation(
@@ -57,7 +57,7 @@ export class MovementLog extends Log {
 }
 
 export class KillLog extends Log {
-  constructor(killedPiece: Piece, cause: Piece | string) {
+  constructor(killedPiece: BasePiece, cause: BasePiece | string) {
     const {
       pieceIcon: killedPieceIcon,
       player: { color: killedPieceColor },
@@ -74,7 +74,7 @@ export class KillLog extends Log {
       message += `sent to ${spawnedInBoard} by `;
     }
 
-    if (cause instanceof Piece) {
+    if (cause instanceof BasePiece) {
       const {
         pieceIcon: killerPieceIcon,
         player: { color: killerPieceColor },

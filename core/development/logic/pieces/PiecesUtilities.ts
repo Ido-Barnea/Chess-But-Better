@@ -1,7 +1,7 @@
-import { Piece } from './Piece';
 import { BaseItem } from '../items/abstract/Item';
 import { comparePositions } from '../Utilities';
 import { game } from '../../Game';
+import { BasePiece } from './abstract/BasePiece';
 
 export type Position = {
   coordinates: [number, number];
@@ -10,7 +10,7 @@ export type Position = {
 
 export type Square = {
   position: Position;
-  occupent?: Piece;
+  occupent?: BasePiece;
 };
 
 export function getItemByPosition(position: Position): BaseItem | undefined {

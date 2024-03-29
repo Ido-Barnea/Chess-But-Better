@@ -2,10 +2,10 @@ import { VOID_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { destroyPieceOnBoard, spawnPieceOnBoard } from '../../LogicAdapter';
 import { isPlayerAllowedToAct } from '../PieceLogic';
-import { Piece } from './Piece';
+import { BasePiece } from './abstract/BasePiece';
 
 export class UpgradesTree {
-  upgrade(originalPiece: Piece, upgradedToPiece: Piece) {
+  upgrade(originalPiece: BasePiece, upgradedToPiece: BasePiece) {
     if (!originalPiece.position) return;
 
     const player = originalPiece.player;

@@ -11,7 +11,6 @@ import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';
 import { Knight } from './logic/pieces/Knight';
 import { Pawn } from './logic/pieces/Pawn';
-import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
@@ -22,6 +21,7 @@ import { addItemToShop } from './ui/ShopUI';
 import { Shop } from './logic/items/Shop';
 import { PlayerColor } from './logic/players/types/PlayerColor';
 import { PlayerInventory } from './logic/inventory/PlayerInventory';
+import { BasePiece } from './logic/pieces/abstract/BasePiece';
 
 export const shop = new Shop();
 
@@ -29,7 +29,7 @@ let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 const players: Array<Player> = [whitePlayer, blackPlayer];
-let pieces: Array<Piece> = [
+let pieces: Array<BasePiece> = [
   new Rook(blackPlayer, { coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }),
   new Knight(blackPlayer, { coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }),
   new Bishop(blackPlayer, { coordinates: [2, 0], boardId: OVERWORLD_BOARD_ID }),
@@ -70,9 +70,9 @@ let roundCounter = 1;
 let deathCounter = 0;
 let isCastling = false;
 let isFriendlyFire = false;
-let killerPiece: Piece | undefined = undefined;
+let killerPiece: BasePiece | undefined = undefined;
 let wasItemPlacedThisTurn = false;
-let fellOffTheBoardPiece: Piece | undefined;
+let fellOffTheBoardPiece: BasePiece | undefined;
 let movesLeft = 0;
 
 function initializeGame() {
@@ -180,11 +180,11 @@ function getPlayers(): Array<Player> {
   return players;
 }
 
-function getPieces(): Array<Piece> {
+function getPieces(): Array<BasePiece> {
   return pieces;
 }
 
-function setPieces(updatedPieces: Array<Piece>) {
+function setPieces(updatedPieces: Array<BasePiece>) {
   pieces = updatedPieces;
 }
 
@@ -232,19 +232,19 @@ function setIsFriendlyFire(_isFriendlyFire: boolean) {
   isFriendlyFire = _isFriendlyFire;
 }
 
-function getKillerPiece(): Piece | undefined {
+function getKillerPiece(): BasePiece | undefined {
   return killerPiece;
 }
 
-function setKillerPiece(_killerPiece: Piece) {
+function setKillerPiece(_killerPiece: BasePiece) {
   killerPiece = _killerPiece;
 }
 
-function getFellOffTheBoardPiece(): Piece | undefined {
+function getFellOffTheBoardPiece(): BasePiece | undefined {
   return fellOffTheBoardPiece;
 }
 
-function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
+function setFellOffTheBoardPiece(_fellOffTheBoardPiece: BasePiece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 

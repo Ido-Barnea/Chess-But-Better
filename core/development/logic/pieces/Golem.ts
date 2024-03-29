@@ -1,10 +1,10 @@
 import { golemResource } from '../../ui/Resources';
-import { Piece } from './Piece';
 import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
+import { BasePiece } from './abstract/BasePiece';
 
-export class Golem extends Piece {
+export class Golem extends BasePiece {
   constructor(player: Player, position?: Position) {
     super(golemResource, '🗿', 'Golem', player, position);
 

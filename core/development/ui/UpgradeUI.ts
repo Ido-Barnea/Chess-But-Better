@@ -1,11 +1,11 @@
 import { game } from '../Game';
 import { upgradePiece } from '../LogicAdapter';
+import { BasePiece } from '../logic/pieces/abstract/BasePiece';
 import { Player } from '../logic/players/Player';
-import { Piece } from '../logic/pieces/Piece';
 
 export function showUpgradeablePiecesElements(
-  piece: Piece,
-  upgradeablePieces: Array<new (player: Player) => Piece>,
+  piece: BasePiece,
+  upgradeablePieces: Array<new (player: Player) => BasePiece>,
 ) {
   const upgradesContainer = document.getElementById('piece-upgrades-container');
   if (!upgradesContainer) return;

@@ -21,7 +21,7 @@ import {
   HIGHLIGHT_LEGAL_MOVE,
 } from '../Constants';
 import { BaseItem } from '../logic/items/abstract/Item';
-import { Piece } from '../logic/pieces/Piece';
+import { BasePiece } from '../logic/pieces/abstract/BasePiece';
 
 let overworldBoard: ChessBoard;
 let hellBoard: ChessBoard;
@@ -191,7 +191,7 @@ export function destroyElementOnPiece(targetSquareId: string, boardId: string) {
   board.destroyElementOnBoard(element);
 }
 
-export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
+export function spawnPieceElementOnBoard(piece: BasePiece, targetSquareId: string) {
   if (!piece.position) return;
   const board = getBoardbyId(piece.position.boardId);
 

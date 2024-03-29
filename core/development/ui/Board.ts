@@ -3,9 +3,9 @@ import { BOARD_WIDTH } from '../Constants';
 import { comparePositions } from '../logic/Utilities';
 import { PiggyBank } from '../logic/items/PiggyBank';
 import { BaseItem } from '../logic/items/abstract/Item';
-import { Piece } from '../logic/pieces/Piece';
 import { Position } from '../logic/pieces/PiecesUtilities';
 import { initializeDraggingListeners } from './Events';
+import { BasePiece } from '../logic/pieces/abstract/BasePiece';
 
 export class ChessBoard {
   boardId: string;
@@ -125,7 +125,7 @@ export class ChessBoard {
     }
   }
 
-  createPieceElement(piece: Piece): HTMLElement {
+  createPieceElement(piece: BasePiece): HTMLElement {
     const pieceElement = document.createElement('div');
     pieceElement.classList.add('piece');
     pieceElement.setAttribute('draggable', 'true');

@@ -11,7 +11,6 @@ import {
   getPieceByPosition,
 } from './logic/Utilities';
 import { BaseItem } from './logic/items/abstract/Item';
-import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import {
   destroyElementOnBoard,
@@ -37,12 +36,13 @@ import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
 import { PlayerColor } from './logic/players/types/PlayerColor';
+import { BasePiece } from './logic/pieces/abstract/BasePiece';
 
 export function renderScreen() {
   renderPlayersInformation();
 }
 
-function findPieceAtPosition(position: Position): Piece | undefined {
+function findPieceAtPosition(position: Position): BasePiece | undefined {
   return game
     .getPieces()
     .find((piece) => comparePositions(piece.position, position));
@@ -118,7 +118,7 @@ export function onFellOffTheBoardTriggered(
   onPieceFellOffTheBoard(draggedPiece);
 }
 
-function highlightLegalMoves(piece: Piece, boardId: string) {
+function highlightLegalMoves(piece: BasePiece, boardId: string) {
   // Remove all highlights
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
@@ -155,7 +155,7 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   highlightLegalMoves(piece, boardId);
 }
 
-export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
+export function upgradePiece(upgradeablePiece: BasePiece, upgradedPiece: BasePiece) {
   const currentPlayer = game.getCurrentPlayer();
   if (currentPlayer.xp < upgradedPiece.price) return;
   currentPlayer.xp -= upgradedPiece.price;
@@ -177,7 +177,7 @@ export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
 }
 
 export function movePieceOnBoard(
-  draggedPiece: Piece,
+  draggedPiece: BasePiece,
   targetPosition: Position,
 ) {
   if (!draggedPiece.position) return;
@@ -207,7 +207,7 @@ export function movePieceOnBoard(
   );
 }
 
-export function destroyPieceOnBoard(piece: Piece, originBoardId?: string) {
+export function destroyPieceOnBoard(piece: BasePiece, originBoardId?: string) {
   if (!piece.position) return;
 
   originBoardId = originBoardId || piece.position.boardId;
@@ -241,7 +241,7 @@ export function destroyItemOnBoard(item: BaseItem) {
   destroyElementOnBoard(squareId, item.position.boardId);
 }
 
-export function destroyItemOnPiece(piece: Piece) {
+export function destroyItemOnPiece(piece: BasePiece) {
   if (!piece.position || !piece.isEquipedItem) return;
 
   const pieceCoordinates = piece.position.coordinates;
@@ -251,7 +251,7 @@ export function destroyItemOnPiece(piece: Piece) {
   destroyElementOnPiece(squareId, piece.position.boardId);
 }
 
-export function spawnPieceOnBoard(piece: Piece) {
+export function spawnPieceOnBoard(piece: BasePiece) {
   const pieceCoordinates = piece.position?.coordinates;
   const squareId = pieceCoordinates?.join(',');
 
@@ -277,7 +277,7 @@ export function spawnItemOnPiece(item: BaseItem) {
   spawnItemOnChildElement(item, squareId, true);
 }
 
-export function changePieceToAnotherPlayer(piece: Piece) {
+export function changePieceToAnotherPlayer(piece: BasePiece) {
   const squareId = piece.position?.coordinates.join(',');
   const boardId = piece.position?.boardId;
   if (!boardId || !squareId) return;

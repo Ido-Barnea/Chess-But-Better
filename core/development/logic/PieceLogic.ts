@@ -20,15 +20,15 @@ import { BaseItem } from './items/abstract/Item';
 import { Trap } from './items/Trap';
 import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
-import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './players/Player';
 import { Knight } from './pieces/Knight';
 import { KillLog, Log, MovementLog } from '../ui/logs/Log';
+import { BasePiece } from './pieces/abstract/BasePiece';
 
 function validatePlayerAction(
-  draggedPiece: Piece,
-  target: Piece | Square | BaseItem,
+  draggedPiece: BasePiece,
+  target: BasePiece | Square | BaseItem,
 ): boolean {
   if (!isPlayerAllowedToAct(draggedPiece.player)) return false;
   if (draggedPiece === target) return false;
@@ -62,7 +62,7 @@ function getPathPositions(start: Position, end: Position): Array<Position> {
   return path;
 }
 
-function simulatePath(piece: Piece, targetPosition: Position) {
+function simulatePath(piece: BasePiece, targetPosition: Position) {
   const currentPosition = piece.position;
   if (!currentPosition) return;
   const pathPositions: Array<Position> =
@@ -81,12 +81,12 @@ function simulatePath(piece: Piece, targetPosition: Position) {
   });
 }
 
-function revertPieceMoveOnBoard(piece: Piece) {
+function revertPieceMoveOnBoard(piece: BasePiece) {
   if (!piece.position) return;
   movePieceOnBoard(piece, piece.position);
 }
 
-export function onPieceFellOffTheBoard(draggedPiece: Piece) {
+export function onPieceFellOffTheBoard(draggedPiece: BasePiece) {
   if (!draggedPiece.position) return;
   draggedPiece.position.boardId = VOID_BOARD_ID;
   killPieceByGame(draggedPiece, 'the void');
@@ -95,8 +95,8 @@ export function onPieceFellOffTheBoard(draggedPiece: Piece) {
 }
 
 export function onPlayerAction(
-  draggedPiece: Piece,
-  target: Piece | Square | BaseItem,
+  draggedPiece: BasePiece,
+  target: BasePiece | Square | BaseItem,
 ) {
   if (!validatePlayerAction(draggedPiece, target) || !target.position) {
     revertPieceMoveOnBoard(draggedPiece);
@@ -114,7 +114,7 @@ export function onPlayerAction(
   // If it did, return.
   if (pieceBoard !== newPieceBoard) return;
 
-  if (target instanceof Piece) {
+  if (target instanceof BasePiece) {
     onActionAttackMove(draggedPiece, target);
   } else {
     const targetSquare =
@@ -126,7 +126,7 @@ export function onPlayerAction(
   }
 }
 
-function onActionAttackMove(draggedPiece: Piece, targetPiece: Piece) {
+function onActionAttackMove(draggedPiece: BasePiece, targetPiece: BasePiece) {
   if (!targetPiece.position) return;
   game.setIsFriendlyFire(targetPiece.player === draggedPiece.player);
   const isSuccessfulKill = killPieceByAnotherPiece(targetPiece, draggedPiece);
@@ -136,7 +136,7 @@ function onActionAttackMove(draggedPiece: Piece, targetPiece: Piece) {
   move(draggedPiece, targetSquare.position);
 }
 
-function onActionNonAttackMove(draggedPiece: Piece, targetSquare: Square) {
+function onActionNonAttackMove(draggedPiece: BasePiece, targetSquare: Square) {
   if (draggedPiece instanceof Pawn) {
     draggedPiece.checkInitialDoubleStep(targetSquare.position);
 
@@ -210,7 +210,7 @@ export function isPlayerAllowedToAct(player: Player) {
 }
 
 function move(
-  draggedPiece: Piece,
+  draggedPiece: BasePiece,
   targetPosition: Position,
   shouldEndTurn = true,
 ) {
@@ -227,7 +227,7 @@ function move(
   if (shouldEndTurn) game.endMove();
 }
 
-function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
+function failToKillPiece(draggedPiece: BasePiece, targetPiece: BasePiece) {
   if (!targetPiece.position || !draggedPiece.position) return;
   destroyItemOnPiece(targetPiece);
 
@@ -259,8 +259,8 @@ function failToKillPiece(draggedPiece: Piece, targetPiece: Piece) {
 }
 
 function killPieceByAnotherPiece(
-  targetPiece: Piece,
-  draggedPiece: Piece,
+  targetPiece: BasePiece,
+  draggedPiece: BasePiece,
 ): boolean {
   targetPiece.health--;
   if (targetPiece.health > 0) {
@@ -279,12 +279,12 @@ function killPieceByAnotherPiece(
   return true;
 }
 
-function killPieceByGame(targetPiece: Piece, killCause: string) {
+function killPieceByGame(targetPiece: BasePiece, killCause: string) {
   killPiece(targetPiece);
   new KillLog(targetPiece, killCause).addToQueue();
 }
 
-function killPiece(targetPiece: Piece) {
+function killPiece(targetPiece: BasePiece) {
   const originBoardId = targetPiece.position?.boardId;
 
   if (targetPiece.position?.boardId === OVERWORLD_BOARD_ID) {
@@ -298,7 +298,7 @@ function killPiece(targetPiece: Piece) {
   return true;
 }
 
-function handleOverworldKill(targetPiece: Piece) {
+function handleOverworldKill(targetPiece: BasePiece) {
   if (!targetPiece.position) return;
   destroyPieceOnBoard(targetPiece);
 
@@ -312,7 +312,7 @@ function handleOverworldKill(targetPiece: Piece) {
   handlePieceSpawning(targetPiece);
 }
 
-export function permanentlyKillPiece(targetPiece: Piece) {
+export function permanentlyKillPiece(targetPiece: BasePiece) {
   if (!targetPiece.position) return;
   game.increaseDeathCounter();
 
@@ -322,7 +322,7 @@ export function permanentlyKillPiece(targetPiece: Piece) {
   if (targetPiece instanceof King) endGame();
 }
 
-function handlePieceSpawning(spawningPiece: Piece) {
+function handlePieceSpawning(spawningPiece: BasePiece) {
   game.getPieces().forEach((piece) => {
     const areOnTheSamePosition = comparePositions(
       spawningPiece.position,
@@ -344,7 +344,7 @@ function handlePieceSpawning(spawningPiece: Piece) {
   spawnPieceOnBoard(spawningPiece);
 }
 
-function onActionPieceToItem(piece: Piece, item: BaseItem) {
+function onActionPieceToItem(piece: BasePiece, item: BaseItem) {
   switch (item.name) {
     case 'piggy bank': {
       pieceMovedOnPiggyBank(piece, item as PiggyBank);
@@ -357,7 +357,7 @@ function onActionPieceToItem(piece: Piece, item: BaseItem) {
   }
 }
 
-function pieceMovedOnTrap(draggedPiece: Piece, trap: Trap) {
+function pieceMovedOnTrap(draggedPiece: BasePiece, trap: Trap) {
   if (!trap.position) return;
 
   move(draggedPiece, trap.position, false);
@@ -371,7 +371,7 @@ function pieceMovedOnTrap(draggedPiece: Piece, trap: Trap) {
 }
 
 export function pieceMovedOnPiggyBank(
-  draggedPiece: Piece,
+  draggedPiece: BasePiece,
   piggyBank: PiggyBank,
 ) {
   if (!draggedPiece.position) return;

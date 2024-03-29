@@ -1,12 +1,12 @@
 import { pawnResource } from '../../ui/Resources';
-import { Piece } from './Piece';
 import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { game } from '../../Game';
 import { comparePositions, getPieceByPosition } from '../Utilities';
 import { PlayerColor } from '../players/types/PlayerColor';
+import { BasePiece } from './abstract/BasePiece';
 
-export class Pawn extends Piece {
+export class Pawn extends BasePiece {
   possibleEnPassantPositions: [Position, Position] | undefined;
   isInitialDoubleStep: boolean;
   diagonalAttackPosition: Position | undefined;
@@ -41,7 +41,7 @@ export class Pawn extends Piece {
     return false;
   }
 
-  getEnPassantPiece(targetPosition: Position): Piece | undefined {
+  getEnPassantPiece(targetPosition: Position): BasePiece | undefined {
     const pawns = game.getPieces().filter((piece) => {
       return piece instanceof Pawn && piece !== this;
     }) as Array<Pawn>;
