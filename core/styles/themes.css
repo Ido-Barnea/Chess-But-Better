@@ -1,3 +1,67 @@
+:root {
+  --primary-color: #302e2b;
+  --accent-color: #88b65a;
+  --accent-color-hover: #7b87a6;
+  --bright-square: #c7ec8a;
+  --dark-square: #88b65a;
+  --bright-hell-square: #e66545;
+  --dark-hell-square: #882615;
+  --bright-heaven-square: #a1e3f5;
+  --dark-heaven-square: #0da5ce;
+  --notations-color: black;
+  --text-color: white;
+  --kill-color: #e66545;
+  --rule-color: #81b64c;
+  --move-color: #ebecd0;
+}
+
+body {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+#shop-upgrade-swapper 
+{
+  color: var(--accent-color);
+}
+
+#shop-upgrade-swapper::before
+{
+  background: var(--accent-color);
+}
+
+#boards-buttons-container button {
+  color: var(--text-color);
+}
+
+#board-hell-button {
+  background-color: var(--dark-hell-square);
+}
+
+#board-hell-button:hover {
+  background-color: var(--bright-hell-square);
+}
+
+#board-overworld-button {
+  background-color: var(--dark-square);
+}
+
+#board-overworld-button:hover {
+  background-color: var(--bright-square);  
+}
+
+#board-heaven-button {
+  background-color: var(--dark-heaven-square);
+}
+
+#board-heaven-button:hover {
+  background-color: var(--bright-heaven-square);
+}
+
+.notation {
+  color: var(--notations-color);
+}
+
 .outline {
   stroke: black;
   stroke-width: 1em;
@@ -28,27 +92,27 @@
 }
 
 .beige-background {
-  background-color: burlywood;
+  background-color: var(--bright-square);
 }
 
 .brown-background {
-  background-color: brown;
+  background-color: var(--dark-square);
 }
 
 .dark-red-background {
-  background-color: #5f0505;
-}
-
-.blue-background {
-  background-color: #0da5ce;
-}
-
-.water-background {
-  background-color: #cef0f9;
+  background-color: var(--dark-hell-square);
 }
 
 .dark-orange-background {
-  background-color: #7f3b08;
+  background-color: var(--bright-hell-square);
+}
+
+.blue-background {
+  background-color: var(--dark-heaven-square);
+}
+
+.water-background {
+  background-color: var(--bright-heaven-square);
 }
 
 .black {
@@ -60,17 +124,17 @@
 }
 
 .log-color-general {
-  color: black;
+  color: var(--text-color);
 }
 
 .log-color-kill {
-  color: red;
+  color: var(--kill-color);
 }
 
 .log-color-rule {
-  color: plum;
+  color: var(--rule-color);
 }
 
 .log-color-movement {
-  color: gray;
+  color: var(--move-color);
 }
