@@ -18,7 +18,7 @@ export class Trap extends BaseItem {
     const logCoordinates = MovementLog.convertPositionToNotation(
       position.coordinates,
     );
-    
+
     new Log(
       `${currentPlayer.color} placed a ${this.name} on ${logCoordinates}.`,
     ).addToQueue();

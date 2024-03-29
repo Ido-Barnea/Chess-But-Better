@@ -29,7 +29,7 @@ export class BaseRule implements Rule {
         new RuleLog(
           `${player.color} received XP for revealing a new rule: ${this.description}`,
         ).addToQueue();
-        
+
         player.xp++;
         this.isRevealed = true;
       }

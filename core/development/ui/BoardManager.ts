@@ -205,7 +205,10 @@ export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
   board.boardButtonElement.classList.remove('disabled');
 }
 
-export function spawnItemElementOnBoard(item: BaseItem, targetSquareId: string) {
+export function spawnItemElementOnBoard(
+  item: BaseItem,
+  targetSquareId: string,
+) {
   if (!item.position) return;
   const board = getBoardbyId(item.position.boardId);
 
