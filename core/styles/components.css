@@ -197,7 +197,7 @@
 .inventory-item,
 .shop-item,
 .upgraded-piece {
-  width: 75%;
+  width: 60%;
   display: grid;
   place-items: center;
 }
@@ -206,8 +206,9 @@
 .piece-upgrade-item-price {
   position: absolute;
   bottom: 0;
-  right: 0;
-  transform: translate(-50%, 50%);
+  left: 0;
+  transform: translate(5%, 70%);
+  background-color: white;
 }
 
 .piece-upgrades-message {
