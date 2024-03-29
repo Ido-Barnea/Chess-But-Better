@@ -1,3 +1,4 @@
+import { InventoryActionResult } from '../inventory/types/InventoryActionResult';
 import { isPlayerAllowedToAct } from '../PieceLogic';
 import { Player } from '../players/Player';
 import { BaseItem } from './abstract/Item';
@@ -11,7 +12,7 @@ export class Shop {
     if (
       isPlayerAllowedToAct(player) &&
       player.gold >= item.price &&
-      player.inventory.addItem(item)
+      player.inventory.addItem(item) == InventoryActionResult.SUCCESS
     ) {
       player.gold -= item.price;
       return true;

@@ -1,4 +1,4 @@
-import { Inventory } from '../items/Inventory';
+import { PlayerInventory } from '../inventory/PlayerInventory';
 import { PlayerColor } from './PlayerColor';
 
 export class Player {
@@ -6,13 +6,13 @@ export class Player {
   xp: number;
   gold: number;
   inDebtForTurns: number;
-  inventory: Inventory;
+  inventory: PlayerInventory;
 
   constructor(color: PlayerColor) {
     this.color = color;
     this.xp = 0;
     this.gold = 0;
     this.inDebtForTurns = 0;
-    this.inventory = new Inventory(this);
+    this.inventory = new PlayerInventory();
   }
 }
