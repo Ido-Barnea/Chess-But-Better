@@ -6,7 +6,8 @@ export function renderPlayersInformation() {
   if (infoDisplay) infoDisplay.textContent = '';
 
   const roundElement = document.createElement('p');
-  roundElement.innerHTML = `Round: ${game.getRoundCounter()}`;
+  const round = Math.round(game.getPlayersTurnSwitcher().getTurnsCount() / 2);
+  roundElement.innerHTML = `Round: ${round}`;
   infoDisplay?.appendChild(roundElement);
 
   const playersElement = document.createElement('p');
@@ -16,7 +17,8 @@ export function renderPlayersInformation() {
     const playerInformationElement = document.createElement('div');
 
     const statusElement = document.createElement('p');
-    const isCurrentPlayer = game.getCurrentPlayer() === player;
+    const isCurrentPlayer =
+      game.getPlayersTurnSwitcher().getCurrentPlayer() === player;
     const title = `${isCurrentPlayer ? '> ' : ''} ${player.color} Player:`;
     const status = `${title} ${player.xp} XP; ${player.gold} Gold.`;
     statusElement.innerHTML = status;

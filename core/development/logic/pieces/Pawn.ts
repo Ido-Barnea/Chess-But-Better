@@ -24,7 +24,7 @@ export class Pawn extends BasePiece {
     if (!this.position) return false;
 
     const currentCoordinates = this.position.coordinates;
-    const currentPlayer = game.getCurrentPlayer();
+    const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
     // Determine the direction of pawn movement based on the player's color
     const stepY = currentPlayer.color === PlayerColor.WHITE ? -1 : 1;
 
@@ -65,7 +65,7 @@ export class Pawn extends BasePiece {
 
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
-    const currentPlayer = game.getCurrentPlayer();
+    const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
     // Determine the direction of pawn movement based on the player's color
     const stepY = currentPlayer.color === PlayerColor.WHITE ? -1 : 1;

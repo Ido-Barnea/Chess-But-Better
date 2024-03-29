@@ -8,7 +8,11 @@ import { Shop } from './abstract/Shop';
 import { ShopActionResult } from './types/ShopActionResult';
 
 export class ItemsShop implements Shop {
-  private _items: Array<BaseItem> = [new Trap(), new Shield()];
+  private _items: Array<BaseItem>;
+
+  constructor() {
+    this._items = [new Trap(), new Shield()];
+  }
 
   buyItem(item: BaseItem, player: Player): ShopActionResult {
     if (

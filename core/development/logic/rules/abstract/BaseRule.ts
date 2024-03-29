@@ -24,7 +24,7 @@ export class BaseRule implements Rule {
     if (this.condition()) {
       this.onTrigger();
       if (!this.isRevealed) {
-        const player = game.getCurrentPlayer();
+        const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
         new RuleLog(
           `${player.color} received XP for revealing a new rule: ${this.description}`,

@@ -8,7 +8,7 @@ export class ExperienceOnKillRule extends BaseRule {
     const description = 'Players gain XP on a kill.';
     const condition = () => !!game.getKillerPiece();
     const onTrigger = () => {
-      const player = game.getCurrentPlayer();
+      const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
       new RuleLog(
         `${player.color} received XP for killing another piece.`,
       ).addToQueue();

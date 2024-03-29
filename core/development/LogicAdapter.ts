@@ -160,7 +160,7 @@ export function upgradePiece(
   upgradeablePiece: BasePiece,
   upgradedPiece: BasePiece,
 ) {
-  const currentPlayer = game.getCurrentPlayer();
+  const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
   if (currentPlayer.xp < upgradedPiece.price) return;
   currentPlayer.xp -= upgradedPiece.price;
 
@@ -352,7 +352,10 @@ export function canPlaceItemOnBoard(
       break;
   }
 
-  game.getCurrentPlayer().inventory.removeItem(usedItem);
+  game
+    .getPlayersTurnSwitcher()
+    .getCurrentPlayer()
+    .inventory.removeItem(usedItem);
   game.switchWasItemPlacedThisTurn();
   destroyItemInInventory(itemElement);
 
@@ -375,7 +378,7 @@ export function getCurrentBoardId(): string | undefined {
 export function getCurrentPlayerInventoryItemById(
   itemId: string,
 ): BaseItem | undefined {
-  const player = game.getCurrentPlayer();
+  const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
   const draggedItem = player.inventory.getItems().filter((item) => {
     return item.name === itemId;
   })[0];
@@ -389,7 +392,7 @@ export function returnItemToInventory(itemElement: HTMLElement) {
 
   destroyItemInInventory(itemElement);
 
-  const player = game.getCurrentPlayer();
+  const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
   showItemOnInventory(usedItem, player.color);
 }
 
@@ -405,7 +408,7 @@ export function getShopItemById(itemId: string) {
 
 export function buyItem(itemId: string) {
   const item = getShopItemById(itemId);
-  const currentPlayer = game.getCurrentPlayer();
+  const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
   if (shop.buyItem(item, currentPlayer)) {
     showItemOnInventory(item, currentPlayer.color);

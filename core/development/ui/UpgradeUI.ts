@@ -21,7 +21,7 @@ export function showUpgradeablePiecesElements(
   } else {
     upgradeablePieces.forEach((upgradeablePieceType) => {
       const upgradeablePiece = new upgradeablePieceType(
-        game.getCurrentPlayer(),
+        game.getPlayersTurnSwitcher().getCurrentPlayer(),
       );
 
       const upgradeElement = document.createElement('div');

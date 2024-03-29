@@ -22,13 +22,17 @@ import { PlayerColor } from './logic/players/types/PlayerColor';
 import { PlayerInventory } from './logic/inventory/PlayerInventory';
 import { BasePiece } from './logic/pieces/abstract/BasePiece';
 import { ItemsShop } from './logic/shop/ItemsShop';
+import { PlayersTurnSwitcher } from './logic/turn switcher/PlayersTurnSwitcher';
 
 export const shop = new ItemsShop();
 
 let rulesManager: RulesManager;
+let playersTurnSwitcher: PlayersTurnSwitcher;
+
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 const players: Array<Player> = [whitePlayer, blackPlayer];
+
 let pieces: Array<BasePiece> = [
   new Rook(blackPlayer, { coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }),
   new Knight(blackPlayer, { coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }),
@@ -64,9 +68,6 @@ let pieces: Array<BasePiece> = [
   new Rook(whitePlayer, { coordinates: [7, 7], boardId: OVERWORLD_BOARD_ID }),
 ];
 let items: Array<BaseItem> = [];
-let currentPlayerIndex = 0;
-let turnCounter = 0;
-let roundCounter = 1;
 let deathCounter = 0;
 let isCastling = false;
 let isFriendlyFire = false;
@@ -77,6 +78,7 @@ let movesLeft = 0;
 
 function initializeGame() {
   rulesManager = new RulesManager();
+  playersTurnSwitcher = new PlayersTurnSwitcher(players);
 
   players.forEach((player) => {
     initializeInventoryUI(player.color);
@@ -134,7 +136,10 @@ function resetVariables() {
   movesLeft = 0;
 
   pieces.forEach((piece) => {
-    if (piece.player !== getCurrentPlayer() && piece instanceof Pawn) {
+    if (
+      piece.player !== playersTurnSwitcher.getCurrentPlayer() &&
+      piece instanceof Pawn
+    ) {
       piece.possibleEnPassantPositions = undefined;
       piece.isInitialDoubleStep = false;
       piece.diagonalAttackPosition = undefined;
@@ -145,13 +150,7 @@ function resetVariables() {
 function endTurn() {
   updatePlayerDetails();
 
-  currentPlayerIndex =
-    currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
-  turnCounter++;
-  if (turnCounter % players.length === 0) {
-    turnCounter = 0;
-    roundCounter++;
-  }
+  playersTurnSwitcher.nextTurn();
 
   players.forEach((player) => {
     switchInventory(player);
@@ -162,7 +161,7 @@ function endTurn() {
 
 function updatePlayerDetails() {
   game.getPlayers().forEach((player) => {
-    if (player === getCurrentPlayer()) {
+    if (player === playersTurnSwitcher.getCurrentPlayer()) {
       if (player.gold < 0) {
         player.inDebtForTurns++;
       } else {
@@ -172,8 +171,8 @@ function updatePlayerDetails() {
   });
 }
 
-function getCurrentPlayer() {
-  return players[currentPlayerIndex];
+function getPlayersTurnSwitcher(): PlayersTurnSwitcher {
+  return playersTurnSwitcher;
 }
 
 function getPlayers(): Array<Player> {
@@ -198,14 +197,6 @@ function addItem(item: BaseItem) {
 
 function setItems(updatedItems: Array<BaseItem>) {
   items = updatedItems;
-}
-
-function getRoundCounter(): number {
-  return roundCounter;
-}
-
-function increaseRoundCounter() {
-  roundCounter++;
 }
 
 function getDeathCounter(): number {
@@ -277,7 +268,7 @@ export const game = {
   endMove,
   getMovesLeft,
   setMovesLeft,
-  getCurrentPlayer,
+  getPlayersTurnSwitcher,
   switchIsCastling,
   getPlayers,
   getPieces,
@@ -285,8 +276,6 @@ export const game = {
   getItems,
   setItems,
   addItem,
-  getRoundCounter,
-  increaseRoundCounter,
   getDeathCounter,
   increaseDeathCounter,
   getIsCaslting,

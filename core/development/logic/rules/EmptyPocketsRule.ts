@@ -8,7 +8,10 @@ export class EmptyPocketsRule extends BaseRule {
     const condition = () => {
       let result = false;
       game.getPlayers().forEach((player) => {
-        if (player === game.getCurrentPlayer() && player.gold < 0) {
+        if (
+          player === game.getPlayersTurnSwitcher().getCurrentPlayer() &&
+          player.gold < 0
+        ) {
           result = true;
         }
       });
@@ -16,7 +19,10 @@ export class EmptyPocketsRule extends BaseRule {
     };
     const onTrigger = () => {
       game.getPlayers().forEach((player) => {
-        if (player === game.getCurrentPlayer() && player.gold < 0) {
+        if (
+          player === game.getPlayersTurnSwitcher().getCurrentPlayer() &&
+          player.gold < 0
+        ) {
           new RuleLog(
             `${player.color} is in debt. They lose XP for not being prudent.`,
           ).addToQueue();

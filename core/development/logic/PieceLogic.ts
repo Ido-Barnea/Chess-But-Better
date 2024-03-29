@@ -195,7 +195,7 @@ function castle(kingPiece: King, targetSquare: Square) {
 }
 
 export function isPlayerAllowedToAct(player: Player) {
-  return player === game.getCurrentPlayer();
+  return player === game.getPlayersTurnSwitcher().getCurrentPlayer();
 }
 
 function move(

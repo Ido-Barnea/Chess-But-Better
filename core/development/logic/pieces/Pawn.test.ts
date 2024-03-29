@@ -31,7 +31,12 @@ jest.mock('../../ui/InventoriesUI.ts', () => ({
 }));
 jest.mock('../../ui/ShopUI.ts');
 
-game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
+const getCurrentPlayerMock = jest.fn().mockReturnValue(whitePlayer);
+const getTurnsCount = jest.fn().mockReturnValue(1);
+game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
+  getCurrentPlayer: getCurrentPlayerMock,
+  getTurnsCount: getTurnsCount,
+});
 
 describe('Piece movements', () => {
   test('Validating Pawn movement', () => {

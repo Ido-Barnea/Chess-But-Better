@@ -13,7 +13,7 @@ export class Trap extends BaseItem {
   }
 
   use(position: Position): ItemActionResult {
-    const currentPlayer = game.getCurrentPlayer();
+    const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
     const logCoordinates = MovementLog.convertPositionToNotation(
       position.coordinates,

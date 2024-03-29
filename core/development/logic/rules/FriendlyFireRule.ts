@@ -8,7 +8,7 @@ export class FriendlyFireRule extends BaseRule {
       'Friendly Fire! Players can attack their own pieces (for a price).';
     const condition = () => game.getIsFriendlyFire();
     const onTrigger = () => {
-      const player = game.getCurrentPlayer();
+      const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
       new RuleLog(
         `${player.color} attacked his own piece and has to pay compensations.`,
       ).addToQueue();

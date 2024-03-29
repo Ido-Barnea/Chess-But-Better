@@ -14,7 +14,7 @@ export class CoupRule extends BaseRule {
       game.getPlayers().forEach((player) => {
         if (
           player.inDebtForTurns === IN_DEBT_FOR_TURNS_THRESHOLD &&
-          player === game.getCurrentPlayer()
+          player === game.getPlayersTurnSwitcher().getCurrentPlayer()
         ) {
           result = true;
         }
@@ -26,7 +26,7 @@ export class CoupRule extends BaseRule {
       game.getPlayers().forEach((player) => {
         if (
           player.inDebtForTurns === IN_DEBT_FOR_TURNS_THRESHOLD &&
-          player === game.getCurrentPlayer()
+          player === game.getPlayersTurnSwitcher().getCurrentPlayer()
         ) {
           player.inDebtForTurns = -1;
           const playerPieces = game
