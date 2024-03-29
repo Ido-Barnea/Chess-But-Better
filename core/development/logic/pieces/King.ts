@@ -1,11 +1,11 @@
 import { kingResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
-import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 import { Rook } from './Rook';
 import { game } from '../../Game';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { BasePiece } from './abstract/BasePiece';
+import { Position } from './types/Position';
 
 export class King extends BasePiece {
   constructor(player: Player, position?: Position) {

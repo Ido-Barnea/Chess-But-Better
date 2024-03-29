@@ -191,7 +191,10 @@ export function destroyElementOnPiece(targetSquareId: string, boardId: string) {
   board.destroyElementOnBoard(element);
 }
 
-export function spawnPieceElementOnBoard(piece: BasePiece, targetSquareId: string) {
+export function spawnPieceElementOnBoard(
+  piece: BasePiece,
+  targetSquareId: string,
+) {
   if (!piece.position) return;
   const board = getBoardbyId(piece.position.boardId);
 

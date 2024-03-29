@@ -1,11 +1,11 @@
 import { BaseItem } from './abstract/Item';
 import { shieldResource } from '../../ui/Resources';
-import { Position } from '../pieces/PiecesUtilities';
 import { Log, MovementLog } from '../../ui/logs/Log';
 import { getPieceByPosition } from '../Utilities';
 import { spawnItemOnPiece } from '../../LogicAdapter';
 import { ItemActionResult } from './types/ItemActionResult';
 import { Logger } from '../../ui/logs/Logger';
+import { Position } from '../pieces/types/Position';
 
 export class Shield extends BaseItem {
   constructor(position?: Position) {

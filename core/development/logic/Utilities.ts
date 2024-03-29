@@ -1,6 +1,6 @@
 import { game } from '../Game';
-import { Position } from './pieces/PiecesUtilities';
 import { BasePiece } from './pieces/abstract/BasePiece';
+import { Position } from './pieces/types/Position';
 
 export function comparePositions(
   firstPosition: Position | undefined,

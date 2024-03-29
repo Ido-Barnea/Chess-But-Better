@@ -1,5 +1,5 @@
-import { Position } from '../PiecesUtilities';
+import { Position } from '../types/Position';
 
 export interface Piece {
-    getLegalMoves(): Array<Position>;
+  getLegalMoves(): Array<Position>;
 }

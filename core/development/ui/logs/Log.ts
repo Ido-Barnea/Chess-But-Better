@@ -4,8 +4,8 @@ import {
   NOTATIONS_NUMBERS,
   VOID_BOARD_ID,
 } from '../../Constants';
-import { Position } from '../../logic/pieces/PiecesUtilities';
 import { BasePiece } from '../../logic/pieces/abstract/BasePiece';
+import { Position } from '../../logic/pieces/types/Position';
 import { Logger } from './Logger';
 
 export enum LogColor {

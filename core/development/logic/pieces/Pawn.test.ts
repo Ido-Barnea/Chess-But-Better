@@ -3,9 +3,10 @@ import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player } from '../players/Player';
 import { Pawn } from './Pawn';
-import { Position, Square } from './PiecesUtilities';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
+import { Position } from './types/Position';
+import { Square } from './types/Square';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());

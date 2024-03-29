@@ -3,10 +3,10 @@ import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player } from '../players/Player';
 import { Knight } from './Knight';
-import { Position } from './PiecesUtilities';
 import { Rook } from './Rook';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
+import { Position } from './types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());

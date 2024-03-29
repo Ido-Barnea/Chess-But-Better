@@ -1,4 +1,4 @@
-import { Position } from '../../pieces/PiecesUtilities';
+import { Position } from '../../pieces/types/Position';
 import { ItemActionResult } from '../types/ItemActionResult';
 
 export abstract class BaseItem {

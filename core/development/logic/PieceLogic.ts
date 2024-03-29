@@ -20,11 +20,12 @@ import { BaseItem } from './items/abstract/Item';
 import { Trap } from './items/Trap';
 import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
-import { Position, Square } from './pieces/PiecesUtilities';
 import { Player } from './players/Player';
 import { Knight } from './pieces/Knight';
 import { KillLog, Log, MovementLog } from '../ui/logs/Log';
 import { BasePiece } from './pieces/abstract/BasePiece';
+import { Square } from './pieces/types/Square';
+import { Position } from './pieces/types/Position';
 
 function validatePlayerAction(
   draggedPiece: BasePiece,

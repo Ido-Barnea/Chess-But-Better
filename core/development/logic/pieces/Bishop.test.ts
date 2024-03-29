@@ -4,9 +4,9 @@ import { onPlayerAction } from '../PieceLogic';
 import { Player } from '../players/Player';
 import { Bishop } from './Bishop';
 import { Pawn } from './Pawn';
-import { Position } from './PiecesUtilities';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
+import { Position } from './types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());

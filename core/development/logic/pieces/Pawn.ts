@@ -1,10 +1,10 @@
 import { pawnResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
-import { Position } from './PiecesUtilities';
 import { game } from '../../Game';
 import { comparePositions, getPieceByPosition } from '../Utilities';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { BasePiece } from './abstract/BasePiece';
+import { Position } from './types/Position';
 
 export class Pawn extends BasePiece {
   possibleEnPassantPositions: [Position, Position] | undefined;

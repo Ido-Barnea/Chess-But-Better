@@ -6,11 +6,11 @@ import {
 } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player } from '../players/Player';
-import { Position } from './PiecesUtilities';
 import { Pawn } from './Pawn';
 import { DoubleQueen } from './DoubleQueen';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
+import { Position } from './types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());

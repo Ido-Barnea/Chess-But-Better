@@ -1,7 +1,7 @@
 import { unicornResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
-import { Position } from './PiecesUtilities';
 import { BasePiece } from './abstract/BasePiece';
+import { Position } from './types/Position';
 
 export class Unicorn extends BasePiece {
   constructor(player: Player, position?: Position) {

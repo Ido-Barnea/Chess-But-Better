@@ -11,7 +11,6 @@ import {
   getPieceByPosition,
 } from './logic/Utilities';
 import { BaseItem } from './logic/items/abstract/Item';
-import { Position, Square } from './logic/pieces/PiecesUtilities';
 import {
   destroyElementOnBoard,
   getAllSquareElements,
@@ -37,6 +36,8 @@ import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
 import { PlayerColor } from './logic/players/types/PlayerColor';
 import { BasePiece } from './logic/pieces/abstract/BasePiece';
+import { Position } from './logic/pieces/types/Position';
+import { Square } from './logic/pieces/types/Square';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -155,7 +156,10 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   highlightLegalMoves(piece, boardId);
 }
 
-export function upgradePiece(upgradeablePiece: BasePiece, upgradedPiece: BasePiece) {
+export function upgradePiece(
+  upgradeablePiece: BasePiece,
+  upgradedPiece: BasePiece,
+) {
   const currentPlayer = game.getCurrentPlayer();
   if (currentPlayer.xp < upgradedPiece.price) return;
   currentPlayer.xp -= upgradedPiece.price;

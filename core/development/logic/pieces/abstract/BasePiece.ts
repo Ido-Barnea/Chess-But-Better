@@ -1,5 +1,5 @@
 import { Player } from '../../players/Player';
-import { Position } from '../PiecesUtilities';
+import { Position } from '../types/Position';
 import { Piece } from './Piece';
 
 export abstract class BasePiece implements Piece {
@@ -37,7 +37,7 @@ export abstract class BasePiece implements Piece {
     this.hasMoved = false;
     this.killCount = 0;
   }
-  
+
   abstract getLegalMoves(): Position[];
 
   copyPosition(): Position | undefined {

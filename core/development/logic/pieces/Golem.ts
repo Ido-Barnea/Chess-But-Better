@@ -1,8 +1,8 @@
 import { golemResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
-import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 import { BasePiece } from './abstract/BasePiece';
+import { Position } from './types/Position';
 
 export class Golem extends BasePiece {
   constructor(player: Player, position?: Position) {

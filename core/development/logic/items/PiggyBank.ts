@@ -1,9 +1,9 @@
 import { BaseItem } from './abstract/Item';
 import { piggyBankResource } from '../../ui/Resources';
-import { Position } from '../pieces/PiecesUtilities';
 import { Log } from '../../ui/logs/Log';
 import { getPieceByPosition } from '../Utilities';
 import { ItemActionResult } from './types/ItemActionResult';
+import { Position } from '../pieces/types/Position';
 
 export class PiggyBank extends BaseItem {
   constructor(position?: Position) {

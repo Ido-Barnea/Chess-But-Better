@@ -3,9 +3,9 @@ import { BOARD_WIDTH } from '../Constants';
 import { comparePositions } from '../logic/Utilities';
 import { PiggyBank } from '../logic/items/PiggyBank';
 import { BaseItem } from '../logic/items/abstract/Item';
-import { Position } from '../logic/pieces/PiecesUtilities';
 import { initializeDraggingListeners } from './Events';
 import { BasePiece } from '../logic/pieces/abstract/BasePiece';
+import { Position } from '../logic/pieces/types/Position';
 
 export class ChessBoard {
   boardId: string;

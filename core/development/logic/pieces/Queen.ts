@@ -1,10 +1,10 @@
 import { queenResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
-import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 import { DoubleQueen } from './DoubleQueen';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { BasePiece } from './abstract/BasePiece';
+import { Position } from './types/Position';
 
 export class Queen extends BasePiece {
   constructor(player: Player, position?: Position) {
