@@ -4,7 +4,6 @@ const infoDisplay = document.getElementById('info-container');
 
 const unicornAttackButton = document.getElementById('unicorn-attack');
 
-
 export function renderPlayersInformation() {
   if (infoDisplay) infoDisplay.textContent = '';
 

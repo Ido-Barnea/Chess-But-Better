@@ -27,7 +27,11 @@ import {
   spawnItemOnChildElement,
   destroyElementOnPiece,
 } from './ui/BoardManager';
-import { hideUnicornAttackButton, renderPlayersInformation, showUnicornAttackButton } from './ui/Screen';
+import {
+  hideUnicornAttackButton,
+  renderPlayersInformation,
+  showUnicornAttackButton,
+} from './ui/Screen';
 import {
   switchShownInventory,
   showItemOnInventory,
@@ -151,7 +155,7 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   const pieceElementPosition = getPositionFromSquareId(squareId, boardId);
   const piece = findPieceAtPosition(pieceElementPosition);
   if (!piece || !isPlayerAllowedToAct(piece.player)) return;
-  
+
   if (piece instanceof Unicorn) {
     showUnicornAttackButton();
   } else {
@@ -426,12 +430,17 @@ export function getPieceByElement(pieceElement: HTMLElement, boardId: string) {
   return piece;
 }
 
-export function unicornAttackAttempt(pieceElement: HTMLElement, targetPieceElement: HTMLElement, boardId: string) {
+export function unicornAttackAttempt(
+  pieceElement: HTMLElement,
+  targetPieceElement: HTMLElement,
+  boardId: string,
+) {
   const unicornPiece = getPieceByElement(pieceElement, boardId);
   if (!unicornPiece || !(unicornPiece instanceof Unicorn)) return;
 
   const attackerPlayer = unicornPiece.player;
-  if (attackerPlayer.usedAbility || !isPlayerAllowedToAct(attackerPlayer)) return;
+  if (attackerPlayer.usedAbility || !isPlayerAllowedToAct(attackerPlayer))
+    return;
 
   const targetPiece = getPieceByElement(targetPieceElement, boardId);
   if (!targetPiece) return;
@@ -439,7 +448,7 @@ export function unicornAttackAttempt(pieceElement: HTMLElement, targetPieceEleme
   const targetablePieces = unicornPiece.getAttackablePieces();
 
   if (!targetablePieces.includes(targetPiece)) return;
-  
+
   unicornPiece.player.usedAbility = true;
   handleOverworldKill(targetPiece);
 }

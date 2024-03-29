@@ -59,7 +59,10 @@ export function initializeEventListeners() {
   HELL_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
   HEAVEN_BOARD_BUTTON?.addEventListener('click', handleBoardButtonPress);
 
-  UNICORN_ATTACK_BUTTON?.addEventListener('click', onUnicornAttackButtonPressed);
+  UNICORN_ATTACK_BUTTON?.addEventListener(
+    'click',
+    onUnicornAttackButtonPressed,
+  );
 
   SHOP_UPGRADE_SWAPPER?.addEventListener('change', swapShopAndUpgrade);
 
@@ -246,10 +249,10 @@ function onPieceClick(pieceElement: HTMLElement) {
   }
 
   if (attackingUnicorn) {
-      unicornAttackAttempt(attackingUnicorn, pieceElement, boardElement.id);
-      selectedPieceElement = undefined;
-      attackingUnicorn = undefined;
-      hideUnicornAttackButton();
+    unicornAttackAttempt(attackingUnicorn, pieceElement, boardElement.id);
+    selectedPieceElement = undefined;
+    attackingUnicorn = undefined;
+    hideUnicornAttackButton();
   } else {
     selectedPieceElement = pieceElement;
     onPieceSelected(pieceElement, boardElement.id);

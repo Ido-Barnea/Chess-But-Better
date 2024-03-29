@@ -25,8 +25,8 @@ export class Unicorn extends Piece {
       { deltaX: 0, deltaY: -1 },
       { deltaX: -1, deltaY: -1 },
       { deltaX: -1, deltaY: 1 },
-      { deltaX: 1, deltaY: -1},
-    ]
+      { deltaX: 1, deltaY: -1 },
+    ];
 
     for (const offset of attackablePositionsOffsets) {
       const nextX = currentCoordinates[0] + offset.deltaX;
@@ -35,9 +35,9 @@ export class Unicorn extends Piece {
       const targetPosition: Position = {
         coordinates: [nextX, nextY],
         boardId: this.position.boardId,
-      }
+      };
 
-      const targetPiece = getPieceByPosition(targetPosition)
+      const targetPiece = getPieceByPosition(targetPosition);
       if (targetPiece) {
         attackablePieces.push(targetPiece);
       }

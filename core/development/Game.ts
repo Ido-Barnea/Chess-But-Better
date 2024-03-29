@@ -145,7 +145,7 @@ function resetVariables() {
 
   players.forEach((player) => {
     player.usedAbility = false;
-  })
+  });
 }
 
 function endTurn() {
