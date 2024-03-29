@@ -18,7 +18,7 @@ export function createShopItemSquare(shopElement: HTMLElement) {
   shopElement.appendChild(itemSquare);
 }
 
-export function addItemToShop(item: BaseItem) {
+export function renderItemOnShopUI(item: BaseItem) {
   const itemElement = document.createElement('div');
   itemElement.id = item.name;
   itemElement.classList.add('shop-item');

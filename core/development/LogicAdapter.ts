@@ -394,7 +394,7 @@ export function returnItemToInventory(itemElement: HTMLElement) {
 }
 
 export function getShopItemById(itemId: string) {
-  const purchaseableItems = shop.items;
+  const purchaseableItems = shop.getItems();
 
   const item = purchaseableItems.filter((item) => {
     return item.name == itemId;
@@ -407,7 +407,7 @@ export function buyItem(itemId: string) {
   const item = getShopItemById(itemId);
   const currentPlayer = game.getCurrentPlayer();
 
-  if (shop.buy(item, currentPlayer)) {
+  if (shop.buyItem(item, currentPlayer)) {
     showItemOnInventory(item, currentPlayer.color);
   }
 

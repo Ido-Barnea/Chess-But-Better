@@ -17,13 +17,13 @@ import { RulesManager } from './logic/rules/RulesManager';
 import { showWinningAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
-import { addItemToShop } from './ui/ShopUI';
-import { Shop } from './logic/items/Shop';
+import { renderItemOnShopUI } from './ui/ShopUI';
 import { PlayerColor } from './logic/players/types/PlayerColor';
 import { PlayerInventory } from './logic/inventory/PlayerInventory';
 import { BasePiece } from './logic/pieces/abstract/BasePiece';
+import { ItemsShop } from './logic/shop/ItemsShop';
 
-export const shop = new Shop();
+export const shop = new ItemsShop();
 
 let rulesManager: RulesManager;
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
@@ -82,8 +82,8 @@ function initializeGame() {
     initializeInventoryUI(player.color);
   });
 
-  shop.items.forEach((item) => {
-    addItemToShop(item);
+  shop.getItems().forEach((item) => {
+    renderItemOnShopUI(item);
   });
 }
 
