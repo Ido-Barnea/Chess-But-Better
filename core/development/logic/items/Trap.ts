@@ -1,4 +1,4 @@
-import { Item } from './Items';
+import { BaseItem } from './abstract/Item';
 import { trapResource } from '../../ui/Resources';
 import { spawnItemOnBoard } from '../../LogicAdapter';
 import { game } from '../../Game';
@@ -6,7 +6,7 @@ import { Position } from '../pieces/PiecesUtilities';
 import { Log, MovementLog } from '../../ui/logs/Log';
 import { Logger } from '../../ui/logs/Logger';
 
-export class Trap extends Item {
+export class Trap extends BaseItem {
   constructor(position?: Position) {
     super('trap', trapResource, 3, position);
   }

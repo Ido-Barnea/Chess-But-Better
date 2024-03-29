@@ -1,8 +1,6 @@
-import { Log } from '../../ui/logs/Log';
-import { Position } from '../pieces/PiecesUtilities';
-import { Player } from '../players/Player';
+import { Position } from '../../pieces/PiecesUtilities';
 
-export abstract class Item {
+export abstract class BaseItem {
   name: string;
   resource: string;
   price: number;
@@ -18,14 +16,6 @@ export abstract class Item {
     this.resource = resource;
     this.price = price;
     this.position = position;
-  }
-
-  setPosition(position: Position) {
-    this.position = position;
-  }
-
-  drop(player: Player) {
-    new Log(`${player.color} dropped a ${this.name}.`).addToQueue();
   }
 
   abstract use(position: Position): void;

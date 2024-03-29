@@ -1,5 +1,5 @@
 import { Piece } from './Piece';
-import { Item } from '../items/Items';
+import { BaseItem } from '../items/abstract/Item';
 import { comparePositions } from '../Utilities';
 import { game } from '../../Game';
 
@@ -13,7 +13,7 @@ export type Square = {
   occupent?: Piece;
 };
 
-export function getItemByPosition(position: Position): Item | undefined {
+export function getItemByPosition(position: Position): BaseItem | undefined {
   return game
     .getItems()
     .find((item) => comparePositions(position, item.position));

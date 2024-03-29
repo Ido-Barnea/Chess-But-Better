@@ -2,7 +2,7 @@ import { game } from '../Game';
 import { BOARD_WIDTH } from '../Constants';
 import { comparePositions } from '../logic/Utilities';
 import { PiggyBank } from '../logic/items/PiggyBank';
-import { Item } from '../logic/items/Items';
+import { BaseItem } from '../logic/items/abstract/Item';
 import { Piece } from '../logic/pieces/Piece';
 import { Position } from '../logic/pieces/PiecesUtilities';
 import { initializeDraggingListeners } from './Events';
@@ -140,7 +140,7 @@ export class ChessBoard {
     return pieceElement;
   }
 
-  createItemElement(item: Item): HTMLElement {
+  createItemElement(item: BaseItem): HTMLElement {
     const itemElement = document.createElement('div');
     itemElement.classList.add('item');
     itemElement.setAttribute('id', item.name);
@@ -185,7 +185,7 @@ export class ChessBoard {
     parentElement.appendChild(element);
   }
 
-  spawnItemOnBoard(item: Item) {
+  spawnItemOnBoard(item: BaseItem) {
     if (!item.position) return;
 
     const itemCoordinates = item.position.coordinates;

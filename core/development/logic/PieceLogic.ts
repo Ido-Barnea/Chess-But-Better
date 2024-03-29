@@ -16,7 +16,7 @@ import {
 } from '../Constants';
 import { comparePositions } from './Utilities';
 import { PiggyBank } from './items/PiggyBank';
-import { Item } from './items/Items';
+import { BaseItem } from './items/abstract/Item';
 import { Trap } from './items/Trap';
 import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
@@ -28,7 +28,7 @@ import { KillLog, Log, MovementLog } from '../ui/logs/Log';
 
 function validatePlayerAction(
   draggedPiece: Piece,
-  target: Piece | Square | Item,
+  target: Piece | Square | BaseItem,
 ): boolean {
   if (!isPlayerAllowedToAct(draggedPiece.player)) return false;
   if (draggedPiece === target) return false;
@@ -96,7 +96,7 @@ export function onPieceFellOffTheBoard(draggedPiece: Piece) {
 
 export function onPlayerAction(
   draggedPiece: Piece,
-  target: Piece | Square | Item,
+  target: Piece | Square | BaseItem,
 ) {
   if (!validatePlayerAction(draggedPiece, target) || !target.position) {
     revertPieceMoveOnBoard(draggedPiece);
@@ -118,7 +118,7 @@ export function onPlayerAction(
     onActionAttackMove(draggedPiece, target);
   } else {
     const targetSquare =
-      target instanceof Item
+      target instanceof BaseItem
         ? { position: target.position }
         : (target as Square);
 
@@ -344,7 +344,7 @@ function handlePieceSpawning(spawningPiece: Piece) {
   spawnPieceOnBoard(spawningPiece);
 }
 
-function onActionPieceToItem(piece: Piece, item: Item) {
+function onActionPieceToItem(piece: Piece, item: BaseItem) {
   switch (item.name) {
     case 'piggy bank': {
       pieceMovedOnPiggyBank(piece, item as PiggyBank);

@@ -4,13 +4,13 @@ import {
   onPieceFellOffTheBoard,
   onPlayerAction,
 } from './logic/PieceLogic';
-import { Player, PlayerColors } from './logic/players/Player';
+import { Player } from './logic/players/Player';
 import {
   comparePositions,
   convertSquareIdToPosition,
   getPieceByPosition,
 } from './logic/Utilities';
-import { Item } from './logic/items/Items';
+import { BaseItem } from './logic/items/abstract/Item';
 import { Piece } from './logic/pieces/Piece';
 import { Position, Square } from './logic/pieces/PiecesUtilities';
 import {
@@ -36,6 +36,7 @@ import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
+import { PlayerColor } from './logic/players/PlayerColor';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -231,7 +232,7 @@ export function destroyPieceOnBoard(piece: Piece, originBoardId?: string) {
   destroyElementOnBoard(squareId, originBoardId, fadeDirection);
 }
 
-export function destroyItemOnBoard(item: Item) {
+export function destroyItemOnBoard(item: BaseItem) {
   if (!item.position) return;
 
   const itemCoordinates = item.position.coordinates;
@@ -258,7 +259,7 @@ export function spawnPieceOnBoard(piece: Piece) {
   spawnPieceElementOnBoard(piece, squareId);
 }
 
-export function spawnItemOnBoard(item: Item) {
+export function spawnItemOnBoard(item: BaseItem) {
   if (!item.position) return;
 
   const itemCoordinates = item.position.coordinates;
@@ -267,7 +268,7 @@ export function spawnItemOnBoard(item: Item) {
   spawnItemElementOnBoard(item, squareId);
 }
 
-export function spawnItemOnPiece(item: Item) {
+export function spawnItemOnPiece(item: BaseItem) {
   if (!item.position) return;
 
   const itemCoordinates = item.position.coordinates;
@@ -284,9 +285,9 @@ export function changePieceToAnotherPlayer(piece: Piece) {
   if (pieceElement) {
     pieceElement.classList.remove(piece.player.color.toLowerCase());
     const enemyPlayerColor =
-      piece.player.color === PlayerColors.WHITE
-        ? PlayerColors.BLACK
-        : PlayerColors.WHITE;
+      piece.player.color === PlayerColor.WHITE
+        ? PlayerColor.BLACK
+        : PlayerColor.WHITE;
     pieceElement.classList.add(enemyPlayerColor.toLowerCase());
   }
 
@@ -324,7 +325,7 @@ export function canPlaceItemOnBoard(
   const usedItem = getCurrentPlayerInventoryItemById(itemElement.id);
   if (!usedItem) return false;
 
-  usedItem.setPosition(squarePosition);
+  usedItem.position = squarePosition;
 
   switch (itemElement.id) {
     case 'trap': {
@@ -369,7 +370,7 @@ export function getCurrentBoardId(): string | undefined {
 
 export function getCurrentPlayerInventoryItemById(
   itemId: string,
-): Item | undefined {
+): BaseItem | undefined {
   const player = game.getCurrentPlayer();
   const draggedItem = player.inventory.items.filter((item) => {
     return item.name === itemId;

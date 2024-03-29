@@ -6,7 +6,7 @@ import {
 } from './LogicAdapter';
 import { BOARD_WIDTH, OVERWORLD_BOARD_ID, VOID_BOARD_ID } from './Constants';
 import { Player, PlayerColors } from './logic/players/Player';
-import { Item } from './logic/items/Items';
+import { BaseItem } from './logic/items/abstract/Item';
 import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';
 import { Knight } from './logic/pieces/Knight';
@@ -61,7 +61,7 @@ let pieces: Array<Piece> = [
   new Knight(whitePlayer, { coordinates: [6, 7], boardId: OVERWORLD_BOARD_ID }),
   new Rook(whitePlayer, { coordinates: [7, 7], boardId: OVERWORLD_BOARD_ID }),
 ];
-let items: Array<Item> = [];
+let items: Array<BaseItem> = [];
 let currentPlayerIndex = 0;
 let turnCounter = 0;
 let roundCounter = 1;
@@ -186,15 +186,15 @@ function setPieces(updatedPieces: Array<Piece>) {
   pieces = updatedPieces;
 }
 
-function getItems(): Array<Item> {
+function getItems(): Array<BaseItem> {
   return items;
 }
 
-function addItem(item: Item) {
+function addItem(item: BaseItem) {
   items.push(item);
 }
 
-function setItems(updatedItems: Array<Item>) {
+function setItems(updatedItems: Array<BaseItem>) {
   items = updatedItems;
 }
 

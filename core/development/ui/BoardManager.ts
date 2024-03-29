@@ -20,7 +20,7 @@ import {
   OVERWORLD_BOARD_ID,
   HIGHLIGHT_LEGAL_MOVE,
 } from '../Constants';
-import { Item } from '../logic/items/Items';
+import { BaseItem } from '../logic/items/abstract/Item';
 import { Piece } from '../logic/pieces/Piece';
 
 let overworldBoard: ChessBoard;
@@ -205,7 +205,7 @@ export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
   board.boardButtonElement.classList.remove('disabled');
 }
 
-export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
+export function spawnItemElementOnBoard(item: BaseItem, targetSquareId: string) {
   if (!item.position) return;
   const board = getBoardbyId(item.position.boardId);
 
@@ -218,7 +218,7 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
 }
 
 export function spawnItemOnChildElement(
-  item: Item,
+  item: BaseItem,
   targetSquareId: string,
   isUntargetable = false,
 ) {

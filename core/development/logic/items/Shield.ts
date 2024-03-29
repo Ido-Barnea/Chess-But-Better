@@ -1,4 +1,4 @@
-import { Item } from './Items';
+import { BaseItem } from './abstract/Item';
 import { shieldResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';
 import { Log, MovementLog } from '../../ui/logs/Log';
@@ -6,7 +6,7 @@ import { getPieceByPosition } from '../Utilities';
 import { spawnItemOnPiece } from '../../LogicAdapter';
 import { Logger } from '../../ui/logs/Logger';
 
-export class Shield extends Item {
+export class Shield extends BaseItem {
   constructor(position?: Position) {
     super('shield', shieldResource, 3, position);
   }

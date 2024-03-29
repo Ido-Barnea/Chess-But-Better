@@ -6,7 +6,6 @@ import {
 } from '../../Constants';
 import { Piece } from '../../logic/pieces/Piece';
 import { Position } from '../../logic/pieces/PiecesUtilities';
-import { HELL_BOARD } from '../BoardManager';
 import { Logger } from './Logger';
 
 export enum LogColor {

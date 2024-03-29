@@ -1,6 +1,6 @@
 import { INVENTORY_ELEMENT_ID, INVENTORY_WIDTH } from '../Constants';
 import { PlayerColors } from '../logic/players/Player';
-import { Item } from '../logic/items/Items';
+import { BaseItem } from '../logic/items/abstract/Item';
 import { initializeDraggingListeners } from './Events';
 
 const inventoryElement = document.getElementById(INVENTORY_ELEMENT_ID);
@@ -15,7 +15,7 @@ function createPlayerInventoryElement(playerColor: PlayerColors): HTMLElement {
 }
 
 export function showItemOnInventory(
-  item: Item,
+  item: BaseItem,
   playerColor: PlayerColors,
 ): HTMLElement | undefined {
   const inventoryItemElement = document.createElement('div') as HTMLElement;
