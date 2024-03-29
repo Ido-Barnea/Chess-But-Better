@@ -17,8 +17,7 @@ export class Unicorn extends Piece {
     const currentCoordinates = this.position.coordinates;
     const attackablePieces = [];
 
-    // Offsets for the positions the unicorn can attack
-    const attackPositionsOffsets = [
+    const attackablePositionsOffsets = [
       { deltaX: 1, deltaY: 0 },
       { deltaX: 0, deltaY: 1 },
       { deltaX: 1, deltaY: 1 },
@@ -29,7 +28,7 @@ export class Unicorn extends Piece {
       { deltaX: 1, deltaY: -1},
     ]
 
-    for (const offset of attackPositionsOffsets) {
+    for (const offset of attackablePositionsOffsets) {
       const nextX = currentCoordinates[0] + offset.deltaX;
       const nextY = currentCoordinates[1] + offset.deltaY;
 
@@ -53,7 +52,6 @@ export class Unicorn extends Piece {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
 
-    // Define all possible unicorn move offsets
     const unicornMoveOffsets = [
       { deltaX: 2, deltaY: 1 },
       { deltaX: 2, deltaY: -1 },
