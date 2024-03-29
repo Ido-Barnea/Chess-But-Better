@@ -438,9 +438,6 @@ export function unicornAttackAttempt(pieceElement: HTMLElement, targetPieceEleme
 
   const targetablePieces = unicornPiece.getAttackablePieces();
 
-  console.log(targetablePieces);
-  console.log(targetPiece);
-  console.log(targetablePieces.includes(targetPiece));
   if (!targetablePieces.includes(targetPiece)) return;
   
   unicornPiece.player.usedAbility = true;
