@@ -5,7 +5,7 @@ import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 import { Rook } from './Rook';
 import { game } from '../../Game';
-import { PlayerColor } from '../players/PlayerColor';
+import { PlayerColor } from '../players/types/PlayerColor';
 
 export class King extends Piece {
   constructor(player: Player, position?: Position) {

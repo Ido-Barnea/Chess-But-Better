@@ -3,7 +3,7 @@ import { Piece } from './Piece';
 import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { Unicorn } from './Unicorn';
-import { PlayerColor } from '../players/PlayerColor';
+import { PlayerColor } from '../players/types/PlayerColor';
 
 export class Knight extends Piece {
   constructor(player: Player, position?: Position) {

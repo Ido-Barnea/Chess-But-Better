@@ -20,7 +20,7 @@ import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
 import { addItemToShop } from './ui/ShopUI';
 import { Shop } from './logic/items/Shop';
-import { PlayerColor } from './logic/players/PlayerColor';
+import { PlayerColor } from './logic/players/types/PlayerColor';
 
 export const shop = new Shop();
 

@@ -4,7 +4,7 @@ import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 import { Golem } from './Golem';
-import { PlayerColor } from '../players/PlayerColor';
+import { PlayerColor } from '../players/types/PlayerColor';
 
 export class Rook extends Piece {
   constructor(player: Player, position?: Position) {

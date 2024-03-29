@@ -36,7 +36,7 @@ import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
-import { PlayerColor } from './logic/players/PlayerColor';
+import { PlayerColor } from './logic/players/types/PlayerColor';
 
 export function renderScreen() {
   renderPlayersInformation();

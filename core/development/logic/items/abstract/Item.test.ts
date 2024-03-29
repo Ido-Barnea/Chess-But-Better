@@ -6,7 +6,7 @@ import { onPlayerAction } from '../../PieceLogic';
 import { game } from '../../../Game';
 import { Rook } from '../../pieces/Rook';
 import { Trap } from '../Trap';
-import { PlayerColor } from '../../players/PlayerColor';
+import { PlayerColor } from '../../players/types/PlayerColor';
 
 const whitePlayer = new Player(PlayerColor.WHITE);
 

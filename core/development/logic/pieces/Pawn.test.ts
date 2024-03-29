@@ -4,7 +4,7 @@ import { onPlayerAction } from '../PieceLogic';
 import { Player } from '../players/Player';
 import { Pawn } from './Pawn';
 import { Position, Square } from './PiecesUtilities';
-import { PlayerColor } from '../players/PlayerColor';
+import { PlayerColor } from '../players/types/PlayerColor';
 
 const whitePlayer = new Player(PlayerColor.WHITE);
 const blackPlayer = new Player(PlayerColor.BLACK);

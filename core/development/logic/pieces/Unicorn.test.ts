@@ -5,7 +5,7 @@ import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { Rook } from './Rook';
 import { Unicorn } from './Unicorn';
-import { PlayerColor } from '../players/PlayerColor';
+import { PlayerColor } from '../players/types/PlayerColor';
 
 const whitePlayer = new Player(PlayerColor.WHITE);
 const blackPlayer = new Player(PlayerColor.BLACK);

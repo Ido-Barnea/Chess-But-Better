@@ -1,5 +1,5 @@
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { PlayerColor } from './PlayerColor';
+import { PlayerColor } from './types/PlayerColor';
 
 export class Player {
   color: PlayerColor;
