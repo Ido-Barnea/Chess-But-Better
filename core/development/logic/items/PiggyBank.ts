@@ -3,6 +3,7 @@ import { piggyBankResource } from '../../ui/Resources';
 import { Position } from '../pieces/PiecesUtilities';
 import { Log } from '../../ui/logs/Log';
 import { getPieceByPosition } from '../Utilities';
+import { ItemActionResult } from './types/ItemActionResult';
 
 export class PiggyBank extends BaseItem {
   constructor(position?: Position) {
@@ -14,9 +15,9 @@ export class PiggyBank extends BaseItem {
     return Math.floor(Math.random() * max) + 1;
   }
 
-  use(position: Position): void {
+  use(position: Position): ItemActionResult {
     const piece = getPieceByPosition(position);
-    if (!piece) return;
+    if (!piece) return ItemActionResult.FAILURE;
 
     const gold = this.getRandomAmountOfCoins();
     piece.player.gold += gold;
@@ -25,8 +26,11 @@ export class PiggyBank extends BaseItem {
       player: { color: pieceColor },
       name: pieceName,
     } = piece;
+
     new Log(
       `${pieceColor} ${pieceName} claimed a ${this.name} and recieved ${gold} gold coins.`,
     ).addToQueue();
+
+    return ItemActionResult.SUCCESS;
   }
 }

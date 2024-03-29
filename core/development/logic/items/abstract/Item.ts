@@ -1,4 +1,5 @@
 import { Position } from '../../pieces/PiecesUtilities';
+import { ItemActionResult } from '../types/ItemActionResult';
 
 export abstract class BaseItem {
   name: string;
@@ -18,5 +19,5 @@ export abstract class BaseItem {
     this.position = position;
   }
 
-  abstract use(position: Position): void;
+  abstract use(position: Position): ItemActionResult;
 }

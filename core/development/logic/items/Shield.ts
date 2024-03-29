@@ -4,6 +4,7 @@ import { Position } from '../pieces/PiecesUtilities';
 import { Log, MovementLog } from '../../ui/logs/Log';
 import { getPieceByPosition } from '../Utilities';
 import { spawnItemOnPiece } from '../../LogicAdapter';
+import { ItemActionResult } from './types/ItemActionResult';
 import { Logger } from '../../ui/logs/Logger';
 
 export class Shield extends BaseItem {
@@ -11,9 +12,9 @@ export class Shield extends BaseItem {
     super('shield', shieldResource, 3, position);
   }
 
-  use(position: Position): void {
+  use(position: Position): ItemActionResult {
     const piece = getPieceByPosition(position);
-    if (!piece || !piece.position) return;
+    if (!piece || !piece.position) return ItemActionResult.FAILURE;
 
     const logCoordinates = MovementLog.convertPositionToNotation(
       piece.position.coordinates,
@@ -27,5 +28,6 @@ export class Shield extends BaseItem {
     piece.health++;
 
     spawnItemOnPiece(this);
+    return ItemActionResult.SUCCESS;
   }
 }
