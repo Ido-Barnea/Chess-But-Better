@@ -22,9 +22,9 @@ const MOVEMENT_TO_CLICK_THRESHOLD = 10;
 
 let draggedElement: HTMLElement | undefined;
 
-let selectedPieceElement: HTMLElement | undefined = undefined;
+let selectedPieceElement: HTMLElement | undefined;
 
-let attackingUnicorn: HTMLElement | undefined = undefined;
+let attackingUnicorn: HTMLElement | undefined;
 
 let triggerOnAction: (
   draggedElement: HTMLElement,
@@ -46,7 +46,7 @@ const SHOP_UPGRADE_SWAPPER = document.getElementById('shop-upgrade-swapper');
 const SHOP_CONTAINER = document.getElementById('shop-container');
 const UPGRADES_CONTAINER = document.getElementById('piece-upgrades-container');
 
-const UNICORN_ATTACK_BUTTON = document.getElementById('unicorn-attack')
+const UNICORN_ATTACK_BUTTON = document.getElementById('unicorn-attack');
 
 export function initializeEventListeners() {
   const pieces = document.querySelectorAll('.piece');
@@ -244,15 +244,16 @@ function onPieceClick(pieceElement: HTMLElement) {
   while (!boardElement?.classList.contains('board')) {
     boardElement = boardElement?.parentElement ?? undefined;
   }
+
   if (attackingUnicorn) {
       unicornAttackAttempt(attackingUnicorn, pieceElement, boardElement.id);
-      selectedPieceElement = attackingUnicorn = undefined;
+      selectedPieceElement = undefined;
+      attackingUnicorn = undefined;
       hideUnicornAttackButton();
-      return;
+  } else {
+    selectedPieceElement = pieceElement;
+    onPieceSelected(pieceElement, boardElement.id);
   }
-
-  selectedPieceElement = pieceElement;
-  onPieceSelected(pieceElement, boardElement.id);
 }
 
 function showBoard(boardId: string) {

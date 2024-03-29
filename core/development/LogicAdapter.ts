@@ -428,15 +428,21 @@ export function getPieceByElement(pieceElement: HTMLElement, boardId: string) {
 
 export function unicornAttackAttempt(pieceElement: HTMLElement, targetPieceElement: HTMLElement, boardId: string) {
   const unicornPiece = getPieceByElement(pieceElement, boardId);
-  if (!(unicornPiece instanceof Unicorn) || unicornPiece.player.usedAbility) return;
+  if (!unicornPiece || !(unicornPiece instanceof Unicorn)) return;
+
+  const attackerPlayer = unicornPiece.player;
+  if (attackerPlayer.usedAbility || !isPlayerAllowedToAct(attackerPlayer)) return;
 
   const targetPiece = getPieceByElement(targetPieceElement, boardId);
   if (!targetPiece) return;
 
   const targetablePieces = unicornPiece.getAttackablePieces();
 
-  // If the piece is not in the array, return
-  if (targetablePieces.filter(piece => piece === targetPiece).length === 0) return;
+  console.log(targetablePieces);
+  console.log(targetPiece);
+  console.log(targetablePieces.includes(targetPiece));
+  if (!targetablePieces.includes(targetPiece)) return;
+  
   unicornPiece.player.usedAbility = true;
   handleOverworldKill(targetPiece);
 }

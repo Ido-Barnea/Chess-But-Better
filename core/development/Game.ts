@@ -15,7 +15,7 @@ import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
-import { showWinningAlert } from './ui/Screen';
+import { hideUnicornAttackButton, showWinningAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
 import { addItemToShop } from './ui/ShopUI';
@@ -97,6 +97,7 @@ function endMove(canRecover = true) {
 
   checkForUpgradeablePawns();
   resetVariables();
+  hideAbilities();
   endTurn();
 }
 
@@ -120,6 +121,10 @@ function checkForUpgradeablePawns() {
       }
     }
   }
+}
+
+function hideAbilities() {
+  hideUnicornAttackButton();
 }
 
 function resetVariables() {
