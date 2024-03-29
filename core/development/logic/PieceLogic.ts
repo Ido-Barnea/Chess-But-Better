@@ -26,20 +26,7 @@ import { KillLog, Log, MovementLog } from '../ui/logs/Log';
 import { BasePiece } from './pieces/abstract/BasePiece';
 import { Square } from './pieces/types/Square';
 import { Position } from './pieces/types/Position';
-
-function validatePlayerAction(
-  draggedPiece: BasePiece,
-  target: BasePiece | Square | BaseItem,
-): boolean {
-  if (!isPlayerAllowedToAct(draggedPiece.player)) return false;
-  if (draggedPiece === target) return false;
-  if (draggedPiece.position?.boardId !== target.position?.boardId) return false;
-
-  const legalMoves = draggedPiece.getLegalMoves();
-  return legalMoves.some((position) =>
-    comparePositions(position, target.position),
-  );
-}
+import { PlayerMoveValidator } from './validators/PlayerMoveValidator';
 
 function getPathPositions(start: Position, end: Position): Array<Position> {
   const path: Array<Position> = [];
@@ -99,7 +86,8 @@ export function onPlayerAction(
   draggedPiece: BasePiece,
   target: BasePiece | Square | BaseItem,
 ) {
-  if (!validatePlayerAction(draggedPiece, target) || !target.position) {
+  const playerMoveValidator = new PlayerMoveValidator(draggedPiece, target);
+  if (!playerMoveValidator.validate() || !target.position) {
     revertPieceMoveOnBoard(draggedPiece);
     return;
   }
