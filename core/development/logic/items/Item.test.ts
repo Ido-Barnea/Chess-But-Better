@@ -1,13 +1,13 @@
-import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../../Constants';
-import { Position, Square } from '../../pieces/PiecesUtilities';
-import { PiggyBank } from '../PiggyBank';
-import { Player } from '../../players/Player';
-import { onPlayerAction } from '../../PieceLogic';
-import { game } from '../../../Game';
-import { Rook } from '../../pieces/Rook';
-import { Trap } from '../Trap';
-import { PlayerColor } from '../../players/types/PlayerColor';
-import { PlayerInventory } from '../../inventory/PlayerInventory';
+import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
+import { Position, Square } from '../pieces/PiecesUtilities';
+import { PiggyBank } from './PiggyBank';
+import { Player } from '../players/Player';
+import { onPlayerAction } from '../PieceLogic';
+import { game } from '../../Game';
+import { Rook } from '../pieces/Rook';
+import { Trap } from './Trap';
+import { PlayerColor } from '../players/types/PlayerColor';
+import { PlayerInventory } from '../inventory/PlayerInventory';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
