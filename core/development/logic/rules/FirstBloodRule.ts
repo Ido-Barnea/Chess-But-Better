@@ -1,6 +1,6 @@
 import { game } from '../../Game';
 import { RuleLog } from '../../ui/logs/Log';
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 
 export class FirstBloodRule extends BaseRule {
   constructor(isRevealed = false) {

@@ -1,6 +1,6 @@
 import { game } from '../../Game';
 import { RuleLog } from '../../ui/logs/Log';
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 
 export class EmptyPocketsRule extends BaseRule {
   constructor(isRevealed = false) {

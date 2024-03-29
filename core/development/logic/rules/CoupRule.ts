@@ -2,7 +2,7 @@ import { game } from '../../Game';
 import { changePieceToAnotherPlayer } from '../../LogicAdapter';
 import { RuleLog } from '../../ui/logs/Log';
 import { King } from '../pieces/King';
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 
 const IN_DEBT_FOR_TURNS_THRESHOLD = 4;
 

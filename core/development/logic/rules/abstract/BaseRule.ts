@@ -1,13 +1,6 @@
-import { game } from '../../Game';
-import { RuleLog } from '../../ui/logs/Log';
-
-export interface Rule {
-  description: string;
-  isRevealed: boolean;
-  condition: () => boolean;
-  onTrigger: () => void;
-  trigger: () => void;
-}
+import { game } from '../../../Game';
+import { RuleLog } from '../../../ui/logs/Log';
+import { Rule } from './Rule';
 
 export class BaseRule implements Rule {
   description: string;
@@ -32,9 +25,11 @@ export class BaseRule implements Rule {
       this.onTrigger();
       if (!this.isRevealed) {
         const player = game.getCurrentPlayer();
+
         new RuleLog(
           `${player.color} received XP for revealing a new rule: ${this.description}`,
         ).addToQueue();
+        
         player.xp++;
         this.isRevealed = true;
       }

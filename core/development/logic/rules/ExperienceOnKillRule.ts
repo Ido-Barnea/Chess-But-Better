@@ -1,7 +1,7 @@
 import { game } from '../../Game';
 import { RuleLog } from '../../ui/logs/Log';
 import { Unicorn } from '../pieces/Unicorn';
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 
 export class ExperienceOnKillRule extends BaseRule {
   constructor(isRevealed = false) {

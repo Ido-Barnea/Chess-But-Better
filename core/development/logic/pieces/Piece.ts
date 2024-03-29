@@ -1,4 +1,3 @@
-import { VOID_BOARD_ID } from '../../Constants';
 import { Player } from '../Players';
 import { Position, Square } from './PiecesUtilities';
 
