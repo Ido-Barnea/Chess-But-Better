@@ -9,9 +9,10 @@ import { Bishop } from './Bishop';
 import { Pawn } from './Pawn';
 import { Position } from './PiecesUtilities';
 import { PlayerColor } from '../players/types/PlayerColor';
+import { PlayerInventory } from '../inventory/PlayerInventory';
 
-const whitePlayer = new Player(PlayerColor.WHITE);
-const blackPlayer = new Player(PlayerColor.BLACK);
+const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
+const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 
 jest.mock('../../ui/BoardManager.ts', () => ({
   destroyElementOnBoard: jest.fn(),

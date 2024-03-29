@@ -7,8 +7,9 @@ import { game } from '../../../Game';
 import { Rook } from '../../pieces/Rook';
 import { Trap } from '../Trap';
 import { PlayerColor } from '../../players/types/PlayerColor';
+import { PlayerInventory } from '../../inventory/PlayerInventory';
 
-const whitePlayer = new Player(PlayerColor.WHITE);
+const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
 jest.mock('../../ui/BoardManager.ts', () => ({
   destroyElementOnBoard: jest.fn(),

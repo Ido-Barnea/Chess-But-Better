@@ -21,12 +21,13 @@ import { initializeInventoryUI } from './ui/InventoriesUI';
 import { addItemToShop } from './ui/ShopUI';
 import { Shop } from './logic/items/Shop';
 import { PlayerColor } from './logic/players/types/PlayerColor';
+import { PlayerInventory } from './logic/inventory/PlayerInventory';
 
 export const shop = new Shop();
 
 let rulesManager: RulesManager;
-const whitePlayer = new Player(PlayerColor.WHITE);
-const blackPlayer = new Player(PlayerColor.BLACK);
+const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
+const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 const players: Array<Player> = [whitePlayer, blackPlayer];
 let pieces: Array<Piece> = [
   new Rook(blackPlayer, { coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }),

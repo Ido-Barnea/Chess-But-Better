@@ -302,7 +302,7 @@ export function endGame() {
 
 export function switchInventory(player: Player) {
   if (switchShownInventory(player.color)) {
-    player.inventory.items.forEach((item) => {
+    player.inventory.getItems().forEach((item) => {
       showItemOnInventory(item, player.color);
     });
   }
@@ -372,7 +372,7 @@ export function getCurrentPlayerInventoryItemById(
   itemId: string,
 ): BaseItem | undefined {
   const player = game.getCurrentPlayer();
-  const draggedItem = player.inventory.items.filter((item) => {
+  const draggedItem = player.inventory.getItems().filter((item) => {
     return item.name === itemId;
   })[0];
 
