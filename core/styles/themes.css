@@ -20,13 +20,11 @@ body {
   color: var(--text-color);
 }
 
-#shop-upgrade-swapper 
-{
+#shop-upgrade-swapper {
   color: var(--accent-color);
 }
 
-#shop-upgrade-swapper::before
-{
+#shop-upgrade-swapper::before {
   background: var(--accent-color);
 }
 
@@ -47,7 +45,7 @@ body {
 }
 
 #board-overworld-button:hover {
-  background-color: var(--bright-square);  
+  background-color: var(--bright-square);
 }
 
 #board-heaven-button {
