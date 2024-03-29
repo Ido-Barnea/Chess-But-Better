@@ -1,13 +1,14 @@
 import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { Position, Square } from '../pieces/PiecesUtilities';
 import { PiggyBank } from './PiggyBank';
-import { Player, PlayerColors } from '../players/Player';
+import { Player } from '../players/Player';
 import { onPlayerAction } from '../PieceLogic';
 import { game } from '../../Game';
 import { Rook } from '../pieces/Rook';
 import { Trap } from './Trap';
+import { PlayerColor } from '../players/PlayerColor';
 
-const whitePlayer = new Player(PlayerColors.WHITE);
+const whitePlayer = new Player(PlayerColor.WHITE);
 
 jest.mock('../../ui/BoardManager.ts', () => ({
   destroyElementOnBoard: jest.fn(),

@@ -1,12 +1,13 @@
 import { bishopResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player, PlayerColors } from '../players/Player';
+import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
+import { PlayerColor } from '../players/PlayerColor';
 
 export class Bishop extends Piece {
   constructor(player: Player, position?: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♗' : '♝';
+    const icon = player.color === PlayerColor.WHITE ? '♗' : '♝';
     super(bishopResource, icon, 'Bishop', player, position);
   }
 

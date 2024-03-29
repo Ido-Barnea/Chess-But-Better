@@ -1,20 +1,21 @@
 import { kingResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player, PlayerColors } from '../players/Player';
+import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 import { Rook } from './Rook';
 import { game } from '../../Game';
+import { PlayerColor } from '../players/PlayerColor';
 
 export class King extends Piece {
   constructor(player: Player, position?: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♔' : '♚';
+    const icon = player.color === PlayerColor.WHITE ? '♔' : '♚';
 
     super(kingResource, icon, 'King', player, position);
   }
 
   getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
-    const rank = player.color === PlayerColors.WHITE ? 0 : 7;
+    const rank = player.color === PlayerColor.WHITE ? 0 : 7;
     if (!this.position) return;
 
     if (kingside) {

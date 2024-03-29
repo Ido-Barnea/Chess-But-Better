@@ -1,18 +1,17 @@
 import { game } from '../../Game';
 import {
   HEAVEN_BOARD_ID,
-  HELL_BOARD_ID,
   OVERWORLD_BOARD_ID,
-  VOID_BOARD_ID,
 } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
-import { Player, PlayerColors } from '../players/Player';
+import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { Queen } from './Queen';
 import { Pawn } from './Pawn';
+import { PlayerColor } from '../players/PlayerColor';
 
-const whitePlayer = new Player(PlayerColors.WHITE);
-const blackPlayer = new Player(PlayerColors.BLACK);
+const whitePlayer = new Player(PlayerColor.WHITE);
+const blackPlayer = new Player(PlayerColor.BLACK);
 
 jest.mock('../../ui/BoardManager.ts', () => ({
   destroyElementOnBoard: jest.fn(),

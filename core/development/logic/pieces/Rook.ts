@@ -1,13 +1,14 @@
 import { rookResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player, PlayerColors } from '../players/Player';
+import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 import { Golem } from './Golem';
+import { PlayerColor } from '../players/PlayerColor';
 
 export class Rook extends Piece {
   constructor(player: Player, position?: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♖' : '♜';
+    const icon = player.color === PlayerColor.WHITE ? '♖' : '♜';
     super(rookResource, icon, 'Rook', player, position);
 
     this.upgrades = [Golem];

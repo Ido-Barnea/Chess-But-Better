@@ -5,13 +5,14 @@ import {
   OVERWORLD_BOARD_ID,
 } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
-import { Player, PlayerColors } from '../players/Player';
+import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { Pawn } from './Pawn';
 import { DoubleQueen } from './DoubleQueen';
+import { PlayerColor } from '../players/PlayerColor';
 
-const whitePlayer = new Player(PlayerColors.WHITE);
-const blackPlayer = new Player(PlayerColors.BLACK);
+const whitePlayer = new Player(PlayerColor.WHITE);
+const blackPlayer = new Player(PlayerColor.BLACK);
 
 jest.mock('../../ui/BoardManager.ts', () => ({
   destroyElementOnBoard: jest.fn(),

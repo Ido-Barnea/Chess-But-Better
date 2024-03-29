@@ -1,12 +1,13 @@
 import { doubleQueenResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player, PlayerColors } from '../players/Player';
+import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
+import { PlayerColor } from '../players/PlayerColor';
 
 export class DoubleQueen extends Piece {
   constructor(player: Player, position?: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♕x2' : '♛x2';
+    const icon = player.color === PlayerColor.WHITE ? '♕x2' : '♛x2';
     super(doubleQueenResource, icon, 'Double Queen', player, position);
 
     this.moves = 2;

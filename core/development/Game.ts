@@ -5,7 +5,7 @@ import {
   spawnPieceOnBoard,
 } from './LogicAdapter';
 import { BOARD_WIDTH, OVERWORLD_BOARD_ID, VOID_BOARD_ID } from './Constants';
-import { Player, PlayerColors } from './logic/players/Player';
+import { Player } from './logic/players/Player';
 import { BaseItem } from './logic/items/abstract/Item';
 import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';
@@ -20,12 +20,13 @@ import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
 import { addItemToShop } from './ui/ShopUI';
 import { Shop } from './logic/items/Shop';
+import { PlayerColor } from './logic/players/PlayerColor';
 
 export const shop = new Shop();
 
 let rulesManager: RulesManager;
-const whitePlayer = new Player(PlayerColors.WHITE);
-const blackPlayer = new Player(PlayerColors.BLACK);
+const whitePlayer = new Player(PlayerColor.WHITE);
+const blackPlayer = new Player(PlayerColor.BLACK);
 const players: Array<Player> = [whitePlayer, blackPlayer];
 let pieces: Array<Piece> = [
   new Rook(blackPlayer, { coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }),
