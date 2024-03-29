@@ -1,5 +1,5 @@
 import { INVENTORY_ELEMENT_ID, INVENTORY_WIDTH } from '../Constants';
-import { PlayerColors } from '../logic/Players';
+import { PlayerColors } from '../logic/players/Player';
 import { Item } from '../logic/items/Items';
 import { initializeDraggingListeners } from './Events';
 

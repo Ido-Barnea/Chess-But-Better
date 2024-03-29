@@ -1,6 +1,6 @@
 import { Log } from '../../ui/logs/Log';
 import { Position } from '../pieces/PiecesUtilities';
-import { Player } from '../Players';
+import { Player } from '../players/Player';
 
 export abstract class Item {
   name: string;

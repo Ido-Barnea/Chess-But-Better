@@ -4,7 +4,7 @@ import {
   onPieceFellOffTheBoard,
   onPlayerAction,
 } from './logic/PieceLogic';
-import { Player, PlayerColors } from './logic/Players';
+import { Player, PlayerColors } from './logic/players/Player';
 import {
   comparePositions,
   convertSquareIdToPosition,

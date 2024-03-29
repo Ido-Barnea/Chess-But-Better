@@ -1,5 +1,5 @@
 import { isPlayerAllowedToAct } from '../PieceLogic';
-import { Player } from '../Players';
+import { Player } from '../players/Player';
 import { Item } from './Items';
 import { Shield } from './Shield';
 import { Trap } from './Trap';

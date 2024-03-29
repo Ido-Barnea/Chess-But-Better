@@ -1,7 +1,7 @@
 import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { Position, Square } from '../pieces/PiecesUtilities';
 import { PiggyBank } from './PiggyBank';
-import { Player, PlayerColors } from '../Players';
+import { Player, PlayerColors } from '../players/Player';
 import { onPlayerAction } from '../PieceLogic';
 import { game } from '../../Game';
 import { Rook } from '../pieces/Rook';

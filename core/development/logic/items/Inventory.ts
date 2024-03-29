@@ -1,6 +1,6 @@
 import { Log } from '../../ui/logs/Log';
 import { INVENTORY_WIDTH } from '../../Constants';
-import { Player } from '../Players';
+import { Player } from '../players/Player';
 import { Item } from './Items';
 import { Logger } from '../../ui/logs/Logger';
 

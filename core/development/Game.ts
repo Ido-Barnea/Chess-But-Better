@@ -5,7 +5,7 @@ import {
   spawnPieceOnBoard,
 } from './LogicAdapter';
 import { BOARD_WIDTH, OVERWORLD_BOARD_ID, VOID_BOARD_ID } from './Constants';
-import { Player, PlayerColors } from './logic/Players';
+import { Player, PlayerColors } from './logic/players/Player';
 import { Item } from './logic/items/Items';
 import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';

@@ -5,7 +5,7 @@ import {
   OVERWORLD_BOARD_ID,
 } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
-import { Player, PlayerColors } from '../Players';
+import { Player, PlayerColors } from '../players/Player';
 import { Bishop } from './Bishop';
 import { Pawn } from './Pawn';
 import { Position } from './PiecesUtilities';

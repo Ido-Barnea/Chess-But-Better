@@ -1,6 +1,6 @@
 import { pawnResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player, PlayerColors } from '../Players';
+import { Player, PlayerColors } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { game } from '../../Game';
 import { comparePositions, getPieceByPosition } from '../Utilities';

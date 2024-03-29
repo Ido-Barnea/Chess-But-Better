@@ -22,7 +22,7 @@ import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Piece';
 import { Position, Square } from './pieces/PiecesUtilities';
-import { Player } from './Players';
+import { Player } from './players/Player';
 import { Knight } from './pieces/Knight';
 import { KillLog, Log, MovementLog } from '../ui/logs/Log';
 

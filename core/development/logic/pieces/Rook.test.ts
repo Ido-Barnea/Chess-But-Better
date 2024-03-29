@@ -6,7 +6,7 @@ import {
   VOID_BOARD_ID,
 } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
-import { Player, PlayerColors } from '../Players';
+import { Player, PlayerColors } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { Rook } from './Rook';
 import { Pawn } from './Pawn';

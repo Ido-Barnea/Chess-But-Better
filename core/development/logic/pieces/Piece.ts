@@ -1,4 +1,4 @@
-import { Player } from '../Players';
+import { Player } from '../players/Player';
 import { Position, Square } from './PiecesUtilities';
 
 export class Piece {

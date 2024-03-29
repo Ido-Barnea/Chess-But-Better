@@ -1,6 +1,6 @@
 import { golemResource } from '../../ui/Resources';
 import { Piece } from './Piece';
-import { Player } from '../Players';
+import { Player } from '../players/Player';
 import { Position } from './PiecesUtilities';
 import { getPieceByPosition } from '../Utilities';
 

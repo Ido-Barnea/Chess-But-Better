@@ -1,6 +1,6 @@
 import { game } from '../Game';
 import { upgradePiece } from '../LogicAdapter';
-import { Player } from '../logic/Players';
+import { Player } from '../logic/players/Player';
 import { Piece } from '../logic/pieces/Piece';
 
 export function showUpgradeablePiecesElements(
