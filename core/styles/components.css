@@ -255,3 +255,10 @@ input#shop-upgrade-swapper {
 .checkbox-container p {
   font-size: 1em;
 }
+
+.ability {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5%;
+}

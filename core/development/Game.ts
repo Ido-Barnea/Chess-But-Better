@@ -15,7 +15,7 @@ import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
-import { showWinningAlert } from './ui/Screen';
+import { hideUnicornAttackButton, showWinningAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
 import { addItemToShop } from './ui/ShopUI';
@@ -75,7 +75,6 @@ let movesLeft = 0;
 
 function initializeGame() {
   rulesManager = new RulesManager();
-
   players.forEach((player) => {
     initializeInventoryUI(player.color);
   });
@@ -98,6 +97,7 @@ function endMove(canRecover = true) {
 
   checkForUpgradeablePawns();
   resetVariables();
+  hideAbilities();
   endTurn();
 }
 
@@ -123,6 +123,10 @@ function checkForUpgradeablePawns() {
   }
 }
 
+function hideAbilities() {
+  hideUnicornAttackButton();
+}
+
 function resetVariables() {
   isCastling = false;
   isFriendlyFire = false;
@@ -137,6 +141,10 @@ function resetVariables() {
       piece.isInitialDoubleStep = false;
       piece.diagonalAttackPosition = undefined;
     }
+  });
+
+  players.forEach((player) => {
+    player.usedAbility = false;
   });
 }
 

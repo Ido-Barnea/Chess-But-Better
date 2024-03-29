@@ -10,6 +10,7 @@ import {
   setOnAction,
   setOnFellOffTheBoard,
 } from '../ui/Events';
+import { initializeAbility } from '../ui/Screen';
 import { initializeShopUI } from '../ui/ShopUI';
 import { Log } from '../ui/logs/Log';
 import { Logger } from '../ui/logs/Logger';
@@ -25,6 +26,7 @@ function initializeUI() {
   initializeEventListeners();
   renderScreen();
   setGameEventHandlers();
+  initializeAbility();
 }
 
 initializeUI();

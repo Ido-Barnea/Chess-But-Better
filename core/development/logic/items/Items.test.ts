@@ -19,6 +19,7 @@ jest.mock('../../ui/BoardManager.ts', () => ({
 }));
 jest.mock('../../ui/Screen.ts', () => ({
   renderPlayersInformation: jest.fn(),
+  hideUnicornAttackButton: jest.fn(),
 }));
 jest.mock('../../ui/logs/Logger.ts');
 jest.mock('../../ui/Events.ts', () => ({}));

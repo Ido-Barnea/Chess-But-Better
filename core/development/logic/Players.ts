@@ -5,6 +5,7 @@ type PlayerType = {
   xp: number;
   gold: number;
   inventory: Inventory;
+  usedAbility: boolean;
 };
 
 export enum PlayerColors {
@@ -18,6 +19,7 @@ export class Player implements PlayerType {
   gold: number;
   inDebtForTurns: number;
   inventory: Inventory;
+  usedAbility: boolean;
 
   constructor(color: PlayerColors) {
     this.color = color;
@@ -25,5 +27,6 @@ export class Player implements PlayerType {
     this.gold = 0;
     this.inDebtForTurns = 0;
     this.inventory = new Inventory(this);
+    this.usedAbility = false;
   }
 }

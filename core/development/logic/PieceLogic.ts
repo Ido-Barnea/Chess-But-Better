@@ -298,8 +298,8 @@ function killPiece(targetPiece: Piece) {
   return true;
 }
 
-function handleOverworldKill(targetPiece: Piece) {
-  if (!targetPiece.position) return;
+export function handleOverworldKill(targetPiece: Piece) {
+  if (!targetPiece || !targetPiece.position) return;
   destroyPieceOnBoard(targetPiece);
 
   if (targetPiece.killCount > 0 || targetPiece instanceof King) {
