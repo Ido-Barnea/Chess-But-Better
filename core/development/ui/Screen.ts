@@ -20,7 +20,8 @@ export function renderPlayersInformation() {
 
     const statusElement = document.createElement('div');
     statusElement.classList.add('status-container');
-    const isCurrentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer() === player;
+    const isCurrentPlayer =
+      game.getPlayersTurnSwitcher().getCurrentPlayer() === player;
     const title = document.createElement('span');
     title.classList.add('player-title');
     title.innerText = `${isCurrentPlayer ? '> ' : ''} ${player.color}`;
