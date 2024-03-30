@@ -1,11 +1,10 @@
 import { game } from '../../Game';
 import { destroyItemOnBoard } from '../../LogicAdapter';
-import { killPieceByGame, move } from '../PieceLogic';
 import { BaseItem } from '../items/abstract/Item';
 import { BasePiece } from '../pieces/abstract/BasePiece';
-import { ActionHandler } from './abstract/Handler';
+import { Action } from './abstract/Action';
 
-export class PieceMovedOnTrapActionHandler implements ActionHandler {
+export class PieceOnPiggyBankAction implements Action {
   private _item: BaseItem;
   private _piece: BasePiece;
 
@@ -14,16 +13,10 @@ export class PieceMovedOnTrapActionHandler implements ActionHandler {
     this._piece = piece;
   }
   
-  handle() {
-    if (!this._item.position) return;
-
-    move(this._piece, this._item.position, false);
-    this._piece.health = 1;
-    killPieceByGame(this._piece, this._item.name);
-
+  execute() {
+    if (!this._piece.position) return;
     game.setItems(game.getItems().filter((item) => item !== this._item));
     destroyItemOnBoard(this._item);
-
-    game.endMove(false);
+    this._item.use(this._piece.position);
   }
 }

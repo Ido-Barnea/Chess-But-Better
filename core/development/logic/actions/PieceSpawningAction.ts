@@ -3,17 +3,17 @@ import { spawnPieceOnBoard } from '../../LogicAdapter';
 import { permanentlyKillPiece } from '../PieceLogic';
 import { comparePositions } from '../Utilities';
 import { BasePiece } from '../pieces/abstract/BasePiece';
-import { PieceMovedOnItemActionHandler } from './PieceMovedOnItemActionHandler';
-import { ActionHandler } from './abstract/Handler';
+import { PieceOnItemAction as PieceOnItemAction } from './PieceOnItemAction';
+import { Action } from './abstract/Action';
 
-export class PieceSpawningActionHandler implements ActionHandler {
+export class PieceSpawningAction implements Action {
   private _piece: BasePiece;
 
   constructor (piece: BasePiece) {
     this._piece = piece;
   }
   
-  handle() {
+  execute() {
     game.getPieces().forEach((piece) => {
       const areOnTheSamePosition = comparePositions(
         this._piece.position,
@@ -28,7 +28,7 @@ export class PieceSpawningActionHandler implements ActionHandler {
   
     game.getItems().forEach((item) => {
       if (comparePositions(this._piece.position, item.position)) {
-        new PieceMovedOnItemActionHandler(item, this._piece).handle();
+        new PieceOnItemAction(item, this._piece).execute();
       }
     });
   

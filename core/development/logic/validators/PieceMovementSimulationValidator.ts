@@ -1,6 +1,6 @@
 import { game } from '../../Game';
 import { comparePositions } from '../Utilities';
-import { PieceMovedOnItemActionHandler } from '../handlers/PieceMovedOnItemActionHandler';
+import { PieceOnItemAction } from '../actions/PieceOnItemAction';
 import { Knight } from '../pieces/Knight';
 import { BasePiece } from '../pieces/abstract/BasePiece';
 import { Position } from '../pieces/types/Position';
@@ -31,7 +31,7 @@ export class PieceMovementSimulationValidator implements Validator {
     pathPositions.forEach((position) => {
       game.getItems().forEach((item) => {
         if (comparePositions(item.position, position)) {
-          new PieceMovedOnItemActionHandler(item, piece).handle();
+          new PieceOnItemAction(item, piece).execute();
           if (piece.position?.boardId !== pieceBoard) return false;
         }
       });

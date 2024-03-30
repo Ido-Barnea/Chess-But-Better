@@ -23,7 +23,7 @@ import { Square } from './pieces/types/Square';
 import { Position } from './pieces/types/Position';
 import { PlayerMoveValidator } from './validators/PlayerMoveValidator';
 import { PieceMovementSimulationValidator } from './validators/PieceMovementSimulationValidator';
-import { PieceSpawningActionHandler } from './handlers/PieceSpawningActionHandler';
+import { PieceSpawningAction } from './actions/PieceSpawningAction';
 
 function revertPieceMoveOnBoard(piece: BasePiece) {
   if (!piece.position) return;
@@ -250,7 +250,7 @@ export function handleOverworldKill(targetPiece: BasePiece) {
   }
 
   targetPiece.killCount = 0;
-  new PieceSpawningActionHandler(targetPiece).handle();
+  new PieceSpawningAction(targetPiece).execute();
 }
 
 export function permanentlyKillPiece(targetPiece: BasePiece) {
