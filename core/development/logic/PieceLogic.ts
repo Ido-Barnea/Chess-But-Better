@@ -287,7 +287,7 @@ function killPiece(targetPiece: BasePiece) {
   return true;
 }
 
-function handleOverworldKill(targetPiece: BasePiece) {
+export function handleOverworldKill(targetPiece: BasePiece) {
   if (!targetPiece || !targetPiece.position) return;
   destroyPieceOnBoard(targetPiece);
 
