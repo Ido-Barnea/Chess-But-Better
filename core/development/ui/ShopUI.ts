@@ -27,7 +27,7 @@ export function renderItemOnShopUI(item: BaseItem) {
 
   const itemPriceElement = document.createElement('p');
   itemPriceElement.classList.add('shop-item-price');
-  itemPriceElement.innerHTML = item.price.toString();
+  itemPriceElement.innerHTML = `${item.price}G`;
 
   const shopElement = document.getElementById('shop-container');
   shopElement?.childNodes.forEach((child) => {

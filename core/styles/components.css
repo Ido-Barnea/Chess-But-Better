@@ -133,22 +133,13 @@
   padding: 10% 0;
   font-size: 0.85em;
   font-weight: bold;
-  color: #ffffff;
-  background-color: #5f0505;
   border: none;
   border-radius: 5%;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.1s ease;
-}
-
-.boards-buttons-container button:hover {
-  background-color: #940000;
-}
-
-.boards-buttons-container button:active {
-  background-color: burlywood;
+  transition: background-color 0.2s ease-in-out;
+  word-break: break-all;
 }
 
 .player-inventory {
@@ -197,7 +188,7 @@
 .inventory-item,
 .shop-item,
 .upgraded-piece {
-  width: 75%;
+  width: 60%;
   display: grid;
   place-items: center;
 }
@@ -206,8 +197,8 @@
 .piece-upgrade-item-price {
   position: absolute;
   bottom: 0;
-  right: 0;
-  transform: translate(-50%, 50%);
+  left: 0;
+  transform: translate(5%, 70%);
 }
 
 .piece-upgrades-message {
@@ -216,30 +207,28 @@
 }
 
 /* toggle button */
-input[type='checkbox'] {
+#shop-upgrade-swapper {
   position: relative;
   width: 6vh;
   height: 3vh;
   appearance: none;
   border-radius: 2rem;
   cursor: pointer;
-  color: red;
   border: 2px black solid;
 }
 
-input[type='checkbox']::before {
+#shop-upgrade-swapper::before {
   content: '';
   width: 30%;
   height: 70%;
   border-radius: 50%;
   top: 15%;
   left: 10%;
-  background: red;
   position: absolute;
   transition: 0.3s;
 }
 
-input[type='checkbox']:checked::before {
+#shop-upgrade-swapper:checked::before {
   transform: translateX(165%);
 }
 .checkbox-container {
@@ -254,4 +243,11 @@ input#shop-upgrade-swapper {
 
 .checkbox-container p {
   font-size: 1em;
+}
+
+.ability {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5%;
 }

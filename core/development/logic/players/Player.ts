@@ -7,6 +7,7 @@ export class Player {
   gold: number;
   inDebtForTurns: number;
   inventory: ItemsHolder;
+  usedAbility: boolean;
 
   constructor(color: PlayerColor, inventory: ItemsHolder) {
     this.color = color;
@@ -14,5 +15,6 @@ export class Player {
     this.gold = 0;
     this.inDebtForTurns = 0;
     this.inventory = inventory;
+    this.usedAbility = false;
   }
 }
