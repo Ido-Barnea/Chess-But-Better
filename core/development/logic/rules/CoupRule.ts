@@ -2,7 +2,7 @@ import { game } from '../../Game';
 import { changePieceToAnotherPlayer } from '../../LogicAdapter';
 import { RuleLog } from '../../ui/logs/Log';
 import { King } from '../pieces/King';
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 
 const IN_DEBT_FOR_TURNS_THRESHOLD = 4;
 
@@ -14,7 +14,7 @@ export class CoupRule extends BaseRule {
       game.getPlayers().forEach((player) => {
         if (
           player.inDebtForTurns === IN_DEBT_FOR_TURNS_THRESHOLD &&
-          player === game.getCurrentPlayer()
+          player === game.getPlayersTurnSwitcher().getCurrentPlayer()
         ) {
           result = true;
         }
@@ -26,7 +26,7 @@ export class CoupRule extends BaseRule {
       game.getPlayers().forEach((player) => {
         if (
           player.inDebtForTurns === IN_DEBT_FOR_TURNS_THRESHOLD &&
-          player === game.getCurrentPlayer()
+          player === game.getPlayersTurnSwitcher().getCurrentPlayer()
         ) {
           player.inDebtForTurns = -1;
           const playerPieces = game

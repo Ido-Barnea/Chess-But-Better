@@ -1,5 +1,5 @@
 import { SHOP_WIDTH } from '../Constants';
-import { Item } from '../logic/items/Items';
+import { BaseItem } from '../logic/items/abstract/Item';
 import { onShopItemClick } from './Events';
 
 export function initializeShopUI() {
@@ -18,7 +18,7 @@ export function createShopItemSquare(shopElement: HTMLElement) {
   shopElement.appendChild(itemSquare);
 }
 
-export function addItemToShop(item: Item) {
+export function renderItemOnShopUI(item: BaseItem) {
   const itemElement = document.createElement('div');
   itemElement.id = item.name;
   itemElement.classList.add('shop-item');

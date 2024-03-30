@@ -20,8 +20,8 @@ import {
   OVERWORLD_BOARD_ID,
   HIGHLIGHT_LEGAL_MOVE,
 } from '../Constants';
-import { Item } from '../logic/items/Items';
-import { Piece } from '../logic/pieces/Piece';
+import { BaseItem } from '../logic/items/abstract/Item';
+import { BasePiece } from '../logic/pieces/abstract/BasePiece';
 
 let overworldBoard: ChessBoard;
 let hellBoard: ChessBoard;
@@ -191,7 +191,10 @@ export function destroyElementOnPiece(targetSquareId: string, boardId: string) {
   board.destroyElementOnBoard(element);
 }
 
-export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
+export function spawnPieceElementOnBoard(
+  piece: BasePiece,
+  targetSquareId: string,
+) {
   if (!piece.position) return;
   const board = getBoardbyId(piece.position.boardId);
 
@@ -205,7 +208,10 @@ export function spawnPieceElementOnBoard(piece: Piece, targetSquareId: string) {
   board.boardButtonElement.classList.remove('disabled');
 }
 
-export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
+export function spawnItemElementOnBoard(
+  item: BaseItem,
+  targetSquareId: string,
+) {
   if (!item.position) return;
   const board = getBoardbyId(item.position.boardId);
 
@@ -218,7 +224,7 @@ export function spawnItemElementOnBoard(item: Item, targetSquareId: string) {
 }
 
 export function spawnItemOnChildElement(
-  item: Item,
+  item: BaseItem,
   targetSquareId: string,
   isUntargetable = false,
 ) {

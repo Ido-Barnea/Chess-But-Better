@@ -1,4 +1,4 @@
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 import { BountyRule } from './BountyRule';
 import { CoupRule } from './CoupRule';
 import { EmptyPocketsRule } from './EmptyPocketsRule';

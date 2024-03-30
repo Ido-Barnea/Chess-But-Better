@@ -1,12 +1,14 @@
 import { game } from '../../Game';
 import { HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
-import { Player, PlayerColors } from '../Players';
+import { Player } from '../players/Player';
 import { King } from './King';
-import { Position } from './PiecesUtilities';
+import { PlayerColor } from '../players/types/PlayerColor';
+import { PlayerInventory } from '../inventory/PlayerInventory';
+import { Position } from './types/Position';
 
-const whitePlayer = new Player(PlayerColors.WHITE);
-const blackPlayer = new Player(PlayerColors.BLACK);
+const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
+const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 
 jest.mock('../../ui/BoardManager.ts', () => ({
   destroyElementOnBoard: jest.fn(),
@@ -29,7 +31,12 @@ jest.mock('../../ui/InventoriesUI.ts', () => ({
 }));
 jest.mock('../../ui/ShopUI.ts');
 
-game.getCurrentPlayer = jest.fn().mockReturnValue(whitePlayer);
+const getCurrentPlayerMock = jest.fn().mockReturnValue(whitePlayer);
+const getTurnsCount = jest.fn().mockReturnValue(1);
+game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
+  getCurrentPlayer: getCurrentPlayerMock,
+  getTurnsCount: getTurnsCount,
+});
 
 describe('Piece movements', () => {
   test('Validating King movement', () => {
