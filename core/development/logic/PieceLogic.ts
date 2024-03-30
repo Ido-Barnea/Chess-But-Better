@@ -1,9 +1,7 @@
 import { game } from '../Game';
 import {
-  destroyItemOnBoard,
   destroyPieceOnBoard,
   movePieceOnBoard,
-  spawnPieceOnBoard,
   endGame,
   destroyItemOnPiece,
 } from '../LogicAdapter';
@@ -15,59 +13,17 @@ import {
   VOID_BOARD_ID,
 } from '../Constants';
 import { comparePositions } from './Utilities';
-import { PiggyBank } from './items/PiggyBank';
 import { BaseItem } from './items/abstract/Item';
-import { Trap } from './items/Trap';
 import { King } from './pieces/King';
 import { Pawn } from './pieces/Pawn';
 import { Player } from './players/Player';
-import { Knight } from './pieces/Knight';
 import { KillLog, Log, MovementLog } from '../ui/logs/Log';
 import { BasePiece } from './pieces/abstract/BasePiece';
 import { Square } from './pieces/types/Square';
 import { Position } from './pieces/types/Position';
 import { PlayerMoveValidator } from './validators/PlayerMoveValidator';
-
-function getPathPositions(start: Position, end: Position): Array<Position> {
-  const path: Array<Position> = [];
-  const deltaX = end.coordinates[0] - start.coordinates[0];
-  const deltaY = end.coordinates[1] - start.coordinates[1];
-
-  const xDirection = deltaX > 0 ? 1 : deltaX < 0 ? -1 : 0;
-  const yDirection = deltaY > 0 ? 1 : deltaY < 0 ? -1 : 0;
-
-  const moveSteps = Math.max(Math.abs(deltaX), Math.abs(deltaY));
-
-  for (let index = 1; index <= moveSteps; index++) {
-    const x = start.coordinates[0] + index * xDirection;
-    const y = start.coordinates[1] + index * yDirection;
-    path.push({
-      coordinates: [x, y],
-      boardId: start.boardId,
-    });
-  }
-
-  return path;
-}
-
-function simulatePath(piece: BasePiece, targetPosition: Position) {
-  const currentPosition = piece.position;
-  if (!currentPosition) return;
-  const pathPositions: Array<Position> =
-    piece instanceof Knight
-      ? [targetPosition]
-      : getPathPositions(currentPosition, targetPosition);
-
-  pathPositions.forEach((position) => {
-    game.getItems().forEach((item) => {
-      if (comparePositions(item.position, position)) {
-        onActionPieceToItem(piece, item);
-      }
-    });
-
-    if (comparePositions(position, targetPosition)) return;
-  });
-}
+import { PieceMovementSimulationValidator } from './validators/PieceMovementSimulationValidator';
+import { PieceSpawningActionHandler } from './handlers/PieceSpawningActionHandler';
 
 function revertPieceMoveOnBoard(piece: BasePiece) {
   if (!piece.position) return;
@@ -96,12 +52,8 @@ export function onPlayerAction(
     game.setMovesLeft(draggedPiece.moves);
   }
 
-  const pieceBoard = draggedPiece.position?.boardId;
-  simulatePath(draggedPiece, target.position);
-  const newPieceBoard = draggedPiece.position?.boardId;
-  // Checks if the piece died during the simulatePath function.
-  // If it did, return.
-  if (pieceBoard !== newPieceBoard) return;
+  const pieceMovementSimulationValidator = new PieceMovementSimulationValidator(draggedPiece, target.position);
+  if (!pieceMovementSimulationValidator.validate()) return;
 
   if (target instanceof BasePiece) {
     onActionAttackMove(draggedPiece, target);
@@ -198,7 +150,7 @@ export function isPlayerAllowedToAct(player: Player) {
   return player === game.getPlayersTurnSwitcher().getCurrentPlayer();
 }
 
-function move(
+export function move(
   draggedPiece: BasePiece,
   targetPosition: Position,
   shouldEndTurn = true,
@@ -268,7 +220,7 @@ function killPieceByAnotherPiece(
   return true;
 }
 
-function killPieceByGame(targetPiece: BasePiece, killCause: string) {
+export function killPieceByGame(targetPiece: BasePiece, killCause: string) {
   killPiece(targetPiece);
   new KillLog(targetPiece, killCause).addToQueue();
 }
@@ -298,7 +250,7 @@ export function handleOverworldKill(targetPiece: BasePiece) {
   }
 
   targetPiece.killCount = 0;
-  handlePieceSpawning(targetPiece);
+  new PieceSpawningActionHandler(targetPiece).handle();
 }
 
 export function permanentlyKillPiece(targetPiece: BasePiece) {
@@ -309,62 +261,4 @@ export function permanentlyKillPiece(targetPiece: BasePiece) {
   game.setPieces(game.getPieces().filter((piece) => piece !== targetPiece));
 
   if (targetPiece instanceof King) endGame();
-}
-
-function handlePieceSpawning(spawningPiece: BasePiece) {
-  game.getPieces().forEach((piece) => {
-    const areOnTheSamePosition = comparePositions(
-      spawningPiece.position,
-      piece.position,
-    );
-    const areTheSame = piece === spawningPiece;
-
-    if (areOnTheSamePosition && !areTheSame) {
-      permanentlyKillPiece(piece);
-    }
-  });
-
-  game.getItems().forEach((item) => {
-    if (comparePositions(spawningPiece.position, item.position)) {
-      onActionPieceToItem(spawningPiece, item);
-    }
-  });
-
-  spawnPieceOnBoard(spawningPiece);
-}
-
-function onActionPieceToItem(piece: BasePiece, item: BaseItem) {
-  switch (item.name) {
-    case 'piggy bank': {
-      pieceMovedOnPiggyBank(piece, item as PiggyBank);
-      break;
-    }
-    case 'trap': {
-      pieceMovedOnTrap(piece, item as Trap);
-      break;
-    }
-  }
-}
-
-function pieceMovedOnTrap(draggedPiece: BasePiece, trap: Trap) {
-  if (!trap.position) return;
-
-  move(draggedPiece, trap.position, false);
-  draggedPiece.health = 1;
-  killPieceByGame(draggedPiece, trap.name);
-
-  game.setItems(game.getItems().filter((item) => item !== trap));
-  destroyItemOnBoard(trap);
-
-  game.endMove(false);
-}
-
-export function pieceMovedOnPiggyBank(
-  draggedPiece: BasePiece,
-  piggyBank: PiggyBank,
-) {
-  if (!draggedPiece.position) return;
-  game.setItems(game.getItems().filter((item) => item !== piggyBank));
-  destroyItemOnBoard(piggyBank);
-  piggyBank.use(draggedPiece.position);
 }

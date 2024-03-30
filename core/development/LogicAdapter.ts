@@ -197,6 +197,7 @@ export function movePieceOnBoard(
   targetPosition: Position,
 ) {
   if (!draggedPiece.position) return;
+
   const draggedPieceCoordinates = draggedPiece.position.coordinates;
   const originSquareId = draggedPieceCoordinates.join(',');
 
@@ -209,10 +210,12 @@ export function movePieceOnBoard(
       originSquareId,
       boardId,
     ) as HTMLElement;
+
     const targetSquareElement = getSquareElementById(
       targetSquareId,
       boardId,
     ) as HTMLElement;
+
     highlightLastMove(originSquareElement, targetSquareElement, boardId);
   }
 
