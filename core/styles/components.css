@@ -1,19 +1,14 @@
 #boards-container {
+  position: relative;
   height: calc(var(--square-size) * var(--board-squares-per-side));
   width: calc(var(--square-size) * var(--board-squares-per-side));
   overflow: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -20%);
 }
 
 .board {
-  height: calc(var(--square-size) * var(--board-squares-per-side));
-  width: calc(var(--square-size) * var(--board-squares-per-side));
   display: flex;
   flex-wrap: wrap;
 }
@@ -30,6 +25,7 @@
   display: flex;
   flex-direction: column;
   position: absolute;
+  height: 100%;
   left: 0;
   z-index: 1;
 }
@@ -46,26 +42,25 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  position: relative;
+  position: absolute;
 }
 
 .notation {
   font-weight: bold;
-  position: relative;
   margin: 0;
   padding: 0;
   font-size: 1em;
 }
 
 .notation.number {
-  height: calc(var(--square-size));
-  margin-left: 4px;
+  height: var(--square-size);
+  margin-left: 2px;
 }
 
 .notation.letter {
-  width: calc(var(--square-size) - 4px);
-  margin-right: 4.3px;
+  width: calc(var(--square-size) - 2px);
   text-align: end;
+  margin-right: 2px;
 }
 
 .piece {
@@ -101,7 +96,6 @@
 
 #info-container {
   position: relative;
-  margin: 2.5%;
 }
 
 #info-container p {
@@ -109,10 +103,10 @@
 }
 
 #logs-container {
-  width: 100%;
+  width: 80%;
   height: 70%;
-  padding: 0.5%;
-  border: 0.1vh solid black;
+  border-radius: 2em;
+  padding: 10%;
   overflow-y: auto;
 }
 
@@ -121,17 +115,21 @@
 }
 
 #boards-buttons-container {
-  width: 100%;
-  height: 30vh;
+  width: 80%;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  flex-flow: row;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 1;
+  padding: 10%;
+  gap: 1rem;
+  border-radius: 2em;
 }
 
 #boards-buttons-container button {
-  width: 25%;
-  padding: 10% 0;
-  font-size: 0.85em;
+  width: 10em;
+  height: var(--square-size);
+  font-size: 1em;
   font-weight: bold;
   border: none;
   border-radius: 5%;
@@ -143,33 +141,36 @@
 }
 
 .player-inventory {
-  width: 100%;
+  min-width: 15em;
   display: flex;
   text-align: center;
   flex-wrap: wrap;
   box-sizing: border-box;
 }
 
+.top-container {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 1rem;
+}
+
+.bottom-container {
+  flex: 1;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-end;
+  padding-bottom: 10%;
+}
+
 #inventory-container,
 #shop-container,
 #piece-upgrades-container {
-  width: auto;
-  position: absolute;
-  left: 5%;
+  width: 100%;
   overflow: visible;
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
-}
-
-#inventory-container {
-  bottom: 5%;
-  flex-direction: row;
-}
-
-#shop-container,
-#piece-upgrades-container {
-  bottom: 50%;
+  flex-flow: row wrap;
+  justify-content: flex-start;
 }
 
 .inventory-square,
@@ -214,7 +215,6 @@
   appearance: none;
   border-radius: 2rem;
   cursor: pointer;
-  border: 2px black solid;
 }
 
 #shop-upgrade-swapper::before {
@@ -233,15 +233,12 @@
 }
 .checkbox-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-input#shop-upgrade-swapper {
-  margin: 5%;
-}
-
-.checkbox-container p {
+.checkbox-container span {
   font-size: 1em;
 }
 
@@ -249,5 +246,18 @@ input#shop-upgrade-swapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 5%;
+}
+
+.status-container {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.player-title {
+  font-weight: bold;
+}
+
+.round-info {
+  font-weight: bold;
+  font-size: 2em;
 }

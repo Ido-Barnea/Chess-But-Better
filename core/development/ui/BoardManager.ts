@@ -107,7 +107,7 @@ export function getAllSquareElements(boardId: string): Array<HTMLElement> {
 }
 
 export function createNotationGraphics(notation: string) {
-  const notationElement = document.createElement('p');
+  const notationElement = document.createElement('span');
   notationElement.classList.add('notation');
   notationElement.innerHTML = notation;
 

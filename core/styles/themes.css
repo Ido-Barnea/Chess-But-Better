@@ -1,7 +1,8 @@
 :root {
   --primary-color: #302e2b;
+  --secondary-color: #262522;
   --accent-color: #88b65a;
-  --accent-color-hover: #7b87a6;
+  --accent-color-hover: #a4d177;
   --bright-square: #c7ec8a;
   --dark-square: #88b65a;
   --bright-hell-square: #e66545;
@@ -13,6 +14,19 @@
   --kill-color: #e66545;
   --rule-color: #81b64c;
   --move-color: #ebecd0;
+  --gold-color: rgb(231, 195, 35);
+}
+
+#shop-upgrade-swapper {
+  border: 2px var(--text-color) solid;
+}
+
+#logs-container {
+  background-color: var(--secondary-color);
+}
+
+#boards-buttons-container {
+  background-color: var(--secondary-color);
 }
 
 body {
@@ -41,11 +55,11 @@ body {
 }
 
 #board-overworld-button {
-  background-color: var(--dark-square);
+  background-color: var(--accent-color);
 }
 
 #board-overworld-button:hover {
-  background-color: var(--bright-square);
+  background-color: var(--accent-color-hover);
 }
 
 #board-heaven-button {
@@ -135,4 +149,12 @@ body {
 
 .log-color-movement {
   color: var(--move-color);
+}
+
+.xp-status {
+  color: var(--accent-color);
+}
+
+.gold-status {
+  color: var(--gold-color);
 }

@@ -11,42 +11,51 @@
     <link rel="stylesheet" href="../styles/responsive.css" />
   </head>
   <body>
-    <div id="left-column">
-      <p id="info-container"></p>
-      <div class="checkbox-container">
-        <p>Shop</p>
-        <input type="checkbox" id="shop-upgrade-swapper" />
-        <p>Upgrade Tree</p>
+    <div class="container">
+      <div id="left-column">
+        <div class="top-container">
+          <div id="info-container"></div>
+          <h1>Upgrades</h1>
+          <div class="checkbox-container">
+            <span>Shop</span>
+            <input type="checkbox" id="shop-upgrade-swapper" />
+            <span>Upgrade Tree</span>
+          </div>
+          <div id="piece-upgrades-container" class="collapsed"></div>
+          <div id="shop-container"></div>
+        </div>
+        <div class="bottom-container">
+          <h1>Inventory</h1>
+          <div id="inventory-container"></div>
+        </div>
       </div>
-      <div
-        id="piece-upgrades-container"
-        class="collapsed center-horizontally"
-      ></div>
-      <div id="shop-container" class="center-horizontally"></div>
-      <div id="inventory-container" class="center-horizontally"></div>
-    </div>
-    <div id="center-column">
-      <div id="boards-container">
-        <div class="bottom-notations-container" id="bottom-notations"></div>
-        <div class="left-notations-container" id="left-notations"></div>
-        <div class="board" id="board-overworld"></div>
-        <div class="board collapsed" id="board-hell"></div>
-        <div class="board collapsed" id="board-heaven"></div>
+      <div id="center-column">
+        <div id="boards-container">
+          <div class="bottom-notations-container" id="bottom-notations"></div>
+          <div class="left-notations-container" id="left-notations"></div>
+          <div class="board" id="board-overworld"></div>
+          <div class="board collapsed" id="board-hell"></div>
+          <div class="board collapsed" id="board-heaven"></div>
+        </div>
+        <div id="unicorn-attack" class="collapsed ability"></div>
       </div>
-      <div id="unicorn-attack" class="collapsed ability"></div>
-    </div>
-    <div id="right-column">
-      <div id="logs-container"></div>
-      <div id="boards-buttons-container">
-        <button id="board-hell-button" class="disabled" value="board-hell">
-          Hell
-        </button>
-        <button id="board-overworld-button" value="board-overworld">
-          Overworld
-        </button>
-        <button id="board-heaven-button" class="disabled" value="board-heaven">
-          Heaven
-        </button>
+      <div id="right-column">
+        <div id="logs-container"></div>
+        <div id="boards-buttons-container">
+          <button id="board-hell-button" class="disabled" value="board-hell">
+            Hell
+          </button>
+          <button id="board-overworld-button" value="board-overworld">
+            Overworld
+          </button>
+          <button
+            id="board-heaven-button"
+            class="disabled"
+            value="board-heaven"
+          >
+            Heaven
+          </button>
+        </div>
       </div>
     </div>
   </body>

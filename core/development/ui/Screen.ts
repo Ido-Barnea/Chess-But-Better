@@ -7,22 +7,32 @@ const unicornAttackButton = document.getElementById('unicorn-attack');
 export function renderPlayersInformation() {
   if (infoDisplay) infoDisplay.textContent = '';
 
-  const roundElement = document.createElement('p');
-  roundElement.innerHTML = `Round: ${game.getRoundCounter()}`;
+  const roundElement = document.createElement('span');
+  roundElement.classList.add('round-info');
+  roundElement.innerHTML = `Round ${game.getRoundCounter()}`;
   infoDisplay?.appendChild(roundElement);
 
-  const playersElement = document.createElement('p');
-  playersElement.innerHTML = 'Players:';
+  const playersElement = document.createElement('div');
 
   game.getPlayers().forEach((player) => {
     const playerInformationElement = document.createElement('div');
 
-    const statusElement = document.createElement('p');
+    const statusElement = document.createElement('div');
+    statusElement.classList.add('status-container');
     const isCurrentPlayer = game.getCurrentPlayer() === player;
-    const title = `${isCurrentPlayer ? '> ' : ''} ${player.color} Player:`;
-    const status = `${title} ${player.xp} XP; ${player.gold} Gold.`;
-    statusElement.innerHTML = status;
+    const title = document.createElement('span');
+    title.classList.add('player-title');
+    title.innerText = `${isCurrentPlayer ? '> ' : ''} ${player.color}`;
+    const xpStatus = document.createElement('span');
+    xpStatus.classList.add('xp-status');
+    xpStatus.innerHTML = `${player.xp} XP`;
+    const goldStatus = document.createElement('span');
+    goldStatus.classList.add('gold-status');
+    goldStatus.innerHTML = `${player.gold} Gold`;
+    statusElement.appendChild(xpStatus);
+    statusElement.appendChild(goldStatus);
 
+    playerInformationElement.appendChild(title);
     playerInformationElement.appendChild(statusElement);
 
     playersElement.appendChild(playerInformationElement);
