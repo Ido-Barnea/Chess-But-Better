@@ -52,7 +52,10 @@ export function onPlayerAction(
     game.setMovesLeft(draggedPiece.moves);
   }
 
-  const pieceMovementSimulationValidator = new PieceMovementSimulationValidator(draggedPiece, target.position);
+  const pieceMovementSimulationValidator = new PieceMovementSimulationValidator(
+    draggedPiece,
+    target.position,
+  );
   if (!pieceMovementSimulationValidator.validate()) return;
 
   if (target instanceof BasePiece) {

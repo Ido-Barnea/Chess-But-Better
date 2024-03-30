@@ -8,11 +8,11 @@ export class PieceOnItemAction implements Action {
   private _item: BaseItem;
   private _piece: BasePiece;
 
-  constructor (item: BaseItem, piece: BasePiece) {
+  constructor(item: BaseItem, piece: BasePiece) {
     this._item = item;
     this._piece = piece;
   }
-  
+
   execute() {
     switch (this._item.name) {
       case 'piggy bank': {

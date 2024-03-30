@@ -10,10 +10,7 @@ export class PieceMovementSimulationValidator implements Validator {
   private _draggedPiece: BasePiece;
   private _targetPosition: Position;
 
-  constructor(
-    draggedPiece: BasePiece,
-    targetPosition: Position,
-  ) {
+  constructor(draggedPiece: BasePiece, targetPosition: Position) {
     this._draggedPiece = draggedPiece;
     this._targetPosition = targetPosition;
   }
@@ -27,7 +24,10 @@ export class PieceMovementSimulationValidator implements Validator {
     if (!currentPosition) return false;
 
     const pieceBoard = piece.position?.boardId;
-    const pathPositions = piece instanceof Knight ? [targetPosition] : this.getPathPositions(currentPosition, targetPosition);
+    const pathPositions =
+      piece instanceof Knight
+        ? [targetPosition]
+        : this.getPathPositions(currentPosition, targetPosition);
     pathPositions.forEach((position) => {
       game.getItems().forEach((item) => {
         if (comparePositions(item.position, position)) {
@@ -35,7 +35,7 @@ export class PieceMovementSimulationValidator implements Validator {
           if (piece.position?.boardId !== pieceBoard) return false;
         }
       });
-  
+
       if (comparePositions(position, targetPosition)) return true;
     });
 
@@ -46,12 +46,12 @@ export class PieceMovementSimulationValidator implements Validator {
     const pathPositions: Array<Position> = [];
     const deltaX = end.coordinates[0] - start.coordinates[0];
     const deltaY = end.coordinates[1] - start.coordinates[1];
-  
+
     const xDirection = deltaX > 0 ? 1 : deltaX < 0 ? -1 : 0;
     const yDirection = deltaY > 0 ? 1 : deltaY < 0 ? -1 : 0;
-  
+
     const moveSteps = Math.max(Math.abs(deltaX), Math.abs(deltaY));
-  
+
     for (let index = 1; index <= moveSteps; index++) {
       const x = start.coordinates[0] + index * xDirection;
       const y = start.coordinates[1] + index * yDirection;
@@ -60,7 +60,7 @@ export class PieceMovementSimulationValidator implements Validator {
         boardId: start.boardId,
       });
     }
-  
+
     return pathPositions;
   }
 }
