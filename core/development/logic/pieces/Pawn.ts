@@ -1,17 +1,18 @@
 import { pawnResource } from '../../ui/Resources';
-import { Piece } from './Piece';
-import { Player, PlayerColors } from '../Players';
-import { Position } from './PiecesUtilities';
+import { Player } from '../players/Player';
 import { game } from '../../Game';
 import { comparePositions, getPieceByPosition } from '../Utilities';
+import { PlayerColor } from '../players/types/PlayerColor';
+import { BasePiece } from './abstract/BasePiece';
+import { Position } from './types/Position';
 
-export class Pawn extends Piece {
+export class Pawn extends BasePiece {
   possibleEnPassantPositions: [Position, Position] | undefined;
   isInitialDoubleStep: boolean;
   diagonalAttackPosition: Position | undefined;
 
   constructor(player: Player, position?: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♙' : '♟';
+    const icon = player.color === PlayerColor.WHITE ? '♙' : '♟';
     super(pawnResource, icon, 'Pawn', player, position);
 
     this.possibleEnPassantPositions = undefined;
@@ -23,9 +24,9 @@ export class Pawn extends Piece {
     if (!this.position) return false;
 
     const currentCoordinates = this.position.coordinates;
-    const currentPlayer = game.getCurrentPlayer();
+    const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
     // Determine the direction of pawn movement based on the player's color
-    const stepY = currentPlayer.color === PlayerColors.WHITE ? -1 : 1;
+    const stepY = currentPlayer.color === PlayerColor.WHITE ? -1 : 1;
 
     const twoSquaresForward: Position = {
       coordinates: [currentCoordinates[0], currentCoordinates[1] + 2 * stepY],
@@ -40,7 +41,7 @@ export class Pawn extends Piece {
     return false;
   }
 
-  getEnPassantPiece(targetPosition: Position): Piece | undefined {
+  getEnPassantPiece(targetPosition: Position): BasePiece | undefined {
     const pawns = game.getPieces().filter((piece) => {
       return piece instanceof Pawn && piece !== this;
     }) as Array<Pawn>;
@@ -64,10 +65,10 @@ export class Pawn extends Piece {
 
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
-    const currentPlayer = game.getCurrentPlayer();
+    const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
     // Determine the direction of pawn movement based on the player's color
-    const stepY = currentPlayer.color === PlayerColors.WHITE ? -1 : 1;
+    const stepY = currentPlayer.color === PlayerColor.WHITE ? -1 : 1;
 
     // Check one square forward
     const oneSquareForward: Position = {

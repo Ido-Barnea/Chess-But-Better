@@ -1,11 +1,11 @@
 import { INVENTORY_ELEMENT_ID, INVENTORY_WIDTH } from '../Constants';
-import { PlayerColors } from '../logic/Players';
-import { Item } from '../logic/items/Items';
+import { BaseItem } from '../logic/items/abstract/Item';
+import { PlayerColor } from '../logic/players/types/PlayerColor';
 import { initializeDraggingListeners } from './Events';
 
 const inventoryElement = document.getElementById(INVENTORY_ELEMENT_ID);
 
-function createPlayerInventoryElement(playerColor: PlayerColors): HTMLElement {
+function createPlayerInventoryElement(playerColor: PlayerColor): HTMLElement {
   const playerInventoryElement = document.createElement('div');
   playerInventoryElement.id = playerColor;
   playerInventoryElement.classList.add('player-inventory');
@@ -15,8 +15,8 @@ function createPlayerInventoryElement(playerColor: PlayerColors): HTMLElement {
 }
 
 export function showItemOnInventory(
-  item: Item,
-  playerColor: PlayerColors,
+  item: BaseItem,
+  playerColor: PlayerColor,
 ): HTMLElement | undefined {
   const inventoryItemElement = document.createElement('div') as HTMLElement;
   inventoryItemElement.id = item.name;
@@ -39,21 +39,21 @@ export function showItemOnInventory(
   return undefined;
 }
 
-export function initializeInventoryUI(playerColor: PlayerColors) {
+export function initializeInventoryUI(playerColor: PlayerColor) {
   const playerInventoryElement = createPlayerInventoryElement(playerColor);
 
   for (let index = 0; index < INVENTORY_WIDTH; index++) {
     createInventorySlotElement(playerInventoryElement, playerColor);
   }
 
-  if (playerColor === PlayerColors.BLACK) {
+  if (playerColor === PlayerColor.BLACK) {
     playerInventoryElement?.classList.add('collapsed');
   }
 }
 
 function createInventorySlotElement(
   playerInventoryElement: HTMLElement,
-  playerColor: PlayerColors,
+  playerColor: PlayerColor,
 ) {
   const squareElement = document.createElement('div');
   squareElement.classList.add('inventory-square');
@@ -62,7 +62,7 @@ function createInventorySlotElement(
   playerInventoryElement.appendChild(squareElement);
 }
 
-export function switchShownInventory(playerColor: PlayerColors): boolean {
+export function switchShownInventory(playerColor: PlayerColor): boolean {
   const playerInventoryElement = document.getElementById(playerColor);
   if (!playerInventoryElement) {
     return false;

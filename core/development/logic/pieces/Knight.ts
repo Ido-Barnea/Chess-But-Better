@@ -1,12 +1,13 @@
 import { knightResource } from '../../ui/Resources';
-import { Piece } from './Piece';
-import { Player, PlayerColors } from '../Players';
-import { Position } from './PiecesUtilities';
+import { Player } from '../players/Player';
 import { Unicorn } from './Unicorn';
+import { PlayerColor } from '../players/types/PlayerColor';
+import { BasePiece } from './abstract/BasePiece';
+import { Position } from './types/Position';
 
-export class Knight extends Piece {
+export class Knight extends BasePiece {
   constructor(player: Player, position?: Position) {
-    const icon = player.color === PlayerColors.WHITE ? '♘' : '♞';
+    const icon = player.color === PlayerColor.WHITE ? '♘' : '♞';
     super(knightResource, icon, 'Knight', player, position);
 
     this.upgrades = [Unicorn];

@@ -5,29 +5,35 @@ import {
   spawnPieceOnBoard,
 } from './LogicAdapter';
 import { BOARD_WIDTH, OVERWORLD_BOARD_ID, VOID_BOARD_ID } from './Constants';
-import { Player, PlayerColors } from './logic/Players';
-import { Item } from './logic/items/Items';
+import { Player } from './logic/players/Player';
+import { BaseItem } from './logic/items/abstract/Item';
 import { Bishop } from './logic/pieces/Bishop';
 import { King } from './logic/pieces/King';
 import { Knight } from './logic/pieces/Knight';
 import { Pawn } from './logic/pieces/Pawn';
-import { Piece } from './logic/pieces/Piece';
 import { Queen } from './logic/pieces/Queen';
 import { Rook } from './logic/pieces/Rook';
 import { RulesManager } from './logic/rules/RulesManager';
 import { hideUnicornAttackButton, showWinningAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
-import { addItemToShop } from './ui/ShopUI';
-import { Shop } from './logic/items/Shop';
+import { renderItemOnShopUI } from './ui/ShopUI';
+import { PlayerColor } from './logic/players/types/PlayerColor';
+import { PlayerInventory } from './logic/inventory/PlayerInventory';
+import { BasePiece } from './logic/pieces/abstract/BasePiece';
+import { ItemsShop } from './logic/shop/ItemsShop';
+import { PlayersTurnSwitcher } from './logic/turn switcher/PlayersTurnSwitcher';
 
-export const shop = new Shop();
+export const shop = new ItemsShop();
 
-let rulesManager: RulesManager;
-const whitePlayer = new Player(PlayerColors.WHITE);
-const blackPlayer = new Player(PlayerColors.BLACK);
+const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
+const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 const players: Array<Player> = [whitePlayer, blackPlayer];
-let pieces: Array<Piece> = [
+
+const rulesManager = new RulesManager();
+const playersTurnSwitcher = new PlayersTurnSwitcher(players);
+
+let pieces: Array<BasePiece> = [
   new Rook(blackPlayer, { coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }),
   new Knight(blackPlayer, { coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }),
   new Bishop(blackPlayer, { coordinates: [2, 0], boardId: OVERWORLD_BOARD_ID }),
@@ -61,26 +67,22 @@ let pieces: Array<Piece> = [
   new Knight(whitePlayer, { coordinates: [6, 7], boardId: OVERWORLD_BOARD_ID }),
   new Rook(whitePlayer, { coordinates: [7, 7], boardId: OVERWORLD_BOARD_ID }),
 ];
-let items: Array<Item> = [];
-let currentPlayerIndex = 0;
-let turnCounter = 0;
-let roundCounter = 1;
+let items: Array<BaseItem> = [];
 let deathCounter = 0;
 let isCastling = false;
 let isFriendlyFire = false;
-let killerPiece: Piece | undefined = undefined;
+let killerPiece: BasePiece | undefined = undefined;
 let wasItemPlacedThisTurn = false;
-let fellOffTheBoardPiece: Piece | undefined;
+let fellOffTheBoardPiece: BasePiece | undefined;
 let movesLeft = 0;
 
 function initializeGame() {
-  rulesManager = new RulesManager();
   players.forEach((player) => {
     initializeInventoryUI(player.color);
   });
 
-  shop.items.forEach((item) => {
-    addItemToShop(item);
+  shop.getItems().forEach((item) => {
+    renderItemOnShopUI(item);
   });
 }
 
@@ -136,7 +138,10 @@ function resetVariables() {
   movesLeft = 0;
 
   pieces.forEach((piece) => {
-    if (piece.player !== getCurrentPlayer() && piece instanceof Pawn) {
+    if (
+      piece.player !== playersTurnSwitcher.getCurrentPlayer() &&
+      piece instanceof Pawn
+    ) {
       piece.possibleEnPassantPositions = undefined;
       piece.isInitialDoubleStep = false;
       piece.diagonalAttackPosition = undefined;
@@ -151,13 +156,7 @@ function resetVariables() {
 function endTurn() {
   updatePlayerDetails();
 
-  currentPlayerIndex =
-    currentPlayerIndex + 1 < players.length ? currentPlayerIndex + 1 : 0;
-  turnCounter++;
-  if (turnCounter % players.length === 0) {
-    turnCounter = 0;
-    roundCounter++;
-  }
+  playersTurnSwitcher.nextTurn();
 
   players.forEach((player) => {
     switchInventory(player);
@@ -168,7 +167,7 @@ function endTurn() {
 
 function updatePlayerDetails() {
   game.getPlayers().forEach((player) => {
-    if (player === getCurrentPlayer()) {
+    if (player === playersTurnSwitcher.getCurrentPlayer()) {
       if (player.gold < 0) {
         player.inDebtForTurns++;
       } else {
@@ -178,40 +177,32 @@ function updatePlayerDetails() {
   });
 }
 
-function getCurrentPlayer() {
-  return players[currentPlayerIndex];
+function getPlayersTurnSwitcher(): PlayersTurnSwitcher {
+  return playersTurnSwitcher;
 }
 
 function getPlayers(): Array<Player> {
   return players;
 }
 
-function getPieces(): Array<Piece> {
+function getPieces(): Array<BasePiece> {
   return pieces;
 }
 
-function setPieces(updatedPieces: Array<Piece>) {
+function setPieces(updatedPieces: Array<BasePiece>) {
   pieces = updatedPieces;
 }
 
-function getItems(): Array<Item> {
+function getItems(): Array<BaseItem> {
   return items;
 }
 
-function addItem(item: Item) {
+function addItem(item: BaseItem) {
   items.push(item);
 }
 
-function setItems(updatedItems: Array<Item>) {
+function setItems(updatedItems: Array<BaseItem>) {
   items = updatedItems;
-}
-
-function getRoundCounter(): number {
-  return roundCounter;
-}
-
-function increaseRoundCounter() {
-  roundCounter++;
 }
 
 function getDeathCounter(): number {
@@ -238,19 +229,19 @@ function setIsFriendlyFire(_isFriendlyFire: boolean) {
   isFriendlyFire = _isFriendlyFire;
 }
 
-function getKillerPiece(): Piece | undefined {
+function getKillerPiece(): BasePiece | undefined {
   return killerPiece;
 }
 
-function setKillerPiece(_killerPiece: Piece) {
+function setKillerPiece(_killerPiece: BasePiece) {
   killerPiece = _killerPiece;
 }
 
-function getFellOffTheBoardPiece(): Piece | undefined {
+function getFellOffTheBoardPiece(): BasePiece | undefined {
   return fellOffTheBoardPiece;
 }
 
-function setFellOffTheBoardPiece(_fellOffTheBoardPiece: Piece | undefined) {
+function setFellOffTheBoardPiece(_fellOffTheBoardPiece: BasePiece | undefined) {
   fellOffTheBoardPiece = _fellOffTheBoardPiece;
 }
 
@@ -283,7 +274,7 @@ export const game = {
   endMove,
   getMovesLeft,
   setMovesLeft,
-  getCurrentPlayer,
+  getPlayersTurnSwitcher,
   switchIsCastling,
   getPlayers,
   getPieces,
@@ -291,8 +282,6 @@ export const game = {
   getItems,
   setItems,
   addItem,
-  getRoundCounter,
-  increaseRoundCounter,
   getDeathCounter,
   increaseDeathCounter,
   getIsCaslting,

@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 
 export class PiecesCanFallOffTheBoardRule extends BaseRule {
   constructor(isRevealed = false) {

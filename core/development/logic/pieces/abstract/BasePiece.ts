@@ -1,8 +1,8 @@
-import { VOID_BOARD_ID } from '../../Constants';
-import { Player } from '../Players';
-import { Position, Square } from './PiecesUtilities';
+import { Player } from '../../players/Player';
+import { Position } from '../types/Position';
+import { Piece } from './Piece';
 
-export class Piece {
+export abstract class BasePiece implements Piece {
   resource: string;
   pieceIcon: string;
   name: string;
@@ -12,7 +12,7 @@ export class Piece {
   health: number;
   price: number;
   isEquipedItem: boolean;
-  upgrades: Array<new (player: Player, position?: Position) => Piece>;
+  upgrades: Array<new (player: Player, position?: Position) => BasePiece>;
   hasMoved: boolean;
   killCount: number;
 
@@ -38,13 +38,7 @@ export class Piece {
     this.killCount = 0;
   }
 
-  getLegalMoves(): Array<Position> {
-    return [];
-  }
-
-  isValidSpawn(_: Piece | Square) {
-    return false;
-  }
+  abstract getLegalMoves(): Position[];
 
   copyPosition(): Position | undefined {
     if (!this.position) return;

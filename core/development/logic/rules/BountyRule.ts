@@ -1,7 +1,7 @@
 import { game } from '../../Game';
 import { RuleLog } from '../../ui/logs/Log';
 import { MIN_KILLINGS_FOR_BOUNTY } from '../../Constants';
-import { BaseRule } from './BaseRule';
+import { BaseRule } from './abstract/BaseRule';
 
 export class BountyRule extends BaseRule {
   constructor(isRevealed = false) {

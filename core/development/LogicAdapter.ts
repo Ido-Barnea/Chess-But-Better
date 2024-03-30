@@ -5,15 +5,13 @@ import {
   onPieceFellOffTheBoard,
   onPlayerAction,
 } from './logic/PieceLogic';
-import { Player, PlayerColors } from './logic/Players';
+import { Player } from './logic/players/Player';
 import {
   comparePositions,
   convertSquareIdToPosition,
   getPieceByPosition,
 } from './logic/Utilities';
-import { Item } from './logic/items/Items';
-import { Piece } from './logic/pieces/Piece';
-import { Position, Square } from './logic/pieces/PiecesUtilities';
+import { BaseItem } from './logic/items/abstract/Item';
 import {
   destroyElementOnBoard,
   getAllSquareElements,
@@ -41,13 +39,17 @@ import { Shield } from './logic/items/Shield';
 import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
+import { PlayerColor } from './logic/players/types/PlayerColor';
+import { BasePiece } from './logic/pieces/abstract/BasePiece';
+import { Position } from './logic/pieces/types/Position';
+import { Square } from './logic/pieces/types/Square';
 import { Unicorn } from './logic/pieces/Unicorn';
 
 export function renderScreen() {
   renderPlayersInformation();
 }
 
-function findPieceAtPosition(position: Position): Piece | undefined {
+function findPieceAtPosition(position: Position): BasePiece | undefined {
   return game
     .getPieces()
     .find((piece) => comparePositions(piece.position, position));
@@ -123,7 +125,7 @@ export function onFellOffTheBoardTriggered(
   onPieceFellOffTheBoard(draggedPiece);
 }
 
-function highlightLegalMoves(piece: Piece, boardId: string) {
+function highlightLegalMoves(piece: BasePiece, boardId: string) {
   // Remove all highlights
   const allSquareElements = getAllSquareElements(boardId);
   for (const squareElement of allSquareElements) {
@@ -166,8 +168,11 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
   highlightLegalMoves(piece, boardId);
 }
 
-export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
-  const currentPlayer = game.getCurrentPlayer();
+export function upgradePiece(
+  upgradeablePiece: BasePiece,
+  upgradedPiece: BasePiece,
+) {
+  const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
   if (currentPlayer.xp < upgradedPiece.price) return;
   currentPlayer.xp -= upgradedPiece.price;
 
@@ -188,7 +193,7 @@ export function upgradePiece(upgradeablePiece: Piece, upgradedPiece: Piece) {
 }
 
 export function movePieceOnBoard(
-  draggedPiece: Piece,
+  draggedPiece: BasePiece,
   targetPosition: Position,
 ) {
   if (!draggedPiece.position) return;
@@ -218,7 +223,7 @@ export function movePieceOnBoard(
   );
 }
 
-export function destroyPieceOnBoard(piece: Piece, originBoardId?: string) {
+export function destroyPieceOnBoard(piece: BasePiece, originBoardId?: string) {
   if (!piece.position) return;
 
   originBoardId = originBoardId || piece.position.boardId;
@@ -243,7 +248,7 @@ export function destroyPieceOnBoard(piece: Piece, originBoardId?: string) {
   destroyElementOnBoard(squareId, originBoardId, fadeDirection);
 }
 
-export function destroyItemOnBoard(item: Item) {
+export function destroyItemOnBoard(item: BaseItem) {
   if (!item.position) return;
 
   const itemCoordinates = item.position.coordinates;
@@ -252,7 +257,7 @@ export function destroyItemOnBoard(item: Item) {
   destroyElementOnBoard(squareId, item.position.boardId);
 }
 
-export function destroyItemOnPiece(piece: Piece) {
+export function destroyItemOnPiece(piece: BasePiece) {
   if (!piece.position || !piece.isEquipedItem) return;
 
   const pieceCoordinates = piece.position.coordinates;
@@ -262,7 +267,7 @@ export function destroyItemOnPiece(piece: Piece) {
   destroyElementOnPiece(squareId, piece.position.boardId);
 }
 
-export function spawnPieceOnBoard(piece: Piece) {
+export function spawnPieceOnBoard(piece: BasePiece) {
   const pieceCoordinates = piece.position?.coordinates;
   const squareId = pieceCoordinates?.join(',');
 
@@ -270,7 +275,7 @@ export function spawnPieceOnBoard(piece: Piece) {
   spawnPieceElementOnBoard(piece, squareId);
 }
 
-export function spawnItemOnBoard(item: Item) {
+export function spawnItemOnBoard(item: BaseItem) {
   if (!item.position) return;
 
   const itemCoordinates = item.position.coordinates;
@@ -279,7 +284,7 @@ export function spawnItemOnBoard(item: Item) {
   spawnItemElementOnBoard(item, squareId);
 }
 
-export function spawnItemOnPiece(item: Item) {
+export function spawnItemOnPiece(item: BaseItem) {
   if (!item.position) return;
 
   const itemCoordinates = item.position.coordinates;
@@ -288,7 +293,7 @@ export function spawnItemOnPiece(item: Item) {
   spawnItemOnChildElement(item, squareId, true);
 }
 
-export function changePieceToAnotherPlayer(piece: Piece) {
+export function changePieceToAnotherPlayer(piece: BasePiece) {
   const squareId = piece.position?.coordinates.join(',');
   const boardId = piece.position?.boardId;
   if (!boardId || !squareId) return;
@@ -296,9 +301,9 @@ export function changePieceToAnotherPlayer(piece: Piece) {
   if (pieceElement) {
     pieceElement.classList.remove(piece.player.color.toLowerCase());
     const enemyPlayerColor =
-      piece.player.color === PlayerColors.WHITE
-        ? PlayerColors.BLACK
-        : PlayerColors.WHITE;
+      piece.player.color === PlayerColor.WHITE
+        ? PlayerColor.BLACK
+        : PlayerColor.WHITE;
     pieceElement.classList.add(enemyPlayerColor.toLowerCase());
   }
 
@@ -313,7 +318,7 @@ export function endGame() {
 
 export function switchInventory(player: Player) {
   if (switchShownInventory(player.color)) {
-    player.inventory.items.forEach((item) => {
+    player.inventory.getItems().forEach((item) => {
       showItemOnInventory(item, player.color);
     });
   }
@@ -336,7 +341,7 @@ export function canPlaceItemOnBoard(
   const usedItem = getCurrentPlayerInventoryItemById(itemElement.id);
   if (!usedItem) return false;
 
-  usedItem.setPosition(squarePosition);
+  usedItem.position = squarePosition;
 
   switch (itemElement.id) {
     case 'trap': {
@@ -359,7 +364,10 @@ export function canPlaceItemOnBoard(
       break;
   }
 
-  game.getCurrentPlayer().inventory.removeItem(usedItem);
+  game
+    .getPlayersTurnSwitcher()
+    .getCurrentPlayer()
+    .inventory.removeItem(usedItem);
   game.switchWasItemPlacedThisTurn();
   destroyItemInInventory(itemElement);
 
@@ -381,9 +389,9 @@ export function getCurrentBoardId(): string | undefined {
 
 export function getCurrentPlayerInventoryItemById(
   itemId: string,
-): Item | undefined {
-  const player = game.getCurrentPlayer();
-  const draggedItem = player.inventory.items.filter((item) => {
+): BaseItem | undefined {
+  const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
+  const draggedItem = player.inventory.getItems().filter((item) => {
     return item.name === itemId;
   })[0];
 
@@ -396,12 +404,12 @@ export function returnItemToInventory(itemElement: HTMLElement) {
 
   destroyItemInInventory(itemElement);
 
-  const player = game.getCurrentPlayer();
+  const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
   showItemOnInventory(usedItem, player.color);
 }
 
 export function getShopItemById(itemId: string) {
-  const purchaseableItems = shop.items;
+  const purchaseableItems = shop.getItems();
 
   const item = purchaseableItems.filter((item) => {
     return item.name == itemId;
@@ -412,9 +420,9 @@ export function getShopItemById(itemId: string) {
 
 export function buyItem(itemId: string) {
   const item = getShopItemById(itemId);
-  const currentPlayer = game.getCurrentPlayer();
+  const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
-  if (shop.buy(item, currentPlayer)) {
+  if (shop.buyItem(item, currentPlayer)) {
     showItemOnInventory(item, currentPlayer.color);
   }
 

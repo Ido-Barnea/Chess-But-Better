@@ -1,10 +1,11 @@
 import { unicornResource } from '../../ui/Resources';
-import { Piece } from './Piece';
-import { Player } from '../Players';
-import { Position } from './PiecesUtilities';
+import { BasePiece } from './abstract/BasePiece';
 import { getPieceByPosition } from '../Utilities';
+import { Position } from './types/Position';
+import { Player } from '../players/Player';
+import { Piece } from './abstract/Piece';
 
-export class Unicorn extends Piece {
+export class Unicorn extends BasePiece {
   constructor(player: Player, position?: Position) {
     super(unicornResource, '🦄', 'Unicorn', player, position);
 

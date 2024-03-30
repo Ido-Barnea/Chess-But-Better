@@ -96,7 +96,10 @@ export function initializeDraggingListeners(element: HTMLElement) {
   function dragElementOnMouseDown(event: MouseEvent) {
     event.preventDefault();
 
-    const currentTurnPlayerColor = game.getCurrentPlayer().color.toLowerCase();
+    const currentTurnPlayerColor = game
+      .getPlayersTurnSwitcher()
+      .getCurrentPlayer()
+      .color.toLowerCase();
     const isElementOfCurrentPlayer = element.classList.contains(
       currentTurnPlayerColor,
     );
