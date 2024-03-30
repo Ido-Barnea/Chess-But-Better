@@ -26,12 +26,12 @@ import { PlayersTurnSwitcher } from './logic/turn switcher/PlayersTurnSwitcher';
 
 export const shop = new ItemsShop();
 
-let rulesManager: RulesManager;
-let playersTurnSwitcher: PlayersTurnSwitcher;
-
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 const players: Array<Player> = [whitePlayer, blackPlayer];
+
+const rulesManager = new RulesManager();
+const playersTurnSwitcher = new PlayersTurnSwitcher(players);
 
 let pieces: Array<BasePiece> = [
   new Rook(blackPlayer, { coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }),
@@ -77,9 +77,6 @@ let fellOffTheBoardPiece: BasePiece | undefined;
 let movesLeft = 0;
 
 function initializeGame() {
-  rulesManager = new RulesManager();
-  playersTurnSwitcher = new PlayersTurnSwitcher(players);
-
   players.forEach((player) => {
     initializeInventoryUI(player.color);
   });
