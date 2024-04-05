@@ -1,8 +1,19 @@
+import { movePieceOnBoard } from '../../LogicAdapter';
 import { BasePiece } from '../pieces/abstract/BasePiece';
-import { MovePieceAction } from './MovePieceAction';
+import { GameAction } from './abstract/GameAction';
+import { ActionResult } from './types/ActionResult';
 
-export class RevertPieceMovementAction extends MovePieceAction {
+export class RevertPieceMovementAction implements GameAction {
+  private piece: BasePiece;
+
   constructor(piece: BasePiece) {
-    super(piece, piece.position!);
+    this.piece = piece;
+  }
+  execute(): ActionResult {
+    if (!this.piece.position) return ActionResult.FAILURE;
+
+    movePieceOnBoard(this.piece, this.piece.position);
+
+    return ActionResult.SUCCESS;
   }
 }
