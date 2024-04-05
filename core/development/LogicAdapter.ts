@@ -1,10 +1,5 @@
 import { game, shop } from './Game';
-import {
-  handleOverworldKill,
-  isPlayerAllowedToAct,
-  onPieceFellOffTheBoard,
-  onPlayerAction,
-} from './logic/PieceLogic';
+import { isPlayerAllowedToAct, onPlayerAction } from './logic/PieceLogic';
 import { Player } from './logic/players/Player';
 import {
   comparePositions,
@@ -44,6 +39,8 @@ import { BasePiece } from './logic/pieces/abstract/BasePiece';
 import { Position } from './logic/pieces/types/Position';
 import { Square } from './logic/pieces/types/Square';
 import { Unicorn } from './logic/pieces/Unicorn';
+import { KillPieceByFallingOffTheBoardAction } from './logic/actions/KillPieceByFallingOffTheBoardAction';
+import { KillPieceByPieceAction } from './logic/actions/KillPieceByPieceAction';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -122,7 +119,7 @@ export function onFellOffTheBoardTriggered(
   const draggedPiece = findPieceAtPosition(draggedElementPosition);
   if (!draggedPiece || !isPlayerAllowedToAct(draggedPiece.player)) return;
 
-  onPieceFellOffTheBoard(draggedPiece);
+  new KillPieceByFallingOffTheBoardAction(draggedPiece).execute()
 }
 
 function highlightLegalMoves(piece: BasePiece, boardId: string) {
@@ -461,5 +458,5 @@ export function unicornAttackAttempt(
   if (!targetablePieces.includes(targetPiece)) return;
 
   unicornPiece.player.usedAbility = true;
-  handleOverworldKill(targetPiece);
+  new KillPieceByPieceAction(targetPiece, unicornPiece).execute()
 }
