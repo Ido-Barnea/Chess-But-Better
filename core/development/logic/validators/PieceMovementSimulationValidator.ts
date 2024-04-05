@@ -28,18 +28,20 @@ export class PieceMovementSimulationValidator implements Validator {
       piece instanceof Knight
         ? [targetPosition]
         : this.getPathPositions(currentPosition, targetPosition);
+
+    let wasMovementSuccessful = true;
     pathPositions.forEach((position) => {
       game.getItems().forEach((item) => {
         if (comparePositions(item.position, position)) {
           new PieceOnItemAction(item, piece).execute();
-          if (piece.position?.boardId !== pieceBoard) return false;
+          if (piece.position?.boardId !== pieceBoard) {
+            wasMovementSuccessful = false;
+          }
         }
       });
-
-      if (comparePositions(position, targetPosition)) return true;
     });
 
-    return true;
+    return wasMovementSuccessful;
   }
 
   getPathPositions(start: Position, end: Position): Array<Position> {

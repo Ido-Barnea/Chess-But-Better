@@ -147,7 +147,8 @@ describe('Items test', () => {
     const isOtherTrapThere = game.getItems().includes(trapItem);
     expect(isOtherTrapThere).toBe(false);
 
-    const newOtherPiecePosition = otherPiece.position?.coordinates;
-    expect(newOtherPiecePosition).toEqual(otherItemPosition.coordinates);
+    const newOtherPieceCoordinates = otherPiece.position?.coordinates;
+    const otherItemCoordinates = otherTrapItem.position?.coordinates;
+    expect(newOtherPieceCoordinates).toEqual(otherItemCoordinates);
   });
 });
