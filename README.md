@@ -4,7 +4,7 @@
   <h1>Chess But Better</h1>
   
   <p>
-    Chess with an added layer of complexity.
+    Chess with an added layer of complexity
   </p>
   
   
