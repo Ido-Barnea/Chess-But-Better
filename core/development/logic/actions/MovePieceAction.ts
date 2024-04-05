@@ -22,32 +22,41 @@ export class MovePieceAction implements GameAction {
   execute(): ActionResult {
     if (this.piece instanceof Pawn) {
       this.piece.checkInitialDoubleStep(this.targetPosition);
-  
+
       if (this.piece.diagonalAttackPosition) {
-        if (comparePositions(this.piece.diagonalAttackPosition,this.targetPosition)) {
+        if (
+          comparePositions(
+            this.piece.diagonalAttackPosition,
+            this.targetPosition,
+          )
+        ) {
           const enPassantPiece = this.piece.getEnPassantPiece(
             this.targetPosition,
           );
           if (!enPassantPiece) return ActionResult.FAILURE;
-  
+
           const enPassantAttackResult = new KillPieceByPieceAction(
             enPassantPiece,
             this.piece,
           ).execute();
-          if (enPassantAttackResult == ActionResult.FAILURE) return ActionResult.FAILURE;
+          if (enPassantAttackResult == ActionResult.FAILURE)
+            return ActionResult.FAILURE;
         }
       }
     }
-  
+
     if (game.getIsCaslting()) {
-      const castlingActionResult = new CastleAction(this.piece as King, this.targetPosition).execute();
-  
+      const castlingActionResult = new CastleAction(
+        this.piece as King,
+        this.targetPosition,
+      ).execute();
+
       if (castlingActionResult == ActionResult.FAILURE) {
         game.switchIsCastling();
         return ActionResult.FAILURE;
       }
     }
-  
+
     move(this.piece, this.targetPosition);
     return ActionResult.SUCCESS;
   }

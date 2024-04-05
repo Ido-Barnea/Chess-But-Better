@@ -119,7 +119,7 @@ export function onFellOffTheBoardTriggered(
   const draggedPiece = findPieceAtPosition(draggedElementPosition);
   if (!draggedPiece || !isPlayerAllowedToAct(draggedPiece.player)) return;
 
-  new KillPieceByFallingOffTheBoardAction(draggedPiece).execute()
+  new KillPieceByFallingOffTheBoardAction(draggedPiece).execute();
 }
 
 function highlightLegalMoves(piece: BasePiece, boardId: string) {
@@ -458,5 +458,5 @@ export function unicornAttackAttempt(
   if (!targetablePieces.includes(targetPiece)) return;
 
   unicornPiece.player.usedAbility = true;
-  new KillPieceByPieceAction(targetPiece, unicornPiece).execute()
+  new KillPieceByPieceAction(targetPiece, unicornPiece).execute();
 }

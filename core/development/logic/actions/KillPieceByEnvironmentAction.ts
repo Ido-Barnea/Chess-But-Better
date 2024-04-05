@@ -17,7 +17,7 @@ export class KillPieceByEnvironment extends KillPieceAction {
 
     new KillLog(this.killedPiece, this.killingSource).addToQueue();
     game.endMove();
-    
+
     return ActionResult.SUCCESS;
   }
 }

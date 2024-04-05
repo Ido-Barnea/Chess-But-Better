@@ -17,10 +17,14 @@ export class AttackPieceAction implements GameAction {
 
   execute(): ActionResult {
     if (!this.target.position) return ActionResult.FAILURE;
-    
+
     game.setIsFriendlyFire(this.target.player === this.piece.player);
-    const killPieceByPieceResult = new KillPieceByPieceAction(this.target, this.piece).execute();
-    if (killPieceByPieceResult === ActionResult.FAILURE) return ActionResult.FAILURE;
+    const killPieceByPieceResult = new KillPieceByPieceAction(
+      this.target,
+      this.piece,
+    ).execute();
+    if (killPieceByPieceResult === ActionResult.FAILURE)
+      return ActionResult.FAILURE;
 
     const targetSquare: Square = { position: this.target.position };
     move(this.piece, targetSquare.position);

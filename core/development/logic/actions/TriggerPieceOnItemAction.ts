@@ -17,7 +17,10 @@ export class TriggerPieceOnItemAction implements GameAction {
   execute(): ActionResult {
     switch (this.item.name) {
       case 'piggy bank': {
-        return new TriggerPieceOnPiggyBankAction(this.item, this.piece).execute();
+        return new TriggerPieceOnPiggyBankAction(
+          this.item,
+          this.piece,
+        ).execute();
       }
       case 'trap': {
         return new TriggerPieceOnTrapAction(this.item, this.piece).execute();

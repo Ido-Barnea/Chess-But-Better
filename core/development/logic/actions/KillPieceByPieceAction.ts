@@ -37,7 +37,7 @@ export class KillPieceByPieceAction extends KillPieceAction {
   failToKillPiece() {
     if (!this.killedPiece.position || !this.killerPiece.position) return;
     destroyItemOnPiece(this.killedPiece);
-  
+
     let directionX = 0;
     let directionY = 0;
     const targetXPosition = this.killedPiece.position.coordinates[0];
@@ -50,7 +50,7 @@ export class KillPieceByPieceAction extends KillPieceAction {
     if (deltaY !== 0) {
       directionY = deltaY / Math.abs(deltaY);
     }
-  
+
     const newPosition: Position = {
       coordinates: [targetXPosition + directionX, targetYPosition + directionY],
       boardId: this.killerPiece.position.boardId,
@@ -58,7 +58,7 @@ export class KillPieceByPieceAction extends KillPieceAction {
 
     movePieceOnBoard(this.killerPiece, newPosition);
     this.killerPiece.position = newPosition;
-  
+
     game.endMove();
   }
 }

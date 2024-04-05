@@ -29,7 +29,9 @@ export class KillPieceAction implements GameAction {
       game.increaseDeathCounter();
 
       this.killedPiece.position.boardId = VOID_BOARD_ID;
-      game.setPieces(game.getPieces().filter((piece) => piece !== this.killedPiece));
+      game.setPieces(
+        game.getPieces().filter((piece) => piece !== this.killedPiece),
+      );
 
       if (this.killedPiece instanceof King) endGame();
     }

@@ -41,7 +41,9 @@ export class CastleAction implements GameAction {
     const rookPieceTargetSquare: Square = { position: rookPieceTargetPosition };
     move(rookPiece, rookPieceTargetSquare.position, false);
 
-    new Log(`${this.piece.pieceIcon} ${this.piece.player.color} castled.`).addToQueue();
+    new Log(
+      `${this.piece.pieceIcon} ${this.piece.player.color} castled.`,
+    ).addToQueue();
     return ActionResult.SUCCESS;
   }
 }
