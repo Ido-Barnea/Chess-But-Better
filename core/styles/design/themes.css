@@ -1,7 +1,7 @@
 :root {
   --primary-color: #302e2b;
   --accent-color: #88b65a;
-  --accent-color-hover: #7b87a6;
+  --accent-color-hover: #a9d182;
   --bright-square: #c7ec8a;
   --dark-square: #88b65a;
   --bright-hell-square: #e66545;
@@ -30,6 +30,15 @@ body {
 
 #boards-buttons-container button {
   color: var(--text-color);
+}
+
+button {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+button:hover {
+  background-color: var(--accent-color-hover);
 }
 
 #board-hell-button {
