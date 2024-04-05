@@ -24,6 +24,7 @@ import { Position } from './pieces/types/Position';
 import { PlayerMoveValidator } from './validators/PlayerMoveValidator';
 import { PieceMovementSimulationValidator } from './validators/PieceMovementSimulationValidator';
 import { PieceSpawningAction } from './actions/PieceSpawningAction';
+import { PieceFellOffTheBoardAction } from './actions/PieceFellOffTheBoardAction';
 
 function revertPieceMoveOnBoard(piece: BasePiece) {
   if (!piece.position) return;
@@ -31,11 +32,7 @@ function revertPieceMoveOnBoard(piece: BasePiece) {
 }
 
 export function onPieceFellOffTheBoard(draggedPiece: BasePiece) {
-  if (!draggedPiece.position) return;
-  draggedPiece.position.boardId = VOID_BOARD_ID;
-  killPieceByGame(draggedPiece, 'the void');
-  game.setFellOffTheBoardPiece(draggedPiece);
-  game.endMove(false);
+  new PieceFellOffTheBoardAction(draggedPiece).execute()
 }
 
 export function onPlayerAction(
