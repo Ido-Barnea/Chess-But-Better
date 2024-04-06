@@ -13,8 +13,7 @@ The following is a set of guidelines for contributing to Chess But Better. These
     - [Suggesting Enhancements](#suggesting-enhancements)
     - [Pull Requests](#pull-requests)
 4. [Development Setup](#development-setup)
-5. [Styleguides](#styleguides)
-6. [License](#license)
+5. [License](#license)
 
 ## Code of Conduct
 
@@ -55,13 +54,9 @@ If you encounter behavior that violates this code of conduct, please address it 
 
 ## Development Setup
 
-To set up the development environment, follow the instructions in the [README.md](README.md) file.
-
-## Styleguides
-
-### Git Commit Messages
-
-- Please use the following format for commit messages: `[#ISSUE_NUMBER/trivial] COMMIT_MESSAGE`
+1. **Clone the repository**: `git clone https://github.com/Ido-Barnea/Chess-But-Better.git`
+2. **Install dependencies**: `npm ci`
+3. **Run the application**: `npm run dev`
 
 ## License
 
