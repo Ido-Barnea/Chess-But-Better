@@ -52,11 +52,11 @@ beforeEach(() => {
   };
   piece = new Rook(whitePlayer, initialPiecePosition);
 
-  const itemPosition: Position = {
+  const piggyBankPosition: Position = {
     coordinates: [1, 4],
     boardId: OVERWORLD_BOARD_ID,
   };
-  piggyBankItem = new PiggyBank(itemPosition);
+  piggyBankItem = new PiggyBank(piggyBankPosition);
 
   game.initialize();
   game.setItems([piggyBankItem]);

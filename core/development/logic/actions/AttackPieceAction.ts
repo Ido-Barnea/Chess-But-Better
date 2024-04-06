@@ -1,6 +1,7 @@
 import { game } from '../../Game';
 import { move } from '../PieceLogic';
 import { BasePiece } from '../pieces/abstract/BasePiece';
+import { Position } from '../pieces/types/Position';
 import { Square } from '../pieces/types/Square';
 import { KillPieceByPieceAction } from './KillPieceByPieceAction';
 import { GameAction } from './abstract/GameAction';
@@ -17,6 +18,7 @@ export class AttackPieceAction implements GameAction {
 
   execute(): ActionResult {
     if (!this.target.position) return ActionResult.FAILURE;
+    const targetPosition = this.target.copyPosition() as Position;
 
     game.setIsFriendlyFire(this.target.player === this.piece.player);
     const killPieceByPieceResult = new KillPieceByPieceAction(
@@ -26,7 +28,7 @@ export class AttackPieceAction implements GameAction {
     if (killPieceByPieceResult === ActionResult.FAILURE)
       return ActionResult.FAILURE;
 
-    const targetSquare: Square = { position: this.target.position };
+    const targetSquare: Square = { position: targetPosition };
     move(this.piece, targetSquare.position);
     return ActionResult.SUCCESS;
   }

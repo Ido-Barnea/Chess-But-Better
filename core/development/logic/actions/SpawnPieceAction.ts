@@ -2,7 +2,7 @@ import { game } from '../../Game';
 import { destroyPieceOnBoard, spawnPieceOnBoard } from '../../LogicAdapter';
 import { comparePositions } from '../Utilities';
 import { BasePiece } from '../pieces/abstract/BasePiece';
-import { KillPieceAction } from './KillPieceAction';
+import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
 import { TriggerPieceOnItemAction } from './TriggerPieceOnItemAction';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
@@ -31,7 +31,7 @@ export class SpawnPieceAction implements GameAction {
       const areTheSame = piece === this.piece;
 
       if (areOnTheSamePosition && !areTheSame) {
-        new KillPieceAction(piece).execute();
+        new PermanentlyKillPieceAction(piece).execute();
       }
     });
 

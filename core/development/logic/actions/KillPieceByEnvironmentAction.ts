@@ -7,8 +7,8 @@ import { game } from '../../Game';
 export class KillPieceByEnvironment extends KillPieceAction {
   private killingSource: string;
 
-  constructor(killedPiece: BasePiece, killingSource: string) {
-    super(killedPiece);
+  constructor(killedPiece: BasePiece, killingSource: string, originBoardId?: string) {
+    super(killedPiece, originBoardId);
     this.killingSource = killingSource;
   }
 

@@ -1,10 +1,5 @@
 import { game } from '../../Game';
-import {
-  HEAVEN_BOARD_ID,
-  HELL_BOARD_ID,
-  OVERWORLD_BOARD_ID,
-  VOID_BOARD_ID,
-} from '../../Constants';
+import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
 import { Player } from '../players/Player';
 import { Rook } from './Rook';
@@ -91,7 +86,7 @@ describe('Piece killing', () => {
     game.setPieces([killerRook, firstVictimPiece]);
     onPlayerAction(killerRook, firstVictimPiece);
 
-    let firstVictimPieceBoardId = firstVictimPiece.position?.boardId;
+    const firstVictimPieceBoardId = firstVictimPiece.position?.boardId;
     expect(firstVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
 
     let killerNewCoordinates = killerRook.position?.coordinates;
@@ -117,18 +112,17 @@ describe('Piece killing', () => {
     playerXP = killerRook.player.xp;
     expect(playerXP).toBeGreaterThan(1);
 
+    expect(killerRook.position).toBeDefined();
+    if (!killerRook.position) return;
+    killerRook.position.boardId = HEAVEN_BOARD_ID;
     const thirdVictimPiece = new Pawn(blackPlayer, {
       coordinates: initialVictimPosition.coordinates,
-      boardId: initialVictimPosition.boardId,
+      boardId: HEAVEN_BOARD_ID,
     });
-    game.setPieces([killerRook, firstVictimPiece, thirdVictimPiece]);
+    game.setPieces([killerRook, thirdVictimPiece]);
     onPlayerAction(killerRook, thirdVictimPiece);
 
-    const thirdVictimPieceBoardId = thirdVictimPiece.position?.boardId;
-    expect(thirdVictimPieceBoardId).toEqual(HEAVEN_BOARD_ID);
-
-    firstVictimPieceBoardId = firstVictimPiece.position?.boardId;
-    expect(firstVictimPieceBoardId).toEqual(VOID_BOARD_ID);
+    expect(thirdVictimPiece.position).toBeUndefined();
 
     killerNewCoordinates = killerRook.position?.coordinates;
     expect(killerNewCoordinates).toEqual(initialVictimPosition.coordinates);

@@ -52,11 +52,11 @@ beforeEach(() => {
   };
   piece = new Rook(whitePlayer, initialPiecePosition);
 
-  const itemPosition: Position = {
+  const trapPosition: Position = {
     coordinates: [1, 4],
     boardId: OVERWORLD_BOARD_ID,
   };
-  trapItem = new Trap(itemPosition);
+  trapItem = new Trap(trapPosition);
 
   game.initialize();
   game.setItems([trapItem]);
