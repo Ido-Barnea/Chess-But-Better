@@ -33,20 +33,16 @@
 ## Table of Contents
 
 1. [About The Project](#about-the-project)
-2. [License](#license)
-3. [Hall of Fame](#hall-of-fame)
-4. [Contributing](#contributing)
-5. [FAQ](#faq)
+2. [Hall of Fame](#hall-of-fame)
+3. [Contributing](#contributing)
+4. [FAQ](#faq)
+5. [License](#license)
 
 ## About The Project
 
 Chess But Better adds multiple layers of complexity to traditional chess. This innovative project aims to inject excitement, complexity, and creativity into the timeless game. By incorporating unique features, Chess But Better offers a chess experience unlike any other!
 
 Visit Chess But Better [here](https://chess-but-better.onrender.com).
-
-## License
-
-Distributed under the Apache-2.0 License. See [`LICENSE.txt`](LICENSE.txt) for more information.
 
 ## Hall of Fame
 
@@ -79,3 +75,7 @@ Contributions are welcome! Check out the [Contributing Guidelines](CONTRIBUTING.
   <summary><strong>How can I contribute to the development of Chess But Better?</strong></summary>
   We welcome contributions from the community to help improve Chess But Better. Whether you're a developer, designer, or avid player, there are many ways to get involved. You can contribute code, report bugs, suggest new features, or provide feedback to help us make Chess But Better even better!
 </details>
+
+## License
+
+Distributed under the Apache-2.0 License. See [`LICENSE.txt`](LICENSE.txt) for more information.
