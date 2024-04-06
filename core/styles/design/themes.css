@@ -25,6 +25,12 @@
   background-color: var(--secondary-color);
 }
 
+#inventory-container,
+#shop-container,
+#piece-upgrades-container {
+  background-color: var(--secondary-color);
+}
+
 #boards-buttons-container {
   background-color: var(--secondary-color);
 }
