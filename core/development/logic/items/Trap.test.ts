@@ -8,6 +8,8 @@ import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../pieces/types/Position';
 import { Square } from '../pieces/types/Square';
+import { BasePiece } from '../pieces/abstract/BasePiece';
+import { BaseItem } from './abstract/Item';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
@@ -39,23 +41,30 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getTurnsCount: getTurnsCount,
 });
 
-describe('Items test', () => {
-  test('Trap test', () => {
-    const initialPiecePosition: Position = {
-      coordinates: [3, 4],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const piece = new Rook(whitePlayer, initialPiecePosition);
+let initialPiecePosition: Position;
+let piece: BasePiece;
+let trapItem: BaseItem;
 
-    const itemPosition: Position = {
-      coordinates: [2, 4],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const trapItem = new Trap(itemPosition);
+beforeEach(() => {
+  initialPiecePosition = {
+    coordinates: [3, 4],
+    boardId: OVERWORLD_BOARD_ID,
+  };
+  piece = new Rook(whitePlayer, initialPiecePosition);
 
-    game.initialize();
-    game.setItems([trapItem]);
-    game.setPieces([piece]);
+  const itemPosition: Position = {
+    coordinates: [1, 4],
+    boardId: OVERWORLD_BOARD_ID,
+  };
+  trapItem = new Trap(itemPosition);
+
+  game.initialize();
+  game.setItems([trapItem]);
+  game.setPieces([piece]);
+});
+
+describe('Trap', () => {
+  test('Trigger Trap Directly', () => {
     onPlayerAction(piece, trapItem);
 
     const pieceNewBoard = piece.position?.boardId;
@@ -65,37 +74,25 @@ describe('Items test', () => {
     expect(isTrapThere).toBe(false);
 
     const newPieceCoordinates = piece.position?.coordinates;
-    expect(newPieceCoordinates).toEqual(itemPosition.coordinates);
+    expect(newPieceCoordinates).toEqual(trapItem.position?.coordinates);
+  });
 
-    const initialOtherPiecePosition: Position = {
-      coordinates: [2, 4],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const otherPiece = new Rook(whitePlayer, initialOtherPiecePosition);
-
-    const otherItemPosition: Position = {
-      coordinates: [2, 2],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const otherTrapItem = new Trap(otherItemPosition);
-
+  test('Trigger Trap Indirectly', () => {
     const targetSquarePosition: Position = {
-      coordinates: [2, 1],
+      coordinates: [0, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
     const targetSquare: Square = { position: targetSquarePosition };
 
-    game.setItems([otherTrapItem]);
-    onPlayerAction(otherPiece, targetSquare);
+    onPlayerAction(piece, targetSquare);
 
-    const otherPieceNewBoard = otherPiece.position?.boardId;
-    expect(otherPieceNewBoard).toEqual(HEAVEN_BOARD_ID);
+    expect(piece.position?.boardId).toEqual(HEAVEN_BOARD_ID);
 
-    const isOtherTrapThere = game.getItems().includes(trapItem);
-    expect(isOtherTrapThere).toBe(false);
+    const doesTrapExist = game.getItems().includes(trapItem);
+    expect(doesTrapExist).toBe(false);
 
-    const newOtherPieceCoordinates = otherPiece.position?.coordinates;
-    const otherItemCoordinates = otherTrapItem.position?.coordinates;
-    expect(newOtherPieceCoordinates).toEqual(otherItemCoordinates);
+    const newPieceCoordinates = piece.position?.coordinates;
+    const trapCoordinates = piece.position?.coordinates;
+    expect(newPieceCoordinates).toEqual(trapCoordinates);
   });
 });

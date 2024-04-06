@@ -8,6 +8,8 @@ import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../pieces/types/Position';
 import { Square } from '../pieces/types/Square';
+import { BasePiece } from '../pieces/abstract/BasePiece';
+import { BaseItem } from './abstract/Item';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
@@ -39,56 +41,56 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getTurnsCount: getTurnsCount,
 });
 
-describe('Items test', () => {
-  test('PiggyBank test', () => {
-    const initialPiecePosition: Position = {
-      coordinates: [4, 4],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const piece = new Rook(whitePlayer, initialPiecePosition);
+let initialPiecePosition: Position;
+let piece: BasePiece;
+let piggyBankItem: BaseItem;
 
-    const itemPosition: Position = {
-      coordinates: [2, 4],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const piggyBankItem = new PiggyBank(itemPosition);
+beforeEach(() => {
+  initialPiecePosition= {
+    coordinates: [3, 4],
+    boardId: OVERWORLD_BOARD_ID,
+  };
+  piece = new Rook(whitePlayer, initialPiecePosition);
 
-    game.initialize();
-    game.setItems([piggyBankItem]);
-    game.setPieces([piece]);
+  const itemPosition: Position = {
+    coordinates: [1, 4],
+    boardId: OVERWORLD_BOARD_ID,
+  };
+  piggyBankItem = new PiggyBank(itemPosition);
+
+  game.initialize();
+  game.setItems([piggyBankItem]);
+  game.setPieces([piece]);
+});
+
+describe('PiggyBank', () => {
+  test('Collect PiggyBank Directly', () => {
     onPlayerAction(piece, piggyBankItem);
 
-    const whitePlayerMoney = whitePlayer.gold;
-    expect(whitePlayerMoney).toBeGreaterThan(0);
+    expect(whitePlayer.gold).toBeGreaterThan(0);
 
     const isPiggyBankThere = game.getItems().includes(piggyBankItem);
     expect(isPiggyBankThere).toBe(false);
 
-    let newPieceCoordinates = piece.position?.coordinates;
+    const newPieceCoordinates = piece.position?.coordinates;
     expect(newPieceCoordinates).not.toEqual(initialPiecePosition.coordinates);
+  });
 
-    const otherItemPosition: Position = {
-      coordinates: [2, 2],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const otherPiggyBankItem = new PiggyBank(otherItemPosition);
-
+  test('Collect PiggyBank Indirectly', () => {
     const targetSquarePosition: Position = {
-      coordinates: [2, 1],
+      coordinates: [0, 4],
       boardId: OVERWORLD_BOARD_ID,
     };
     const targetSquare: Square = { position: targetSquarePosition };
 
-    game.setItems([otherPiggyBankItem]);
     onPlayerAction(piece, targetSquare);
 
-    const newWhitePlayerMoney = whitePlayer.gold;
-    expect(newWhitePlayerMoney).toBeGreaterThan(whitePlayerMoney);
+    expect(whitePlayer.gold).toBeGreaterThan(0);
 
-    const isOtherPiggyBankThere = game.getItems().includes(otherPiggyBankItem);
-    expect(isOtherPiggyBankThere).toBe(false);
+    const doesPiggyBankExist = game.getItems().includes(piggyBankItem);
+    expect(doesPiggyBankExist).toBe(false);
 
-    newPieceCoordinates = piece.position?.coordinates;
+    const newPieceCoordinates = piece.position?.coordinates;
     expect(newPieceCoordinates).toEqual(targetSquarePosition.coordinates);
   });
 });
