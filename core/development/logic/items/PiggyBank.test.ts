@@ -46,7 +46,7 @@ let piece: BasePiece;
 let piggyBankItem: BaseItem;
 
 beforeEach(() => {
-  initialPiecePosition= {
+  initialPiecePosition = {
     coordinates: [3, 4],
     boardId: OVERWORLD_BOARD_ID,
   };
