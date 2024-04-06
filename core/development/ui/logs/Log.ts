@@ -2,7 +2,6 @@ import {
   HELL_BOARD_ID,
   NOTATIONS_LETTERS,
   NOTATIONS_NUMBERS,
-  VOID_BOARD_ID,
 } from '../../Constants';
 import { BasePiece } from '../../logic/pieces/abstract/BasePiece';
 import { Position } from '../../logic/pieces/types/Position';
@@ -66,7 +65,7 @@ export class KillLog extends Log {
 
     let message = `${killedPieceIcon} ${killedPieceColor} ${killedPieceName} was `;
 
-    if (killedPiece.position?.boardId === VOID_BOARD_ID) {
+    if (!killedPiece.position) {
       message += 'permanently killed by ';
     } else {
       const spawnedInBoard =

@@ -4,7 +4,7 @@ import {
   destroyPieceOnBoard,
   spawnPieceOnBoard,
 } from './LogicAdapter';
-import { BOARD_WIDTH, OVERWORLD_BOARD_ID, VOID_BOARD_ID } from './Constants';
+import { BOARD_WIDTH, OVERWORLD_BOARD_ID } from './Constants';
 import { Player } from './logic/players/Player';
 import { BaseItem } from './logic/items/abstract/Item';
 import { Bishop } from './logic/pieces/Bishop';

@@ -1,17 +1,16 @@
 import { BasePiece } from '../pieces/abstract/BasePiece';
 import { ActionResult } from './types/ActionResult';
-import { KillPieceAction } from './KillPieceAction';
 import { KillLog } from '../../ui/logs/Log';
 import { game } from '../../Game';
 import { MIN_KILLINGS_FOR_BOUNTY } from '../../Constants';
 import { destroyItemOnPiece, movePieceOnBoard } from '../../LogicAdapter';
 import { Position } from '../pieces/types/Position';
-
+import { KillPieceAction } from './KillPieceAction';
 export class KillPieceByPieceAction extends KillPieceAction {
   private killerPiece: BasePiece;
 
   constructor(killedPiece: BasePiece, killerPiece: BasePiece) {
-    super(killedPiece);
+    super(killedPiece, killedPiece.position?.boardId);
     this.killerPiece = killerPiece;
   }
 
@@ -27,11 +26,10 @@ export class KillPieceByPieceAction extends KillPieceAction {
       this.killerPiece.player.gold += this.killedPiece.killCount;
     }
 
-    super.execute();
     game.setKillerPiece(this.killerPiece);
     new KillLog(this.killedPiece, this.killerPiece).addToQueue();
 
-    return ActionResult.SUCCESS;
+    return super.execute();
   }
 
   failToKillPiece() {

@@ -19,7 +19,9 @@ export class Shield extends BaseItem {
     const logCoordinates = MovementLog.convertPositionToNotation(
       piece.position.coordinates,
     );
-    new Log(`${piece.player.color} ${piece.name} on ${logCoordinates} equiped a ${this.name}.`).addToQueue();
+    new Log(
+      `${piece.player.color} ${piece.name} on ${logCoordinates} equiped a ${this.name}.`,
+    ).addToQueue();
     Logger.logMessages();
 
     this.position = position;
