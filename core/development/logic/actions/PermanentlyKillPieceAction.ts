@@ -14,7 +14,9 @@ export class PermanentlyKillPieceAction implements GameAction {
 
   execute(): ActionResult {
     this.killedPiece.position = undefined;
-    const filteredPieces = game.getPieces().filter((piece) => piece !== this.killedPiece);
+    const filteredPieces = game
+      .getPieces()
+      .filter((piece) => piece !== this.killedPiece);
     game.setPieces(filteredPieces);
 
     if (this.killedPiece instanceof King) endGame();

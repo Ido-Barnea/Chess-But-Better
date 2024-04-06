@@ -1,4 +1,8 @@
-import { HELL_BOARD_ID, NOTATIONS_LETTERS, NOTATIONS_NUMBERS } from '../../Constants';
+import {
+  HELL_BOARD_ID,
+  NOTATIONS_LETTERS,
+  NOTATIONS_NUMBERS,
+} from '../../Constants';
 import { BasePiece } from '../../logic/pieces/abstract/BasePiece';
 import { Position } from '../../logic/pieces/types/Position';
 import { Logger } from './Logger';
