@@ -67,10 +67,22 @@ Contributions are welcome! Check out the [Contributing Guidelines](CONTRIBUTING.
 
 ## FAQ
 
-### How do I report a bug?
+<details>
+  <summary><strong>What is Chess But Better?</strong></summary>
+  Chess But Better is an innovative take on the classic game of chess. It introduces multiple layers of complexity and unique features to enhance gameplay and provide a fresh experience for players.
+</details>
 
-Please open an issue on the GitHub repository and provide detailed information about the bug, including steps to reproduce it.
+<details>
+  <summary><strong>How is Chess But Better different from traditional chess?</strong></summary>
+  Chess But Better incorporates additional rules and mechanics that add complexity and excitement to the game. These features include new pieces, alternate win conditions, secret rules, items, and special abilities that change gameplay dynamics.
+</details>
 
-### Can I suggest a new feature?
+<details>
+  <summary><strong>How often is Chess But Better updated?</strong></summary>
+  We strive to regularly update Chess But Better with new features, improvements, and bug fixes. Our development team is committed to providing a continuously evolving and engaging experience for our players.
+</details>
 
-Absolutely! Feel free to open an issue to suggest a new feature or enhancement.
+<details>
+  <summary><strong>How can I contribute to the development of Chess But Better?</strong></summary>
+  We welcome contributions from the community to help improve Chess But Better. Whether you're a developer, designer, or avid player, there are many ways to get involved. You can contribute code, report bugs, suggest new features, or provide feedback to help us make Chess But Better even better!
+</details>
