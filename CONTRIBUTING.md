@@ -42,7 +42,7 @@ If you encounter behavior that violates this code of conduct, please address it 
 ### Suggesting Enhancements
 
 - Before creating enhancement suggestions, please check if the enhancement has already been suggested.
-- When creating an enhancement suggestion, please include as many details as possible. Fill out the [enhancement template](.github/ISSUE_TEMPLATE/feature_request.md).
+- When creating an enhancement suggestion, please include as many details as possible. Fill out the [enhancement template](.github/ISSUE_TEMPLATE/enhancement_request.md).
 
 ### Pull Requests
 
