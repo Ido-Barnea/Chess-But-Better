@@ -31,6 +31,10 @@ export function showUpgradeablePiecesElements(
       upgradeElement.innerHTML = upgradeablePiece.resource;
       upgradeElement.addEventListener('click', () => {
         upgradePiece(piece, upgradeablePiece);
+        showUpgradeablePiecesElements(
+          upgradeablePiece,
+          upgradeablePiece.upgrades,
+        );
       });
 
       const upgradePriceElement = document.createElement('p');
