@@ -1,4 +1,4 @@
 export enum ActionResult {
-  SUCCESS,
-  FAILURE,
+  FAILURE = 0,
+  SUCCESS = 1,
 }
