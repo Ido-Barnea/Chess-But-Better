@@ -22,7 +22,7 @@ import {
 } from './ui/BoardManager';
 import {
   hideUnicornAttackButton,
-  renderPlayersInformation,
+  renderGameInformation,
   showUnicornAttackButton,
 } from './ui/Screen';
 import {
@@ -44,7 +44,7 @@ import { KillPieceByPieceAction } from './logic/actions/KillPieceByPieceAction';
 import { ShopActionResult } from './logic/shop/types/ShopActionResult';
 
 export function renderScreen() {
-  renderPlayersInformation();
+  renderGameInformation();
 }
 
 function findPieceAtPosition(position: Position): BasePiece | undefined {

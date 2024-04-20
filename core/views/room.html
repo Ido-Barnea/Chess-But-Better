@@ -7,16 +7,18 @@
   </head>
   <body>
     <div id="left-column">
-      <p id="info-container"></p>
-      <div class="checkbox-container">
+      <table id="info-container">
+        <tr>
+          <td id="info-container-round-information" colspan="3"></td>
+        </tr>
+        <tr id="info-container-players"></tr>
+      </table>
+      <div class="purchasable-container">
         <p>Shop</p>
         <input type="checkbox" id="shop-upgrade-swapper" />
-        <p>Upgrade Tree</p>
+        <p>Tree</p>
       </div>
-      <div
-        id="piece-upgrades-container"
-        class="collapsed center-horizontally"
-      ></div>
+      <div id="piece-upgrades-container" class="collapsed center-horizontally"></div>
       <div id="shop-container" class="center-horizontally"></div>
       <div id="inventory-container" class="center-horizontally"></div>
     </div>

@@ -3,11 +3,7 @@
     font-size: 0.6em;
   }
 
-  #info-container p {
-    font-size: 0.8em;
-  }
-
-  .checkbox-container p {
+  .purchasable-container p {
     font-size: 0.8em;
   }
 
@@ -25,11 +21,7 @@
     font-size: 0.4em;
   }
 
-  #info-container p {
-    font-size: 0.6em;
-  }
-
-  .checkbox-container p {
+  .purchasable-container p {
     font-size: 0.6em;
   }
 
