@@ -1,7 +1,9 @@
 import { game } from '../Game';
 import { Player } from '../logic/players/Player';
 
-const roundInformation = document.getElementById('info-container-round-information');
+const roundInformation = document.getElementById(
+  'info-container-round-information',
+);
 const playersElement = document.getElementById('info-container-players');
 
 const unicornAttackButton = document.getElementById('unicorn-attack');
@@ -24,7 +26,7 @@ function createMoveElement(): HTMLElement {
   moveElement.innerHTML = `Move: ${move}`;
 
   moveElement.style.textAlign = 'center';
-  
+
   return moveElement;
 }
 
@@ -38,7 +40,7 @@ function renderRoundInformationElement() {
   const moveElement = createMoveElement();
 
   moveElement.style.color = 'var(--gray-color)';
-  
+
   roundInformation.appendChild(roundElement);
   roundInformation.appendChild(moveElement);
 }
