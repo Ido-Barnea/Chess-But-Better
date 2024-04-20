@@ -41,6 +41,7 @@ import { Square } from './logic/pieces/types/Square';
 import { Unicorn } from './logic/pieces/Unicorn';
 import { KillPieceByFallingOffTheBoardAction } from './logic/actions/KillPieceByFallingOffTheBoardAction';
 import { KillPieceByPieceAction } from './logic/actions/KillPieceByPieceAction';
+import { ShopActionResult } from './logic/shop/types/ShopActionResult';
 
 export function renderScreen() {
   renderPlayersInformation();
@@ -422,7 +423,7 @@ export function buyItem(itemId: string) {
   const item = getShopItemById(itemId);
   const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
-  if (shop.buyItem(item, currentPlayer)) {
+  if (shop.buyItem(item, currentPlayer) === ShopActionResult.SUCCESS) {
     showItemOnInventory(item, currentPlayer.color);
   }
 
