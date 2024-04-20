@@ -20,7 +20,7 @@ jest.mock('../../ui/BoardManager.ts', () => ({
   highlightLastMove: jest.fn(),
 }));
 jest.mock('../../ui/Screen.ts', () => ({
-  renderPlayersInformation: jest.fn(),
+  renderGameInformation: jest.fn(),
   hideUnicornAttackButton: jest.fn(),
 }));
 jest.mock('../../ui/logs/Logger.ts');
