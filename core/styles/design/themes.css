@@ -2,12 +2,14 @@
   --primary-color: #302e2b;
   --accent-color: #88b65a;
   --accent-color-hover: #a9d182;
-  --bright-square: #c7ec8a;
-  --dark-square: #88b65a;
+  --bright-overworld-square: #c7ec8a;
+  --dark-overworld-square: #88b65a;
   --bright-hell-square: #e66545;
   --dark-hell-square: #882615;
   --bright-heaven-square: #a1e3f5;
   --dark-heaven-square: #0da5ce;
+  --gold-color: #e3e07d;
+  --gray-color: #909090;
   --notations-color: black;
   --text-color: white;
   --kill-color: #e66545;
@@ -50,11 +52,11 @@ button:hover {
 }
 
 #board-overworld-button {
-  background-color: var(--dark-square);
+  background-color: var(--dark-overworld-square);
 }
 
 #board-overworld-button:hover {
-  background-color: var(--bright-square);
+  background-color: var(--bright-overworld-square);
 }
 
 #board-heaven-button {
@@ -99,11 +101,11 @@ button:hover {
 }
 
 .beige-background {
-  background-color: var(--bright-square);
+  background-color: var(--bright-overworld-square);
 }
 
 .brown-background {
-  background-color: var(--dark-square);
+  background-color: var(--dark-overworld-square);
 }
 
 .dark-red-background {

@@ -100,18 +100,39 @@
 }
 
 #info-container {
-  position: relative;
-  margin: 2.5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 5%;
 }
 
-#info-container p {
-  font-size: 1em;
+.vertical-line {
+  position: relative;
+  border-left: 2px solid white;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  border: solid red;
+  border-width: 0 10px 10px 10px;
+  transform: translateX(-100%);
+}
+
+.players-information {
+  padding-inline: 32px;
+  position: relative;
+}
+
+#info-container-round-counter {
+  text-align: center;
 }
 
 #logs-container {
-  width: 100%;
+  width: 93%;
   height: 70%;
-  padding: 0.5%;
+  padding-inline: 2%;
+  margin-top: 5%;
   border: 0.1vh solid white;
   overflow-y: auto;
 }
@@ -121,8 +142,8 @@
 }
 
 #boards-buttons-container {
-  width: 100%;
-  height: 30vh;
+  width: 95%;
+  height: 30%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -154,7 +175,7 @@
 #piece-upgrades-container {
   width: auto;
   position: absolute;
-  left: 5%;
+  left: 2.5%;
   overflow: visible;
   box-sizing: border-box;
   display: flex;
@@ -168,7 +189,7 @@
 
 #shop-container,
 #piece-upgrades-container {
-  bottom: 50%;
+  margin-top: 5%;
 }
 
 .inventory-square,
@@ -229,17 +250,19 @@
 #shop-upgrade-swapper:checked::before {
   transform: translateX(165%);
 }
-.checkbox-container {
+.purchasable-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+  margin-top: 5%;
 }
 
 input#shop-upgrade-swapper {
   margin: 5%;
 }
 
-.checkbox-container p {
+.purchasable-container p {
   font-size: 1em;
 }
 
