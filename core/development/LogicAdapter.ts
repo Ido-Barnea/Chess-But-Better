@@ -313,10 +313,6 @@ export function changePieceToAnotherPlayer(piece: BasePiece) {
     .filter((_player) => _player !== piece.player)[0];
 }
 
-export function endGame() {
-  game.end();
-}
-
 export function switchInventory(player: Player) {
   if (switchShownInventory(player.color)) {
     player.inventory.getItems().forEach((item) => {

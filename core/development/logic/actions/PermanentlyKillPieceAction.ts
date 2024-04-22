@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { destroyPieceOnBoard, endGame } from '../../LogicAdapter';
+import { destroyPieceOnBoard } from '../../LogicAdapter';
 import { King } from '../pieces/King';
 import { BasePiece } from '../pieces/abstract/BasePiece';
 import { GameAction } from './abstract/GameAction';
@@ -19,7 +19,9 @@ export class PermanentlyKillPieceAction implements GameAction {
       .filter((piece) => piece !== this.killedPiece);
     game.setPieces(filteredPieces);
 
-    if (this.killedPiece instanceof King) endGame();
+    if (this.killedPiece instanceof King) {
+      game.end();
+    }
 
     game.increaseDeathCounter();
     destroyPieceOnBoard(this.killedPiece);
