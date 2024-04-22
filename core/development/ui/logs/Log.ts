@@ -31,9 +31,9 @@ export class Log {
 export class MovementLog extends Log {
   constructor(draggedPiece: BasePiece, targetPosition: Position) {
     const { position, pieceIcon, player, name } = draggedPiece;
-    if (!position) return;
+
     const fromNotation = MovementLog.convertPositionToNotation(
-      position.coordinates,
+      position?.coordinates,
     );
     const toNotation = MovementLog.convertPositionToNotation(
       targetPosition.coordinates,
@@ -44,7 +44,9 @@ export class MovementLog extends Log {
     super(message, LogColor.MOVEMENT);
   }
 
-  static convertPositionToNotation(position: [number, number]) {
+  static convertPositionToNotation(position: [number, number] | undefined) {
+    if (!position) return '';
+
     const x = NOTATIONS_LETTERS[position[0]];
     const y = NOTATIONS_NUMBERS[position[1]];
     return `${x},${y}`;
