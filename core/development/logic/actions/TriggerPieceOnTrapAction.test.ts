@@ -48,7 +48,7 @@ jest.mock('./KillPieceByEnvironmentAction', () => ({
     .mockImplementation((killedPiece: BasePiece) => ({
       execute: jest
         .fn()
-        .mockReturnValueOnce(
+        .mockReturnValue(
           killedPiece.position ? ActionResult.SUCCESS : ActionResult.FAILURE,
         ),
     })),

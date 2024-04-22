@@ -20,27 +20,6 @@ export class Pawn extends BasePiece {
     this.diagonalAttackPosition = undefined;
   }
 
-  checkInitialDoubleStep(targetPosition: Position): boolean {
-    if (!this.position) return false;
-
-    const currentCoordinates = this.position.coordinates;
-    const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
-    // Determine the direction of pawn movement based on the player's color
-    const stepY = currentPlayer.color === PlayerColor.WHITE ? -1 : 1;
-
-    const twoSquaresForward: Position = {
-      coordinates: [currentCoordinates[0], currentCoordinates[1] + 2 * stepY],
-      boardId: this.position.boardId,
-    };
-
-    if (comparePositions(twoSquaresForward, targetPosition)) {
-      this.isInitialDoubleStep = true;
-      return true;
-    }
-
-    return false;
-  }
-
   getEnPassantPiece(targetPosition: Position): BasePiece | undefined {
     const pawns = game.getPieces().filter((piece) => {
       return piece instanceof Pawn && piece !== this;
