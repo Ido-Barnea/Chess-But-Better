@@ -15,21 +15,23 @@ export class King extends BasePiece {
   }
 
   getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
-    const rank = player.color === PlayerColor.WHITE ? 0 : 7;
+    const rank = player.color === PlayerColor.WHITE ? 7 : 0;
     if (!this.position) return;
 
     if (kingside) {
       // Kingside castling
+      const kingsideCastlingRookXCoordinate = 7;
       const kingsideRookPosition: Position = {
-        coordinates: [7, rank],
+        coordinates: [kingsideCastlingRookXCoordinate, rank],
         boardId: this.position.boardId,
       };
 
       return getPieceByPosition(kingsideRookPosition) as Rook | undefined;
     } else {
       // Queenside castling
+      const queensideCastlingRookXCoordinate = 0;
       const queensideRookPosition: Position = {
-        coordinates: [0, rank],
+        coordinates: [queensideCastlingRookXCoordinate, rank],
         boardId: this.position.boardId,
       };
 

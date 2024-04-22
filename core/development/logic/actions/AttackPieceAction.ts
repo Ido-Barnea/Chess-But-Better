@@ -25,8 +25,10 @@ export class AttackPieceAction implements GameAction {
       this.target,
       this.piece,
     ).execute();
-    if (killPieceByPieceResult === ActionResult.FAILURE)
+
+    if (killPieceByPieceResult === ActionResult.FAILURE) {
       return ActionResult.FAILURE;
+    }
 
     const targetSquare: Square = { position: targetPosition };
     move(this.piece, targetSquare.position);
