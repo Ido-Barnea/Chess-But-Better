@@ -42,9 +42,15 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
 
 jest.mock('./KillPieceByEnvironmentAction', () => ({
   __esModule: true,
-  KillPieceByEnvironmentAction: jest.fn().mockImplementation((killedPiece: BasePiece) => ({
-    execute: jest.fn().mockReturnValueOnce(killedPiece.position ? ActionResult.SUCCESS : ActionResult.FAILURE),
-  })),
+  KillPieceByEnvironmentAction: jest
+    .fn()
+    .mockImplementation((killedPiece: BasePiece) => ({
+      execute: jest
+        .fn()
+        .mockReturnValueOnce(
+          killedPiece.position ? ActionResult.SUCCESS : ActionResult.FAILURE,
+        ),
+    })),
 }));
 
 describe('KillPieceByFallingOffTheBoardAction', () => {
@@ -55,7 +61,8 @@ describe('KillPieceByFallingOffTheBoardAction', () => {
   test('should return FAILURE if killedPiece.position is undefined', () => {
     // Arrange
     const killedPiece = new Pawn(whitePlayer, undefined);
-    const killPieceByFallingOffTheBoardAction = new KillPieceByFallingOffTheBoardAction(killedPiece);
+    const killPieceByFallingOffTheBoardAction =
+      new KillPieceByFallingOffTheBoardAction(killedPiece);
 
     // Act
     const actionResult = killPieceByFallingOffTheBoardAction.execute();
@@ -71,7 +78,8 @@ describe('KillPieceByFallingOffTheBoardAction', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceByFallingOffTheBoardAction = new KillPieceByFallingOffTheBoardAction(killedPiece);
+    const killPieceByFallingOffTheBoardAction =
+      new KillPieceByFallingOffTheBoardAction(killedPiece);
 
     // Act
     const actionResult = killPieceByFallingOffTheBoardAction.execute();
