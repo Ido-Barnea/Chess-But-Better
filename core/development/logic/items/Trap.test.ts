@@ -34,11 +34,9 @@ jest.mock('../../ui/InventoriesUI.ts', () => ({
 }));
 jest.mock('../../ui/ShopUI.ts');
 
-const getCurrentPlayerMock = jest.fn().mockReturnValue(whitePlayer);
-const getTurnsCount = jest.fn().mockReturnValue(1);
 game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
-  getCurrentPlayer: getCurrentPlayerMock,
-  getTurnsCount: getTurnsCount,
+  getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
+  getTurnsCount: jest.fn().mockReturnValue(1),
 });
 
 let initialPiecePosition: Position;
