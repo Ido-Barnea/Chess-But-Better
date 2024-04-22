@@ -14,7 +14,6 @@ export class Shield extends BaseItem {
 
   use(position: Position): ItemActionResult {
     const piece = getPieceByPosition(position);
-    console.log(piece);
     if (!piece || !piece.position) return ItemActionResult.FAILURE;
 
     const logCoordinates = MovementLog.convertPositionToNotation(

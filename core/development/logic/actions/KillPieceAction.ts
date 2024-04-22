@@ -1,4 +1,8 @@
-import { OVERWORLD_BOARD_ID } from '../../Constants';
+import {
+  HEAVEN_BOARD_ID,
+  HELL_BOARD_ID,
+  OVERWORLD_BOARD_ID,
+} from '../../Constants';
 import { game } from '../../Game';
 import { destroyPieceOnBoard } from '../../LogicAdapter';
 import { King } from '../pieces/King';
@@ -21,16 +25,26 @@ export class KillPieceAction implements GameAction {
   execute(): ActionResult {
     if (this.killedPiece.position?.boardId === OVERWORLD_BOARD_ID) {
       game.increaseDeathCounter();
-      destroyPieceOnBoard(this.killedPiece, this.originBoardId);
 
       const hasPieceKilledOtherPieces = this.killedPiece.killCount > 0;
       const isKilledPieceKing = this.killedPiece instanceof King;
+
+      const pieceOriginBoardId = this.killedPiece.position.boardId;
+      let spawnActionResult = ActionResult.FAILURE;
       if (hasPieceKilledOtherPieces || isKilledPieceKing) {
-        return new SpawnPieceInHellAction(this.killedPiece).execute();
+        spawnActionResult = new SpawnPieceInHellAction(
+          this.killedPiece,
+        ).execute();
       } else {
-        return new SpawnPieceInHeavenAction(this.killedPiece).execute();
+        spawnActionResult = new SpawnPieceInHeavenAction(
+          this.killedPiece,
+        ).execute();
       }
+
+      destroyPieceOnBoard(this.killedPiece, pieceOriginBoardId);
+      return spawnActionResult;
     } else {
+      destroyPieceOnBoard(this.killedPiece);
       return new PermanentlyKillPieceAction(this.killedPiece).execute();
     }
   }

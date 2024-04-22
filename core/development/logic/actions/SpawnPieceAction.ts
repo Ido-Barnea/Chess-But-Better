@@ -1,5 +1,5 @@
 import { game } from '../../Game';
-import { destroyPieceOnBoard, spawnPieceOnBoard } from '../../LogicAdapter';
+import { spawnPieceOnBoard } from '../../LogicAdapter';
 import { comparePositions } from '../Utilities';
 import { BasePiece } from '../pieces/abstract/BasePiece';
 import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
@@ -18,10 +18,8 @@ export class SpawnPieceAction implements GameAction {
 
   execute(): ActionResult {
     if (!this.piece || !this.piece.position) return ActionResult.FAILURE;
-    destroyPieceOnBoard(this.piece);
-    this.piece.position.boardId = this.boardId;
-
     this.piece.killCount = 0;
+    this.piece.position.boardId = this.boardId;
 
     game.getPieces().forEach((piece) => {
       const areOnTheSamePosition = comparePositions(
