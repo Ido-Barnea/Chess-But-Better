@@ -1,15 +1,12 @@
 import { OVERWORLD_BOARD_ID } from '../../Constants';
-import { PiggyBank } from './PiggyBank';
 import { Player } from '../players/Player';
-import { onPlayerAction } from '../PieceLogic';
 import { game } from '../../Game';
-import { Rook } from '../pieces/Rook';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../pieces/types/Position';
-import { Square } from '../pieces/types/Square';
-import { BasePiece } from '../pieces/abstract/BasePiece';
-import { BaseItem } from './abstract/Item';
+import { Pawn } from '../pieces/Pawn';
+import { ItemActionResult } from './types/ItemActionResult';
+import { PiggyBank } from './PiggyBank';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
@@ -20,6 +17,7 @@ jest.mock('../../ui/BoardManager.ts', () => ({
   spawnPieceElementOnBoard: jest.fn(),
   getAllSquareElements: jest.fn(),
   highlightLastMove: jest.fn(),
+  spawnItemOnChildElement: jest.fn(),
 }));
 jest.mock('../../ui/Screen.ts', () => ({
   renderGameInformation: jest.fn(),
@@ -39,56 +37,46 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
 
-let initialPiecePosition: Position;
-let piece: BasePiece;
-let piggyBankItem: BaseItem;
-
-beforeEach(() => {
-  initialPiecePosition = {
-    coordinates: [3, 4],
-    boardId: OVERWORLD_BOARD_ID,
-  };
-  piece = new Rook(whitePlayer, initialPiecePosition);
-
-  const piggyBankPosition: Position = {
-    coordinates: [1, 4],
-    boardId: OVERWORLD_BOARD_ID,
-  };
-  piggyBankItem = new PiggyBank(piggyBankPosition);
-
-  game.initialize();
-  game.setItems([piggyBankItem]);
-  game.setPieces([piece]);
-});
-
 describe('PiggyBank', () => {
-  test('Collect PiggyBank Directly', () => {
-    onPlayerAction(piece, piggyBankItem);
-
-    expect(whitePlayer.gold).toBeGreaterThan(0);
-
-    const isPiggyBankThere = game.getItems().includes(piggyBankItem);
-    expect(isPiggyBankThere).toBe(false);
-
-    const newPieceCoordinates = piece.position?.coordinates;
-    expect(newPieceCoordinates).not.toEqual(initialPiecePosition.coordinates);
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  test('Collect PiggyBank Indirectly', () => {
-    const targetSquarePosition: Position = {
-      coordinates: [0, 4],
+  test('should return SUCCESS and increase player\'s gold if position is valid', () => {
+    // Arrange
+    const initialPiecePosition: Position = {
+      coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const targetSquare: Square = { position: targetSquarePosition };
+    const piece = new Pawn(whitePlayer, initialPiecePosition);
+    game.setPieces([piece]);
 
-    onPlayerAction(piece, targetSquare);
+    const initialPlayerGold = whitePlayer.gold;
 
-    expect(whitePlayer.gold).toBeGreaterThan(0);
+    const piggyBankItem = new PiggyBank();
 
-    const doesPiggyBankExist = game.getItems().includes(piggyBankItem);
-    expect(doesPiggyBankExist).toBe(false);
+    // Act
+    const itemActionResult = piggyBankItem.use(initialPiecePosition);
 
-    const newPieceCoordinates = piece.position?.coordinates;
-    expect(newPieceCoordinates).toEqual(targetSquarePosition.coordinates);
+    // Assert
+    expect(itemActionResult).toEqual(ItemActionResult.SUCCESS);
+    expect(piece.player.gold).toBeGreaterThan(initialPlayerGold);
+  });
+
+  test('should return FAILURE if piece is undefined', () => {
+    // Arrange
+    game.setPieces([]);
+    const nonexistentPiecePosition: Position = {
+      coordinates: [0, 0],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+
+    const piggyBankItem = new PiggyBank();
+
+    // Act
+    const itemActionResult = piggyBankItem.use(nonexistentPiecePosition);
+
+    // Assert
+    expect(itemActionResult).toEqual(ItemActionResult.FAILURE);
   });
 });

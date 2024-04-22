@@ -65,7 +65,7 @@ describe('Shield', () => {
   test('should return FAILURE if piece is undefined', () => {
     // Arrange
     game.setPieces([]);
-    const initialPiecePosition: Position = {
+    const nonexistentPiecePosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
@@ -73,7 +73,7 @@ describe('Shield', () => {
     const shieldItem = new Shield();
 
     // Act
-    const itemActionResult = shieldItem.use(initialPiecePosition);
+    const itemActionResult = shieldItem.use(nonexistentPiecePosition);
 
     // Assert
     expect(itemActionResult).toEqual(ItemActionResult.FAILURE);
