@@ -4,7 +4,7 @@ import { KillPieceAction } from './KillPieceAction';
 import { KillLog } from '../../ui/logs/Log';
 import { game } from '../../Game';
 
-export class KillPieceByEnvironment extends KillPieceAction {
+export class KillPieceByEnvironmentAction extends KillPieceAction {
   private killingSource: string;
 
   constructor(

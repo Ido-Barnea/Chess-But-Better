@@ -3,7 +3,7 @@ import { destroyItemOnBoard } from '../../LogicAdapter';
 import { move } from '../PieceLogic';
 import { BaseItem } from '../items/abstract/Item';
 import { BasePiece } from '../pieces/abstract/BasePiece';
-import { KillPieceByEnvironment as KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
+import { KillPieceByEnvironmentAction as KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
 
