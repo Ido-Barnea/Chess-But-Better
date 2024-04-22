@@ -20,27 +20,28 @@ export class MovePieceAction implements GameAction {
   }
 
   execute(): ActionResult {
-    if (this.piece instanceof Pawn) {
-      this.piece.checkInitialDoubleStep(this.targetPosition);
+    const isPiecePawn = this.piece instanceof Pawn;
+    if (isPiecePawn) {
+      const pieceAsPawn = this.piece as Pawn;
 
-      if (this.piece.diagonalAttackPosition) {
-        if (
-          comparePositions(
-            this.piece.diagonalAttackPosition,
-            this.targetPosition,
-          )
-        ) {
-          const enPassantPiece = this.piece.getEnPassantPiece(
-            this.targetPosition,
-          );
-          if (!enPassantPiece) return ActionResult.FAILURE;
+      const isPawnDiagonalAttack = pieceAsPawn.diagonalAttackPosition;
+      const isSuspectedEnPassant = comparePositions(
+        pieceAsPawn.diagonalAttackPosition,
+        this.targetPosition,
+      );
+      if (isPawnDiagonalAttack && isSuspectedEnPassant) {
+        const enPassantPiece = pieceAsPawn.getEnPassantPiece(
+          this.targetPosition,
+        );
+        if (!enPassantPiece) return ActionResult.FAILURE;
 
-          const enPassantAttackResult = new KillPieceByPieceAction(
-            enPassantPiece,
-            this.piece,
-          ).execute();
-          if (enPassantAttackResult == ActionResult.FAILURE)
-            return ActionResult.FAILURE;
+        const enPassantAttackResult = new KillPieceByPieceAction(
+          enPassantPiece,
+          this.piece,
+        ).execute();
+
+        if (enPassantAttackResult == ActionResult.FAILURE) {
+          return ActionResult.FAILURE;
         }
       }
     }
@@ -51,7 +52,7 @@ export class MovePieceAction implements GameAction {
         this.targetPosition,
       ).execute();
 
-      if (castlingActionResult == ActionResult.FAILURE) {
+      if (castlingActionResult === ActionResult.FAILURE) {
         game.switchIsCastling();
         return ActionResult.FAILURE;
       }

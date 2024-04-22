@@ -1,13 +1,12 @@
-import { OVERWORLD_BOARD_ID, VOID_BOARD_ID } from '../../Constants';
+import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
+import { PiggyBank } from '../items/PiggyBank';
 import { Pawn } from '../pieces/Pawn';
-import { BasePiece } from '../pieces/abstract/BasePiece';
 import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
-import { KillPieceByFallingOffTheBoardAction } from './KillPieceByFallingOffTheBoardAction';
+import { TriggerPieceOnPiggyBankAction } from './TriggerPieceOnPiggyBankAction';
 import { ActionResult } from './types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
@@ -37,53 +36,51 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
+game.setItems = jest.fn();
 
-jest.mock('./KillPieceByEnvironmentAction', () => ({
-  __esModule: true,
-  KillPieceByEnvironmentAction: jest
-    .fn()
-    .mockImplementation((killedPiece: BasePiece) => ({
-      execute: jest
-        .fn()
-        .mockReturnValue(
-          killedPiece.position ? ActionResult.SUCCESS : ActionResult.FAILURE,
-        ),
-    })),
-}));
-
-describe('KillPieceByFallingOffTheBoardAction', () => {
+describe('TriggerPieceOnPiggyBankAction', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should return FAILURE if killedPiece.position is undefined', () => {
+  test('should return FAILURE if piece.position is undefined', () => {
     // Arrange
-    const killedPiece = new Pawn(whitePlayer, undefined);
-    const killPieceByFallingOffTheBoardAction =
-      new KillPieceByFallingOffTheBoardAction(killedPiece);
+    const itemPosition: Position = {
+      coordinates: [0, 0],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const item = new PiggyBank(itemPosition);
+    const piece = new Pawn(whitePlayer, undefined);
+    const triggerPieceOnPiggyBankAction = new TriggerPieceOnPiggyBankAction(
+      item,
+      piece,
+    );
 
     // Act
-    const actionResult = killPieceByFallingOffTheBoardAction.execute();
+    const actionResult = triggerPieceOnPiggyBankAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.FAILURE);
   });
 
-  test('should call super.execute() if killedPiece.position exists', () => {
+  test('should return SUCCESS if piece.position is defined', () => {
     // Arrange
-    const initialPosition: Position = {
-      coordinates: [4, 0],
+    const itemPosition: Position = {
+      coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceByFallingOffTheBoardAction =
-      new KillPieceByFallingOffTheBoardAction(killedPiece);
+    const item = new PiggyBank(itemPosition);
+    const piece = new Pawn(whitePlayer, itemPosition);
+    const triggerPieceOnPiggyBankAction = new TriggerPieceOnPiggyBankAction(
+      item,
+      piece,
+    );
 
     // Act
-    const actionResult = killPieceByFallingOffTheBoardAction.execute();
+    const actionResult = triggerPieceOnPiggyBankAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.SUCCESS);
-    expect(KillPieceByEnvironmentAction).toHaveBeenCalledTimes(1);
+    expect(game.setItems).toHaveBeenCalledTimes(1);
   });
 });

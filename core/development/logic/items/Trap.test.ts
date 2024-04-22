@@ -1,15 +1,11 @@
-import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
+import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { Player } from '../players/Player';
-import { onPlayerAction } from '../PieceLogic';
 import { game } from '../../Game';
-import { Rook } from '../pieces/Rook';
-import { Trap } from './Trap';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../pieces/types/Position';
-import { Square } from '../pieces/types/Square';
-import { BasePiece } from '../pieces/abstract/BasePiece';
-import { BaseItem } from './abstract/Item';
+import { ItemActionResult } from './types/ItemActionResult';
+import { Trap } from './Trap';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
@@ -20,6 +16,8 @@ jest.mock('../../ui/BoardManager.ts', () => ({
   spawnPieceElementOnBoard: jest.fn(),
   getAllSquareElements: jest.fn(),
   highlightLastMove: jest.fn(),
+  spawnItemOnChildElement: jest.fn(),
+  spawnItemElementOnBoard: jest.fn(),
 }));
 jest.mock('../../ui/Screen.ts', () => ({
   renderGameInformation: jest.fn(),
@@ -34,65 +32,29 @@ jest.mock('../../ui/InventoriesUI.ts', () => ({
 }));
 jest.mock('../../ui/ShopUI.ts');
 
-const getCurrentPlayerMock = jest.fn().mockReturnValue(whitePlayer);
-const getTurnsCount = jest.fn().mockReturnValue(1);
 game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
-  getCurrentPlayer: getCurrentPlayerMock,
-  getTurnsCount: getTurnsCount,
-});
-
-let initialPiecePosition: Position;
-let piece: BasePiece;
-let trapItem: BaseItem;
-
-beforeEach(() => {
-  initialPiecePosition = {
-    coordinates: [3, 4],
-    boardId: OVERWORLD_BOARD_ID,
-  };
-  piece = new Rook(whitePlayer, initialPiecePosition);
-
-  const trapPosition: Position = {
-    coordinates: [1, 4],
-    boardId: OVERWORLD_BOARD_ID,
-  };
-  trapItem = new Trap(trapPosition);
-
-  game.initialize();
-  game.setItems([trapItem]);
-  game.setPieces([piece]);
+  getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
+  getTurnsCount: jest.fn().mockReturnValue(1),
 });
 
 describe('Trap', () => {
-  test('Trigger Trap Directly', () => {
-    onPlayerAction(piece, trapItem);
-
-    const pieceNewBoard = piece.position?.boardId;
-    expect(pieceNewBoard).toEqual(HEAVEN_BOARD_ID);
-
-    const isTrapThere = game.getItems().includes(trapItem);
-    expect(isTrapThere).toBe(false);
-
-    const newPieceCoordinates = piece.position?.coordinates;
-    expect(newPieceCoordinates).toEqual(trapItem.position?.coordinates);
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  test('Trigger Trap Indirectly', () => {
-    const targetSquarePosition: Position = {
-      coordinates: [0, 4],
+  test('should return SUCCESS and add Trap to game items', () => {
+    // Arrange
+    const initialTrapPosition: Position = {
+      coordinates: [6, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const targetSquare: Square = { position: targetSquarePosition };
+    const trapItem = new Trap();
 
-    onPlayerAction(piece, targetSquare);
+    // Act
+    const itemActionResult = trapItem.use(initialTrapPosition);
 
-    expect(piece.position?.boardId).toEqual(HEAVEN_BOARD_ID);
-
-    const doesTrapExist = game.getItems().includes(trapItem);
-    expect(doesTrapExist).toBe(false);
-
-    const newPieceCoordinates = piece.position?.coordinates;
-    const trapCoordinates = piece.position?.coordinates;
-    expect(newPieceCoordinates).toEqual(trapCoordinates);
+    // Assert
+    expect(itemActionResult).toEqual(ItemActionResult.SUCCESS);
+    expect(game.getItems()).toContain(trapItem);
   });
 });

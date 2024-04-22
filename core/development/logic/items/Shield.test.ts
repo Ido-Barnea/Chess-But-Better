@@ -4,9 +4,9 @@ import { game } from '../../Game';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../pieces/types/Position';
+import { Shield } from './Shield';
 import { Pawn } from '../pieces/Pawn';
 import { ItemActionResult } from './types/ItemActionResult';
-import { PiggyBank } from './PiggyBank';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
@@ -37,30 +37,29 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
 
-describe('PiggyBank', () => {
+describe('Shield', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test("should return SUCCESS and increase player's gold if position is valid", () => {
+  test('should return SUCCESS and increase piece health if position is valid', () => {
     // Arrange
     const initialPiecePosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
     const piece = new Pawn(whitePlayer, initialPiecePosition);
+    const initialPieceHealth = piece.health;
     game.setPieces([piece]);
 
-    const initialPlayerGold = whitePlayer.gold;
-
-    const piggyBankItem = new PiggyBank();
+    const shieldItem = new Shield();
 
     // Act
-    const itemActionResult = piggyBankItem.use(initialPiecePosition);
+    const itemActionResult = shieldItem.use(initialPiecePosition);
 
     // Assert
     expect(itemActionResult).toEqual(ItemActionResult.SUCCESS);
-    expect(piece.player.gold).toBeGreaterThan(initialPlayerGold);
+    expect(piece.health).toEqual(initialPieceHealth + 1);
   });
 
   test('should return FAILURE if piece is undefined', () => {
@@ -71,10 +70,28 @@ describe('PiggyBank', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
 
-    const piggyBankItem = new PiggyBank();
+    const shieldItem = new Shield();
 
     // Act
-    const itemActionResult = piggyBankItem.use(nonexistentPiecePosition);
+    const itemActionResult = shieldItem.use(nonexistentPiecePosition);
+
+    // Assert
+    expect(itemActionResult).toEqual(ItemActionResult.FAILURE);
+  });
+
+  test('should return FAILURE if piece.position is undefined', () => {
+    // Arrange
+    const piece = new Pawn(whitePlayer, undefined);
+    game.setPieces([piece]);
+    const initialPiecePosition: Position = {
+      coordinates: [0, 0],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+
+    const shieldItem = new Shield();
+
+    // Act
+    const itemActionResult = shieldItem.use(initialPiecePosition);
 
     // Assert
     expect(itemActionResult).toEqual(ItemActionResult.FAILURE);

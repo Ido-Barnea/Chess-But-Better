@@ -357,8 +357,6 @@ export function canPlaceItemOnBoard(
 
       break;
     }
-    default:
-      break;
   }
 
   game

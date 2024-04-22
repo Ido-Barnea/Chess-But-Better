@@ -1,13 +1,14 @@
-import { OVERWORLD_BOARD_ID, VOID_BOARD_ID } from '../../Constants';
+import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
+import { Trap } from '../items/Trap';
 import { Pawn } from '../pieces/Pawn';
 import { BasePiece } from '../pieces/abstract/BasePiece';
 import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
-import { KillPieceByFallingOffTheBoardAction } from './KillPieceByFallingOffTheBoardAction';
+import { TriggerPieceOnTrapAction } from './TriggerPieceOnTrapAction';
 import { ActionResult } from './types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
@@ -37,6 +38,8 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
+game.setItems = jest.fn();
+game.endMove = jest.fn();
 
 jest.mock('./KillPieceByEnvironmentAction', () => ({
   __esModule: true,
@@ -51,39 +54,41 @@ jest.mock('./KillPieceByEnvironmentAction', () => ({
     })),
 }));
 
-describe('KillPieceByFallingOffTheBoardAction', () => {
+describe('TriggerPieceOnTrapAction', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should return FAILURE if killedPiece.position is undefined', () => {
+  test('should return FAILURE if item.position is undefined', () => {
     // Arrange
-    const killedPiece = new Pawn(whitePlayer, undefined);
-    const killPieceByFallingOffTheBoardAction =
-      new KillPieceByFallingOffTheBoardAction(killedPiece);
+    const item = new Trap(undefined);
+    const piece = new Pawn(whitePlayer, undefined);
+    const triggerPieceOnTrapAction = new TriggerPieceOnTrapAction(item, piece);
 
     // Act
-    const actionResult = killPieceByFallingOffTheBoardAction.execute();
+    const actionResult = triggerPieceOnTrapAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.FAILURE);
   });
 
-  test('should call super.execute() if killedPiece.position exists', () => {
+  test('should return SUCCESS if item.position is defined', () => {
     // Arrange
-    const initialPosition: Position = {
-      coordinates: [4, 0],
+    const itemPosition: Position = {
+      coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceByFallingOffTheBoardAction =
-      new KillPieceByFallingOffTheBoardAction(killedPiece);
+    const item = new Trap(itemPosition);
+    const piece = new Pawn(whitePlayer, itemPosition);
+    const triggerPieceOnTrapAction = new TriggerPieceOnTrapAction(item, piece);
 
     // Act
-    const actionResult = killPieceByFallingOffTheBoardAction.execute();
+    const actionResult = triggerPieceOnTrapAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.SUCCESS);
+    expect(game.setItems).toHaveBeenCalledTimes(1);
+    expect(game.endMove).toHaveBeenCalledTimes(1);
     expect(KillPieceByEnvironmentAction).toHaveBeenCalledTimes(1);
   });
 });
