@@ -61,7 +61,7 @@ describe('CastleAction', () => {
     const initialPosition: Position = {
       coordinates: [4, 0],
       boardId: OVERWORLD_BOARD_ID,
-    }
+    };
     const kingPiece = new King(whitePlayer, initialPosition);
     const targetPosition: Position = {
       coordinates: [5, 0],
@@ -82,7 +82,7 @@ describe('CastleAction', () => {
     const initialPosition: Position = {
       coordinates: [4, 0],
       boardId: OVERWORLD_BOARD_ID,
-    }
+    };
     const kingPiece = new King(whitePlayer, initialPosition);
     const targetPosition: Position = {
       coordinates: [6, 0],
@@ -103,7 +103,7 @@ describe('CastleAction', () => {
     const initialPosition: Position = {
       coordinates: [4, 0],
       boardId: OVERWORLD_BOARD_ID,
-    }
+    };
     const kingPiece = new King(whitePlayer, initialPosition);
     const targetPosition: Position = {
       coordinates: [2, 0],
