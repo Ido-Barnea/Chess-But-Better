@@ -39,6 +39,10 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
 });
 
 describe('AttackPieceAction', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('Invalid - Piece Undefined Position', () => {
     // Arrange
     const piece = new Queen(whitePlayer, undefined);

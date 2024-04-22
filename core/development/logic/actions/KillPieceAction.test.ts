@@ -1,4 +1,8 @@
-import { HEAVEN_BOARD_ID, HELL_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
+import {
+  HEAVEN_BOARD_ID,
+  HELL_BOARD_ID,
+  OVERWORLD_BOARD_ID,
+} from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { King } from '../pieces/King';
@@ -73,7 +77,10 @@ describe('KillPieceAction', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const killedPiece = new King(whitePlayer, initialPosition);
-    const killPieceAction = new KillPieceAction(killedPiece, OVERWORLD_BOARD_ID);
+    const killPieceAction = new KillPieceAction(
+      killedPiece,
+      OVERWORLD_BOARD_ID,
+    );
 
     // Act
     const actionResult = killPieceAction.execute();
@@ -92,7 +99,10 @@ describe('KillPieceAction', () => {
     };
     const killedPiece = new Pawn(whitePlayer, initialPosition);
     killedPiece.killCount = 1;
-    const killPieceAction = new KillPieceAction(killedPiece, OVERWORLD_BOARD_ID);
+    const killPieceAction = new KillPieceAction(
+      killedPiece,
+      OVERWORLD_BOARD_ID,
+    );
 
     // Act
     const actionResult = killPieceAction.execute();
@@ -110,7 +120,10 @@ describe('KillPieceAction', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceAction = new KillPieceAction(killedPiece, OVERWORLD_BOARD_ID);
+    const killPieceAction = new KillPieceAction(
+      killedPiece,
+      OVERWORLD_BOARD_ID,
+    );
 
     // Act
     const actionResult = killPieceAction.execute();
@@ -128,7 +141,10 @@ describe('KillPieceAction', () => {
       boardId: HEAVEN_BOARD_ID,
     };
     const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceAction = new KillPieceAction(killedPiece, OVERWORLD_BOARD_ID);
+    const killPieceAction = new KillPieceAction(
+      killedPiece,
+      OVERWORLD_BOARD_ID,
+    );
 
     // Act
     const actionResult = killPieceAction.execute();
@@ -146,7 +162,10 @@ describe('KillPieceAction', () => {
       boardId: HELL_BOARD_ID,
     };
     const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceAction = new KillPieceAction(killedPiece, OVERWORLD_BOARD_ID);
+    const killPieceAction = new KillPieceAction(
+      killedPiece,
+      OVERWORLD_BOARD_ID,
+    );
 
     // Act
     const actionResult = killPieceAction.execute();

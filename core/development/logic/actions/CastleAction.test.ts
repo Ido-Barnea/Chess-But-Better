@@ -39,6 +39,10 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
 });
 
 describe('CastleAction', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('Invalid - Piece Undefined Position', () => {
     // Arrange
     const kingPiece = new King(whitePlayer, undefined);
