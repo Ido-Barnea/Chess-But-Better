@@ -17,12 +17,16 @@ export class CastleAction implements GameAction {
 
   execute(): ActionResult {
     if (!this.piece.position) return ActionResult.FAILURE;
+    
     const targetXPosition = this.targetPosition.coordinates[0];
     const kingXPosition = this.piece.position.coordinates[0];
     const deltaX = targetXPosition - kingXPosition;
     const isKingsideCastling = deltaX > 0;
 
-    const rookPiece = (this.piece as King).getRookForCastling(
+    const isValidCastling = Math.abs(deltaX) == 2;
+    if (!isValidCastling) return ActionResult.FAILURE;
+
+    const rookPiece = this.piece.getRookForCastling(
       this.piece.player,
       isKingsideCastling,
     );
