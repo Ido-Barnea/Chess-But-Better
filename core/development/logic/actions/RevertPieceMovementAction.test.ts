@@ -1,12 +1,11 @@
 import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { King } from '../pieces/King';
 import { Pawn } from '../pieces/Pawn';
 import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
+import { RevertPieceMovementAction } from './RevertPieceMovementAction';
 import { ActionResult } from './types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
@@ -36,50 +35,37 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
-game.setPieces = jest.fn();
-game.increaseDeathCounter = jest.fn();
-game.end = jest.fn();
 
-describe('PermanentlyKillPieceAction', () => {
+describe('RevertPieceMovementAction', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should return SUCCESS', () => {
+  test('should return FAILURE if piece.position is undefined', () => {
+    // Arrange
+    const piece = new Pawn(whitePlayer, undefined);
+    const revertPieceMovementAction = new RevertPieceMovementAction(piece);
+
+    // Act
+    const actionResult = revertPieceMovementAction.execute();
+
+    // Assert
+    expect(actionResult).toEqual(ActionResult.FAILURE);
+  });
+
+  test('should return SUCCESS if piece.position is defined', () => {
     // Arrange
     const initialPosition: Position = {
       coordinates: [4, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const permanentlyKillPieceAction = new PermanentlyKillPieceAction(
-      killedPiece,
-    );
+    const piece = new Pawn(whitePlayer, initialPosition);
+    const revertPieceMovementAction = new RevertPieceMovementAction(piece);
 
     // Act
-    const actionResult = permanentlyKillPieceAction.execute();
+    const actionResult = revertPieceMovementAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.SUCCESS);
-    expect(game.setPieces).toHaveBeenCalledTimes(1);
-    expect(game.increaseDeathCounter).toHaveBeenCalledTimes(1);
-  });
-
-  test('should end game if killedPiece is King', () => {
-    // Arrange
-    const initialPosition: Position = {
-      coordinates: [4, 0],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const killedPiece = new King(whitePlayer, initialPosition);
-    const permanentlyKillPieceAction = new PermanentlyKillPieceAction(
-      killedPiece,
-    );
-
-    // Act
-    permanentlyKillPieceAction.execute();
-
-    // Assert
-    expect(game.end).toHaveBeenCalledTimes(1);
   });
 });
