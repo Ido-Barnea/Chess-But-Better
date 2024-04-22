@@ -1,13 +1,9 @@
-import { OVERWORLD_BOARD_ID, VOID_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Pawn } from '../pieces/Pawn';
-import { BasePiece } from '../pieces/abstract/BasePiece';
-import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
-import { KillPieceByFallingOffTheBoardAction } from './KillPieceByFallingOffTheBoardAction';
 import { ActionResult } from './types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
@@ -37,53 +33,33 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
+game.endMove = jest.fn();
 
-jest.mock('./KillPieceByEnvironmentAction', () => ({
+jest.mock('./KillPieceAction', () => ({
   __esModule: true,
-  KillPieceByEnvironmentAction: jest
-    .fn()
-    .mockImplementation((killedPiece: BasePiece) => ({
-      execute: jest
-        .fn()
-        .mockReturnValueOnce(
-          killedPiece.position ? ActionResult.SUCCESS : ActionResult.FAILURE,
-        ),
-    })),
+  KillPieceAction: jest.fn().mockImplementation(() => ({
+    execute: jest.fn().mockReturnValue(1),
+  })),
 }));
 
-describe('KillPieceByFallingOffTheBoardAction', () => {
+describe('KillPieceByEnvironmentAction', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should return FAILURE if killedPiece.position is undefined', () => {
+  test('should return SUCCESS', () => {
     // Arrange
     const killedPiece = new Pawn(whitePlayer, undefined);
-    const killPieceByFallingOffTheBoardAction =
-      new KillPieceByFallingOffTheBoardAction(killedPiece);
+    const killPieceByEnvironmentAction = new KillPieceByEnvironmentAction(
+      killedPiece,
+      'cause',
+      killedPiece.position?.boardId,
+    );
 
     // Act
-    const actionResult = killPieceByFallingOffTheBoardAction.execute();
-
-    // Assert
-    expect(actionResult).toEqual(ActionResult.FAILURE);
-  });
-
-  test('should call super.execute() if killedPiece.position exists', () => {
-    // Arrange
-    const initialPosition: Position = {
-      coordinates: [4, 0],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceByFallingOffTheBoardAction =
-      new KillPieceByFallingOffTheBoardAction(killedPiece);
-
-    // Act
-    const actionResult = killPieceByFallingOffTheBoardAction.execute();
+    const actionResult = killPieceByEnvironmentAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.SUCCESS);
-    expect(KillPieceByEnvironmentAction).toHaveBeenCalledTimes(1);
   });
 });
