@@ -4,9 +4,8 @@ import { game } from '../../Game';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../pieces/types/Position';
-import { Pawn } from '../pieces/Pawn';
 import { ItemActionResult } from './types/ItemActionResult';
-import { PiggyBank } from './PiggyBank';
+import { Trap } from './Trap';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
@@ -18,6 +17,7 @@ jest.mock('../../ui/BoardManager.ts', () => ({
   getAllSquareElements: jest.fn(),
   highlightLastMove: jest.fn(),
   spawnItemOnChildElement: jest.fn(),
+  spawnItemElementOnBoard: jest.fn(),
 }));
 jest.mock('../../ui/Screen.ts', () => ({
   renderGameInformation: jest.fn(),
@@ -37,46 +37,24 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
 
-describe('PiggyBank', () => {
+describe('Trap', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test("should return SUCCESS and increase player's gold if position is valid", () => {
+  test('should return SUCCESS and add Trap to game items', () => {
     // Arrange
-    const initialPiecePosition: Position = {
-      coordinates: [0, 0],
+    const initialTrapPosition: Position = {
+      coordinates: [6, 6],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const piece = new Pawn(whitePlayer, initialPiecePosition);
-    game.setPieces([piece]);
-
-    const initialPlayerGold = whitePlayer.gold;
-
-    const piggyBankItem = new PiggyBank();
+    const trapItem = new Trap();
 
     // Act
-    const itemActionResult = piggyBankItem.use(initialPiecePosition);
+    const itemActionResult = trapItem.use(initialTrapPosition);
 
     // Assert
     expect(itemActionResult).toEqual(ItemActionResult.SUCCESS);
-    expect(piece.player.gold).toBeGreaterThan(initialPlayerGold);
-  });
-
-  test('should return FAILURE if piece is undefined', () => {
-    // Arrange
-    game.setPieces([]);
-    const nonexistentPiecePosition: Position = {
-      coordinates: [0, 0],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-
-    const piggyBankItem = new PiggyBank();
-
-    // Act
-    const itemActionResult = piggyBankItem.use(nonexistentPiecePosition);
-
-    // Assert
-    expect(itemActionResult).toEqual(ItemActionResult.FAILURE);
+    expect(game.getItems()).toContain(trapItem);
   });
 });
