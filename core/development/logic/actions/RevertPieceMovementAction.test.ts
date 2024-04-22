@@ -5,7 +5,7 @@ import { Pawn } from '../pieces/Pawn';
 import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { KillPieceByPieceAction } from './KillPieceByPieceAction';
+import { RevertPieceMovementAction } from './RevertPieceMovementAction';
 import { ActionResult } from './types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
@@ -35,52 +35,37 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
-game.setKillerPiece = jest.fn();
 
-describe('KillPieceByPieceAction', () => {
+describe('RevertPieceMovementAction', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should return FAILURE if killedPiece.health > 0', () => {
+  test('should return FAILURE if piece.position is undefined', () => {
     // Arrange
-    const initialPosition: Position = {
-      coordinates: [4, 0],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const initialPieceHealth = 6;
-    killedPiece.health = initialPieceHealth;
-    const killPieceByPieceAction = new KillPieceByPieceAction(
-      killedPiece,
-      killedPiece,
-    );
+    const piece = new Pawn(whitePlayer, undefined);
+    const revertPieceMovementAction = new RevertPieceMovementAction(piece);
 
     // Act
-    const actionResult = killPieceByPieceAction.execute();
+    const actionResult = revertPieceMovementAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.FAILURE);
-    expect(killedPiece.health).toEqual(initialPieceHealth - 1);
   });
 
-  test('should return SUCCESS if killedPiece.health == 1', () => {
+  test('should return SUCCESS if piece.position is defined', () => {
     // Arrange
     const initialPosition: Position = {
       coordinates: [4, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killedPiece = new Pawn(whitePlayer, initialPosition);
-    const killPieceByPieceAction = new KillPieceByPieceAction(
-      killedPiece,
-      killedPiece,
-    );
+    const piece = new Pawn(whitePlayer, initialPosition);
+    const revertPieceMovementAction = new RevertPieceMovementAction(piece);
 
     // Act
-    const actionResult = killPieceByPieceAction.execute();
+    const actionResult = revertPieceMovementAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.SUCCESS);
-    expect(game.setKillerPiece).toHaveBeenCalledTimes(1);
   });
 });
