@@ -1,9 +1,11 @@
+import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Pawn } from '../pieces/Pawn';
+import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
+import { KillPieceByPieceAction } from './KillPieceByPieceAction';
 import { ActionResult } from './types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
@@ -33,26 +35,53 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getCurrentPlayer: jest.fn().mockReturnValue(whitePlayer),
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
-game.endMove = jest.fn();
+game.setKillerPiece = jest.fn();
 
-describe('KillPieceByEnvironmentAction', () => {
+describe('KillPieceByPieceAction', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should return SUCCESS', () => {
+  test('should return FAILURE if killedPiece.health > 0', () => {
     // Arrange
-    const killedPiece = new Pawn(whitePlayer, undefined);
-    const killPieceByEnvironmentAction = new KillPieceByEnvironmentAction(
+    const initialPosition: Position = {
+      coordinates: [4, 0],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const killedPiece = new Pawn(whitePlayer, initialPosition);
+    const initialPieceHealth = 6;
+    killedPiece.health = initialPieceHealth;
+    console.log(killedPiece.health);
+    const killPieceByPieceAction = new KillPieceByPieceAction(
       killedPiece,
-      'cause',
-      killedPiece.position?.boardId,
+      killedPiece,
     );
 
     // Act
-    const actionResult = killPieceByEnvironmentAction.execute();
+    const actionResult = killPieceByPieceAction.execute();
+
+    // Assert
+    expect(actionResult).toEqual(ActionResult.FAILURE);
+    expect(killedPiece.health).toEqual(initialPieceHealth - 1);
+  });
+
+  test('should return SUCCESS if killedPiece.health == 1', () => {
+    // Arrange
+    const initialPosition: Position = {
+      coordinates: [4, 0],
+      boardId: OVERWORLD_BOARD_ID,
+    };
+    const killedPiece = new Pawn(whitePlayer, initialPosition);
+    const killPieceByPieceAction = new KillPieceByPieceAction(
+      killedPiece,
+      killedPiece,
+    );
+
+    // Act
+    const actionResult = killPieceByPieceAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.SUCCESS);
+    expect(game.setKillerPiece).toHaveBeenCalledTimes(1);
   });
 });
