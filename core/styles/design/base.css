@@ -1,8 +1,8 @@
 :root {
-  --square-size: 5vw;
+  --square-size: 5rem;
   --board-squares-per-side: 8;
-  --piece-resource-padding: 0.75vw;
-  --notation-padding: 1vw;
+  --piece-resource-padding: 0.75rem;
+  --notation-padding: 1rem;
   --inventory-squares-per-side: 4;
   --shop-squares: 2;
 }
