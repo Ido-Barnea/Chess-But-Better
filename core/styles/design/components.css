@@ -133,7 +133,7 @@
   height: 70%;
   padding-inline: 2%;
   margin-top: 5%;
-  border: 0.1vh solid white;
+  border: 0.1rem solid white;
   overflow-y: auto;
 }
 
@@ -228,8 +228,8 @@
 
 #shop-upgrade-swapper {
   position: relative;
-  width: 6vh;
-  height: 3vh;
+  width: 3rem;
+  height: 1.5rem;
   appearance: none;
   border-radius: 2rem;
   cursor: pointer;
