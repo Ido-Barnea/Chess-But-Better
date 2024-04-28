@@ -38,7 +38,7 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
 
-describe('Friendly fire rule', () => {
+describe('Friendly Fire Rule', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
