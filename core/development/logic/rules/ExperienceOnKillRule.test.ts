@@ -7,7 +7,6 @@ import { Pawn } from '../pieces/Pawn';
 import { Position } from '../pieces/types/Position';
 import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { AttackPieceAction } from '../actions/AttackPieceAction';
-import { ActionResult } from '../actions/types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
