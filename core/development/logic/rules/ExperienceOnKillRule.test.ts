@@ -43,7 +43,7 @@ describe('Friendly fire rule', () => {
     jest.clearAllMocks();
   });
 
-  test('Valid - gain xp from kill', () => {
+  test('should return SUCCESS if xp gained from kill', () => {
     // Arrange
     const initialKillerPiecePosition: Position = {
       coordinates: [0, 0],

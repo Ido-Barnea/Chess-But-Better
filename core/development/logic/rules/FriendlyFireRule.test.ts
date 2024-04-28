@@ -43,7 +43,7 @@ describe('Friendly fire rule', () => {
     jest.clearAllMocks();
   });
 
-  test('Valid - attack own color', () => {
+  test('should return SUCCESS if killing a piece of the same color is valid', () => {
     // Arrange
     const initialKillerPiecePosition: Position = {
       coordinates: [0, 0],

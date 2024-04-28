@@ -42,7 +42,7 @@ describe('AttackPieceAction', () => {
     jest.clearAllMocks();
   });
 
-  test('Invalid - Piece Undefined Position', () => {
+  test('should return FAILURE if piece is undefined', () => {
     // Arrange
     const piece = new Queen(whitePlayer, undefined);
 
@@ -55,7 +55,7 @@ describe('AttackPieceAction', () => {
     expect(actionResult).toEqual(ActionResult.FAILURE);
   });
 
-  test('Valid - Normal Kill', () => {
+  test('should return SUCCESS if valid kill action', () => {
     // Arrange
     const initialKillerPiecePosition: Position = {
       coordinates: [0, 0],
@@ -77,7 +77,7 @@ describe('AttackPieceAction', () => {
     expect(actionResult).toEqual(ActionResult.SUCCESS);
   });
 
-  test('Valid - Attack Self', () => {
+  test('should return SUCCESS if valid self attack', () => {
     // Arrange
     const initialPiecePosition: Position = {
       coordinates: [3, 4],
