@@ -42,7 +42,7 @@ describe('PiggyBank', () => {
     jest.clearAllMocks();
   });
 
-  test("should return SUCCESS and increase player's gold if position is valid", () => {
+  test('should return SUCCESS and increase player\'s gold if position is valid', () => {
     // Arrange
     const initialPiecePosition: Position = {
       coordinates: [0, 0],
