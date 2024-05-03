@@ -22,7 +22,10 @@ import { PlayerInventory } from './logic/inventory/PlayerInventory';
 import { BasePiece } from './logic/pieces/abstract/BasePiece';
 import { ItemsShop } from './logic/shop/ItemsShop';
 import { PlayersTurnSwitcher } from './logic/turn switcher/PlayersTurnSwitcher';
-import { renderInitialShopItemsElements, updateShopButtonsState } from './ui/ShopUI';
+import {
+  renderInitialShopItemsElements,
+  updateShopButtonsState,
+} from './ui/ShopUI';
 
 export const shop = new ItemsShop();
 

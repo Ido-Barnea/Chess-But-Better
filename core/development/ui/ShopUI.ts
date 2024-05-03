@@ -34,17 +34,23 @@ function createShopItemSquare(shopElement: HTMLElement, item: BaseItem) {
   shopElement.appendChild(itemSquareElement);
 }
 
-export function renderInitialShopItemsElements(items: Array<BaseItem>, playerGold: number) {
+export function renderInitialShopItemsElements(
+  items: Array<BaseItem>,
+  playerGold: number,
+) {
   const shopContainerElement = document.getElementById('shop-container');
   if (!shopContainerElement) return;
 
-  items.forEach(item => {
+  items.forEach((item) => {
     createShopItemSquare(shopContainerElement, item);
   });
   updateShopButtonsState(items, playerGold);
 }
 
-export function updateShopButtonsState(items: Array<BaseItem>, playerGold: number) {
+export function updateShopButtonsState(
+  items: Array<BaseItem>,
+  playerGold: number,
+) {
   const shopButtons = document.querySelectorAll('.shop-button');
 
   shopButtons.forEach((button, index) => {
