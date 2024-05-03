@@ -170,7 +170,7 @@
   box-sizing: border-box;
 }
 
-#inventory-container,
+#inventories-container,
 #shop-container,
 #piece-upgrades-container {
   width: auto;
@@ -182,7 +182,7 @@
   justify-content: center;
 }
 
-#inventory-container {
+#inventories-container {
   bottom: 5%;
   flex-direction: row;
 }

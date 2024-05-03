@@ -8,11 +8,11 @@ import {
   unicornAttackAttempt,
 } from '../LogicAdapter';
 import {
-  HEAVEN_BOARD_BUTTON_ID,
+  HEAVEN_BOARD_BUTTON_ELEMENT_ID,
   HEAVEN_BOARD_ID,
-  HELL_BOARD_BUTTON_ID,
+  HELL_BOARD_BUTTON_ELEMENT_ID,
   HELL_BOARD_ID,
-  OVERWORLD_BOARD_BUTTON_ID,
+  OVERWORLD_BOARD_BUTTON_ELEMENT_ID,
   OVERWORLD_BOARD_ID,
 } from '../Constants';
 import { HEAVEN_BOARD, HELL_BOARD, OVERWORLD_BOARD } from './BoardManager';
@@ -37,10 +37,10 @@ let triggerOnFellOffTheBoard: (
 ) => void;
 
 const OVERWORLD_BOARD_BUTTON = document.getElementById(
-  OVERWORLD_BOARD_BUTTON_ID,
+  OVERWORLD_BOARD_BUTTON_ELEMENT_ID,
 );
-const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ID);
-const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ID);
+const HELL_BOARD_BUTTON = document.getElementById(HELL_BOARD_BUTTON_ELEMENT_ID);
+const HEAVEN_BOARD_BUTTON = document.getElementById(HEAVEN_BOARD_BUTTON_ELEMENT_ID);
 
 const SHOP_UPGRADE_SWAPPER = document.getElementById('shop-upgrade-swapper');
 const SHOP_CONTAINER = document.getElementById('shop-container');
