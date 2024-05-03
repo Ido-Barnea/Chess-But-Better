@@ -1,15 +1,15 @@
-import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Queen } from '../pieces/Queen';
-import { Position } from '../pieces/types/Position';
-import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { AttackPieceAction } from './AttackPieceAction';
-import { ActionResult } from './types/ActionResult';
+import { Player } from '../players/Player';
+import { Pawn } from '../pieces/Pawn';
+import { Position } from '../pieces/types/Position';
+import { OVERWORLD_BOARD_ID } from '../../Constants';
+import { AttackPieceAction } from '../actions/AttackPieceAction';
+import { ActionResult } from '../actions/types/ActionResult';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
-const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 
 jest.mock('../../ui/BoardManager.ts', () => ({
   destroyElementOnBoard: jest.fn(),
@@ -18,6 +18,7 @@ jest.mock('../../ui/BoardManager.ts', () => ({
   spawnPieceElementOnBoard: jest.fn(),
   getAllSquareElements: jest.fn(),
   highlightLastMove: jest.fn(),
+  spawnItemOnChildElement: jest.fn(),
 }));
 jest.mock('../../ui/Screen.ts', () => ({
   renderGameInformation: jest.fn(),
@@ -37,58 +38,32 @@ game.getPlayersTurnSwitcher = jest.fn().mockReturnValue({
   getTurnsCount: jest.fn().mockReturnValue(1),
 });
 
-describe('AttackPieceAction', () => {
+describe('Friendly Fire Rule', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should return FAILURE if piece is undefined', () => {
-    // Arrange
-    const piece = new Queen(whitePlayer, undefined);
-
-    const attackPieceAction = new AttackPieceAction(piece, piece);
-
-    // Act
-    const actionResult = attackPieceAction.execute();
-
-    // Assert
-    expect(actionResult).toEqual(ActionResult.FAILURE);
-  });
-
-  test('should return SUCCESS if valid kill action', () => {
+  test('should return SUCCESS if killing a piece of the same color is valid', () => {
     // Arrange
     const initialKillerPiecePosition: Position = {
       coordinates: [0, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
     const killerPiece = new Queen(whitePlayer, initialKillerPiecePosition);
+
     const initialKilledPiecePosition: Position = {
       coordinates: [1, 0],
       boardId: OVERWORLD_BOARD_ID,
     };
-    const killedPiece = new Queen(blackPlayer, initialKilledPiecePosition);
+    const killedPiece = new Pawn(whitePlayer, initialKilledPiecePosition);
 
-    const attackPieceAction = new AttackPieceAction(killerPiece, killedPiece);
-
-    // Act
-    const actionResult = attackPieceAction.execute();
-
-    // Assert
-    expect(actionResult).toEqual(ActionResult.SUCCESS);
-  });
-
-  test('should return SUCCESS if valid self attack', () => {
-    // Arrange
-    const initialPiecePosition: Position = {
-      coordinates: [3, 4],
-      boardId: OVERWORLD_BOARD_ID,
-    };
-    const piece = new Queen(whitePlayer, initialPiecePosition);
-
-    const attackPieceAction = new AttackPieceAction(piece, piece);
+    const attackTeammateAction = new AttackPieceAction(
+      killerPiece,
+      killedPiece,
+    );
 
     // Act
-    const actionResult = attackPieceAction.execute();
+    const actionResult = attackTeammateAction.execute();
 
     // Assert
     expect(actionResult).toEqual(ActionResult.SUCCESS);
