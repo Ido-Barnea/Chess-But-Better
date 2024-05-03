@@ -17,12 +17,15 @@ import { RulesManager } from './logic/rules/RulesManager';
 import { hideUnicornAttackButton, showWinningAlert } from './ui/Screen';
 import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
-import { renderItemOnShopUI } from './ui/ShopUI';
 import { PlayerColor } from './logic/players/types/PlayerColor';
 import { PlayerInventory } from './logic/inventory/PlayerInventory';
 import { BasePiece } from './logic/pieces/abstract/BasePiece';
 import { ItemsShop } from './logic/shop/ItemsShop';
 import { PlayersTurnSwitcher } from './logic/turn switcher/PlayersTurnSwitcher';
+import {
+  renderInitialShopItemsElements,
+  updateShopButtonsState,
+} from './ui/ShopUI';
 
 export const shop = new ItemsShop();
 
@@ -81,9 +84,7 @@ function initializeGame() {
     initializeInventoryUI(player.color);
   });
 
-  shop.getItems().forEach((item) => {
-    renderItemOnShopUI(item);
-  });
+  renderInitialShopItemsElements(shop.getItems(), players[0].gold);
 }
 
 function endMove(canRecover = true) {
@@ -101,6 +102,9 @@ function endMove(canRecover = true) {
   resetVariables();
   hideAbilities();
   endTurn();
+
+  const currentPlayer = playersTurnSwitcher.getCurrentPlayer();
+  updateShopButtonsState(shop.getItems(), currentPlayer.gold);
 }
 
 function checkForUpgradeablePawns() {

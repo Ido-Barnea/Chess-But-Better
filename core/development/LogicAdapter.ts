@@ -42,6 +42,7 @@ import { Unicorn } from './logic/pieces/Unicorn';
 import { KillPieceByFallingOffTheBoardAction } from './logic/actions/KillPieceByFallingOffTheBoardAction';
 import { KillPieceByPieceAction } from './logic/actions/KillPieceByPieceAction';
 import { ShopActionResult } from './logic/shop/types/ShopActionResult';
+import { updateShopButtonsState } from './ui/ShopUI';
 
 export function renderScreen() {
   renderGameInformation();
@@ -419,6 +420,7 @@ export function buyItem(itemId: string) {
 
   if (shop.buyItem(item, currentPlayer) === ShopActionResult.SUCCESS) {
     showItemOnInventory(item, currentPlayer.color);
+    updateShopButtonsState(shop.getItems(), currentPlayer.gold);
   }
 
   renderScreen();
