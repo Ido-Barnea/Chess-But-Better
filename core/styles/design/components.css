@@ -212,8 +212,13 @@
 }
 
 .inventory-item,
-.shop-item,
 .upgraded-piece {
+  width: 60%;
+  display: grid;
+  place-items: center;
+}
+
+.shop-item {
   width: 55%;
   display: grid;
   place-items: top;
