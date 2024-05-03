@@ -22,7 +22,7 @@ import { PlayerInventory } from './logic/inventory/PlayerInventory';
 import { BasePiece } from './logic/pieces/abstract/BasePiece';
 import { ItemsShop } from './logic/shop/ItemsShop';
 import { PlayersTurnSwitcher } from './logic/turn switcher/PlayersTurnSwitcher';
-import { renderShopItemsElements } from './ui/ShopUI';
+import { renderInitialShopItemsElements, updateShopButtonsState } from './ui/ShopUI';
 
 export const shop = new ItemsShop();
 
@@ -81,7 +81,7 @@ function initializeGame() {
     initializeInventoryUI(player.color);
   });
 
-  renderShopItemsElements(shop.getItems());
+  renderInitialShopItemsElements(shop.getItems());
 }
 
 function endMove(canRecover = true) {
@@ -99,6 +99,9 @@ function endMove(canRecover = true) {
   resetVariables();
   hideAbilities();
   endTurn();
+
+  const currentPlayer = playersTurnSwitcher.getCurrentPlayer();
+  updateShopButtonsState(shop.getItems(), currentPlayer.gold);
 }
 
 function checkForUpgradeablePawns() {

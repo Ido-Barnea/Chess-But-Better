@@ -7,6 +7,7 @@ function createShopItemBuyButtonElement(item: BaseItem): HTMLElement {
   buyItemButtonElement.classList.add('shop-button');
 
   buyItemButtonElement.addEventListener('click', onShopItemClick);
+  buyItemButtonElement.classList.add('disabled');
 
   return buyItemButtonElement;
 }
@@ -33,11 +34,24 @@ function createShopItemSquare(shopElement: HTMLElement, item: BaseItem) {
   shopElement.appendChild(itemSquareElement);
 }
 
-export function renderShopItemsElements(items: Array<BaseItem>) {
+export function renderInitialShopItemsElements(items: Array<BaseItem>) {
   const shopContainerElement = document.getElementById('shop-container');
   if (!shopContainerElement) return;
 
   items.forEach(item => {
     createShopItemSquare(shopContainerElement, item);
+  });
+}
+
+export function updateShopButtonsState(items: Array<BaseItem>, playerGold: number) {
+  const shopButtons = document.querySelectorAll('.shop-button');
+
+  shopButtons.forEach((button, index) => {
+    const item = items[index];
+    if (item.price > playerGold) {
+      button.classList.add('disabled');
+    } else {
+      button.classList.remove('disabled');
+    }
   });
 }
