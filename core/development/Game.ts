@@ -81,7 +81,7 @@ function initializeGame() {
     initializeInventoryUI(player.color);
   });
 
-  renderInitialShopItemsElements(shop.getItems());
+  renderInitialShopItemsElements(shop.getItems(), players[0].gold);
 }
 
 function endMove(canRecover = true) {

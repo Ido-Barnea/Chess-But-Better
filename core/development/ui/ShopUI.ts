@@ -3,6 +3,7 @@ import { onShopItemClick } from './Events';
 
 function createShopItemBuyButtonElement(item: BaseItem): HTMLElement {
   const buyItemButtonElement = document.createElement('button');
+  buyItemButtonElement.id = item.name;
   buyItemButtonElement.textContent = `${item.price}G`;
   buyItemButtonElement.classList.add('shop-button');
 
@@ -14,7 +15,6 @@ function createShopItemBuyButtonElement(item: BaseItem): HTMLElement {
 
 function createItemElement(item: BaseItem): HTMLElement {
   const itemElement = document.createElement('div');
-  itemElement.id = item.name;
   itemElement.classList.add('shop-item');
   itemElement.innerHTML = item.resource;
 
@@ -34,13 +34,14 @@ function createShopItemSquare(shopElement: HTMLElement, item: BaseItem) {
   shopElement.appendChild(itemSquareElement);
 }
 
-export function renderInitialShopItemsElements(items: Array<BaseItem>) {
+export function renderInitialShopItemsElements(items: Array<BaseItem>, playerGold: number) {
   const shopContainerElement = document.getElementById('shop-container');
   if (!shopContainerElement) return;
 
   items.forEach(item => {
     createShopItemSquare(shopContainerElement, item);
   });
+  updateShopButtonsState(items, playerGold);
 }
 
 export function updateShopButtonsState(items: Array<BaseItem>, playerGold: number) {

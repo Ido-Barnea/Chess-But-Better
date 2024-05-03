@@ -241,7 +241,7 @@ export function onShopItemClick(event: Event) {
     element = element.parentElement as HTMLElement;
   }
 
-  if (element.classList.contains('shop-item')) {
+  if (element.classList.contains('shop-button')) {
     buyItem(element.id);
   }
 }
