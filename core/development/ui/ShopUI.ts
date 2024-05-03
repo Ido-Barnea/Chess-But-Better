@@ -1,40 +1,43 @@
-import { SHOP_WIDTH } from '../Constants';
 import { BaseItem } from '../logic/items/abstract/Item';
 import { onShopItemClick } from './Events';
 
-export function initializeShopUI() {
-  const shopElement = document.getElementById('shop-container');
-  if (!shopElement) return;
+function createShopItemBuyButtonElement(item: BaseItem): HTMLElement {
+  const buyItemButtonElement = document.createElement('button');
+  buyItemButtonElement.textContent = `${item.price}G`;
+  buyItemButtonElement.classList.add('shop-button');
 
-  for (let index = 0; index < SHOP_WIDTH; index++) {
-    createShopItemSquare(shopElement);
-  }
+  buyItemButtonElement.addEventListener('click', onShopItemClick);
+
+  return buyItemButtonElement;
 }
 
-export function createShopItemSquare(shopElement: HTMLElement) {
-  const itemSquare = document.createElement('div');
-  itemSquare.classList.add('shop-square');
-
-  shopElement.appendChild(itemSquare);
-}
-
-export function renderItemOnShopUI(item: BaseItem) {
+function createItemElement(item: BaseItem): HTMLElement {
   const itemElement = document.createElement('div');
   itemElement.id = item.name;
   itemElement.classList.add('shop-item');
   itemElement.innerHTML = item.resource;
-  itemElement.addEventListener('click', onShopItemClick);
 
-  const itemPriceElement = document.createElement('p');
-  itemPriceElement.classList.add('shop-item-price');
-  itemPriceElement.innerHTML = `${item.price}G`;
+  return itemElement;
+}
 
-  const shopElement = document.getElementById('shop-container');
-  shopElement?.childNodes.forEach((child) => {
-    if (!child.hasChildNodes()) {
-      child.appendChild(itemElement);
-      child.appendChild(itemPriceElement);
-      return;
-    }
+function createShopItemSquare(shopElement: HTMLElement, item: BaseItem) {
+  const itemSquareElement = document.createElement('div');
+  itemSquareElement.classList.add('shop-square');
+
+  const buyItemButtonElement = createShopItemBuyButtonElement(item);
+  itemSquareElement.appendChild(buyItemButtonElement);
+
+  const itemElement = createItemElement(item);
+  itemSquareElement.appendChild(itemElement);
+
+  shopElement.appendChild(itemSquareElement);
+}
+
+export function renderShopItemsElements(items: Array<BaseItem>) {
+  const shopContainerElement = document.getElementById('shop-container');
+  if (!shopContainerElement) return;
+
+  items.forEach(item => {
+    createShopItemSquare(shopContainerElement, item);
   });
 }

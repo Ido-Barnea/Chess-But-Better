@@ -205,20 +205,19 @@
   position: relative;
 }
 
+.shop-button {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(75%);
+}
+
 .inventory-item,
 .shop-item,
 .upgraded-piece {
-  width: 60%;
+  width: 55%;
   display: grid;
-  place-items: center;
-}
-
-.shop-item-price,
-.piece-upgrade-item-price {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transform: translate(5%, 70%);
+  place-items: top;
+  padding-top: 15%;
 }
 
 .piece-upgrades-message {
