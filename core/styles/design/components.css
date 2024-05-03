@@ -197,7 +197,7 @@
 .upgrade-square {
   height: var(--square-size);
   width: var(--square-size);
-  margin: 0.5px;
+  margin-right: 16px;
   outline: 0.5px solid;
   box-sizing: border-box;
   display: flex;
