@@ -19,10 +19,7 @@ function createPlayerInventoryElement(playerColor: PlayerColor): HTMLElement {
   return playerInventoryElement;
 }
 
-export function showItemOnInventory(
-  item: BaseItem,
-  playerColor: PlayerColor,
-) {
+export function showItemOnInventory(item: BaseItem, playerColor: PlayerColor) {
   const inventoryItemElement = document.createElement('div') as HTMLElement;
   inventoryItemElement.id = item.name;
   inventoryItemElement.classList.add('inventory-item');
@@ -38,7 +35,7 @@ export function showItemOnInventory(
 
   for (let i = 0; i < childNodes.length; i++) {
     const child = childNodes[i];
-    
+
     if (!child.hasChildNodes()) {
       child.appendChild(inventoryItemElement);
       return;
@@ -111,7 +108,10 @@ function removeItemElements(playerInventoryElement: HTMLElement) {
   });
 }
 
-export function destroyItemInInventory(itemElement: HTMLElement, playerColor: PlayerColor) {
+export function destroyItemInInventory(
+  itemElement: HTMLElement,
+  playerColor: PlayerColor,
+) {
   itemElement.remove();
 
   sortInventoryItems(playerColor);
