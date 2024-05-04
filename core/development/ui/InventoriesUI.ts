@@ -19,10 +19,7 @@ function createPlayerInventoryElement(playerColor: PlayerColor): HTMLElement {
   return playerInventoryElement;
 }
 
-export function showItemOnInventory(
-  item: BaseItem,
-  playerColor: PlayerColor,
-): HTMLElement | undefined {
+export function showItemOnInventory(item: BaseItem, playerColor: PlayerColor) {
   const inventoryItemElement = document.createElement('div') as HTMLElement;
   inventoryItemElement.id = item.name;
   inventoryItemElement.classList.add('inventory-item');
@@ -32,16 +29,37 @@ export function showItemOnInventory(
   initializeDraggingListeners(inventoryItemElement);
 
   const playerInventoryElement = document.getElementById(playerColor);
+  if (!playerInventoryElement) return;
 
-  playerInventoryElement?.childNodes.forEach((child) => {
+  const childNodes = Array.from(playerInventoryElement.childNodes);
+
+  for (let i = 0; i < childNodes.length; i++) {
+    const child = childNodes[i];
+
     if (!child.hasChildNodes()) {
       child.appendChild(inventoryItemElement);
       return;
     }
-  });
+  }
+}
 
-  if (playerInventoryElement) return playerInventoryElement;
-  return undefined;
+export function sortInventoryItems(playerColor: PlayerColor) {
+  const playerInventoryElement = document.getElementById(playerColor);
+  if (!playerInventoryElement) return;
+
+  const childNodes = Array.from(playerInventoryElement.childNodes);
+  const emptySlots = [];
+
+  for (let i = 0; i < childNodes.length; i++) {
+    const child = childNodes[i];
+    if (!child.hasChildNodes()) {
+      emptySlots.push(child);
+    }
+  }
+
+  for (const emptySlot of emptySlots) {
+    playerInventoryElement.appendChild(emptySlot);
+  }
 }
 
 export function initializeInventoryUI(playerColor: PlayerColor) {
@@ -90,6 +108,11 @@ function removeItemElements(playerInventoryElement: HTMLElement) {
   });
 }
 
-export function destroyItemInInventory(itemElement: HTMLElement) {
+export function destroyItemInInventory(
+  itemElement: HTMLElement,
+  playerColor: PlayerColor,
+) {
   itemElement.remove();
+
+  sortInventoryItems(playerColor);
 }
