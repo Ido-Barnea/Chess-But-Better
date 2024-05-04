@@ -1,4 +1,4 @@
-import { kingResource } from '../../ui/Resources';
+import { kingPieceResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
 import { getPieceByPosition } from '../Utilities';
 import { Rook } from './Rook';
@@ -11,7 +11,7 @@ export class King extends BasePiece {
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♔' : '♚';
 
-    super(kingResource, icon, 'King', player, position);
+    super(kingPieceResource, icon, 'King', player, position);
   }
 
   getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
