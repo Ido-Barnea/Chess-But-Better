@@ -5,4 +5,7 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['<rootDir>/core/**/*.test.ts'],
+  transform: {
+    '^.+\\.svg$': '<rootDir>/core/resources/svgTransform.ts',
+  },
 };
