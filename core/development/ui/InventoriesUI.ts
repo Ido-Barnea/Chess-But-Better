@@ -22,7 +22,7 @@ function createPlayerInventoryElement(playerColor: PlayerColor): HTMLElement {
 export function showItemOnInventory(
   item: BaseItem,
   playerColor: PlayerColor,
-): HTMLElement | undefined {
+) {
   const inventoryItemElement = document.createElement('div') as HTMLElement;
   inventoryItemElement.id = item.name;
   inventoryItemElement.classList.add('inventory-item');
@@ -32,16 +32,18 @@ export function showItemOnInventory(
   initializeDraggingListeners(inventoryItemElement);
 
   const playerInventoryElement = document.getElementById(playerColor);
+  if (!playerInventoryElement) return;
 
-  playerInventoryElement?.childNodes.forEach((child) => {
+  const childNodes = Array.from(playerInventoryElement.childNodes);
+
+  for (let i = 0; i < childNodes.length; i++) {
+    const child = childNodes[i];
+    
     if (!child.hasChildNodes()) {
       child.appendChild(inventoryItemElement);
       return;
     }
-  });
-
-  if (playerInventoryElement) return playerInventoryElement;
-  return undefined;
+  }
 }
 
 export function initializeInventoryUI(playerColor: PlayerColor) {
