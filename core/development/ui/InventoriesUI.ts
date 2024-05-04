@@ -46,6 +46,25 @@ export function showItemOnInventory(
   }
 }
 
+export function sortInventoryItems(playerColor: PlayerColor) {
+  const playerInventoryElement = document.getElementById(playerColor);
+  if (!playerInventoryElement) return;
+
+  const childNodes = Array.from(playerInventoryElement.childNodes);
+  const emptySlots = [];
+
+  for (let i = 0; i < childNodes.length; i++) {
+    const child = childNodes[i];
+    if (!child.hasChildNodes()) {
+      emptySlots.push(child);
+    }
+  }
+
+  for (const emptySlot of emptySlots) {
+    playerInventoryElement.appendChild(emptySlot);
+  }
+}
+
 export function initializeInventoryUI(playerColor: PlayerColor) {
   const playerInventoryElement = createPlayerInventoryElement(playerColor);
 
@@ -92,6 +111,8 @@ function removeItemElements(playerInventoryElement: HTMLElement) {
   });
 }
 
-export function destroyItemInInventory(itemElement: HTMLElement) {
+export function destroyItemInInventory(itemElement: HTMLElement, playerColor: PlayerColor) {
   itemElement.remove();
+
+  sortInventoryItems(playerColor);
 }

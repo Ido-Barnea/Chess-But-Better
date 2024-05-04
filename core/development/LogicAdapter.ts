@@ -360,12 +360,10 @@ export function canPlaceItemOnBoard(
     }
   }
 
-  game
-    .getPlayersTurnSwitcher()
-    .getCurrentPlayer()
-    .inventory.removeItem(usedItem);
+  const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
+  currentPlayer.inventory.removeItem(usedItem);
   game.switchWasItemPlacedThisTurn();
-  destroyItemInInventory(itemElement);
+  destroyItemInInventory(itemElement, currentPlayer.color);
 
   return true;
 }
@@ -398,10 +396,10 @@ export function returnItemToInventory(itemElement: HTMLElement) {
   const usedItem = getCurrentPlayerInventoryItemById(itemElement.id);
   if (!usedItem) return;
 
-  destroyItemInInventory(itemElement);
+  const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
 
-  const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
-  showItemOnInventory(usedItem, player.color);
+  destroyItemInInventory(itemElement, currentPlayer.color);
+  showItemOnInventory(usedItem, currentPlayer.color);
 }
 
 export function getShopItemById(itemId: string) {
