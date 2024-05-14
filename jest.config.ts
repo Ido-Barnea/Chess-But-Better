@@ -6,6 +6,6 @@ export default {
   testEnvironment: 'node',
   testMatch: ['<rootDir>/core/**/*.test.ts'],
   transform: {
-    '^.+\\.svg$': '<rootDir>/core/resources/svgTransform.ts',
+    '^.+\\.svg$': '<rootDir>/core/view/resources/svgTransform.ts',
   },
 };
