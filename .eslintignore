@@ -3,3 +3,4 @@ dist
 .parcel-cache
 *.md
 package-lock.json
+*.js
