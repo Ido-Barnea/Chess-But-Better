@@ -38,25 +38,25 @@ const config: CustomConfiguration = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'views/home.html',
-      template: './core/views/home.html',
+      template: './core/view/home.html',
+      filename: 'view/home.html',
       chunks: [],
       favicon: './assets/images/logo.svg',
     }),
     new HtmlWebpackPlugin({
-      filename: 'views/room.html',
-      template: './core/views/room.html',
+      template: './core/view/room.html',
+      filename: 'view/room.html',
       chunks: ['room'],
       favicon: './assets/images/logo.svg',
     }),
     new HtmlWebpackPlugin({
-      filename: 'views/404.html',
-      template: './core/views/404.html',
+      template: './core/view/404.html',
+      filename: 'view/404.html',
       chunks: [],
       favicon: './assets/images/logo.svg',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './core/styles', to: 'styles' }],
+      patterns: [{ from: './core/view/styles', to: 'styles' }],
     }),
   ],
   devServer: {
@@ -69,9 +69,9 @@ const config: CustomConfiguration = {
     },
     historyApiFallback: {
       rewrites: [
-        { from: /^\/(home)?$/, to: '/views/home.html' },
-        { from: /^\/room$/, to: '/views/room.html' },
-        { from: /./, to: '/views/404.html' },
+        { from: /^\/(home)?$/, to: '/view/home.html' },
+        { from: /^\/room$/, to: '/view/room.html' },
+        { from: /./, to: '/view/404.html' },
       ],
     },
   },
