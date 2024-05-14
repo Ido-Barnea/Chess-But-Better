@@ -21,7 +21,7 @@ import {
   HIGHLIGHT_LEGAL_MOVE,
 } from '../Constants';
 import { BaseItem } from '../logic/items/abstract/Item';
-import { BasePiece } from '../logic/pieces/abstract/BasePiece';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 
 let overworldBoard: ChessBoard;
 let hellBoard: ChessBoard;

@@ -3,10 +3,10 @@ import { Player } from '../players/Player';
 import { game } from '../../Game';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { Position } from '../pieces/types/Position';
 import { Pawn } from '../pieces/Pawn';
 import { ItemActionResult } from './types/ItemActionResult';
 import { PiggyBank } from './PiggyBank';
+import { Position } from '../../../model/types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 

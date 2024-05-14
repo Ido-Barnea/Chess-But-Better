@@ -1,10 +1,10 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
 import {
   HELL_BOARD_ID,
   NOTATIONS_LETTERS,
   NOTATIONS_NUMBERS,
 } from '../../Constants';
-import { BasePiece } from '../../logic/pieces/abstract/BasePiece';
-import { Position } from '../../logic/pieces/types/Position';
 import { Logger } from './Logger';
 
 export enum LogColor {
@@ -30,7 +30,7 @@ export class Log {
 
 export class MovementLog extends Log {
   constructor(draggedPiece: BasePiece, targetPosition: Position) {
-    const { position, pieceIcon, player, name } = draggedPiece;
+    const { resource, player, position } = draggedPiece;
 
     const fromNotation = MovementLog.convertPositionToNotation(
       position?.coordinates,
@@ -39,7 +39,7 @@ export class MovementLog extends Log {
       targetPosition.coordinates,
     );
 
-    const message = `${pieceIcon} ${player.color} ${name} moved from ${fromNotation} to ${toNotation}.`;
+    const message = `${resource.pieceIcon} ${player.color} ${resource.name} moved from ${fromNotation} to ${toNotation}.`;
 
     super(message, LogColor.MOVEMENT);
   }
@@ -59,13 +59,9 @@ export class MovementLog extends Log {
 
 export class KillLog extends Log {
   constructor(killedPiece: BasePiece, cause: BasePiece | string) {
-    const {
-      pieceIcon: killedPieceIcon,
-      player: { color: killedPieceColor },
-      name: killedPieceName,
-    } = killedPiece;
+    const { resource, player } = killedPiece;
 
-    let message = `${killedPieceIcon} ${killedPieceColor} ${killedPieceName} was `;
+    let message = `${resource.pieceIcon} ${player.color} ${resource.name} was `;
 
     if (!killedPiece.position) {
       message += 'permanently killed by ';
@@ -76,13 +72,9 @@ export class KillLog extends Log {
     }
 
     if (cause instanceof BasePiece) {
-      const {
-        pieceIcon: killerPieceIcon,
-        player: { color: killerPieceColor },
-        name: killerPieceName,
-      } = cause;
+      const { resource, player } = cause;
 
-      message += `${killerPieceIcon} ${killerPieceColor} ${killerPieceName}.`;
+      message += `${resource.pieceIcon} ${player.color} ${resource.name}.`;
     } else {
       message += ` ${cause}.`;
     }

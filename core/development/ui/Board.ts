@@ -4,8 +4,8 @@ import { comparePositions } from '../logic/Utilities';
 import { PiggyBank } from '../logic/items/PiggyBank';
 import { BaseItem } from '../logic/items/abstract/Item';
 import { initializeDraggingListeners } from './Events';
-import { BasePiece } from '../logic/pieces/abstract/BasePiece';
-import { Position } from '../logic/pieces/types/Position';
+import { Position } from '../../model/types/Position';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 
 export class ChessBoard {
   boardId: string;
@@ -129,11 +129,11 @@ export class ChessBoard {
     const pieceElement = document.createElement('div');
     pieceElement.classList.add('piece');
     pieceElement.setAttribute('draggable', 'true');
-    pieceElement.setAttribute('id', piece.name);
+    pieceElement.setAttribute('id', piece.resource.name);
 
     pieceElement.classList.add(piece.player.color.toLowerCase());
 
-    pieceElement.innerHTML = piece.resource;
+    pieceElement.innerHTML = piece.resource.resource;
 
     initializeDraggingListeners(pieceElement);
 

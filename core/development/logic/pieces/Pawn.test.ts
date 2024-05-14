@@ -5,8 +5,8 @@ import { Player } from '../players/Player';
 import { Pawn } from './Pawn';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { Position } from './types/Position';
-import { Square } from './types/Square';
+import { Position } from '../../../model/types/Position';
+import { Square } from '../../../model/types/Square';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());

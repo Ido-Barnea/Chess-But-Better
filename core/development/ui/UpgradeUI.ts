@@ -1,6 +1,6 @@
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { game } from '../Game';
 import { upgradePiece } from '../LogicAdapter';
-import { BasePiece } from '../logic/pieces/abstract/BasePiece';
 import { Player } from '../logic/players/Player';
 
 export function showUpgradeablePiecesElements(
@@ -15,7 +15,7 @@ export function showUpgradeablePiecesElements(
   if (upgradeablePieces.length === 0) {
     const noAvailableUpgradesTextElement = document.createElement('p');
     noAvailableUpgradesTextElement.classList.add('piece-upgrades-message');
-    noAvailableUpgradesTextElement.innerHTML = `${piece.name} doesn't have any available upgrades.`;
+    noAvailableUpgradesTextElement.innerHTML = `${piece.resource.name} doesn't have any available upgrades.`;
 
     upgradesContainer.appendChild(noAvailableUpgradesTextElement);
   } else {
@@ -25,21 +25,21 @@ export function showUpgradeablePiecesElements(
       );
 
       const upgradeElement = document.createElement('div');
-      upgradeElement.id = upgradeablePiece.name;
+      upgradeElement.id = upgradeablePiece.resource.name;
       upgradeElement.classList.add('upgraded-piece');
       upgradeElement.classList.add(upgradeablePiece.player.color.toLowerCase());
-      upgradeElement.innerHTML = upgradeablePiece.resource;
+      upgradeElement.innerHTML = upgradeablePiece.resource.resource;
       upgradeElement.addEventListener('click', () => {
         upgradePiece(piece, upgradeablePiece);
         showUpgradeablePiecesElements(
           upgradeablePiece,
-          upgradeablePiece.upgrades,
+          upgradeablePiece.modifiers.upgrades,
         );
       });
 
       const upgradePriceElement = document.createElement('p');
       upgradePriceElement.classList.add('piece-upgrade-item-price');
-      upgradePriceElement.innerHTML = upgradeablePiece.price.toString();
+      upgradePriceElement.innerHTML = upgradeablePiece.stats.price.toString();
 
       const upgradeSquare = document.createElement('div');
       upgradeSquare.classList.add('upgrade-square');

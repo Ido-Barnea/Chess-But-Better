@@ -1,8 +1,8 @@
+import { Position } from '../../../model/types/Position';
+import { Square } from '../../../model/types/Square';
 import { Log } from '../../ui/logs/Log';
 import { move } from '../PieceLogic';
 import { King } from '../pieces/King';
-import { Position } from '../pieces/types/Position';
-import { Square } from '../pieces/types/Square';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
 
@@ -46,7 +46,7 @@ export class CastleAction implements GameAction {
     move(rookPiece, rookPieceTargetSquare.position, false);
 
     new Log(
-      `${this.piece.pieceIcon} ${this.piece.player.color} castled.`,
+      `${this.piece.resource.pieceIcon} ${this.piece.player.color} castled.`,
     ).addToQueue();
     return ActionResult.SUCCESS;
   }

@@ -3,8 +3,11 @@ import { Player } from '../players/Player';
 import { game } from '../../Game';
 import { comparePositions, getPieceByPosition } from '../Utilities';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from './abstract/BasePiece';
-import { Position } from './types/Position';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
 
 export class Pawn extends BasePiece {
   possibleEnPassantPositions: [Position, Position] | undefined;
@@ -13,7 +16,13 @@ export class Pawn extends BasePiece {
 
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♙' : '♟';
-    super(pawnResource, icon, 'Pawn', player, position);
+    super(
+      new PieceResource(pawnResource, icon, 'Pawn'),
+      new PieceStats(1, 1, 1),
+      new PieceModifiers(),
+      player,
+      position
+    );
 
     this.possibleEnPassantPositions = undefined;
     this.isInitialDoubleStep = false;
@@ -59,7 +68,7 @@ export class Pawn extends BasePiece {
       validMoves.push(oneSquareForward);
 
       // Check two squares forward for the initial move
-      if (!this.hasMoved) {
+      if (!this.modifiers.hasMoved) {
         const twoSquaresForward: Position = {
           coordinates: [
             currentCoordinates[0],

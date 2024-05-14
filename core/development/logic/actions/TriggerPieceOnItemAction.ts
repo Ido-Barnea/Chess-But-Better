@@ -1,5 +1,5 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
 import { BaseItem } from '../items/abstract/Item';
-import { BasePiece } from '../pieces/abstract/BasePiece';
 import { TriggerPieceOnPiggyBankAction } from './TriggerPieceOnPiggyBankAction';
 import { TriggerPieceOnTrapAction } from './TriggerPieceOnTrapAction';
 import { GameAction } from './abstract/GameAction';

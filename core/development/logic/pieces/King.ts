@@ -4,14 +4,22 @@ import { getPieceByPosition } from '../Utilities';
 import { Rook } from './Rook';
 import { game } from '../../Game';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from './abstract/BasePiece';
-import { Position } from './types/Position';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
 
 export class King extends BasePiece {
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♔' : '♚';
-
-    super(kingResource, icon, 'King', player, position);
+    super(
+      new PieceResource(kingResource, icon, 'King'),
+      new PieceStats(1, 1, 1),
+      new PieceModifiers(),
+      player,
+      position
+    );
   }
 
   getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
@@ -107,12 +115,12 @@ export class King extends BasePiece {
     }
 
     // Check for castling
-    if (!this.hasMoved) {
+    if (!this.modifiers.hasMoved) {
       const kingsideRook = this.getRookForCastling(this.player, true);
       const queensideRook = this.getRookForCastling(this.player, false);
 
       // Kingside castling
-      if (kingsideRook && !kingsideRook.hasMoved) {
+      if (kingsideRook && !kingsideRook.modifiers.hasMoved) {
         const kingsideTargetPosition: Position = {
           coordinates: [currentCoordinates[0] + 2, currentCoordinates[1]],
           boardId: this.position.boardId,
@@ -124,7 +132,7 @@ export class King extends BasePiece {
       }
 
       // Queenside castling
-      if (queensideRook && !queensideRook.hasMoved) {
+      if (queensideRook && !queensideRook.modifiers.hasMoved) {
         const queensideTargetPosition: Position = {
           coordinates: [currentCoordinates[0] - 2, currentCoordinates[1]],
           boardId: this.position.boardId,

@@ -1,8 +1,8 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Square } from '../../../model/types/Square';
 import { isPlayerAllowedToAct } from '../PieceLogic';
 import { comparePositions } from '../Utilities';
 import { BaseItem } from '../items/abstract/Item';
-import { BasePiece } from '../pieces/abstract/BasePiece';
-import { Square } from '../pieces/types/Square';
 import { Validator } from './abstract/Validator';
 
 export class PlayerMoveValidator implements Validator {

@@ -6,7 +6,7 @@ import { Queen } from './Queen';
 import { Pawn } from './Pawn';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { Position } from './types/Position';
+import { Position } from '../../../model/types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());

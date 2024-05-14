@@ -1,18 +1,24 @@
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
 import { unicornResource } from '../../ui/Resources';
-import { BasePiece } from './abstract/BasePiece';
 import { getPieceByPosition } from '../Utilities';
-import { Position } from './types/Position';
 import { Player } from '../players/Player';
-import { Piece } from './abstract/Piece';
 
 export class Unicorn extends BasePiece {
   constructor(player: Player, position?: Position) {
-    super(unicornResource, '🦄', 'Unicorn', player, position);
-
-    this.price = 4;
+    super(
+      new PieceResource(unicornResource, '🦄', 'Unicorn'),
+      new PieceStats(1, 1, 4),
+      new PieceModifiers(),
+      player,
+      position
+    );
   }
 
-  getAttackablePieces(): Array<Piece> {
+  getAttackablePieces(): Array<BasePiece> {
     if (!this.position) return [];
 
     const currentCoordinates = this.position.coordinates;

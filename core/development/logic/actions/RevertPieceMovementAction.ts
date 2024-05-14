@@ -1,5 +1,5 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
 import { movePieceOnBoard } from '../../LogicAdapter';
-import { BasePiece } from '../pieces/abstract/BasePiece';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
 

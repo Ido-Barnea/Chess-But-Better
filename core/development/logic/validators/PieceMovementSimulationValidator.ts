@@ -1,9 +1,9 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
 import { game } from '../../Game';
 import { comparePositions } from '../Utilities';
 import { TriggerPieceOnItemAction } from '../actions/TriggerPieceOnItemAction';
 import { Knight } from '../pieces/Knight';
-import { BasePiece } from '../pieces/abstract/BasePiece';
-import { Position } from '../pieces/types/Position';
 import { Validator } from './abstract/Validator';
 
 export class PieceMovementSimulationValidator implements Validator {

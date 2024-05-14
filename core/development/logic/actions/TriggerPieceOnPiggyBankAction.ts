@@ -1,7 +1,7 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
 import { game } from '../../Game';
 import { destroyItemOnBoard } from '../../LogicAdapter';
 import { BaseItem } from '../items/abstract/Item';
-import { BasePiece } from '../pieces/abstract/BasePiece';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
 

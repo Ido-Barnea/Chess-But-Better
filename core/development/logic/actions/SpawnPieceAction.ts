@@ -1,7 +1,7 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
 import { game } from '../../Game';
 import { spawnPieceOnBoard } from '../../LogicAdapter';
 import { comparePositions } from '../Utilities';
-import { BasePiece } from '../pieces/abstract/BasePiece';
 import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
 import { TriggerPieceOnItemAction } from './TriggerPieceOnItemAction';
 import { GameAction } from './abstract/GameAction';
@@ -18,7 +18,7 @@ export class SpawnPieceAction implements GameAction {
 
   execute(): ActionResult {
     if (!this.piece || !this.piece.position) return ActionResult.FAILURE;
-    this.piece.killCount = 0;
+    this.piece.modifiers.killCount = 0;
     this.piece.position.boardId = this.boardId;
 
     game.getPieces().forEach((piece) => {

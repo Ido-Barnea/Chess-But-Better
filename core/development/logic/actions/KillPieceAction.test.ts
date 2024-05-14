@@ -1,3 +1,4 @@
+import { Position } from '../../../model/types/Position';
 import {
   HEAVEN_BOARD_ID,
   HELL_BOARD_ID,
@@ -7,7 +8,6 @@ import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { King } from '../pieces/King';
 import { Pawn } from '../pieces/Pawn';
-import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { KillPieceAction } from './KillPieceAction';
@@ -96,7 +96,7 @@ describe('KillPieceAction', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const killedPiece = new Pawn(whitePlayer, initialPosition);
-    killedPiece.killCount = 1;
+    killedPiece.modifiers.killCount = 1;
     const killPieceAction = new KillPieceAction(
       killedPiece,
       OVERWORLD_BOARD_ID,

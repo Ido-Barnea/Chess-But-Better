@@ -2,13 +2,22 @@ import { bishopResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
 import { getPieceByPosition } from '../Utilities';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from './abstract/BasePiece';
-import { Position } from './types/Position';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
 
 export class Bishop extends BasePiece {
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♗' : '♝';
-    super(bishopResource, icon, 'Bishop', player, position);
+    super(
+      new PieceResource(bishopResource, icon, 'Bishop'),
+      new PieceStats(1, 1, 1),
+      new PieceModifiers(),
+      player,
+      position
+    );
   }
 
   getLegalMoves(): Array<Position> {

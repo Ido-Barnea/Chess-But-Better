@@ -1,10 +1,10 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
 import { game } from '../../Game';
 import { move } from '../PieceLogic';
 import { comparePositions } from '../Utilities';
 import { King } from '../pieces/King';
 import { Pawn } from '../pieces/Pawn';
-import { BasePiece } from '../pieces/abstract/BasePiece';
-import { Position } from '../pieces/types/Position';
 import { CastleAction } from './CastleAction';
 import { KillPieceByPieceAction } from './KillPieceByPieceAction';
 import { GameAction } from './abstract/GameAction';

@@ -2,15 +2,22 @@ import { knightResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
 import { Unicorn } from './Unicorn';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from './abstract/BasePiece';
-import { Position } from './types/Position';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
 
 export class Knight extends BasePiece {
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♘' : '♞';
-    super(knightResource, icon, 'Knight', player, position);
-
-    this.upgrades = [Unicorn];
+    super(
+      new PieceResource(knightResource, icon, 'Knight'),
+      new PieceStats(1, 1, 1),
+      new PieceModifiers([Unicorn]),
+      player,
+      position
+    );
   }
 
   getLegalMoves(): Array<Position> {

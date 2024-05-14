@@ -10,7 +10,7 @@ import { Pawn } from './Pawn';
 import { DoubleQueen } from './DoubleQueen';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { Position } from './types/Position';
+import { Position } from '../../../model/types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
@@ -126,7 +126,7 @@ describe('Piece killing', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const otherVictimPiece = new Pawn(blackPlayer, otherVictimPosition);
-    otherVictimPiece.killCount = 1;
+    otherVictimPiece.modifiers.killCount = 1;
 
     game.setPieces([killerDoubleQueen, otherVictimPiece]);
     onPlayerAction(killerDoubleQueen, otherVictimPiece);

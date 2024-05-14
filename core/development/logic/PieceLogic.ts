@@ -3,14 +3,14 @@ import { movePieceOnBoard } from '../LogicAdapter';
 import { BaseItem } from './items/abstract/Item';
 import { Player } from './players/Player';
 import { MovementLog } from '../ui/logs/Log';
-import { BasePiece } from './pieces/abstract/BasePiece';
-import { Square } from './pieces/types/Square';
-import { Position } from './pieces/types/Position';
 import { PlayerMoveValidator } from './validators/PlayerMoveValidator';
 import { PieceMovementSimulationValidator } from './validators/PieceMovementSimulationValidator';
 import { AttackPieceAction } from './actions/AttackPieceAction';
 import { MovePieceAction } from './actions/MovePieceAction';
 import { RevertPieceMovementAction } from './actions/RevertPieceMovementAction';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { Square } from '../../model/types/Square';
+import { Position } from '../../model/types/Position';
 
 export function onPlayerAction(
   draggedPiece: BasePiece,
@@ -23,7 +23,7 @@ export function onPlayerAction(
   }
 
   if (game.getMovesLeft() === 0) {
-    game.setMovesLeft(draggedPiece.moves);
+    game.setMovesLeft(draggedPiece.stats.moves);
   }
 
   const pieceMovementSimulationValidator = new PieceMovementSimulationValidator(
@@ -62,6 +62,6 @@ export function move(
     boardId: draggedPiece.position.boardId,
   };
 
-  draggedPiece.hasMoved = true;
+  draggedPiece.modifiers.hasMoved = true;
   if (shouldEndTurn) game.endMove();
 }

@@ -5,7 +5,7 @@ import { getPieceByPosition } from '../Utilities';
 import { spawnItemOnPiece } from '../../LogicAdapter';
 import { ItemActionResult } from './types/ItemActionResult';
 import { Logger } from '../../ui/logs/Logger';
-import { Position } from '../pieces/types/Position';
+import { Position } from '../../../model/types/Position';
 
 export class Shield extends BaseItem {
   constructor(position?: Position) {
@@ -20,12 +20,12 @@ export class Shield extends BaseItem {
       piece.position.coordinates,
     );
     new Log(
-      `${piece.player.color} ${piece.name} on ${logCoordinates} equiped a ${this.name}.`,
+      `${piece.player.color} ${piece.resource.name} on ${logCoordinates} equiped a ${this.name}.`,
     ).addToQueue();
     Logger.logMessages();
 
     this.position = position;
-    piece.health++;
+    piece.stats.health++;
 
     spawnItemOnPiece(this);
     return ItemActionResult.SUCCESS;

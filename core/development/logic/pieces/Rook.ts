@@ -3,15 +3,22 @@ import { Player } from '../players/Player';
 import { getPieceByPosition } from '../Utilities';
 import { Golem } from './Golem';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from './abstract/BasePiece';
-import { Position } from './types/Position';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
 
 export class Rook extends BasePiece {
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♖' : '♜';
-    super(rookResource, icon, 'Rook', player, position);
-
-    this.upgrades = [Golem];
+    super(
+      new PieceResource(rookResource, icon, 'Rook'),
+      new PieceStats(1, 1, 1),
+      new PieceModifiers([Golem]),
+      player,
+      position
+    );
   }
 
   getLegalMoves(): Array<Position> {

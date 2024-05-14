@@ -1,15 +1,21 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { Position } from '../../../model/types/Position';
 import { golemResource } from '../../ui/Resources';
 import { Player } from '../players/Player';
 import { getPieceByPosition } from '../Utilities';
-import { BasePiece } from './abstract/BasePiece';
-import { Position } from './types/Position';
 
 export class Golem extends BasePiece {
   constructor(player: Player, position?: Position) {
-    super(golemResource, '🗿', 'Golem', player, position);
-
-    this.health = 3;
-    this.price = 4;
+    super(
+      new PieceResource(golemResource, '🗿', 'Golem'),
+      new PieceStats(1, 3, 4),
+      new PieceModifiers(),
+      player,
+      position
+    );
   }
 
   getLegalMoves(): Array<Position> {

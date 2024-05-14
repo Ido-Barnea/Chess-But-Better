@@ -3,9 +3,9 @@ import { Player } from '../players/Player';
 import { game } from '../../Game';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { Position } from '../pieces/types/Position';
 import { ItemActionResult } from './types/ItemActionResult';
 import { Trap } from './Trap';
+import { Position } from '../../../model/types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 

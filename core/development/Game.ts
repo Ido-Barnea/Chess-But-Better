@@ -19,13 +19,13 @@ import { Logger } from './ui/logs/Logger';
 import { initializeInventoryUI } from './ui/InventoriesUI';
 import { PlayerColor } from './logic/players/types/PlayerColor';
 import { PlayerInventory } from './logic/inventory/PlayerInventory';
-import { BasePiece } from './logic/pieces/abstract/BasePiece';
 import { ItemsShop } from './logic/shop/ItemsShop';
 import { PlayersTurnSwitcher } from './logic/turn switcher/PlayersTurnSwitcher';
 import {
   renderInitialShopItemsElements,
   updateShopButtonsState,
 } from './ui/ShopUI';
+import { BasePiece } from '../model/pieces/abstract/BasePiece';
 
 export const shop = new ItemsShop();
 

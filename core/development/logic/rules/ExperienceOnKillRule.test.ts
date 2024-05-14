@@ -4,9 +4,9 @@ import { Queen } from '../pieces/Queen';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { Player } from '../players/Player';
 import { Pawn } from '../pieces/Pawn';
-import { Position } from '../pieces/types/Position';
 import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { AttackPieceAction } from '../actions/AttackPieceAction';
+import { Position } from '../../../model/types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());

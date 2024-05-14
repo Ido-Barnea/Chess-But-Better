@@ -1,11 +1,11 @@
-import { BasePiece } from '../pieces/abstract/BasePiece';
 import { ActionResult } from './types/ActionResult';
 import { KillLog } from '../../ui/logs/Log';
 import { game } from '../../Game';
 import { MIN_KILLINGS_FOR_BOUNTY } from '../../Constants';
 import { destroyItemOnPiece, movePieceOnBoard } from '../../LogicAdapter';
-import { Position } from '../pieces/types/Position';
 import { KillPieceAction } from './KillPieceAction';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
 export class KillPieceByPieceAction extends KillPieceAction {
   private killerPiece: BasePiece;
 
@@ -15,15 +15,15 @@ export class KillPieceByPieceAction extends KillPieceAction {
   }
 
   execute(): ActionResult {
-    this.killedPiece.health--;
-    if (this.killedPiece.health > 0) {
+    this.killedPiece.stats.health--;
+    if (this.killedPiece.stats.health > 0) {
       this.failToKillPiece();
       return ActionResult.FAILURE;
     }
 
-    this.killerPiece.killCount++;
-    if (this.killedPiece.killCount >= MIN_KILLINGS_FOR_BOUNTY) {
-      this.killerPiece.player.gold += this.killedPiece.killCount;
+    this.killerPiece.modifiers.killCount++;
+    if (this.killedPiece.modifiers.killCount >= MIN_KILLINGS_FOR_BOUNTY) {
+      this.killerPiece.player.gold += this.killedPiece.modifiers.killCount;
     }
 
     game.setKillerPiece(this.killerPiece);

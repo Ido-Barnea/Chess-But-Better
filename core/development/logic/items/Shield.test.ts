@@ -3,10 +3,10 @@ import { Player } from '../players/Player';
 import { game } from '../../Game';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { Position } from '../pieces/types/Position';
 import { Shield } from './Shield';
 import { Pawn } from '../pieces/Pawn';
 import { ItemActionResult } from './types/ItemActionResult';
+import { Position } from '../../../model/types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 
@@ -49,7 +49,7 @@ describe('Shield', () => {
       boardId: OVERWORLD_BOARD_ID,
     };
     const piece = new Pawn(whitePlayer, initialPiecePosition);
-    const initialPieceHealth = piece.health;
+    const initialPieceHealth = piece.stats.health;
     game.setPieces([piece]);
 
     const shieldItem = new Shield();
@@ -59,7 +59,7 @@ describe('Shield', () => {
 
     // Assert
     expect(itemActionResult).toEqual(ItemActionResult.SUCCESS);
-    expect(piece.health).toEqual(initialPieceHealth + 1);
+    expect(piece.stats.health).toEqual(initialPieceHealth + 1);
   });
 
   test('should return FAILURE if piece is undefined', () => {

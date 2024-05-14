@@ -1,5 +1,5 @@
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
 import { VOID_BOARD_ID } from '../../Constants';
-import { BasePiece } from '../pieces/abstract/BasePiece';
 import { KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
 import { ActionResult } from './types/ActionResult';
 export class KillPieceByFallingOffTheBoardAction extends KillPieceByEnvironmentAction {

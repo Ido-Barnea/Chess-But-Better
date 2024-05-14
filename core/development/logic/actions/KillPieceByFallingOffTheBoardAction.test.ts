@@ -1,9 +1,9 @@
-import { OVERWORLD_BOARD_ID, VOID_BOARD_ID } from '../../Constants';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
+import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Pawn } from '../pieces/Pawn';
-import { BasePiece } from '../pieces/abstract/BasePiece';
-import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';

@@ -3,15 +3,22 @@ import { Player } from '../players/Player';
 import { getPieceByPosition } from '../Utilities';
 import { DoubleQueen } from './DoubleQueen';
 import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from './abstract/BasePiece';
-import { Position } from './types/Position';
+import { PieceResource } from '../../../model/pieces/PieceResource';
+import { PieceStats } from '../../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
+import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { Position } from '../../../model/types/Position';
 
 export class Queen extends BasePiece {
   constructor(player: Player, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♕' : '♛';
-    super(queenResource, icon, 'Queen', player, position);
-
-    this.upgrades = [DoubleQueen];
+    super(
+      new PieceResource(queenResource, icon, 'Queen'),
+      new PieceStats(1, 1, 1),
+      new PieceModifiers([DoubleQueen]),
+      player,
+      position
+    );
   }
 
   getLegalMoves(): Array<Position> {

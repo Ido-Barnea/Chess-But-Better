@@ -10,7 +10,7 @@ import { Rook } from './Rook';
 import { Pawn } from './Pawn';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
-import { Position } from './types/Position';
+import { Position } from '../../../model/types/Position';
 
 const whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
 const blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
@@ -103,7 +103,7 @@ describe('Piece killing', () => {
       coordinates: initialKillerPosition.coordinates,
       boardId: initialKillerPosition.boardId,
     });
-    secondVictimPiece.killCount = 1;
+    secondVictimPiece.modifiers.killCount = 1;
     game.setPieces([killerRook, secondVictimPiece]);
     onPlayerAction(killerRook, secondVictimPiece);
 

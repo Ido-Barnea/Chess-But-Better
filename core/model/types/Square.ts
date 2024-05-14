@@ -1,4 +1,4 @@
-import { BasePiece } from '../abstract/BasePiece';
+import { BasePiece } from '../pieces/abstract/BasePiece';
 import { Position } from './Position';
 
 export type Square = {

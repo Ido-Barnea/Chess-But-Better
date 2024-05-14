@@ -1,8 +1,8 @@
+import { Position } from '../../../model/types/Position';
 import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Pawn } from '../pieces/Pawn';
-import { Position } from '../pieces/types/Position';
 import { Player } from '../players/Player';
 import { PlayerColor } from '../players/types/PlayerColor';
 import { KillPieceByPieceAction } from './KillPieceByPieceAction';
@@ -50,7 +50,7 @@ describe('KillPieceByPieceAction', () => {
     };
     const killedPiece = new Pawn(whitePlayer, initialPosition);
     const initialPieceHealth = 6;
-    killedPiece.health = initialPieceHealth;
+    killedPiece.stats.health = initialPieceHealth;
     const killPieceByPieceAction = new KillPieceByPieceAction(
       killedPiece,
       killedPiece,
@@ -61,7 +61,7 @@ describe('KillPieceByPieceAction', () => {
 
     // Assert
     expect(actionResult).toEqual(ActionResult.FAILURE);
-    expect(killedPiece.health).toEqual(initialPieceHealth - 1);
+    expect(killedPiece.stats.health).toEqual(initialPieceHealth - 1);
   });
 
   test('should return SUCCESS if killedPiece.health == 1', () => {

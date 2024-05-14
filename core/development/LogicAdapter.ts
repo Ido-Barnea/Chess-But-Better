@@ -35,14 +35,14 @@ import { Trap } from './logic/items/Trap';
 import { HEAVEN_BOARD_ID, HELL_BOARD_ID } from './Constants';
 import { showUpgradeablePiecesElements } from './ui/UpgradeUI';
 import { PlayerColor } from './logic/players/types/PlayerColor';
-import { BasePiece } from './logic/pieces/abstract/BasePiece';
-import { Position } from './logic/pieces/types/Position';
-import { Square } from './logic/pieces/types/Square';
 import { Unicorn } from './logic/pieces/Unicorn';
 import { KillPieceByFallingOffTheBoardAction } from './logic/actions/KillPieceByFallingOffTheBoardAction';
 import { KillPieceByPieceAction } from './logic/actions/KillPieceByPieceAction';
 import { ShopActionResult } from './logic/shop/types/ShopActionResult';
 import { updateShopButtonsState } from './ui/ShopUI';
+import { Position } from '../model/types/Position';
+import { BasePiece } from '../model/pieces/abstract/BasePiece';
+import { Square } from '../model/types/Square';
 
 export function renderScreen() {
   renderGameInformation();
@@ -163,7 +163,7 @@ export function onPieceSelected(pieceElement: HTMLElement, boardId: string) {
     hideUnicornAttackButton();
   }
 
-  showUpgradeablePiecesElements(piece, piece.upgrades);
+  showUpgradeablePiecesElements(piece, piece.modifiers.upgrades);
   highlightLegalMoves(piece, boardId);
 }
 
@@ -172,8 +172,8 @@ export function upgradePiece(
   upgradedPiece: BasePiece,
 ) {
   const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
-  if (currentPlayer.xp < upgradedPiece.price) return;
-  currentPlayer.xp -= upgradedPiece.price;
+  if (currentPlayer.xp < upgradedPiece.stats.price) return;
+  currentPlayer.xp -= upgradedPiece.stats.price;
 
   // Destroy piece
   destroyPieceOnBoard(upgradeablePiece);
@@ -260,12 +260,12 @@ export function destroyItemOnBoard(item: BaseItem) {
 }
 
 export function destroyItemOnPiece(piece: BasePiece) {
-  if (!piece.position || !piece.isEquipedItem) return;
+  if (!piece.position || !piece.stats.isEquippedItem) return;
 
   const pieceCoordinates = piece.position.coordinates;
   const squareId = pieceCoordinates.join(',');
 
-  piece.isEquipedItem = false;
+  piece.stats.isEquippedItem = false;
   destroyElementOnPiece(squareId, piece.position.boardId);
 }
 
@@ -353,7 +353,7 @@ export function canPlaceItemOnBoard(
       const targetPiece = getPieceByPosition(squarePosition);
       if (!targetPiece) return false;
 
-      targetPiece.isEquipedItem = true;
+      targetPiece.stats.isEquippedItem = true;
       new Shield().use(squarePosition);
 
       break;
