@@ -22,7 +22,8 @@ export class KillPieceAction implements GameAction {
     if (this.killedPiece.position?.boardId === OVERWORLD_BOARD_ID) {
       game.increaseDeathCounter();
 
-      const hasPieceKilledOtherPieces = this.killedPiece.modifiers.killCount > 0;
+      const hasPieceKilledOtherPieces =
+        this.killedPiece.modifiers.killCount > 0;
       const isKilledPieceKing = this.killedPiece instanceof King;
 
       const pieceOriginBoardId = this.killedPiece.position.boardId;

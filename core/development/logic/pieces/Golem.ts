@@ -14,7 +14,7 @@ export class Golem extends BasePiece {
       new PieceStats(1, 3, 4),
       new PieceModifiers(),
       player,
-      position
+      position,
     );
   }
 

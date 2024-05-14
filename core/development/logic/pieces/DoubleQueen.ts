@@ -16,7 +16,7 @@ export class DoubleQueen extends BasePiece {
       new PieceStats(2, 1, 8),
       new PieceModifiers(),
       player,
-      position
+      position,
     );
   }
 

@@ -21,7 +21,7 @@ export class Pawn extends BasePiece {
       new PieceStats(1, 1, 1),
       new PieceModifiers(),
       player,
-      position
+      position,
     );
 
     this.possibleEnPassantPositions = undefined;

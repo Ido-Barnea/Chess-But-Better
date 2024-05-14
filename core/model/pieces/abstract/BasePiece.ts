@@ -17,7 +17,7 @@ export abstract class BasePiece implements PieceBehavior {
     stats: PieceStats,
     modifiers: PieceModifiers,
     player: Player,
-    position?: Position
+    position?: Position,
   ) {
     this.resource = resource;
     this.stats = stats;

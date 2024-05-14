@@ -14,7 +14,7 @@ export class Unicorn extends BasePiece {
       new PieceStats(1, 1, 4),
       new PieceModifiers(),
       player,
-      position
+      position,
     );
   }
 

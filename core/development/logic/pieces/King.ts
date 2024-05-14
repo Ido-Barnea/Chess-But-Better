@@ -18,7 +18,7 @@ export class King extends BasePiece {
       new PieceStats(1, 1, 1),
       new PieceModifiers(),
       player,
-      position
+      position,
     );
   }
 

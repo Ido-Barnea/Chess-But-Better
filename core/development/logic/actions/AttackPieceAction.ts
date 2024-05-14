@@ -21,7 +21,7 @@ export class AttackPieceAction implements GameAction {
     const targetPosition: Position = {
       coordinates: this.target.position.coordinates,
       boardId: this.target.position.boardId,
-    }
+    };
 
     game.setIsFriendlyFire(this.target.player === this.piece.player);
     const killPieceByPieceResult = new KillPieceByPieceAction(

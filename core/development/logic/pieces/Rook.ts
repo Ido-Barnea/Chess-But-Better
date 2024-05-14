@@ -17,7 +17,7 @@ export class Rook extends BasePiece {
       new PieceStats(1, 1, 1),
       new PieceModifiers([Golem]),
       player,
-      position
+      position,
     );
   }
 
