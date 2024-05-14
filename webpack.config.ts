@@ -41,19 +41,19 @@ const config: CustomConfiguration = {
       filename: 'views/home.html',
       template: './core/views/home.html',
       chunks: [],
-      favicon: './assets/logo.svg',
+      favicon: './assets/images/logo.svg',
     }),
     new HtmlWebpackPlugin({
       filename: 'views/room.html',
       template: './core/views/room.html',
       chunks: ['room'],
-      favicon: './assets/logo.svg',
+      favicon: './assets/images/logo.svg',
     }),
     new HtmlWebpackPlugin({
       filename: 'views/404.html',
       template: './core/views/404.html',
       chunks: [],
-      favicon: './assets/logo.svg',
+      favicon: './assets/images/logo.svg',
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './core/styles', to: 'styles' }],

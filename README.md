@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.svg" alt="logo" width="200" height="auto" />
+  <img src="assets/images/logo.svg" alt="logo" width="200" height="auto" />
   <h1>Chess But Better</h1>
   <p>
     Chess with an added layer of complexity
