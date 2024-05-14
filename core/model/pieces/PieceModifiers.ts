@@ -1,4 +1,4 @@
-import { Player } from '../../development/logic/players/Player';
+import { Player } from '../../controller/logic/players/Player';
 import { Position } from '../types/Position';
 import { BasePiece } from './abstract/BasePiece';
 

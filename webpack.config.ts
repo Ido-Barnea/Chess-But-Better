@@ -10,7 +10,7 @@ interface CustomConfiguration extends webpack.Configuration {
 
 const config: CustomConfiguration = {
   entry: {
-    room: './core/development/pages/Room.ts',
+    room: './core/controller/pages/Room.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
