@@ -1,5 +1,5 @@
 import React from 'react';
-import './../../styles/pages/room.css';
+import './../styles/pages/room.css';
 import LeftColumn from '../components/room/LeftColumn';
 import CenterColumn from '../components/room/CenterColumn';
 import RightColumn from '../components/room/RightColumn';

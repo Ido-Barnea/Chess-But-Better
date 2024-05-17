@@ -30,6 +30,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '..', 'src/view/index.html'),
+      favicon: path.resolve(__dirname, '..', 'assets/images/favicon.svg'),
     }),
   ],
   stats: 'errors-only',
