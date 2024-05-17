@@ -1,8 +1,9 @@
 import React from 'react';
+import Room from './components/room/Room';
 
 function App() {
   return (
-    <h1>Hello there</h1>
+    <Room />
   );
 }
 
