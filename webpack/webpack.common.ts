@@ -2,7 +2,7 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const config = {
-  entry: path.resolve(__dirname, '..', 'core/view/Index.tsx'),
+  entry: path.resolve(__dirname, '..', 'src/view/Index.tsx'),
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -29,7 +29,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '..', 'core/view/index.html'),
+      template: path.resolve(__dirname, '..', 'src/view/index.html'),
     }),
   ],
   stats: 'errors-only',

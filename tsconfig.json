@@ -3,7 +3,7 @@
     "module": "CommonJS",
     "target": "ESNext",
     "jsxImportSource": "preact",
-    "rootDir": "./core",
+    "rootDir": "src",
     "outDir": "./dist",
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -12,5 +12,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["core/**/*.ts"]
+  "include": ["src/**/*.ts"]
 }
