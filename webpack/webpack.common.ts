@@ -2,9 +2,7 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const config = {
-  entry: {
-    room: './core/controller/pages/Room.ts',
-  },
+  entry: path.resolve(__dirname, '..', 'core/view/Index.tsx'),
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -31,7 +29,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '..', 'core/view/room.html'),
+      template: path.resolve(__dirname, '..', 'core/view/index.html'),
     }),
   ],
   stats: 'errors-only',
