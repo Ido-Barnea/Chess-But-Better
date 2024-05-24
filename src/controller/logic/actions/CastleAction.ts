@@ -18,8 +18,8 @@ export class CastleAction implements GameAction {
   execute(): ActionResult {
     if (!this.piece.position) return ActionResult.FAILURE;
 
-    const targetXPosition = this.targetPosition.coordinates[0];
-    const kingXPosition = this.piece.position.coordinates[0];
+    const targetXPosition = this.targetPosition.coordinates.x;
+    const kingXPosition = this.piece.position.coordinates.x;
     const deltaX = targetXPosition - kingXPosition;
     const isKingsideCastling = deltaX > 0;
 
@@ -33,12 +33,12 @@ export class CastleAction implements GameAction {
     if (!rookPiece || !rookPiece.position) return ActionResult.FAILURE;
 
     const rookPieceTargetPosition: Position = {
-      coordinates: [
-        isKingsideCastling
-          ? this.targetPosition.coordinates[0] - 1
-          : this.targetPosition.coordinates[0] + 1,
-        this.piece.position.coordinates[1],
-      ],
+      coordinates: {
+        x: isKingsideCastling
+          ? this.targetPosition.coordinates.x - 1
+          : this.targetPosition.coordinates.x + 1,
+        y: this.piece.position.coordinates.y,
+      },
       boardId: rookPiece.position.boardId,
     };
 

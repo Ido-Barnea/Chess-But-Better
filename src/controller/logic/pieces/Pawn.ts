@@ -60,7 +60,10 @@ export class Pawn extends BasePiece {
 
     // Check one square forward
     const oneSquareForward: Position = {
-      coordinates: [currentCoordinates[0], currentCoordinates[1] + stepY],
+      coordinates: {
+        x: currentCoordinates.x,
+        y: currentCoordinates.y + stepY,
+      },
       boardId: this.position.boardId,
     };
 
@@ -70,10 +73,10 @@ export class Pawn extends BasePiece {
       // Check two squares forward for the initial move
       if (!this.modifiers.hasMoved) {
         const twoSquaresForward: Position = {
-          coordinates: [
-            currentCoordinates[0],
-            currentCoordinates[1] + 2 * stepY,
-          ],
+          coordinates: {
+            x: currentCoordinates.x,
+            y: currentCoordinates.y + 2 * stepY,
+          },
           boardId: this.position.boardId,
         };
 
@@ -92,12 +95,18 @@ export class Pawn extends BasePiece {
 
     // Check diagonal attacks
     const leftDiagonal: Position = {
-      coordinates: [currentCoordinates[0] - 1, currentCoordinates[1] + stepY],
+      coordinates: {
+        x: currentCoordinates.x - 1,
+        y: currentCoordinates.y + stepY,
+      },
       boardId: this.position.boardId,
     };
 
     const rightDiagonal: Position = {
-      coordinates: [currentCoordinates[0] + 1, currentCoordinates[1] + stepY],
+      coordinates: {
+        x: currentCoordinates.x + 1,
+        y: currentCoordinates.y + stepY,
+      },
       boardId: this.position.boardId,
     };
 

@@ -9,8 +9,8 @@ export function comparePositions(
   if (!firstPosition || !secondPosition) return false;
 
   const arePositionsEqual =
-    firstPosition.coordinates[0] === secondPosition.coordinates[0] &&
-    firstPosition.coordinates[1] === secondPosition.coordinates[1];
+    firstPosition.coordinates.x === secondPosition.coordinates.x &&
+    firstPosition.coordinates.y === secondPosition.coordinates.y;
   const areBoardsEqual = firstPosition.boardId === secondPosition.boardId;
 
   return areBoardsEqual && arePositionsEqual;

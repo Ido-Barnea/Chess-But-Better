@@ -38,10 +38,10 @@ export class KillPieceByPieceAction extends KillPieceAction {
 
     let directionX = 0;
     let directionY = 0;
-    const targetXPosition = this.killedPiece.position.coordinates[0];
-    const targetYPosition = this.killedPiece.position.coordinates[1];
-    const deltaX = this.killerPiece.position.coordinates[0] - targetXPosition;
-    const deltaY = this.killerPiece.position.coordinates[1] - targetYPosition;
+    const targetXPosition = this.killedPiece.position.coordinates.x;
+    const targetYPosition = this.killedPiece.position.coordinates.y;
+    const deltaX = this.killerPiece.position.coordinates.x - targetXPosition;
+    const deltaY = this.killerPiece.position.coordinates.y - targetYPosition;
     if (deltaX !== 0) {
       directionX = deltaX / Math.abs(deltaX);
     }
@@ -50,7 +50,10 @@ export class KillPieceByPieceAction extends KillPieceAction {
     }
 
     const newPosition: Position = {
-      coordinates: [targetXPosition + directionX, targetYPosition + directionY],
+      coordinates: {
+        x: targetXPosition + directionX,
+        y: targetYPosition + directionY,
+      },
       boardId: this.killerPiece.position.boardId,
     };
 

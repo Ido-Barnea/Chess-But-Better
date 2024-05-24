@@ -1,7 +1,12 @@
 import React from 'react';
 import { Board } from './board';
+import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
 
-export const BoardsContainer = () => {
+interface IBoardsContainerProps {
+  pieces: Array<BasePiece>;
+}
+
+export const BoardsContainer: React.FC<IBoardsContainerProps> = ({ pieces }) => {
   const LIGHT_OVERWORLD_SQUARE_COLOR = 'beige-background';
   const DARK_OVERWORLD_SQUARE_COLOR = 'brown-background';
   const LIGHT_HELL_SQUARE_COLOR = 'dark-orange-background';
@@ -18,6 +23,7 @@ export const BoardsContainer = () => {
         boardId="board-overworld"
         lightSquareColor={LIGHT_OVERWORLD_SQUARE_COLOR}
         darkSquareColor={DARK_OVERWORLD_SQUARE_COLOR}
+        pieces={pieces}
         isCollapsed={false} />
       <Board
         boardId="board-hell"

@@ -40,8 +40,8 @@ export class Bishop extends BasePiece {
 
       // Iterate until the edge of the board or another piece is encountered
       while (true) {
-        const nextX = currentCoordinates[0] + stepX;
-        const nextY = currentCoordinates[1] + stepY;
+        const nextX = currentCoordinates.x + stepX;
+        const nextY = currentCoordinates.y + stepY;
 
         // Check if the next position is within the board boundaries
         if (nextX < 0 || nextX >= 8 || nextY < 0 || nextY >= 8) {
@@ -49,7 +49,10 @@ export class Bishop extends BasePiece {
         }
 
         const nextPosition: Position = {
-          coordinates: [nextX, nextY],
+          coordinates: {
+            x: nextX,
+            y: nextY,
+          },
           boardId: this.position.boardId,
         };
 

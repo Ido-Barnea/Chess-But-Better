@@ -37,38 +37,38 @@ const rulesManager = new RulesManager();
 const playersTurnSwitcher = new PlayersTurnSwitcher(players);
 
 let pieces: Array<BasePiece> = [
-  new Rook(blackPlayer, { coordinates: [0, 0], boardId: OVERWORLD_BOARD_ID }),
-  new Knight(blackPlayer, { coordinates: [1, 0], boardId: OVERWORLD_BOARD_ID }),
-  new Bishop(blackPlayer, { coordinates: [2, 0], boardId: OVERWORLD_BOARD_ID }),
-  new Queen(blackPlayer, { coordinates: [3, 0], boardId: OVERWORLD_BOARD_ID }),
-  new King(blackPlayer, { coordinates: [4, 0], boardId: OVERWORLD_BOARD_ID }),
-  new Bishop(blackPlayer, { coordinates: [5, 0], boardId: OVERWORLD_BOARD_ID }),
-  new Knight(blackPlayer, { coordinates: [6, 0], boardId: OVERWORLD_BOARD_ID }),
-  new Rook(blackPlayer, { coordinates: [7, 0], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [0, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [1, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [2, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [3, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [4, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [5, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [6, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(blackPlayer, { coordinates: [7, 1], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [0, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [1, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [2, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [3, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [4, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [5, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [6, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Pawn(whitePlayer, { coordinates: [7, 6], boardId: OVERWORLD_BOARD_ID }),
-  new Rook(whitePlayer, { coordinates: [0, 7], boardId: OVERWORLD_BOARD_ID }),
-  new Knight(whitePlayer, { coordinates: [1, 7], boardId: OVERWORLD_BOARD_ID }),
-  new Bishop(whitePlayer, { coordinates: [2, 7], boardId: OVERWORLD_BOARD_ID }),
-  new Queen(whitePlayer, { coordinates: [3, 7], boardId: OVERWORLD_BOARD_ID }),
-  new King(whitePlayer, { coordinates: [4, 7], boardId: OVERWORLD_BOARD_ID }),
-  new Bishop(whitePlayer, { coordinates: [5, 7], boardId: OVERWORLD_BOARD_ID }),
-  new Knight(whitePlayer, { coordinates: [6, 7], boardId: OVERWORLD_BOARD_ID }),
-  new Rook(whitePlayer, { coordinates: [7, 7], boardId: OVERWORLD_BOARD_ID }),
+  new Rook(blackPlayer, { coordinates: { x: 0, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new Knight(blackPlayer, { coordinates: { x: 1, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new Bishop(blackPlayer, { coordinates: { x: 2, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new Queen(blackPlayer, { coordinates: { x: 3, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new King(blackPlayer, { coordinates: { x: 4, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new Bishop(blackPlayer, { coordinates: { x: 5, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new Knight(blackPlayer, { coordinates: { x: 6, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new Rook(blackPlayer, { coordinates: { x: 7, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 0, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 1, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 2, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 3, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 4, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 5, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 6, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(blackPlayer, { coordinates: { x: 7, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 0, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 1, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 2, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 3, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 4, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 5, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 6, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Pawn(whitePlayer, { coordinates: { x: 7, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+  new Rook(whitePlayer, { coordinates: { x: 0, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+  new Knight(whitePlayer, { coordinates: { x: 1, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+  new Bishop(whitePlayer, { coordinates: { x: 2, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+  new Queen(whitePlayer, { coordinates: { x: 3, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+  new King(whitePlayer, { coordinates: { x: 4, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+  new Bishop(whitePlayer, { coordinates: { x: 5, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+  new Knight(whitePlayer, { coordinates: { x: 6, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+  new Rook(whitePlayer, { coordinates: { x: 7, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
 ];
 let items: Array<BaseItem> = [];
 let deathCounter = 0;
@@ -112,10 +112,10 @@ function checkForUpgradeablePawns() {
     const piece = pieces[index];
     if (piece instanceof Pawn && piece.position) {
       const whitePawnReachedEndOfBoard =
-        piece.player === whitePlayer && piece.position.coordinates[1] === 0;
+        piece.player === whitePlayer && piece.position.coordinates.y === 0;
       const blackPawnReachedEndOfBoard =
         piece.player === blackPlayer &&
-        piece.position.coordinates[1] === BOARD_WIDTH - 1;
+        piece.position.coordinates.y === BOARD_WIDTH - 1;
 
       if (whitePawnReachedEndOfBoard || blackPawnReachedEndOfBoard) {
         destroyPieceOnBoard(piece);

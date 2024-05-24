@@ -3,5 +3,5 @@ import { Position } from './Position';
 
 export type Square = {
   position: Position;
-  occupent?: BasePiece;
+  occupant?: BasePiece;
 };

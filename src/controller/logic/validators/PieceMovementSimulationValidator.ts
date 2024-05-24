@@ -46,8 +46,8 @@ export class PieceMovementSimulationValidator implements Validator {
 
   getPathPositions(start: Position, end: Position): Array<Position> {
     const pathPositions: Array<Position> = [];
-    const deltaX = end.coordinates[0] - start.coordinates[0];
-    const deltaY = end.coordinates[1] - start.coordinates[1];
+    const deltaX = end.coordinates.x - start.coordinates.x;
+    const deltaY = end.coordinates.y - start.coordinates.y;
 
     const xDirection = deltaX > 0 ? 1 : deltaX < 0 ? -1 : 0;
     const yDirection = deltaY > 0 ? 1 : deltaY < 0 ? -1 : 0;
@@ -55,10 +55,11 @@ export class PieceMovementSimulationValidator implements Validator {
     const moveSteps = Math.max(Math.abs(deltaX), Math.abs(deltaY));
 
     for (let index = 1; index <= moveSteps; index++) {
-      const x = start.coordinates[0] + index * xDirection;
-      const y = start.coordinates[1] + index * yDirection;
       pathPositions.push({
-        coordinates: [x, y],
+        coordinates: {
+          x: start.coordinates.x + index * xDirection,
+          y: start.coordinates.y + index * yDirection,
+        },
         boardId: start.boardId,
       });
     }

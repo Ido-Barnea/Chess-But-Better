@@ -39,13 +39,16 @@ export class Knight extends BasePiece {
     ];
 
     for (const offset of knightMoveOffsets) {
-      const nextX = currentCoordinates[0] + offset.deltaX;
-      const nextY = currentCoordinates[1] + offset.deltaY;
+      const nextX = currentCoordinates.x + offset.deltaX;
+      const nextY = currentCoordinates.y + offset.deltaY;
 
       // Check if the next position is within the board boundaries
       if (nextX >= 0 && nextX < 8 && nextY >= 0 && nextY < 8) {
         const nextPosition: Position = {
-          coordinates: [nextX, nextY],
+          coordinates: {
+            x: nextX,
+            y: nextY,
+          },
           boardId: this.position.boardId,
         };
 

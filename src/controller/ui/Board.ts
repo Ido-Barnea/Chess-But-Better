@@ -31,11 +31,11 @@ export class ChessBoard {
   }
 
   initializeBoard() {
-    for (let row = 0; row < BOARD_WIDTH; row++) {
-      for (let column = 0; column < BOARD_WIDTH; column++) {
-        this.createSquare([column, row]);
-      }
-    }
+    // for (let row = 0; row < BOARD_WIDTH; row++) {
+    //   for (let column = 0; column < BOARD_WIDTH; column++) {
+    //     this.createSquare([column, row]);
+    //   }
+    // }
 
     const isCollapsed = this.boardElement.classList.contains('collapsed');
     if (!isCollapsed) {
@@ -51,16 +51,16 @@ export class ChessBoard {
     this.randomlyGeneratePiggyBanks();
   }
 
-  createSquare(coordinates: [number, number]) {
-    const squareElement = document.createElement('div');
-    squareElement.classList.add('square');
-    squareElement.setAttribute('square-id', coordinates.join(','));
+  // createSquare(coordinates: [number, number]) {
+  //   const squareElement = document.createElement('div');
+  //   squareElement.classList.add('square');
+  //   squareElement.setAttribute('square-id', coordinates.join(','));
 
-    const backgroundColor = this.getBackgroundColor(coordinates);
-    squareElement.classList.add(backgroundColor);
+  //   const backgroundColor = this.getBackgroundColor(coordinates);
+  //   squareElement.classList.add(backgroundColor);
 
-    this.boardElement.appendChild(squareElement);
-  }
+  //   this.boardElement.appendChild(squareElement);
+  // }
 
   generatePiggyBankAtPosition(position: Position) {
     const coin = new PiggyBank(position);
@@ -114,16 +114,16 @@ export class ChessBoard {
     }
   }
 
-  getBackgroundColor(position: [number, number]) {
-    const isEvenColumn = position[0] % 2 === 0;
-    const isEvenRow = position[1] % 2 === 0;
+  // getBackgroundColor(position: [number, number]) {
+  //   const isEvenColumn = position[0] % 2 === 0;
+  //   const isEvenRow = position[1] % 2 === 0;
 
-    if (isEvenRow) {
-      return isEvenColumn ? this.lightSquareColor : this.darkSquareColor;
-    } else {
-      return isEvenColumn ? this.darkSquareColor : this.lightSquareColor;
-    }
-  }
+  //   if (isEvenRow) {
+  //     return isEvenColumn ? this.lightSquareColor : this.darkSquareColor;
+  //   } else {
+  //     return isEvenColumn ? this.darkSquareColor : this.lightSquareColor;
+  //   }
+  // }
 
   createPieceElement(piece: BasePiece): HTMLElement {
     const pieceElement = document.createElement('div');
@@ -158,7 +158,7 @@ export class ChessBoard {
     const centerY =
       (targetSquareElement.clientHeight - element.clientHeight) / 2;
 
-    // Set the moved elemenet's position
+    // Set the moved elemenet's) position
     element.style.left = centerX + 'px';
     element.style.top = centerY + 'px';
   }

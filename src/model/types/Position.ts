@@ -1,4 +1,4 @@
 export type Position = {
-  coordinates: [number, number];
+  coordinates: { x: number, y: number };
   boardId: string;
 };

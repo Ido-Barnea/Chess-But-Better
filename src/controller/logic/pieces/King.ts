@@ -30,7 +30,10 @@ export class King extends BasePiece {
       // Kingside castling
       const kingsideCastlingRookXCoordinate = 7;
       const kingsideRookPosition: Position = {
-        coordinates: [kingsideCastlingRookXCoordinate, rank],
+        coordinates: {
+          x: kingsideCastlingRookXCoordinate,
+          y: rank,
+        },
         boardId: this.position.boardId,
       };
 
@@ -39,7 +42,10 @@ export class King extends BasePiece {
       // Queenside castling
       const queensideCastlingRookXCoordinate = 0;
       const queensideRookPosition: Position = {
-        coordinates: [queensideCastlingRookXCoordinate, rank],
+        coordinates: {
+          x: queensideCastlingRookXCoordinate,
+          y: rank,
+        },
         boardId: this.position.boardId,
       };
 
@@ -48,16 +54,19 @@ export class King extends BasePiece {
   }
 
   isPathClear(start: Position, end: Position): boolean {
-    const deltaX = Math.sign(end.coordinates[0] - start.coordinates[0]);
-    const deltaY = Math.sign(end.coordinates[1] - start.coordinates[1]);
+    const deltaX = Math.sign(end.coordinates.x - start.coordinates.x);
+    const deltaY = Math.sign(end.coordinates.y - start.coordinates.y);
     if (!this.position) return false;
-    let currentX = start.coordinates[0] + deltaX;
-    let currentY = start.coordinates[1] + deltaY;
+    let currentX = start.coordinates.x + deltaX;
+    let currentY = start.coordinates.y + deltaY;
 
-    while (currentX !== end.coordinates[0] || currentY !== end.coordinates[1]) {
+    while (currentX !== end.coordinates.x || currentY !== end.coordinates.y) {
       if (
         getPieceByPosition({
-          coordinates: [currentX, currentY],
+          coordinates: {
+            x: currentX,
+            y: currentY,
+          },
           boardId: this.position.boardId,
         })
       ) {
@@ -70,7 +79,10 @@ export class King extends BasePiece {
 
     if (
       getPieceByPosition({
-        coordinates: [currentX, currentY],
+        coordinates: {
+          x: currentX,
+          y: currentY,
+        },
         boardId: this.position.boardId,
       })
     ) {
@@ -99,13 +111,16 @@ export class King extends BasePiece {
     ];
 
     for (const direction of directions) {
-      const nextX = currentCoordinates[0] + direction.deltaX;
-      const nextY = currentCoordinates[1] + direction.deltaY;
+      const nextX = currentCoordinates.x + direction.deltaX;
+      const nextY = currentCoordinates.y + direction.deltaY;
 
       // Check if the next position is within the board boundaries
       if (nextX >= 0 && nextX < 8 && nextY >= 0 && nextY < 8) {
         const nextPosition: Position = {
-          coordinates: [nextX, nextY],
+          coordinates: {
+            x: nextX,
+            y: nextY,
+          },
           boardId: this.position.boardId,
         };
 
@@ -122,7 +137,10 @@ export class King extends BasePiece {
       // Kingside castling
       if (kingsideRook && !kingsideRook.modifiers.hasMoved) {
         const kingsideTargetPosition: Position = {
-          coordinates: [currentCoordinates[0] + 2, currentCoordinates[1]],
+          coordinates: {
+            x: currentCoordinates.x + 2,
+            y: currentCoordinates.y,
+          },
           boardId: this.position.boardId,
         };
         if (this.isPathClear(this.position, kingsideTargetPosition)) {
@@ -134,7 +152,10 @@ export class King extends BasePiece {
       // Queenside castling
       if (queensideRook && !queensideRook.modifiers.hasMoved) {
         const queensideTargetPosition: Position = {
-          coordinates: [currentCoordinates[0] - 2, currentCoordinates[1]],
+          coordinates: {
+            x: currentCoordinates.x - 2,
+            y: currentCoordinates.y,
+          },
           boardId: this.position.boardId,
         };
         if (this.isPathClear(this.position, queensideTargetPosition)) {
