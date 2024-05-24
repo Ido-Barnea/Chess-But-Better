@@ -18,8 +18,8 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
-        use: ['file-loader?name:[name].[ext]'],
+        test: /\.svg$/,
+        use: ['svg-inline-loader'],
       },
     ],
   },

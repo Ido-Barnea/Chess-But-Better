@@ -101,7 +101,7 @@ export function initializeDraggingListeners(element: HTMLElement) {
     const currentTurnPlayerColor = game
       .getPlayersTurnSwitcher()
       .getCurrentPlayer()
-      .color.toLowerCase();
+      .color;
     const isElementOfCurrentPlayer = element.classList.contains(
       currentTurnPlayerColor,
     );

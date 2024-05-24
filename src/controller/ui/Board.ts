@@ -125,20 +125,20 @@ export class ChessBoard {
   //   }
   // }
 
-  createPieceElement(piece: BasePiece): HTMLElement {
-    const pieceElement = document.createElement('div');
-    pieceElement.classList.add('piece');
-    pieceElement.setAttribute('draggable', 'true');
-    pieceElement.setAttribute('id', piece.resource.name);
+  // createPieceElement(piece: BasePiece): HTMLElement {
+  //   const pieceElement = document.createElement('div');
+  //   pieceElement.classList.add('piece');
+  //   pieceElement.setAttribute('draggable', 'true');
+  //   pieceElement.setAttribute('id', piece.resource.name);
 
-    pieceElement.classList.add(piece.player.color.toLowerCase());
+  //   pieceElement.classList.add(piece.player.color);
 
-    pieceElement.innerHTML = piece.resource.resource;
+  //   pieceElement.innerHTML = piece.resource.resource;
 
-    initializeDraggingListeners(pieceElement);
+  //   initializeDraggingListeners(pieceElement);
 
-    return pieceElement;
-  }
+  //   return pieceElement;
+  // }
 
   createItemElement(item: BaseItem): HTMLElement {
     const itemElement = document.createElement('div');

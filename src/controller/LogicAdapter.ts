@@ -301,12 +301,12 @@ export function changePieceToAnotherPlayer(piece: BasePiece) {
   if (!boardId || !squareId) return;
   const pieceElement = getPieceElementBySquareId(squareId, boardId);
   if (pieceElement) {
-    pieceElement.classList.remove(piece.player.color.toLowerCase());
+    pieceElement.classList.remove(piece.player.color);
     const enemyPlayerColor =
       piece.player.color === PlayerColor.WHITE
         ? PlayerColor.BLACK
         : PlayerColor.WHITE;
-    pieceElement.classList.add(enemyPlayerColor.toLowerCase());
+    pieceElement.classList.add(enemyPlayerColor);
   }
 
   piece.player = game

@@ -27,7 +27,7 @@ export function showUpgradeablePiecesElements(
       const upgradeElement = document.createElement('div');
       upgradeElement.id = upgradeablePiece.resource.name;
       upgradeElement.classList.add('upgraded-piece');
-      upgradeElement.classList.add(upgradeablePiece.player.color.toLowerCase());
+      upgradeElement.classList.add(upgradeablePiece.player.color);
       upgradeElement.innerHTML = upgradeablePiece.resource.resource;
       upgradeElement.addEventListener('click', () => {
         upgradePiece(piece, upgradeablePiece);

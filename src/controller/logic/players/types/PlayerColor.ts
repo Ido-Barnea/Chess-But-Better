@@ -1,4 +1,4 @@
 export enum PlayerColor {
-  WHITE = 'White',
-  BLACK = 'Black',
+  WHITE = 'white',
+  BLACK = 'black',
 }
