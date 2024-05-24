@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LeftColumn = () => {
+export const LeftColumn = () => {
   return (
     <div id="left-column">
       <table id="info-container">
@@ -22,5 +22,3 @@ const LeftColumn = () => {
     </div>
   );
 };
-
-export default LeftColumn;

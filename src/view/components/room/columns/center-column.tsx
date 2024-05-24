@@ -1,7 +1,7 @@
 import React from 'react';
-import BoardsContainer from './BoardsContainer';
+import { BoardsContainer } from '../boards/boards-container';
 
-const CenterColumn = () => {
+export const CenterColumn = () => {
   return (
     <div id="center-column">
       <BoardsContainer />
@@ -9,5 +9,3 @@ const CenterColumn = () => {
     </div>
   );
 };
-
-export default CenterColumn;

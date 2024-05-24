@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BoardsNavigationButtons = () => {
+export const BoardsNavigationButtonsContainer = () => {
   return (
     <div id="boards-buttons-container">
       <button id="board-hell-button" className="disabled" value="board-hell">Hell</button>
@@ -9,5 +9,3 @@ const BoardsNavigationButtons = () => {
     </div>
   );
 };
-
-export default BoardsNavigationButtons;
