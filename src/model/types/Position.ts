@@ -1,4 +1,6 @@
+import { Coordinates } from './Coordinates';
+
 export type Position = {
-  coordinates: { x: number, y: number };
+  coordinates: Coordinates;
   boardId: string;
 };

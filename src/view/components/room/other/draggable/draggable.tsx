@@ -1,19 +1,22 @@
 import React, { PropsWithChildren } from 'react';
 import { useDrag } from 'react-dnd'
+import { DraggableType } from './DraggableType';
+import { Coordinates } from '../../../../../model/types/Coordinates';
 
 interface DraggableProps {
-  name: string;
+  type: DraggableType;
+  coordinates: Coordinates | undefined;
   children: React.ReactElement<HTMLDivElement>;
 }
 
 export const Draggable: React.FC<PropsWithChildren<DraggableProps>> = (props) => {
   const [{ isDragging }, draggedElementRef] = useDrag(() => ({
-    type: 'piece',
-    item: { name: props.name },
+    type: props.type,
+    item: { coordinates: props.coordinates },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }), [props.name]);
+  }), [props.type]);
 
   return React.cloneElement(props.children, {
     ref: draggedElementRef,
