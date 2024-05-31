@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const LeftColumn = () => {
+export const LeftContainer = () => {
   return (
-    <div id="left-column">
+    <div className='left-container'>
       <table id="info-container">
         <tbody>
           <tr>
-            <td id="info-container-round-information" colSpan="3"></td>
+            <td id="info-container-round-information" colSpan={3}></td>
           </tr>
           <tr id="info-container-players"></tr>
         </tbody>

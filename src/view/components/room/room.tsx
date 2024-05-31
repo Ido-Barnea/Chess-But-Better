@@ -1,15 +1,15 @@
 import React from 'react';
 import '../../styles/pages/room.css';
-import { LeftColumn } from './columns/left-column';
-import { CenterColumn } from './columns/center-column';
-import { RightColumn } from './columns/right-column';
+import { LeftContainer } from './containers/left-container';
+import { CenterContainer } from './containers/center-container';
+import { RightContainer } from './containers/right-container';
 
 export const Room = () => {
   return (
     <div>
-      <LeftColumn />
-      <CenterColumn />
-      <RightColumn />
+      <LeftContainer />
+      <CenterContainer />
+      <RightContainer />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import { BoardsNavigationButtonsContainer } from '../boards/boards-navigation-buttons-container';
 
-export const RightColumn = () => {
+export const RightContainer = () => {
   return (
-    <div id="right-column">
+    <div className='right-container'>
       <div id="logs-container"></div>
       <BoardsNavigationButtonsContainer />
     </div>
