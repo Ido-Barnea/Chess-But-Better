@@ -6,6 +6,7 @@ import { Coordinates } from '../../../../../model/types/Coordinates';
 interface DraggableProps {
   type: DraggableType;
   coordinates: Coordinates | undefined;
+  isDraggable: () => boolean;
   children: React.ReactElement<HTMLDivElement>;
 }
 
@@ -16,12 +17,15 @@ export const Draggable: React.FC<PropsWithChildren<DraggableProps>> = (props) =>
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
+    canDrag: props.isDraggable(),
   }), [props.type]);
 
-  return React.cloneElement(props.children, {
+  const draggableProps = props.isDraggable() ? {
     ref: draggedElementRef,
     style: {
       opacity: isDragging ? 0.5 : 1,
     },
-  });
+  } : {};
+
+  return React.cloneElement(props.children, draggableProps);
 };
