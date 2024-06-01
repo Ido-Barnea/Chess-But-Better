@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { useDrop } from 'react-dnd';
-import { DraggableType } from '../other/draggable/DraggableType';
-import { Coordinates } from '../../../../model/types/Coordinates';
+import { DraggableType } from '../../other/draggable/DraggableType';
+import { Coordinates } from '../../../../../model/types/Coordinates';
 
 export interface ISquareContainerProps {
   coordinates: { x: number, y: number };

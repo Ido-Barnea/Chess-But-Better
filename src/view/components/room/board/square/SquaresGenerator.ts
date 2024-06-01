@@ -1,5 +1,5 @@
-import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
-import { Square } from '../../../../model/types/Square';
+import { BasePiece } from '../../../../../model/pieces/abstract/BasePiece';
+import { Square } from '../../../../../model/types/Square';
 
 export const generateSquares = (
   size: number,
