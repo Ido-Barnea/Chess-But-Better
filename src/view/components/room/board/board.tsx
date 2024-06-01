@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { SquareContainer } from './square-container';
-import { generateSquares } from './SquaresGenerator';
 import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
-import { calculateSquareBackgroundColorByCoordinates } from './Utils';
 import { Piece } from '../pieces/piece';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Square } from '../../../../model/types/Square';
 import isEqual from 'lodash/isEqual';
 import { Coordinates } from '../../../../model/types/Coordinates';
+import { calculateSquareBackgroundColorByCoordinates } from './square/Utils';
+import { SquareContainer } from './square/square-container';
+import { generateSquares } from './square/SquaresGenerator';
 
 interface IBoardsProps {
   boardId: string;

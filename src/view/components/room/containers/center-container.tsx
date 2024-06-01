@@ -1,6 +1,6 @@
 import React from 'react';
-import { BoardsContainer } from '../boards/boards-container';
 import { game } from '../../../../controller/Game';
+import { BoardsContainer } from '../board/boards-container';
 
 export const CenterContainer = () => {
   return (

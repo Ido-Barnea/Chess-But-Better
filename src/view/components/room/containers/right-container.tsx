@@ -1,5 +1,5 @@
 import React from 'react';
-import { BoardsNavigationButtonsContainer } from '../boards/boards-navigation-buttons-container';
+import { BoardsNavigationButtonsContainer } from '../board/boards-navigation-buttons-container';
 
 export const RightContainer = () => {
   return (
