@@ -9,7 +9,7 @@ import { Coordinates } from '../../../../model/types/Coordinates';
 import { calculateSquareBackgroundColorByCoordinates } from './square/Utils';
 import { SquareContainer } from './square/square-container';
 import { generateSquares } from './square/SquaresGenerator';
-import { PlayerMoveValidator } from '../../../../controller/logic/validators/PlayerMoveValidator';
+import { PieceMoveValidator } from '../../../../controller/logic/validators/PieceMoveValidator';
 
 interface IBoardsProps {
   boardId: string;
@@ -38,8 +38,8 @@ export const Board: React.FC<IBoardsProps> = ({
     if (pieceToPlace && pieceToPlace.position && endSquareIndex !== -1) {
       const endSquare = squares[endSquareIndex];
 
-      const playerMoveValidator = new PlayerMoveValidator(pieceToPlace, endSquare);
-      if (!playerMoveValidator.validate() || !pieceToPlace.position) return;
+      const pieceMoveValidator = new PieceMoveValidator(pieceToPlace, endSquare);
+      if (!pieceMoveValidator.validate() || !pieceToPlace.position) return;
 
       pieceToPlace.position.boardId = boardId;
       pieceToPlace.position.coordinates = endCoordinates;

@@ -3,7 +3,7 @@ import { movePieceOnBoard } from '../LogicAdapter';
 import { BaseItem } from './items/abstract/Item';
 import { Player } from './players/Player';
 import { MovementLog } from '../ui/logs/Log';
-import { PlayerMoveValidator } from './validators/PlayerMoveValidator';
+import { PieceMoveValidator } from './validators/PieceMoveValidator';
 import { PieceMovementSimulationValidator } from './validators/PieceMovementSimulationValidator';
 import { AttackPieceAction } from './actions/AttackPieceAction';
 import { MovePieceAction } from './actions/MovePieceAction';
@@ -16,7 +16,7 @@ export function onPlayerAction(
   draggedPiece: BasePiece,
   target: BasePiece | Square | BaseItem,
 ) {
-  const playerMoveValidator = new PlayerMoveValidator(draggedPiece, target);
+  const playerMoveValidator = new PieceMoveValidator(draggedPiece, target);
   if (!playerMoveValidator.validate() || !target.position) {
     new RevertPieceMovementAction(draggedPiece).execute();
     return;

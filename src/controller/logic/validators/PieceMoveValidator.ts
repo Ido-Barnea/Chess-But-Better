@@ -5,7 +5,7 @@ import { comparePositions } from '../Utilities';
 import { BaseItem } from '../items/abstract/Item';
 import { Validator } from './abstract/Validator';
 
-export class PlayerMoveValidator implements Validator {
+export class PieceMoveValidator implements Validator {
   private _draggedPiece: BasePiece;
   private _draggedToTarget: BasePiece | Square | BaseItem;
 
