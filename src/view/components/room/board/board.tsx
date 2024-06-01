@@ -9,6 +9,7 @@ import { Coordinates } from '../../../../model/types/Coordinates';
 import { calculateSquareBackgroundColorByCoordinates } from './square/Utils';
 import { SquareContainer } from './square/square-container';
 import { generateSquares } from './square/SquaresGenerator';
+import { PlayerMoveValidator } from '../../../../controller/logic/validators/PlayerMoveValidator';
 
 interface IBoardsProps {
   boardId: string;
@@ -29,25 +30,28 @@ export const Board: React.FC<IBoardsProps> = ({
 }) => {
   const [squares, setSquares] = useState<Array<Square>>(generateSquares(size, boardId, pieces || []));
 
-  const handleItemPlaced = (startCoordinates: Coordinates | undefined, endCoordinates: Coordinates) => {
+  const handlePiecePlaced = (startCoordinates: Coordinates | undefined, endCoordinates: Coordinates) => {
     const pieceToPlace = pieces?.find(piece => isEqual(piece.position?.coordinates, startCoordinates)); 
     const startSquareIndex = squares.findIndex(square => isEqual(square.position?.coordinates, startCoordinates));
     const endSquareIndex = squares.findIndex(square => isEqual(square.position?.coordinates, endCoordinates));
     
     if (pieceToPlace && pieceToPlace.position && endSquareIndex !== -1) {
+      const endSquare = squares[endSquareIndex];
+
+      const playerMoveValidator = new PlayerMoveValidator(pieceToPlace, endSquare);
+      if (!playerMoveValidator.validate() || !pieceToPlace.position) return;
+
       pieceToPlace.position.boardId = boardId;
       pieceToPlace.position.coordinates = endCoordinates;
 
-      const startSquare = squares[endSquareIndex];
-      startSquare.occupant = pieceToPlace;
+      endSquare.occupant = pieceToPlace;
 
       if (startSquareIndex !== -1) {
-        const endSquare = squares[startSquareIndex];
-        endSquare.occupant = undefined;
+        const startSquare = squares[startSquareIndex];
+        startSquare.occupant = undefined;
       }
 
       const updatedSquares = [...squares];
-      updatedSquares[endSquareIndex] = startSquare;
       setSquares(updatedSquares);
     }
   };
@@ -68,7 +72,7 @@ export const Board: React.FC<IBoardsProps> = ({
                 key={ `${square.position.coordinates.x},${square.position.coordinates.y}` }
                 coordinates={ square.position.coordinates }
                 backgroundColor={backgroundColor}
-                onPiecePlaced={handleItemPlaced}>
+                onPiecePlaced={handlePiecePlaced}>
                   {
                     square.occupant && (
                       <Piece piece={square.occupant} />
