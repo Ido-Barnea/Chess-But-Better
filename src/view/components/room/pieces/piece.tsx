@@ -2,7 +2,7 @@ import React from 'react';
 import { Draggable } from '../other/draggable/draggable';
 import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
 import { DraggableType } from '../other/draggable/DraggableType';
-import { game } from '../../../../controller/Game';
+import { game } from '../../../../controller-legacy/Game';
 
 export interface IPieceProps {
   piece: BasePiece;

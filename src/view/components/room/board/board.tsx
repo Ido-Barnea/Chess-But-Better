@@ -4,17 +4,21 @@ import { Piece } from '../pieces/piece';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Square } from '../../../../model/types/Square';
-import isEqual from 'lodash/isEqual';
+import { isEqual } from 'lodash';
 import { Coordinates } from '../../../../model/types/Coordinates';
 import { calculateSquareBackgroundColorByCoordinates } from './square/Utils';
 import { SquareContainer } from './square/square-container';
 import { generateSquares } from './square/SquaresGenerator';
-import { PieceMoveValidator } from '../../../../controller/logic/validators/PieceMoveValidator';
+import { PieceMoveValidator } from '../../../../controller/validators/PieceMoveValidator';
+import { PlayerMovesValidator } from '../../../../controller/validators/PlayerMovesValidator';
+import { ValidatorChain } from '../../../../controller/validators/ValidatorChain';
+import { IMovesCounter } from '../../../../controller/moves counter/abstract/IMovesCounter';
 
 interface IBoardsProps {
   boardId: string;
   lightSquareColor: string;
   darkSquareColor: string;
+  movesCounter: IMovesCounter;
   pieces?: Array<BasePiece>,
   isCollapsed?: boolean;
   size?: number;
@@ -24,6 +28,7 @@ export const Board: React.FC<IBoardsProps> = ({
   boardId,
   lightSquareColor,
   darkSquareColor,
+  movesCounter,
   pieces=[],
   isCollapsed=true,
   size=8,
@@ -35,11 +40,15 @@ export const Board: React.FC<IBoardsProps> = ({
     const startSquareIndex = squares.findIndex(square => isEqual(square.position?.coordinates, startCoordinates));
     const endSquareIndex = squares.findIndex(square => isEqual(square.position?.coordinates, endCoordinates));
     
-    if (pieceToPlace && pieceToPlace.position && endSquareIndex !== -1) {
+    if (pieceToPlace && endSquareIndex !== -1) {
       const endSquare = squares[endSquareIndex];
 
-      const pieceMoveValidator = new PieceMoveValidator(pieceToPlace, endSquare);
-      if (!pieceMoveValidator.validate() || !pieceToPlace.position) return;
+      const validators = new ValidatorChain(
+        new PieceMoveValidator(pieceToPlace, endSquare),
+        new PlayerMovesValidator(pieceToPlace, movesCounter),
+      );
+
+      if (!validators.validate() || !pieceToPlace.position) return;
 
       pieceToPlace.position.boardId = boardId;
       pieceToPlace.position.coordinates = endCoordinates;

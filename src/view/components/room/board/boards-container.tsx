@@ -1,12 +1,14 @@
 import React from 'react';
 import { Board } from './board';
 import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
+import { IMovesCounter } from '../../../../controller/moves counter/abstract/IMovesCounter';
 
 interface IBoardsContainerProps {
   pieces: Array<BasePiece>;
+  movesCounter: IMovesCounter;
 }
 
-export const BoardsContainer: React.FC<IBoardsContainerProps> = ({ pieces }) => {
+export const BoardsContainer: React.FC<IBoardsContainerProps> = (props) => {
   const LIGHT_OVERWORLD_SQUARE_COLOR = 'beige-background';
   const DARK_OVERWORLD_SQUARE_COLOR = 'brown-background';
   const LIGHT_HELL_SQUARE_COLOR = 'dark-orange-background';
@@ -23,16 +25,19 @@ export const BoardsContainer: React.FC<IBoardsContainerProps> = ({ pieces }) => 
         boardId="board-overworld"
         lightSquareColor={LIGHT_OVERWORLD_SQUARE_COLOR}
         darkSquareColor={DARK_OVERWORLD_SQUARE_COLOR}
-        pieces={pieces}
+        movesCounter={props.movesCounter}
+        pieces={props.pieces}
         isCollapsed={false} />
       <Board
         boardId="board-hell"
         lightSquareColor={LIGHT_HELL_SQUARE_COLOR}
-        darkSquareColor={DARK_HELL_SQUARE_COLOR} />
+        darkSquareColor={DARK_HELL_SQUARE_COLOR}
+        movesCounter={props.movesCounter} />
       <Board
         boardId="board-heaven"
         lightSquareColor={LIGHT_HEAVEN_SQUARE_COLOR}
-        darkSquareColor={DARK_HEAVEN_SQUARE_COLOR} />
+        darkSquareColor={DARK_HEAVEN_SQUARE_COLOR}
+        movesCounter={props.movesCounter} />
     </div>
   );
 };

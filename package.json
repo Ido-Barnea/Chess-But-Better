@@ -37,6 +37,7 @@
     "@nx/linter": "17.2.7",
     "@nx/workspace": "16.10.0",
     "@types/jest": "^29.5.11",
+    "@types/lodash": "^4.17.4",
     "@types/node": "18.7.1",
     "@types/react": "^18.3.3",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
