@@ -1,9 +1,9 @@
 import React from 'react';
-import { Room } from './components/room/room';
+import { Bootstrap } from './components/room/bootstrapper';
 
 function App() {
   return (
-    <Room />
+    <Bootstrap />
   );
 }
 

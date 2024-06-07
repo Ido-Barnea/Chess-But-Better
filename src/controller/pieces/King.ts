@@ -1,17 +1,20 @@
-import { kingResource } from '../../ui/Resources';
-import { Player } from '../players/Player';
-import { getPieceByPosition } from '../Utilities';
+import { kingResource } from '../../view/resources/Resources';
+import { Player } from '../game state/storages/players storage/Player';
 import { Rook } from './Rook';
-import { game } from '../../Game';
-import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { Position } from '../../../model/types/Position';
-import { PieceResource } from '../../../model/pieces/PieceResource';
-import { PieceStats } from '../../../model/pieces/PieceStats';
-import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
+import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { Position } from '../../model/types/Position';
+import { PieceResource } from '../../model/pieces/PieceResource';
+import { PieceStats } from '../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../model/pieces/PieceModifiers';
+import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { isEqual } from 'lodash';
+import { ICastlingSwitcher } from '../game state/switchers/castling switcher/abstract/ICastlingSwitcher';
 
 export class King extends BasePiece {
-  constructor(player: Player, position?: Position) {
+  private castlingSwitcher: ICastlingSwitcher;
+
+  constructor(player: Player, castlingSwitcher: ICastlingSwitcher, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♔' : '♚';
     super(
       new PieceResource(kingResource, icon, 'King'),
@@ -20,9 +23,11 @@ export class King extends BasePiece {
       player,
       position,
     );
+
+    this.castlingSwitcher = castlingSwitcher;
   }
 
-  getRookForCastling(player: Player, kingside: boolean): Rook | undefined {
+  getRookForCastling(player: Player, kingside: boolean, piecesStorage: IPiecesStorage): Rook | undefined {
     const rank = player.color === PlayerColor.WHITE ? 7 : 0;
     if (!this.position) return;
 
@@ -37,7 +42,8 @@ export class King extends BasePiece {
         boardId: this.position.boardId,
       };
 
-      return getPieceByPosition(kingsideRookPosition) as Rook | undefined;
+      const validRooks = piecesStorage.getPieces((piece) => isEqual(piece.position, kingsideRookPosition));
+      return validRooks ? validRooks[0] as Rook : undefined;
     } else {
       // Queenside castling
       const queensideCastlingRookXCoordinate = 0;
@@ -49,11 +55,21 @@ export class King extends BasePiece {
         boardId: this.position.boardId,
       };
 
-      return getPieceByPosition(queensideRookPosition) as Rook | undefined;
+      const validRooks = piecesStorage.getPieces((piece) => isEqual(piece.position, queensideRookPosition));
+      return validRooks ? validRooks[0] as Rook : undefined;
     }
   }
 
-  isPathClear(start: Position, end: Position): boolean {
+  private validatePosition(x: number, y: number, boardId: string, piecesStorage: IPiecesStorage): boolean {
+    const currentPosition: Position = {
+      coordinates: { x, y },
+      boardId,
+    };
+
+    return !(piecesStorage.getPieces((piece) => isEqual(piece.position, currentPosition)));
+  }
+
+  isPathClear(start: Position, end: Position, piecesStorage: IPiecesStorage): boolean {
     const deltaX = Math.sign(end.coordinates.x - start.coordinates.x);
     const deltaY = Math.sign(end.coordinates.y - start.coordinates.y);
     if (!this.position) return false;
@@ -61,15 +77,7 @@ export class King extends BasePiece {
     let currentY = start.coordinates.y + deltaY;
 
     while (currentX !== end.coordinates.x || currentY !== end.coordinates.y) {
-      if (
-        getPieceByPosition({
-          coordinates: {
-            x: currentX,
-            y: currentY,
-          },
-          boardId: this.position.boardId,
-        })
-      ) {
+      if (this.validatePosition(currentX, currentY, this.position.boardId, piecesStorage)) {
         return false;
       }
 
@@ -77,22 +85,14 @@ export class King extends BasePiece {
       currentY += deltaY;
     }
 
-    if (
-      getPieceByPosition({
-        coordinates: {
-          x: currentX,
-          y: currentY,
-        },
-        boardId: this.position.boardId,
-      })
-    ) {
+    if (this.validatePosition(currentX, currentY, this.position.boardId, piecesStorage)) {
       return false;
     }
 
     return true;
   }
 
-  getLegalMoves(): Array<Position> {
+  getLegalMoves(piecesStorage: IPiecesStorage): Array<Position> {
     if (!this.position) return [];
 
     const validMoves: Array<Position> = [];
@@ -131,8 +131,8 @@ export class King extends BasePiece {
 
     // Check for castling
     if (!this.modifiers.hasMoved) {
-      const kingsideRook = this.getRookForCastling(this.player, true);
-      const queensideRook = this.getRookForCastling(this.player, false);
+      const kingsideRook = this.getRookForCastling(this.player, true, piecesStorage);
+      const queensideRook = this.getRookForCastling(this.player, false, piecesStorage);
 
       // Kingside castling
       if (kingsideRook && !kingsideRook.modifiers.hasMoved) {
@@ -143,8 +143,8 @@ export class King extends BasePiece {
           },
           boardId: this.position.boardId,
         };
-        if (this.isPathClear(this.position, kingsideTargetPosition)) {
-          game.switchIsCastling();
+        if (this.isPathClear(this.position, kingsideTargetPosition, piecesStorage)) {
+          this.castlingSwitcher.switchIsCastling();
           validMoves.push(kingsideTargetPosition);
         }
       }
@@ -158,8 +158,8 @@ export class King extends BasePiece {
           },
           boardId: this.position.boardId,
         };
-        if (this.isPathClear(this.position, queensideTargetPosition)) {
-          game.switchIsCastling();
+        if (this.isPathClear(this.position, queensideTargetPosition, piecesStorage)) {
+          this.castlingSwitcher.switchIsCastling();
           validMoves.push(queensideTargetPosition);
         }
       }

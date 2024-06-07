@@ -5,10 +5,10 @@ import {
   OVERWORLD_BOARD_ID,
 } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
-import { Player } from '../players/Player';
+import { Player } from '../game state/storages/players storage/Player';
 import { Pawn } from './Pawn';
 import { DoubleQueen } from './DoubleQueen';
-import { PlayerColor } from '../players/types/PlayerColor';
+import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../../../model/types/Position';
 

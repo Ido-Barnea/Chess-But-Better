@@ -1,4 +1,4 @@
-export interface Rule {
+export interface IRule {
   description: string;
   isRevealed: boolean;
   condition: () => boolean;

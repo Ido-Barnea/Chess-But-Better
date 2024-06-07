@@ -13,12 +13,16 @@ import { PieceMoveValidator } from '../../../../controller/validators/PieceMoveV
 import { PlayerMovesValidator } from '../../../../controller/validators/PlayerMovesValidator';
 import { ValidatorChain } from '../../../../controller/validators/ValidatorChain';
 import { IMovesCounter } from '../../../../controller/moves counter/abstract/IMovesCounter';
+import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 
 interface IBoardsProps {
   boardId: string;
   lightSquareColor: string;
   darkSquareColor: string;
-  movesCounter: IMovesCounter;
+  tools: {
+    movesCounter: IMovesCounter,
+    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier
+  }
   pieces?: Array<BasePiece>,
   isCollapsed?: boolean;
   size?: number;
@@ -28,7 +32,7 @@ export const Board: React.FC<IBoardsProps> = ({
   boardId,
   lightSquareColor,
   darkSquareColor,
-  movesCounter,
+  tools,
   pieces=[],
   isCollapsed=true,
   size=8,
@@ -45,7 +49,7 @@ export const Board: React.FC<IBoardsProps> = ({
 
       const validators = new ValidatorChain(
         new PieceMoveValidator(pieceToPlace, endSquare),
-        new PlayerMovesValidator(pieceToPlace, movesCounter),
+        new PlayerMovesValidator(pieceToPlace, tools.movesCounter),
       );
 
       if (!validators.validate() || !pieceToPlace.position) return;
@@ -62,6 +66,8 @@ export const Board: React.FC<IBoardsProps> = ({
 
       const updatedSquares = [...squares];
       setSquares(updatedSquares);
+
+      tools.endOfMoveHandlersNotifier.notifyHandlers();
     }
   };
 

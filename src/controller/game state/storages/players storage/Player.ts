@@ -1,4 +1,4 @@
-import { ItemsHolder } from '../inventory/abstract/ItemsHolder';
+import { ItemsHolder } from '../../../inventory/abstract/ItemsHolder';
 import { PlayerColor } from './types/PlayerColor';
 
 export class Player {

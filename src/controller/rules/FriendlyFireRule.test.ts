@@ -1,8 +1,8 @@
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Queen } from '../pieces/Queen';
-import { PlayerColor } from '../players/types/PlayerColor';
-import { Player } from '../players/Player';
+import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { Player } from '../game state/storages/players storage/Player';
 import { Pawn } from '../pieces/Pawn';
 import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { AttackPieceAction } from '../actions/AttackPieceAction';

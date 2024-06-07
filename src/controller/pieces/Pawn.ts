@@ -1,20 +1,23 @@
-import { pawnResource } from '../../ui/Resources';
-import { Player } from '../players/Player';
-import { game } from '../../Game';
-import { comparePositions, getPieceByPosition } from '../Utilities';
-import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { Position } from '../../../model/types/Position';
-import { PieceResource } from '../../../model/pieces/PieceResource';
-import { PieceStats } from '../../../model/pieces/PieceStats';
-import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
+import { pawnResource } from '../../view/resources/Resources';
+import { Player } from '../game state/storages/players storage/Player';
+import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { Position } from '../../model/types/Position';
+import { PieceResource } from '../../model/pieces/PieceResource';
+import { PieceStats } from '../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../model/pieces/PieceModifiers';
+import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { isEqual } from 'lodash';
+import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
 
 export class Pawn extends BasePiece {
-  possibleEnPassantPositions: [Position, Position] | undefined;
-  isInitialDoubleStep: boolean;
-  diagonalAttackPosition: Position | undefined;
+  private turnSwitcher: ITurnSwitcher;
+  
+  public possibleEnPassantPositions: [Position, Position] | undefined;
+  public isInitialDoubleStep: boolean;
+  public diagonalAttackPosition: Position | undefined;
 
-  constructor(player: Player, position?: Position) {
+  constructor(player: Player, turnSwitcher: ITurnSwitcher, position?: Position) {
     const icon = player.color === PlayerColor.WHITE ? '♙' : '♟';
     super(
       new PieceResource(pawnResource, icon, 'Pawn'),
@@ -27,20 +30,19 @@ export class Pawn extends BasePiece {
     this.possibleEnPassantPositions = undefined;
     this.isInitialDoubleStep = false;
     this.diagonalAttackPosition = undefined;
+
+    this.turnSwitcher = turnSwitcher;
   }
 
-  getEnPassantPiece(targetPosition: Position): BasePiece | undefined {
-    const pawns = game.getPieces().filter((piece) => {
+  getEnPassantPiece(targetPosition: Position, piecesStorage: IPiecesStorage): BasePiece | undefined {
+    const pawns = piecesStorage.getPieces((piece) => {
       return piece instanceof Pawn && piece !== this;
     }) as Array<Pawn>;
     if (!pawns.length) return;
 
     const enPassantPawns = pawns.filter((pawn) => {
       if (pawn.isInitialDoubleStep && pawn.possibleEnPassantPositions) {
-        return comparePositions(
-          pawn.possibleEnPassantPositions[0],
-          targetPosition,
-        );
+        return isEqual(pawn.possibleEnPassantPositions[0], targetPosition);
       }
     });
     if (!enPassantPawns.length) return;
@@ -48,12 +50,12 @@ export class Pawn extends BasePiece {
     return enPassantPawns[0];
   }
 
-  getLegalMoves(): Array<Position> {
+  getLegalMoves(piecesStorage: IPiecesStorage): Array<Position> {
     if (!this.position) return [];
 
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
-    const currentPlayer = game.getPlayersTurnSwitcher().getCurrentPlayer();
+    const currentPlayer = this.turnSwitcher.getCurrentPlayer();
 
     // Determine the direction of pawn movement based on the player's color
     const stepY = currentPlayer.color === PlayerColor.WHITE ? -1 : 1;
@@ -67,7 +69,7 @@ export class Pawn extends BasePiece {
       boardId: this.position.boardId,
     };
 
-    if (!getPieceByPosition(oneSquareForward)) {
+    if (!piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))) {
       validMoves.push(oneSquareForward);
 
       // Check two squares forward for the initial move
@@ -81,8 +83,8 @@ export class Pawn extends BasePiece {
         };
 
         if (
-          !getPieceByPosition(twoSquaresForward) &&
-          !getPieceByPosition(oneSquareForward)
+          !piecesStorage.getPieces((piece) => isEqual(piece.position, twoSquaresForward)) &&
+          !piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))
         ) {
           this.possibleEnPassantPositions = [
             oneSquareForward,
@@ -111,16 +113,16 @@ export class Pawn extends BasePiece {
     };
 
     if (
-      getPieceByPosition(leftDiagonal) ||
-      this.getEnPassantPiece(leftDiagonal)
+      piecesStorage.getPieces((piece) => isEqual(piece.position, leftDiagonal)) ||
+      this.getEnPassantPiece(leftDiagonal, piecesStorage)
     ) {
       this.diagonalAttackPosition = leftDiagonal;
       validMoves.push(leftDiagonal);
     }
 
     if (
-      getPieceByPosition(rightDiagonal) ||
-      this.getEnPassantPiece(rightDiagonal)
+      piecesStorage.getPieces((piece) => isEqual(piece.position, rightDiagonal)) ||
+      this.getEnPassantPiece(rightDiagonal, piecesStorage)
     ) {
       this.diagonalAttackPosition = rightDiagonal;
       validMoves.push(rightDiagonal);

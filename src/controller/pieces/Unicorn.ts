@@ -1,11 +1,12 @@
-import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
-import { PieceResource } from '../../../model/pieces/PieceResource';
-import { PieceStats } from '../../../model/pieces/PieceStats';
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { Position } from '../../../model/types/Position';
-import { unicornResource } from '../../ui/Resources';
-import { getPieceByPosition } from '../Utilities';
-import { Player } from '../players/Player';
+import { unicornResource } from '../../view/resources/Resources';
+import { PieceModifiers } from '../../model/pieces/PieceModifiers';
+import { PieceResource } from '../../model/pieces/PieceResource';
+import { PieceStats } from '../../model/pieces/PieceStats';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { Position } from '../../model/types/Position';
+import { Player } from '../game state/storages/players storage/Player';
+import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { isEqual } from 'lodash';
 
 export class Unicorn extends BasePiece {
   constructor(player: Player, position?: Position) {
@@ -18,7 +19,7 @@ export class Unicorn extends BasePiece {
     );
   }
 
-  getAttackablePieces(): Array<BasePiece> {
+  getAttackablePieces(piecesStorage: IPiecesStorage): Array<BasePiece> {
     if (!this.position) return [];
 
     const currentCoordinates = this.position.coordinates;
@@ -47,9 +48,9 @@ export class Unicorn extends BasePiece {
         boardId: this.position.boardId,
       };
 
-      const targetPiece = getPieceByPosition(targetPosition);
+      const targetPiece = piecesStorage.getPieces((piece) => isEqual(piece.position, targetPosition));
       if (targetPiece) {
-        attackablePieces.push(targetPiece);
+        attackablePieces.push(targetPiece[0]);
       }
     }
 

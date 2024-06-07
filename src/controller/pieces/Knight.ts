@@ -1,12 +1,12 @@
-import { knightResource } from '../../ui/Resources';
-import { Player } from '../players/Player';
+import { knightResource } from '../../view/resources/Resources';
+import { Player } from '../game state/storages/players storage/Player';
 import { Unicorn } from './Unicorn';
-import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { Position } from '../../../model/types/Position';
-import { PieceResource } from '../../../model/pieces/PieceResource';
-import { PieceStats } from '../../../model/pieces/PieceStats';
-import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
+import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { Position } from '../../model/types/Position';
+import { PieceResource } from '../../model/pieces/PieceResource';
+import { PieceStats } from '../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../model/pieces/PieceModifiers';
 
 export class Knight extends BasePiece {
   constructor(player: Player, position?: Position) {

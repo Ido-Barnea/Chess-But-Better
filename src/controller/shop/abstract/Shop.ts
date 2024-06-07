@@ -1,5 +1,5 @@
 import { BaseItem } from '../../items/abstract/Item';
-import { Player } from '../../players/Player';
+import { Player } from '../../game state/storages/players storage/Player';
 import { ShopActionResult } from '../types/ShopActionResult';
 
 export interface Shop {

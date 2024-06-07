@@ -1,4 +1,4 @@
-import { INVENTORY_WIDTH } from '../../Constants';
+import { INVENTORY_WIDTH } from '../../controller/Constants';
 import { BaseItem } from '../items/abstract/Item';
 import { ItemsHolder } from './abstract/ItemsHolder';
 import { InventoryActionResult } from './types/InventoryActionResult';

@@ -1,11 +1,12 @@
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
-import { PieceResource } from '../../../model/pieces/PieceResource';
-import { PieceStats } from '../../../model/pieces/PieceStats';
-import { Position } from '../../../model/types/Position';
-import { golemResource } from '../../ui/Resources';
-import { Player } from '../players/Player';
-import { getPieceByPosition } from '../Utilities';
+import { golemResource } from '../../view/resources/Resources';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { PieceModifiers } from '../../model/pieces/PieceModifiers';
+import { PieceResource } from '../../model/pieces/PieceResource';
+import { PieceStats } from '../../model/pieces/PieceStats';
+import { Position } from '../../model/types/Position';
+import { Player } from '../game state/storages/players storage/Player';
+import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { isEqual } from 'lodash';
 
 export class Golem extends BasePiece {
   constructor(player: Player, position?: Position) {
@@ -18,7 +19,7 @@ export class Golem extends BasePiece {
     );
   }
 
-  getLegalMoves(): Array<Position> {
+  getLegalMoves(piecesStorage: IPiecesStorage): Array<Position> {
     if (!this.position) return [];
 
     const validMoves: Array<Position> = [];
@@ -61,7 +62,7 @@ export class Golem extends BasePiece {
         validMoves.push(nextPosition);
 
         // If the move encounters another piece, stop iterating in this direction
-        if (getPieceByPosition(nextPosition)) {
+        if (piecesStorage.getPieces((piece) => isEqual(piece.position, nextPosition))) {
           break;
         }
 

@@ -1,21 +1,27 @@
-import { game } from '../../Game';
-import { RuleLog } from '../../ui/logs/Log';
+// import { RuleLog } from '../../ui/logs/Log';
+import { IDeathsCounter } from '../game state/counters/deaths counter/abstract/IDeathsCounter';
+import { IKillerPieceSwitcher } from '../game state/switchers/killer piece switcher/abstract/IKillerPieceSwitcher';
+import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
 import { BaseRule } from './abstract/BaseRule';
 
 export class FirstBloodRule extends BaseRule {
-  constructor(isRevealed = false) {
+  constructor(
+    turnSwitcher: ITurnSwitcher,
+    deathsCounter: IDeathsCounter,
+    killerPieceSwitcher: IKillerPieceSwitcher,
+    isRevealed = false
+  ) {
     const description =
       'First Blood Bonus: The first to kill gets an extra XP.';
-    const condition = () =>
-      game.getDeathCounter() == 1 && !!game.getKillerPiece();
+    const condition = () => deathsCounter.getCount() == 1 && !!killerPieceSwitcher.getKillerPiece();
     const onTrigger = () => {
-      const player = game.getPlayersTurnSwitcher().getCurrentPlayer();
-      new RuleLog(
-        `${player.color} has made First Blood and received a bonus.`,
-      ).addToQueue();
+      const player = turnSwitcher.getCurrentPlayer();
+      // new RuleLog(
+      //   `${player.color} has made First Blood and received a bonus.`,
+      // ).addToQueue();
       player.xp++;
     };
 
-    super(description, isRevealed, condition, onTrigger);
+    super(description, isRevealed, condition, onTrigger, turnSwitcher);
   }
 }

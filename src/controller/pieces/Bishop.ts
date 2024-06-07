@@ -1,12 +1,13 @@
-import { bishopResource } from '../../ui/Resources';
-import { Player } from '../players/Player';
-import { getPieceByPosition } from '../Utilities';
-import { PlayerColor } from '../players/types/PlayerColor';
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { Position } from '../../../model/types/Position';
-import { PieceResource } from '../../../model/pieces/PieceResource';
-import { PieceStats } from '../../../model/pieces/PieceStats';
-import { PieceModifiers } from '../../../model/pieces/PieceModifiers';
+import { bishopResource } from '../../view/resources/Resources';
+import { Player } from '../game state/storages/players storage/Player';
+import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { Position } from '../../model/types/Position';
+import { PieceResource } from '../../model/pieces/PieceResource';
+import { PieceStats } from '../../model/pieces/PieceStats';
+import { PieceModifiers } from '../../model/pieces/PieceModifiers';
+import { isEqual } from 'lodash';
+import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
 
 export class Bishop extends BasePiece {
   constructor(player: Player, position?: Position) {
@@ -20,7 +21,7 @@ export class Bishop extends BasePiece {
     );
   }
 
-  getLegalMoves(): Array<Position> {
+  getLegalMoves(piecesStorage: IPiecesStorage): Array<Position> {
     if (!this.position) return [];
 
     const validMoves: Array<Position> = [];
@@ -60,7 +61,7 @@ export class Bishop extends BasePiece {
         validMoves.push(nextPosition);
 
         // If the move encounters another piece, stop iterating in this direction
-        if (getPieceByPosition(nextPosition)) {
+        if (piecesStorage.getPieces((piece) => isEqual(piece.position, nextPosition))) {
           break;
         }
 
