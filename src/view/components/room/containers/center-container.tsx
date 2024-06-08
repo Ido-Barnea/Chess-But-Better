@@ -2,7 +2,8 @@ import React from 'react';
 import { game } from '../../../../controller-legacy/Game';
 import { BoardsContainer } from '../board/boards-container';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
-import { IMovesCounter } from '../../../../controller/moves counter/abstract/IMovesCounter';
+import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
+import { Box } from '@mui/material';
 
 interface CenterContainerProps {
   tools: {
@@ -13,9 +14,9 @@ interface CenterContainerProps {
 
 export const CenterContainer: React.FC<CenterContainerProps> = (props) => {
   return (
-    <div className='center-container'>
+    <Box className='center-container'>
       <BoardsContainer pieces={game.getPieces()} tools={props.tools} />
-      <div id="unicorn-attack" className="collapsed ability"></div>
-    </div>
+      <Box id="unicorn-attack" className="collapsed ability"></Box>
+    </Box>
   );
 };

@@ -130,11 +130,13 @@ export class Bootstrapper {
 
   getTools(): {
     movesCounter: IMovesCounter,
-    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier
+    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
+    turnSwitcher: ITurnSwitcher,
   } {
     return {
       movesCounter: this.movesCounter,
       endOfMoveHandlersNotifier: this.endOfMoveHandlersNotifier,
+      turnSwitcher: this.turnSwitcher,
     }
   }
 }

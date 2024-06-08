@@ -3,11 +3,13 @@ import { Room } from './room';
 import { Bootstrapper } from '../../../controller/Bootstrapper';
 import { IEndOfMoveHandlersNotifier } from '../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 import { IMovesCounter } from '../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
+import { ITurnSwitcher } from '../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
 
 export const Bootstrap = () => {
   const [tools, setTools] = useState<{
     movesCounter: IMovesCounter,
-    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier
+    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
+    turnSwitcher: ITurnSwitcher,
   } | undefined>();
 
   useEffect(() => {

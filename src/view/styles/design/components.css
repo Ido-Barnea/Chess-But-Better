@@ -99,13 +99,6 @@
   z-index: 100;
 }
 
-#info-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 5%;
-}
-
 .vertical-line {
   position: relative;
   border-left: 2px solid white;
@@ -122,10 +115,6 @@
 .players-information {
   padding-inline: 32px;
   position: relative;
-}
-
-#info-container-round-counter {
-  text-align: center;
 }
 
 #logs-container {

@@ -6,11 +6,13 @@ import { RightContainer } from './containers/right-container';
 import { IEndOfMoveHandlersNotifier } from '../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 import { IMovesCounter } from '../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 import { Grid } from '@mui/material';
+import { ITurnSwitcher } from '../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
 
 interface RoomProps {
   tools: {
     movesCounter: IMovesCounter,
-    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier
+    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
+    turnSwitcher: ITurnSwitcher,
   }
 }
 
@@ -18,7 +20,7 @@ export const Room: React.FC<RoomProps> = (props) => {
   return (
     <Grid container style={{ display: 'flex', width: '100vw' }}>
       <Grid item xs={12} sm={3}>
-        <LeftContainer />
+        <LeftContainer turnSwitcher={props.tools.turnSwitcher} />
       </Grid>
       <Grid item xs={12} sm={6}>
         <CenterContainer tools={props.tools} />
