@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Room } from './room';
 import { Bootstrapper } from '../../../controller/Bootstrapper';
 import { IEndOfMoveHandlersNotifier } from '../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
-import { IMovesCounter } from '../../../controller/moves counter/abstract/IMovesCounter';
+import { IMovesCounter } from '../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 
 export const Bootstrap = () => {
   const [tools, setTools] = useState<{
