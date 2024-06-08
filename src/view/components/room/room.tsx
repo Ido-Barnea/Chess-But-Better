@@ -19,13 +19,13 @@ interface RoomProps {
 export const Room: React.FC<RoomProps> = (props) => {
   return (
     <Grid container style={{ display: 'flex', width: '100vw' }}>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={3.25}>
         <LeftContainer turnSwitcher={props.tools.turnSwitcher} />
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={5.5}>
         <CenterContainer tools={props.tools} />
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={3.25}>
         <RightContainer />
       </Grid>
     </Grid>
