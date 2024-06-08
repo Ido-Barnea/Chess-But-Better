@@ -2,7 +2,7 @@ import React from 'react';
 import { Board } from './board';
 import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
-import { IMovesCounter } from '../../../../controller/moves counter/abstract/IMovesCounter';
+import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 
 interface IBoardsContainerProps {
   pieces: Array<BasePiece>;
