@@ -41,6 +41,7 @@ import { DeathsCounter } from './game state/counters/deaths counter/DeathsCounte
 import { IDeathsCounter } from './game state/counters/deaths counter/abstract/IDeathsCounter';
 import { IFellOffTheBoardPieceSwitcher } from './game state/switchers/fell off the board piece switcher/abstract/IFellOffTheBoardPieceSwitcher';
 import { FellOffTheBoardPieceSwitcher } from './game state/switchers/fell off the board piece switcher/FellOffTheBoardPieceSwitcher';
+import { TurnSwitcherHandler } from './handlers/TurnSwitcherHandler';
 
 export class Bootstrapper {
   private whitePlayer: Player;
@@ -123,6 +124,7 @@ export class Bootstrapper {
     this.movesCounter = new MovesCounter();
 
     this.endOfMoveHandlersNotifier = new EndOfMoveHandlersNotifier();
+    this.endOfMoveHandlersNotifier.addHandler(new TurnSwitcherHandler(this.turnSwitcher));
     this.endOfMoveHandlersNotifier.addHandler(new RulesManagerHandler(this.secretRulesManager));
     this.endOfMoveHandlersNotifier.addHandler(new MoveCountHandler(this.movesCounter));
     this.endOfMoveHandlersNotifier.addHandler(new PawnPromotionHandler(this.piecesStorage));

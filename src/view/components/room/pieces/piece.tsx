@@ -1,25 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Draggable } from '../other/draggable/draggable';
 import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
 import { DraggableType } from '../other/draggable/DraggableType';
-import { game } from '../../../../controller-legacy/Game';
+import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
 
 export interface IPieceProps {
   piece: BasePiece;
+  turnSwitcher: ITurnSwitcher;
 }
 
 export const Piece: React.FC<IPieceProps> = (props) => {
   const svgMarkup = { __html: props.piece.resource.resource };
 
-  const isPieceDraggable = () => {
-    const currentTurnPlayerColor = game
-      .getPlayersTurnSwitcher()
-      .getCurrentPlayer()
-      .color;
-    const isPieceOfCurrentPlayer = props.piece.player.color === currentTurnPlayerColor;
+  const [isPieceDraggable, setIsPieceDraggable] = useState(true);
 
-    return isPieceOfCurrentPlayer;
-  }
+  useEffect(() => {
+    const handleTurnChange = (currentPlayer) => {
+      const currentTurnPlayerColor = currentPlayer.color;
+      const isPieceOfCurrentPlayer = props.piece.player.color === currentTurnPlayerColor;
+
+      setIsPieceDraggable(isPieceOfCurrentPlayer);
+    };
+    
+    props.turnSwitcher.subscribeToTurnChanges({
+      onTurnChange: handleTurnChange,
+    });
+
+    return () => {
+      props.turnSwitcher.unsubscribeFromTurnChanges({
+        onTurnChange: handleTurnChange,
+      });
+    };
+  }, [props.turnSwitcher]);
 
   return (
     <Draggable

@@ -14,7 +14,7 @@ export const InfoContainer: React.FC<InfoContainerProps> = (props) => {
     const move = props.turnSwitcher.getTurnsCount();
 
     setRoundInfo({ round, move });
-  }, []);
+  }, [props.turnSwitcher]);
 
   return (
     <Table sx={{ mt: 5 }}>

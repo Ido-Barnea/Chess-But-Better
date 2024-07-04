@@ -14,6 +14,7 @@ import { PlayerMovesValidator } from '../../../../controller/validators/PlayerMo
 import { ValidatorChain } from '../../../../controller/validators/ValidatorChain';
 import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
+import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
 
 interface IBoardsProps {
   boardId: string;
@@ -21,7 +22,8 @@ interface IBoardsProps {
   darkSquareColor: string;
   tools: {
     movesCounter: IMovesCounter,
-    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier
+    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
+    turnSwitcher: ITurnSwitcher,
   }
   pieces?: Array<BasePiece>,
   isCollapsed?: boolean;
@@ -90,7 +92,7 @@ export const Board: React.FC<IBoardsProps> = ({
                 onPiecePlaced={handlePiecePlaced}>
                   {
                     square.occupant && (
-                      <Piece piece={square.occupant} />
+                      <Piece piece={square.occupant} turnSwitcher={tools.turnSwitcher} />
                     )
                   }
               </SquareContainer>
