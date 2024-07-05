@@ -9,15 +9,20 @@ import { PieceModifiers } from '../../model/pieces/PieceModifiers';
 import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
 import { isEqual } from 'lodash';
 import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { Bootstrapper } from '../Bootstrapper';
 
 export class Pawn extends BasePiece {
   private turnSwitcher: ITurnSwitcher;
-  
+
   public possibleEnPassantPositions: [Position, Position] | undefined;
   public isInitialDoubleStep: boolean;
   public diagonalAttackPosition: Position | undefined;
 
-  constructor(player: Player, turnSwitcher: ITurnSwitcher, position?: Position) {
+  constructor(
+    player: Player,
+    turnSwitcher: ITurnSwitcher,
+    position?: Position,
+  ) {
     const icon = player.color === PlayerColor.WHITE ? '♙' : '♟';
     super(
       new PieceResource(pawnResource, icon, 'Pawn'),
@@ -34,7 +39,10 @@ export class Pawn extends BasePiece {
     this.turnSwitcher = turnSwitcher;
   }
 
-  getEnPassantPiece(targetPosition: Position, piecesStorage: IPiecesStorage): BasePiece | undefined {
+  getEnPassantPiece(
+    targetPosition: Position,
+    piecesStorage: IPiecesStorage,
+  ): BasePiece | undefined {
     const pawns = piecesStorage.getPieces((piece) => {
       return piece instanceof Pawn && piece !== this;
     }) as Array<Pawn>;
@@ -69,7 +77,11 @@ export class Pawn extends BasePiece {
       boardId: this.position.boardId,
     };
 
-    if (!piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))) {
+    if (
+      !piecesStorage.getPieces((piece) =>
+        isEqual(piece.position, oneSquareForward),
+      )
+    ) {
       validMoves.push(oneSquareForward);
 
       // Check two squares forward for the initial move
@@ -83,8 +95,12 @@ export class Pawn extends BasePiece {
         };
 
         if (
-          !piecesStorage.getPieces((piece) => isEqual(piece.position, twoSquaresForward)) &&
-          !piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))
+          !piecesStorage.getPieces((piece) =>
+            isEqual(piece.position, twoSquaresForward),
+          ) &&
+          !piecesStorage.getPieces((piece) =>
+            isEqual(piece.position, oneSquareForward),
+          )
         ) {
           this.possibleEnPassantPositions = [
             oneSquareForward,
@@ -113,7 +129,9 @@ export class Pawn extends BasePiece {
     };
 
     if (
-      piecesStorage.getPieces((piece) => isEqual(piece.position, leftDiagonal)) ||
+      piecesStorage.getPieces((piece) =>
+        isEqual(piece.position, leftDiagonal),
+      ) ||
       this.getEnPassantPiece(leftDiagonal, piecesStorage)
     ) {
       this.diagonalAttackPosition = leftDiagonal;
@@ -121,7 +139,9 @@ export class Pawn extends BasePiece {
     }
 
     if (
-      piecesStorage.getPieces((piece) => isEqual(piece.position, rightDiagonal)) ||
+      piecesStorage.getPieces((piece) =>
+        isEqual(piece.position, rightDiagonal),
+      ) ||
       this.getEnPassantPiece(rightDiagonal, piecesStorage)
     ) {
       this.diagonalAttackPosition = rightDiagonal;

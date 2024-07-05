@@ -3,13 +3,11 @@ import { Board } from './board';
 import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
+import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IBootstrapTools } from '../../../../controller/actions/types/BootstrapTools.Type';
 
 interface IBoardsContainerProps {
-  pieces: Array<BasePiece>;
-  tools: {
-    movesCounter: IMovesCounter,
-    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier
-  }
+  tools: IBootstrapTools;
 }
 
 export const BoardsContainer: React.FC<IBoardsContainerProps> = (props) => {
@@ -24,24 +22,27 @@ export const BoardsContainer: React.FC<IBoardsContainerProps> = (props) => {
     <div id="boards-container">
       <div className="bottom-notations-container" id="bottom-notations"></div>
       <div className="left-notations-container" id="left-notations"></div>
-      
+
       <Board
         boardId="board-overworld"
         lightSquareColor={LIGHT_OVERWORLD_SQUARE_COLOR}
         darkSquareColor={DARK_OVERWORLD_SQUARE_COLOR}
         tools={props.tools}
-        pieces={props.pieces}
-        isCollapsed={false} />
+        pieces={props.tools.piecesStorage.getPieces()}
+        isCollapsed={false}
+      />
       <Board
         boardId="board-hell"
         lightSquareColor={LIGHT_HELL_SQUARE_COLOR}
         darkSquareColor={DARK_HELL_SQUARE_COLOR}
-        tools={props.tools} />
+        tools={props.tools}
+      />
       <Board
         boardId="board-heaven"
         lightSquareColor={LIGHT_HEAVEN_SQUARE_COLOR}
         darkSquareColor={DARK_HEAVEN_SQUARE_COLOR}
-        tools={props.tools} />
+        tools={props.tools}
+      />
     </div>
   );
 };

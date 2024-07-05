@@ -1,4 +1,4 @@
-import { Player } from '../../../controller-legacy/logic/players/Player';
+import { Player } from '../../../controller/players/Player';
 import { IPiecesStorage } from '../../../controller/game state/storages/pieces storage/abstract/IPiecesStorage';
 import { Position } from '../../types/Position';
 import { PieceModifiers } from '../PieceModifiers';

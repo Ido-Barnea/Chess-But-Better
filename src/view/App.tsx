@@ -1,10 +1,8 @@
 import React from 'react';
-import { Bootstrap } from './components/room/bootstrapper';
+import { Bootstrap } from './components/room/Bootstrap';
 
 function App() {
-  return (
-    <Bootstrap />
-  );
+  return <Bootstrap />;
 }
 
 export default App;
