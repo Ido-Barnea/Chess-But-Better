@@ -42,7 +42,6 @@ import { IDeathsCounter } from './game state/counters/deaths counter/abstract/ID
 import { IFellOffTheBoardPieceSwitcher } from './game state/switchers/fell off the board piece switcher/abstract/IFellOffTheBoardPieceSwitcher';
 import { FellOffTheBoardPieceSwitcher } from './game state/switchers/fell off the board piece switcher/FellOffTheBoardPieceSwitcher';
 import { TurnSwitcherHandler } from './handlers/TurnSwitcherHandler';
-import { IPiecesStorage } from './game state/storages/pieces storage/abstract/IPiecesStorage';
 
 export class Bootstrapper {
   private whitePlayer: Player;
@@ -68,10 +67,7 @@ export class Bootstrapper {
     this.whitePlayer = new Player(PlayerColor.WHITE, new PlayerInventory());
     this.blackPlayer = new Player(PlayerColor.BLACK, new PlayerInventory());
 
-    this.turnSwitcher = new PlayersTurnSwitcher([
-      this.whitePlayer,
-      this.blackPlayer,
-    ]);
+    this.turnSwitcher = new PlayersTurnSwitcher([this.whitePlayer, this.blackPlayer]);
     this.castlingSwitcher = new CastlingSwitcher();
     this.friendlyFireSwitcher = new FriendlyFireSwitcher();
     this.killerPieceSwitcher = new KillerPieceSwitcher();
@@ -79,152 +75,45 @@ export class Bootstrapper {
 
     this.deathsCounter = new DeathsCounter();
 
-    this.playersStorage = new PlayersStorage([
-      this.whitePlayer,
-      this.blackPlayer,
-    ]);
-
+    this.playersStorage = new PlayersStorage([this.whitePlayer, this.blackPlayer]);
     this.piecesStorage = new PiecesStorage([
-      new Rook(this.blackPlayer, {
-        coordinates: { x: 0, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Knight(this.blackPlayer, {
-        coordinates: { x: 1, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Bishop(this.blackPlayer, {
-        coordinates: { x: 2, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Queen(this.blackPlayer, {
-        coordinates: { x: 3, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new King(this.blackPlayer, this.castlingSwitcher, {
-        coordinates: { x: 4, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Bishop(this.blackPlayer, {
-        coordinates: { x: 5, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Knight(this.blackPlayer, {
-        coordinates: { x: 6, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Rook(this.blackPlayer, {
-        coordinates: { x: 7, y: 0 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 0, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 1, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 2, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 3, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 4, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 5, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 6, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.blackPlayer, this.turnSwitcher, {
-        coordinates: { x: 7, y: 1 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 0, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 1, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 2, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 3, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 4, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 5, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 6, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Pawn(this.whitePlayer, this.turnSwitcher, {
-        coordinates: { x: 7, y: 6 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Rook(this.whitePlayer, {
-        coordinates: { x: 0, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Knight(this.whitePlayer, {
-        coordinates: { x: 1, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Bishop(this.whitePlayer, {
-        coordinates: { x: 2, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Queen(this.whitePlayer, {
-        coordinates: { x: 3, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new King(this.whitePlayer, this.castlingSwitcher, {
-        coordinates: { x: 4, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Bishop(this.whitePlayer, {
-        coordinates: { x: 5, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Knight(this.whitePlayer, {
-        coordinates: { x: 6, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
-      new Rook(this.whitePlayer, {
-        coordinates: { x: 7, y: 7 },
-        boardId: OVERWORLD_BOARD_ID,
-      }),
+      new Rook(this.blackPlayer, { coordinates: { x: 0, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new Knight(this.blackPlayer, { coordinates: { x: 1, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new Bishop(this.blackPlayer, { coordinates: { x: 2, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new Queen(this.blackPlayer, { coordinates: { x: 3, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new King(this.blackPlayer, this.castlingSwitcher, { coordinates: { x: 4, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new Bishop(this.blackPlayer, { coordinates: { x: 5, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new Knight(this.blackPlayer, { coordinates: { x: 6, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new Rook(this.blackPlayer, { coordinates: { x: 7, y: 0 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 0, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 1, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 2, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 3, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 4, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 5, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 6, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.blackPlayer, this.turnSwitcher, { coordinates: { x: 7, y: 1 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 0, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 1, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 2, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 3, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 4, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 5, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 6, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Pawn(this.whitePlayer, this.turnSwitcher, { coordinates: { x: 7, y: 6 }, boardId: OVERWORLD_BOARD_ID }),
+      new Rook(this.whitePlayer, { coordinates: { x: 0, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+      new Knight(this.whitePlayer, { coordinates: { x: 1, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+      new Bishop(this.whitePlayer, { coordinates: { x: 2, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+      new Queen(this.whitePlayer, { coordinates: { x: 3, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+      new King(this.whitePlayer, this.castlingSwitcher, { coordinates: { x: 4, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+      new Bishop(this.whitePlayer, { coordinates: { x: 5, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+      new Knight(this.whitePlayer, { coordinates: { x: 6, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
+      new Rook(this.whitePlayer, { coordinates: { x: 7, y: 7 }, boardId: OVERWORLD_BOARD_ID }),
     ]);
 
     this.secretRulesManager = new SecretRulesManager([
-      new PiecesCanFallOffTheBoardRule(
-        this.turnSwitcher,
-        this.fellOffTheBoardPieceSwitcher,
-      ),
-      new FirstBloodRule(
-        this.turnSwitcher,
-        this.deathsCounter,
-        this.killerPieceSwitcher,
-      ),
+      new PiecesCanFallOffTheBoardRule(this.turnSwitcher, this.fellOffTheBoardPieceSwitcher),
+      new FirstBloodRule(this.turnSwitcher, this.deathsCounter, this.killerPieceSwitcher),
       new ExperienceOnKillRule(this.turnSwitcher, this.killerPieceSwitcher),
       new FriendlyFireRule(this.turnSwitcher, this.friendlyFireSwitcher),
       new WithAgeComesWisdomRule(this.turnSwitcher, this.playersStorage),
@@ -235,32 +124,21 @@ export class Bootstrapper {
     this.movesCounter = new MovesCounter();
 
     this.endOfMoveHandlersNotifier = new EndOfMoveHandlersNotifier();
-    this.endOfMoveHandlersNotifier.addHandler(
-      new TurnSwitcherHandler(this.turnSwitcher),
-    );
-    this.endOfMoveHandlersNotifier.addHandler(
-      new RulesManagerHandler(this.secretRulesManager),
-    );
-    this.endOfMoveHandlersNotifier.addHandler(
-      new MoveCountHandler(this.movesCounter),
-    );
-    this.endOfMoveHandlersNotifier.addHandler(
-      new PawnPromotionHandler(this.piecesStorage),
-    );
+    this.endOfMoveHandlersNotifier.addHandler(new TurnSwitcherHandler(this.turnSwitcher));
+    this.endOfMoveHandlersNotifier.addHandler(new RulesManagerHandler(this.secretRulesManager));
+    this.endOfMoveHandlersNotifier.addHandler(new MoveCountHandler(this.movesCounter));
+    this.endOfMoveHandlersNotifier.addHandler(new PawnPromotionHandler(this.piecesStorage));
   }
 
-  // Create an interface for this.
   getTools(): {
-    movesCounter: IMovesCounter;
-    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier;
-    turnSwitcher: ITurnSwitcher;
-    piecesStorage: IPiecesStorage;
+    movesCounter: IMovesCounter,
+    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
+    turnSwitcher: ITurnSwitcher,
   } {
     return {
       movesCounter: this.movesCounter,
       endOfMoveHandlersNotifier: this.endOfMoveHandlersNotifier,
       turnSwitcher: this.turnSwitcher,
-      piecesStorage: this.piecesStorage,
-    };
+    }
   }
 }

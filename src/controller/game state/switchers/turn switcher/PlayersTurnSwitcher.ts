@@ -1,7 +1,6 @@
 import { Player } from '../../storages/players storage/Player';
 import { ITurnSwitcher, TurnChangeListener } from './abstract/ITurnSwitcher';
 
-// This class is never called except one time in the bootstrapper, meaning the turns never switch?
 export class PlayersTurnSwitcher implements ITurnSwitcher {
   private players: Array<Player>;
   private currentPlayerIndex: number;
@@ -22,9 +21,9 @@ export class PlayersTurnSwitcher implements ITurnSwitcher {
   getCurrentPlayer(): Player {
     return this.players[this.currentPlayerIndex];
   }
-
+  
   nextTurn(): Player {
-    if (this.currentPlayerIndex + 1 === this.players.length) {
+    if (this.currentPlayerIndex + 1 == this.players.length) {
       this.currentPlayerIndex = 0;
     } else {
       this.currentPlayerIndex++;
@@ -43,14 +42,14 @@ export class PlayersTurnSwitcher implements ITurnSwitcher {
 
   unsubscribeFromTurnChanges(listener: TurnChangeListener): void {
     this.turnChangeListeners = this.turnChangeListeners.filter(
-      (existingListener) => existingListener !== listener,
+      existingListener => existingListener !== listener
     );
   }
 
   private notifyTurnChangeListeners() {
     const currentPlayer = this.getCurrentPlayer();
     const turnsCount = this.getTurnsCount();
-    this.turnChangeListeners.forEach((listener) => {
+    this.turnChangeListeners.forEach(listener => {
       listener.onTurnChange(currentPlayer, turnsCount);
     });
   }

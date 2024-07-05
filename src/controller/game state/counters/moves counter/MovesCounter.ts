@@ -3,7 +3,7 @@ import { IMovesCounter } from './abstract/IMovesCounter';
 export class MovesCounter implements IMovesCounter {
   private remainingMovesCount;
 
-  constructor(remainingMovesCount = 0) {
+  constructor(remainingMovesCount=0) {
     this.remainingMovesCount = remainingMovesCount;
   }
 
