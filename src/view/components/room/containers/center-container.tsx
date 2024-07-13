@@ -4,11 +4,13 @@ import { BoardsContainer } from '../board/boards-container';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 import { Box } from '@mui/material';
+import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
 
 interface CenterContainerProps {
   tools: {
     movesCounter: IMovesCounter,
-    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier
+    endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
+    turnSwitcher: ITurnSwitcher,
   }
 }
 

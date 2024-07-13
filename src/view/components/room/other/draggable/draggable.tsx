@@ -14,10 +14,10 @@ export const Draggable: React.FC<PropsWithChildren<DraggableProps>> = (props) =>
   const [{ isDragging }, draggedElementRef] = useDrag(() => ({
     type: props.type,
     item: { coordinates: props.coordinates },
+    canDrag: props.isDraggable,
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
-    canDrag: props.isDraggable,
   }), [props.type, props.coordinates, props.isDraggable]);
 
   const draggableProps = props.isDraggable ? {
