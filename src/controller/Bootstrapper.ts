@@ -134,11 +134,13 @@ export class Bootstrapper {
     movesCounter: IMovesCounter,
     endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
     turnSwitcher: ITurnSwitcher,
+    piecesStorage: IEditablePiecesStorage,
   } {
     return {
       movesCounter: this.movesCounter,
       endOfMoveHandlersNotifier: this.endOfMoveHandlersNotifier,
       turnSwitcher: this.turnSwitcher,
+      piecesStorage: this.piecesStorage,
     }
   }
 }

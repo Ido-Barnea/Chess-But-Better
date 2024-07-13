@@ -1,7 +1,7 @@
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { OVERWORLD_BOARD_ID } from '../../Constants';
 import { game } from '../../Game';
 import { destroyPieceOnBoard } from '../../LogicAdapter';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { OVERWORLD_BOARD_ID } from '../Constants';
 import { King } from '../pieces/King';
 import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
 import { SpawnPieceInHeavenAction } from './SpawnPieceInHeavenAction';

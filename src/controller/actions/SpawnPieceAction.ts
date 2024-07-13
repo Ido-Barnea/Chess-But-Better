@@ -1,7 +1,8 @@
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
 import { game } from '../../Game';
 import { spawnPieceOnBoard } from '../../LogicAdapter';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { comparePositions } from '../Utilities';
+import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
 import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
 import { TriggerPieceOnItemAction } from './TriggerPieceOnItemAction';
 import { GameAction } from './abstract/GameAction';
@@ -10,10 +11,12 @@ import { ActionResult } from './types/ActionResult';
 export class SpawnPieceAction implements GameAction {
   protected piece: BasePiece;
   protected boardId: string;
+  protected piecesStorage: IEditablePiecesStorage;
 
-  constructor(piece: BasePiece, boardId: string) {
+  constructor(piece: BasePiece, boardId: string, piecesStorage: IEditablePiecesStorage) {
     this.piece = piece;
     this.boardId = boardId;
+    this.piecesStorage = piecesStorage;
   }
 
   execute(): ActionResult {
@@ -21,7 +24,7 @@ export class SpawnPieceAction implements GameAction {
     this.piece.modifiers.killCount = 0;
     this.piece.position.boardId = this.boardId;
 
-    game.getPieces().forEach((piece) => {
+    this.piecesStorage.getPieces().forEach((piece) => {
       const areOnTheSamePosition = comparePositions(
         this.piece.position,
         piece.position,
@@ -29,7 +32,7 @@ export class SpawnPieceAction implements GameAction {
       const areTheSame = piece === this.piece;
 
       if (areOnTheSamePosition && !areTheSame) {
-        new PermanentlyKillPieceAction(piece).execute();
+        new PermanentlyKillPieceAction(piece, this.piecesStorage).execute();
       }
     });
 

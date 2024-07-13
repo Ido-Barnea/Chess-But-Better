@@ -15,6 +15,8 @@ import { ValidatorChain } from '../../../../controller/validators/ValidatorChain
 import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IEditablePiecesStorage } from '../../../../controller/game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { Box } from '@mui/material';
 
 interface IBoardsProps {
   boardId: string;
@@ -24,6 +26,7 @@ interface IBoardsProps {
     movesCounter: IMovesCounter,
     endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
     turnSwitcher: ITurnSwitcher,
+    piecesStorage: IEditablePiecesStorage,
   }
   pieces?: Array<BasePiece>,
   isCollapsed?: boolean;
@@ -50,7 +53,7 @@ export const Board: React.FC<IBoardsProps> = ({
       const endSquare = squares[endSquareIndex];
 
       const validators = new ValidatorChain(
-        new PieceMoveValidator(pieceToPlace, endSquare),
+        new PieceMoveValidator(pieceToPlace, endSquare, tools.piecesStorage),
         new PlayerMovesValidator(pieceToPlace, tools.movesCounter),
       );
 
@@ -74,7 +77,7 @@ export const Board: React.FC<IBoardsProps> = ({
   };
 
   return (
-    <div className={`board ${isCollapsed ? 'collapsed' : ''}`} id={boardId}>
+    <Box className={`board ${isCollapsed ? 'collapsed' : ''}`} id={boardId}>
       <DndProvider backend={HTML5Backend} options={{ enableTouchEvents: false, enableMouseEvents: true }}>
         {
           squares.map(square => {
@@ -100,6 +103,6 @@ export const Board: React.FC<IBoardsProps> = ({
           })
         }
       </DndProvider>
-    </div>
+    </Box>
   );
 };

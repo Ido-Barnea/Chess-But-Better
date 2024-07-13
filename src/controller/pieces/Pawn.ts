@@ -69,7 +69,7 @@ export class Pawn extends BasePiece {
       boardId: this.position.boardId,
     };
 
-    if (!piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))) {
+    if (piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))) {
       validMoves.push(oneSquareForward);
 
       // Check two squares forward for the initial move
@@ -83,8 +83,8 @@ export class Pawn extends BasePiece {
         };
 
         if (
-          !piecesStorage.getPieces((piece) => isEqual(piece.position, twoSquaresForward)) &&
-          !piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))
+          piecesStorage.getPieces((piece) => isEqual(piece.position, twoSquaresForward)) &&
+          piecesStorage.getPieces((piece) => isEqual(piece.position, oneSquareForward))
         ) {
           this.possibleEnPassantPositions = [
             oneSquareForward,
@@ -113,7 +113,7 @@ export class Pawn extends BasePiece {
     };
 
     if (
-      piecesStorage.getPieces((piece) => isEqual(piece.position, leftDiagonal)) ||
+      !piecesStorage.getPieces((piece) => isEqual(piece.position, leftDiagonal)) ||
       this.getEnPassantPiece(leftDiagonal, piecesStorage)
     ) {
       this.diagonalAttackPosition = leftDiagonal;
@@ -121,7 +121,7 @@ export class Pawn extends BasePiece {
     }
 
     if (
-      piecesStorage.getPieces((piece) => isEqual(piece.position, rightDiagonal)) ||
+      !piecesStorage.getPieces((piece) => isEqual(piece.position, rightDiagonal)) ||
       this.getEnPassantPiece(rightDiagonal, piecesStorage)
     ) {
       this.diagonalAttackPosition = rightDiagonal;

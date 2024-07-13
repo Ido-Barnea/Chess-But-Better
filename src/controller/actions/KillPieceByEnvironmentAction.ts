@@ -2,7 +2,7 @@ import { ActionResult } from './types/ActionResult';
 import { KillPieceAction } from './KillPieceAction';
 import { KillLog } from '../../ui/logs/Log';
 import { game } from '../../Game';
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 
 export class KillPieceByEnvironmentAction extends KillPieceAction {
   private killingSource: string;

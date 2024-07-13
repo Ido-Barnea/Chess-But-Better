@@ -1,11 +1,11 @@
 import { ActionResult } from './types/ActionResult';
 import { KillLog } from '../../ui/logs/Log';
 import { game } from '../../Game';
-import { MIN_KILLINGS_FOR_BOUNTY } from '../../Constants';
 import { destroyItemOnPiece, movePieceOnBoard } from '../../LogicAdapter';
 import { KillPieceAction } from './KillPieceAction';
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { Position } from '../../../model/types/Position';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { MIN_KILLINGS_FOR_BOUNTY } from '../Constants';
+import { Position } from '../../model/types/Position';
 export class KillPieceByPieceAction extends KillPieceAction {
   private killerPiece: BasePiece;
 

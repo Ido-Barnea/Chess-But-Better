@@ -1,11 +1,11 @@
 import { BaseItem } from './abstract/Item';
-import { trapResource } from '../../ui/Resources';
 import { spawnItemOnBoard } from '../../LogicAdapter';
 import { game } from '../../Game';
 import { Log, MovementLog } from '../../ui/logs/Log';
 import { Logger } from '../../ui/logs/Logger';
 import { ItemActionResult } from './types/ItemActionResult';
-import { Position } from '../../../model/types/Position';
+import { Position } from '../../model/types/Position';
+import { trapResource } from '../../view/resources/Resources';
 
 export class Trap extends BaseItem {
   constructor(position?: Position) {

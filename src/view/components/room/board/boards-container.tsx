@@ -1,16 +1,17 @@
 import React from 'react';
 import { Board } from './board';
-import { BasePiece } from '../../../../model/pieces/abstract/BasePiece';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IEditablePiecesStorage } from '../../../../controller/game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { Box } from '@mui/material';
 
 interface IBoardsContainerProps {
-  pieces: Array<BasePiece>;
   tools: {
     movesCounter: IMovesCounter,
     endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
     turnSwitcher: ITurnSwitcher,
+    piecesStorage: IEditablePiecesStorage,
   }
 }
 
@@ -23,16 +24,16 @@ export const BoardsContainer: React.FC<IBoardsContainerProps> = (props) => {
   const DARK_HEAVEN_SQUARE_COLOR = 'blue-background';
 
   return (
-    <div id="boards-container">
-      <div className="bottom-notations-container" id="bottom-notations"></div>
-      <div className="left-notations-container" id="left-notations"></div>
+    <Box id="boards-container">
+      <Box className="bottom-notations-container" id="bottom-notations"></Box>
+      <Box className="left-notations-container" id="left-notations"></Box>
       
       <Board
         boardId="board-overworld"
         lightSquareColor={LIGHT_OVERWORLD_SQUARE_COLOR}
         darkSquareColor={DARK_OVERWORLD_SQUARE_COLOR}
         tools={props.tools}
-        pieces={props.pieces}
+        pieces={props.tools.piecesStorage.getPieces()}
         isCollapsed={false} />
       <Board
         boardId="board-hell"
@@ -44,6 +45,6 @@ export const BoardsContainer: React.FC<IBoardsContainerProps> = (props) => {
         lightSquareColor={LIGHT_HEAVEN_SQUARE_COLOR}
         darkSquareColor={DARK_HEAVEN_SQUARE_COLOR}
         tools={props.tools} />
-    </div>
+    </Box>
   );
 };
