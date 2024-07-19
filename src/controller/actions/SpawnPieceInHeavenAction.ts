@@ -1,5 +1,5 @@
-import { BasePiece } from '../../../model/pieces/abstract/BasePiece';
-import { HEAVEN_BOARD_ID } from '../../Constants';
+import { BasePiece } from '../../model/pieces/abstract/BasePiece';
+import { HEAVEN_BOARD_ID } from '../Constants';
 import { SpawnPieceAction } from './SpawnPieceAction';
 
 export class SpawnPieceInHeavenAction extends SpawnPieceAction {

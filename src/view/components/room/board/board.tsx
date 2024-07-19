@@ -59,6 +59,10 @@ export const Board: React.FC<IBoardsProps> = ({
 
       if (!validators.validate() || !pieceToPlace.position) return;
 
+      if (endSquare.occupant) {
+        // TODO: kill piece in endSquare.
+      }
+
       pieceToPlace.position.boardId = boardId;
       pieceToPlace.position.coordinates = endCoordinates;
 

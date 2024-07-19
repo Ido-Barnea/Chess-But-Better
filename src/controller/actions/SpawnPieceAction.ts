@@ -1,22 +1,28 @@
-import { game } from '../../Game';
-import { spawnPieceOnBoard } from '../../LogicAdapter';
+import { isEqual } from 'lodash';
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
-import { comparePositions } from '../Utilities';
 import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
 import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
 import { TriggerPieceOnItemAction } from './TriggerPieceOnItemAction';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
+import { IDeathsCounter } from '../game state/counters/deaths counter/abstract/IDeathsCounter';
 
 export class SpawnPieceAction implements GameAction {
   protected piece: BasePiece;
   protected boardId: string;
   protected piecesStorage: IEditablePiecesStorage;
+  protected deathsCounter: IDeathsCounter;
 
-  constructor(piece: BasePiece, boardId: string, piecesStorage: IEditablePiecesStorage) {
+  constructor(
+    piece: BasePiece,
+    boardId: string,
+    piecesStorage: IEditablePiecesStorage,
+    deathsCounter: IDeathsCounter,
+  ) {
     this.piece = piece;
     this.boardId = boardId;
     this.piecesStorage = piecesStorage;
+    this.deathsCounter = deathsCounter;
   }
 
   execute(): ActionResult {
@@ -25,19 +31,16 @@ export class SpawnPieceAction implements GameAction {
     this.piece.position.boardId = this.boardId;
 
     this.piecesStorage.getPieces().forEach((piece) => {
-      const areOnTheSamePosition = comparePositions(
-        this.piece.position,
-        piece.position,
-      );
+      const areOnTheSamePosition = isEqual(this.piece.position, piece.position);
       const areTheSame = piece === this.piece;
 
       if (areOnTheSamePosition && !areTheSame) {
-        new PermanentlyKillPieceAction(piece, this.piecesStorage).execute();
+        new PermanentlyKillPieceAction(piece, this.piecesStorage, this.deathsCounter).execute();
       }
     });
 
     game.getItems().forEach((item) => {
-      if (comparePositions(this.piece.position, item.position)) {
+      if (isEqual(this.piece.position, item.position)) {
         new TriggerPieceOnItemAction(item, this.piece).execute();
       }
     });
