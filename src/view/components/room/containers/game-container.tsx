@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
 import { IEditablePiecesStorage } from '../../../../controller/game state/storages/pieces storage/abstract/IEditablePiecesStorage';
 
-interface CenterContainerProps {
+interface GameContainerProps {
   tools: {
     movesCounter: IMovesCounter,
     endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
@@ -15,9 +15,9 @@ interface CenterContainerProps {
   }
 }
 
-export const CenterContainer: React.FC<CenterContainerProps> = (props) => {
+export const GameContainer: React.FC<GameContainerProps> = (props) => {
   return (
-    <Box className='center-container'>
+    <Box className='game-container'>
       <BoardsContainer tools={props.tools} />
       <Box id="unicorn-attack" className="collapsed ability"></Box>
     </Box>

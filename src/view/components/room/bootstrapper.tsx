@@ -4,12 +4,14 @@ import { Bootstrapper } from '../../../controller/Bootstrapper';
 import { IEndOfMoveHandlersNotifier } from '../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
 import { IMovesCounter } from '../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
 import { ITurnSwitcher } from '../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IEditablePiecesStorage } from '../../../controller/game state/storages/pieces storage/abstract/IEditablePiecesStorage';
 
 export const Bootstrap = () => {
   const [tools, setTools] = useState<{
     movesCounter: IMovesCounter,
     endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
     turnSwitcher: ITurnSwitcher,
+    piecesStorage: IEditablePiecesStorage,
   } | undefined>();
 
   useEffect(() => {

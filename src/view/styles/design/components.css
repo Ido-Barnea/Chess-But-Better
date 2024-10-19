@@ -117,7 +117,7 @@
   position: relative;
 }
 
-#logs-container {
+#utility-container {
   width: 93%;
   height: 70%;
   padding-inline: 2%;
@@ -126,7 +126,7 @@
   overflow-y: auto;
 }
 
-#logs-container p {
+#utility-container p {
   font-size: 1em;
 }
 

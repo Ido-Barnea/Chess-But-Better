@@ -3,13 +3,13 @@ import React from 'react';
 import { InfoContainer } from '../info container/info-container';
 import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
 
-interface LeftContainerProps {
+interface PlayerContainerProps {
   turnSwitcher: ITurnSwitcher;
 }
 
-export const LeftContainer: React.FC<LeftContainerProps> = (props) => {
+export const PlayerContainer: React.FC<PlayerContainerProps> = (props) => {
   return (
-    <Box className='left-container'>
+    <Box className='player-container'>
       <InfoContainer turnSwitcher={props.turnSwitcher} />
       <div className="purchasable-container">
         <p>Shop</p>
