@@ -1,6 +1,6 @@
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { IValidator } from './abstract/IValidator';
-import { IMovesCounter } from '../game state/counters/moves counter/abstract/IMovesCounter';
+import { IMovesCounter } from '../game-state/counters/moves-counter/abstract/IMovesCounter';
 
 export class PlayerMovesValidator implements IValidator {
   private draggedPiece: BasePiece;

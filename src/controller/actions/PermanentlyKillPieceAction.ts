@@ -1,6 +1,6 @@
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
-import { IDeathsCounter } from '../game state/counters/deaths counter/abstract/IDeathsCounter';
-import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { IDeathsCounter } from '../game-state/counters/deaths-counter/abstract/IDeathsCounter';
+import { IEditablePiecesStorage } from '../game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 import { King } from '../pieces/King';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';

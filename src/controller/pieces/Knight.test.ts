@@ -1,10 +1,10 @@
 import { game } from '../../Game';
 import { HEAVEN_BOARD_ID, OVERWORLD_BOARD_ID } from '../../Constants';
 import { onPlayerAction } from '../PieceLogic';
-import { Player } from '../game state/storages/players storage/Player';
+import { Player } from '../game-state/storages/players-storage/Player';
 import { Knight } from './Knight';
 import { Rook } from './Rook';
-import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { PlayerColor } from '../game-state/storages/players-storage/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Position } from '../../../model/types/Position';
 

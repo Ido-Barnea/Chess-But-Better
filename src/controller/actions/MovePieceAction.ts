@@ -9,7 +9,7 @@ import { CastleAction } from './CastleAction';
 import { KillPieceByPieceAction } from './KillPieceByPieceAction';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
-import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { IEditablePiecesStorage } from '../game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 
 export class MovePieceAction implements GameAction {
   protected piece: BasePiece;

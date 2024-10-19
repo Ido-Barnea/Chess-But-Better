@@ -1,8 +1,8 @@
 import { game } from '../../Game';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Pawn } from '../pieces/Pawn';
-import { Player } from '../game state/storages/players storage/Player';
-import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { Player } from '../game-state/storages/players-storage/Player';
+import { PlayerColor } from '../game-state/storages/players-storage/types/PlayerColor';
 import { KillPieceByEnvironmentAction } from './KillPieceByEnvironmentAction';
 import { ActionResult } from './types/ActionResult';
 

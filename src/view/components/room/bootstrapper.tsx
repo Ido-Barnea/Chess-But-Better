@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Room } from './room';
 import { Bootstrapper } from '../../../controller/Bootstrapper';
 import { IEndOfMoveHandlersNotifier } from '../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
-import { IMovesCounter } from '../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
-import { ITurnSwitcher } from '../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
-import { IEditablePiecesStorage } from '../../../controller/game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { IMovesCounter } from '../../../controller/game-state/counters/moves-counter/abstract/IMovesCounter';
+import { ITurnSwitcher } from '../../../controller/game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
+import { IEditablePiecesStorage } from '../../../controller/game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
+import { IPlayersStorage } from '../../../controller/game-state/storages/players-storage/abstract/IPlayersStorage';
 
 export const Bootstrap = () => {
   const [tools, setTools] = useState<{
@@ -12,6 +13,7 @@ export const Bootstrap = () => {
     endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
     turnSwitcher: ITurnSwitcher,
     piecesStorage: IEditablePiecesStorage,
+    playersStorage: IPlayersStorage,
   } | undefined>();
 
   useEffect(() => {

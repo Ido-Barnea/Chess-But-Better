@@ -1,5 +1,5 @@
 import { Player } from '../../../controller-legacy/logic/players/Player';
-import { IPiecesStorage } from '../../../controller/game state/storages/pieces storage/abstract/IPiecesStorage';
+import { IPiecesStorage } from '../../../controller/game-state/storages/pieces-storage/abstract/IPiecesStorage';
 import { Position } from '../../types/Position';
 import { PieceModifiers } from '../PieceModifiers';
 import { PieceResource } from '../PieceResource';

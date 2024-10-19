@@ -1,5 +1,5 @@
-import { IFriendlyFireSwitcher } from '../game state/switchers/friendly fire switcher/abstract/IFriendlyFireSwitcher';
-import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IFriendlyFireSwitcher } from '../game-state/switchers/friendly-fire-switcher/abstract/IFriendlyFireSwitcher';
+import { ITurnSwitcher } from '../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 // import { RuleLog } from '../../ui/logs/Log';
 import { BaseRule } from './abstract/BaseRule';
 

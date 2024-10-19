@@ -12,10 +12,10 @@ import { generateSquares } from './square/SquaresGenerator';
 import { PieceMoveValidator } from '../../../../controller/validators/PieceMoveValidator';
 import { PlayerMovesValidator } from '../../../../controller/validators/PlayerMovesValidator';
 import { ValidatorChain } from '../../../../controller/validators/ValidatorChain';
-import { IMovesCounter } from '../../../../controller/game state/counters/moves counter/abstract/IMovesCounter';
+import { IMovesCounter } from '../../../../controller/game-state/counters/moves-counter/abstract/IMovesCounter';
 import { IEndOfMoveHandlersNotifier } from '../../../../controller/handlers/abstract/IEndOfMoveHandlersNotifier';
-import { ITurnSwitcher } from '../../../../controller/game state/switchers/turn switcher/abstract/ITurnSwitcher';
-import { IEditablePiecesStorage } from '../../../../controller/game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { ITurnSwitcher } from '../../../../controller/game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
+import { IEditablePiecesStorage } from '../../../../controller/game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 import { Box } from '@mui/material';
 
 interface IBoardsProps {

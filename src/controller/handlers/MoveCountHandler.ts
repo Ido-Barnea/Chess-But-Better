@@ -1,4 +1,4 @@
-import { IMovesCounter } from '../game state/counters/moves counter/abstract/IMovesCounter';
+import { IMovesCounter } from '../game-state/counters/moves-counter/abstract/IMovesCounter';
 import { IEndOfMoveHandler } from './abstract/IEndOfMoveHandler';
 
 export class MoveCountHandler implements IEndOfMoveHandler {

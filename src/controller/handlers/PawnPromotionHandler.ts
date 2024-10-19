@@ -1,8 +1,8 @@
 import { BOARD_WIDTH } from '../Constants';
-import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { IEditablePiecesStorage } from '../game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 import { Pawn } from '../pieces/Pawn';
 import { Queen } from '../pieces/Queen';
-import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { PlayerColor } from '../game-state/storages/players-storage/types/PlayerColor';
 import { IEndOfMoveHandler } from './abstract/IEndOfMoveHandler';
 
 export class PawnPromotionHandler implements IEndOfMoveHandler {

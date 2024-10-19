@@ -1,8 +1,8 @@
 // import { RuleLog } from '../../ui/logs/Log';
 import { MIN_KILLINGS_FOR_BOUNTY } from '../../controller/Constants';
 import { BaseRule } from './abstract/BaseRule';
-import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
-import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { ITurnSwitcher } from '../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
+import { IPiecesStorage } from '../game-state/storages/pieces-storage/abstract/IPiecesStorage';
 
 export class BountyRule extends BaseRule {
   constructor(turnSwitcher: ITurnSwitcher, piecesStorage: IPiecesStorage, isRevealed = false) {

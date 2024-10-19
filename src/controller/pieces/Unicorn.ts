@@ -4,8 +4,8 @@ import { PieceResource } from '../../model/pieces/PieceResource';
 import { PieceStats } from '../../model/pieces/PieceStats';
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { Position } from '../../model/types/Position';
-import { Player } from '../game state/storages/players storage/Player';
-import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { Player } from '../game-state/storages/players-storage/Player';
+import { IPiecesStorage } from '../game-state/storages/pieces-storage/abstract/IPiecesStorage';
 import { isEqual } from 'lodash';
 
 export class Unicorn extends BasePiece {

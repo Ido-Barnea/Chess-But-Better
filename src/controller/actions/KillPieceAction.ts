@@ -1,7 +1,7 @@
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { OVERWORLD_BOARD_ID } from '../Constants';
-import { IDeathsCounter } from '../game state/counters/deaths counter/abstract/IDeathsCounter';
-import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { IDeathsCounter } from '../game-state/counters/deaths-counter/abstract/IDeathsCounter';
+import { IEditablePiecesStorage } from '../game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 import { King } from '../pieces/King';
 import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
 import { SpawnPieceInHeavenAction } from './SpawnPieceInHeavenAction';

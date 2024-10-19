@@ -1,4 +1,4 @@
-import { Player } from '../../storages/players storage/Player';
+import { Player } from '../../storages/players-storage/Player';
 import { ITurnSwitcher, TurnChangeListener } from './abstract/ITurnSwitcher';
 
 export class PlayersTurnSwitcher implements ITurnSwitcher {

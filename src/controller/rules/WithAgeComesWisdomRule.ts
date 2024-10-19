@@ -1,5 +1,5 @@
-import { IPlayersStorage } from '../game state/storages/players storage/abstract/IPlayersStorage';
-import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IPlayersStorage } from '../game-state/storages/players-storage/abstract/IPlayersStorage';
+import { ITurnSwitcher } from '../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 // import { RuleLog } from '../../ui/logs/Log';
 import { BaseRule } from './abstract/BaseRule';
 

@@ -1,7 +1,7 @@
 import { knightResource } from '../../view/resources/Resources';
-import { Player } from '../game state/storages/players storage/Player';
+import { Player } from '../game-state/storages/players-storage/Player';
 import { Unicorn } from './Unicorn';
-import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { PlayerColor } from '../game-state/storages/players-storage/types/PlayerColor';
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { Position } from '../../model/types/Position';
 import { PieceResource } from '../../model/pieces/PieceResource';

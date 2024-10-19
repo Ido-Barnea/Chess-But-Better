@@ -1,5 +1,5 @@
-import { IFellOffTheBoardPieceSwitcher } from '../game state/switchers/fell off the board piece switcher/abstract/IFellOffTheBoardPieceSwitcher';
-import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IFellOffTheBoardPieceSwitcher } from '../game-state/switchers/fell-off-the-board-piece-switcher/abstract/IFellOffTheBoardPieceSwitcher';
+import { ITurnSwitcher } from '../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 import { BaseRule } from './abstract/BaseRule';
 
 export class PiecesCanFallOffTheBoardRule extends BaseRule {

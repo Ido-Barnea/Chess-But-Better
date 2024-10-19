@@ -1,8 +1,8 @@
-import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { IPiecesStorage } from '../game-state/storages/pieces-storage/abstract/IPiecesStorage';
 // import { RuleLog } from '../../ui/logs/Log';
 import { King } from '../pieces/King';
-import { IPlayersStorage } from '../game state/storages/players storage/abstract/IPlayersStorage';
-import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IPlayersStorage } from '../game-state/storages/players-storage/abstract/IPlayersStorage';
+import { ITurnSwitcher } from '../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 import { BaseRule } from './abstract/BaseRule';
 
 const IN_DEBT_FOR_TURNS_THRESHOLD = 4;

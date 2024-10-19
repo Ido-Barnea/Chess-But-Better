@@ -2,7 +2,7 @@ import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { Square } from '../../model/types/Square';
 import { isEqual } from 'lodash';
 import { IValidator } from './abstract/IValidator';
-import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { IEditablePiecesStorage } from '../game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 
 export class PieceMoveValidator implements IValidator {
   private _draggedPiece: BasePiece;

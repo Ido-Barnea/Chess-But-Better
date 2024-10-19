@@ -1,7 +1,7 @@
 // import { RuleLog } from '../../ui/logs/Log';
-import { IDeathsCounter } from '../game state/counters/deaths counter/abstract/IDeathsCounter';
-import { IKillerPieceSwitcher } from '../game state/switchers/killer piece switcher/abstract/IKillerPieceSwitcher';
-import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IDeathsCounter } from '../game-state/counters/deaths-counter/abstract/IDeathsCounter';
+import { IKillerPieceSwitcher } from '../game-state/switchers/killer-piece-switcher/abstract/IKillerPieceSwitcher';
+import { ITurnSwitcher } from '../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 import { BaseRule } from './abstract/BaseRule';
 
 export class FirstBloodRule extends BaseRule {

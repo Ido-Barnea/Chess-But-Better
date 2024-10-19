@@ -1,13 +1,13 @@
 import { queenResource } from '../../view/resources/Resources';
-import { Player } from '../game state/storages/players storage/Player';
+import { Player } from '../game-state/storages/players-storage/Player';
 import { DoubleQueen } from './DoubleQueen';
-import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { PlayerColor } from '../game-state/storages/players-storage/types/PlayerColor';
 import { PieceResource } from '../../model/pieces/PieceResource';
 import { PieceStats } from '../../model/pieces/PieceStats';
 import { PieceModifiers } from '../../model/pieces/PieceModifiers';
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
 import { Position } from '../../model/types/Position';
-import { IPiecesStorage } from '../game state/storages/pieces storage/abstract/IPiecesStorage';
+import { IPiecesStorage } from '../game-state/storages/pieces-storage/abstract/IPiecesStorage';
 import { isEqual } from 'lodash';
 
 export class Queen extends BasePiece {

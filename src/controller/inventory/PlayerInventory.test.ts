@@ -1,7 +1,7 @@
 import { game } from '../../Game';
 import { PlayerInventory } from './PlayerInventory';
-import { Player } from '../game state/storages/players storage/Player';
-import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { Player } from '../game-state/storages/players-storage/Player';
+import { PlayerColor } from '../game-state/storages/players-storage/types/PlayerColor';
 import { INVENTORY_WIDTH } from '../../Constants';
 import { Trap } from '../items/Trap';
 import { InventoryActionResult } from './types/InventoryActionResult';

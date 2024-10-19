@@ -1,5 +1,5 @@
 //import { RuleLog } from '../../../ui/logs/Log';
-import { ITurnSwitcher } from '../../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { ITurnSwitcher } from '../../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 import { IRule } from './IRule';
 
 export class BaseRule implements IRule {

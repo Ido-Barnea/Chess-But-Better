@@ -1,7 +1,7 @@
 import { OVERWORLD_BOARD_ID } from '../../Constants';
-import { Player } from '../game state/storages/players storage/Player';
+import { Player } from '../game-state/storages/players-storage/Player';
 import { game } from '../../Game';
-import { PlayerColor } from '../game state/storages/players storage/types/PlayerColor';
+import { PlayerColor } from '../game-state/storages/players-storage/types/PlayerColor';
 import { PlayerInventory } from '../inventory/PlayerInventory';
 import { Pawn } from '../pieces/Pawn';
 import { ItemActionResult } from './types/ItemActionResult';

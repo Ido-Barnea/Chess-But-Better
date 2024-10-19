@@ -5,20 +5,20 @@ import { PawnPromotionHandler } from './handlers/PawnPromotionHandler';
 import { RulesManagerHandler } from './handlers/SecretRulesHandler';
 import { IEndOfMoveHandlersNotifier } from './handlers/abstract/IEndOfMoveHandlersNotifier';
 import { PlayerInventory } from './inventory/PlayerInventory';
-import { MovesCounter } from './game state/counters/moves counter/MovesCounter';
-import { IMovesCounter } from './game state/counters/moves counter/abstract/IMovesCounter';
-import { PiecesStorage } from './game state/storages/pieces storage/PiecesStorage';
-import { IEditablePiecesStorage } from './game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { MovesCounter } from './game-state/counters/moves-counter/MovesCounter';
+import { IMovesCounter } from './game-state/counters/moves-counter/abstract/IMovesCounter';
+import { PiecesStorage } from './game-state/storages/pieces-storage/PiecesStorage';
+import { IEditablePiecesStorage } from './game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 import { Bishop } from './pieces/Bishop';
 import { King } from './pieces/King';
 import { Knight } from './pieces/Knight';
 import { Pawn } from './pieces/Pawn';
 import { Queen } from './pieces/Queen';
 import { Rook } from './pieces/Rook';
-import { PlayersStorage } from './game state/storages/players storage/PlayersStorage';
-import { IPlayersStorage } from './game state/storages/players storage/abstract/IPlayersStorage';
-import { Player } from './game state/storages/players storage/Player';
-import { PlayerColor } from './game state/storages/players storage/types/PlayerColor';
+import { PlayersStorage } from './game-state/storages/players-storage/PlayersStorage';
+import { IPlayersStorage } from './game-state/storages/players-storage/abstract/IPlayersStorage';
+import { Player } from './game-state/storages/players-storage/Player';
+import { PlayerColor } from './game-state/storages/players-storage/types/PlayerColor';
 import { BountyRule } from './rules/BountyRule';
 import { CoupRule } from './rules/CoupRule';
 import { EmptyPocketsRule } from './rules/EmptyPocketsRule';
@@ -29,18 +29,18 @@ import { PiecesCanFallOffTheBoardRule } from './rules/PiecesCanFallOffTheBoardRu
 import { SecretRulesManager } from './rules/SecretRulesManager';
 import { WithAgeComesWisdomRule } from './rules/WithAgeComesWisdomRule';
 import { ISecretRulesManager } from './rules/abstract/ISecretRulesManager';
-import { CastlingSwitcher } from './game state/switchers/castling switcher/CastlingSwitcher';
-import { ICastlingSwitcher } from './game state/switchers/castling switcher/abstract/ICastlingSwitcher';
-import { PlayersTurnSwitcher } from './game state/switchers/turn switcher/PlayersTurnSwitcher';
-import { ITurnSwitcher } from './game state/switchers/turn switcher/abstract/ITurnSwitcher';
-import { FriendlyFireSwitcher } from './game state/switchers/friendly fire switcher/FriendlyFireSwitcher';
-import { IFriendlyFireSwitcher } from './game state/switchers/friendly fire switcher/abstract/IFriendlyFireSwitcher';
-import { KillerPieceSwitcher } from './game state/switchers/killer piece switcher/KillerPieceSwitcher';
-import { IKillerPieceSwitcher } from './game state/switchers/killer piece switcher/abstract/IKillerPieceSwitcher';
-import { DeathsCounter } from './game state/counters/deaths counter/DeathsCounter';
-import { IDeathsCounter } from './game state/counters/deaths counter/abstract/IDeathsCounter';
-import { IFellOffTheBoardPieceSwitcher } from './game state/switchers/fell off the board piece switcher/abstract/IFellOffTheBoardPieceSwitcher';
-import { FellOffTheBoardPieceSwitcher } from './game state/switchers/fell off the board piece switcher/FellOffTheBoardPieceSwitcher';
+import { CastlingSwitcher } from './game-state/switchers/castling switcher/CastlingSwitcher';
+import { ICastlingSwitcher } from './game-state/switchers/castling switcher/abstract/ICastlingSwitcher';
+import { PlayersTurnSwitcher } from './game-state/switchers/turn-switcher/PlayersTurnSwitcher';
+import { ITurnSwitcher } from './game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
+import { FriendlyFireSwitcher } from './game-state/switchers/friendly-fire-switcher/FriendlyFireSwitcher';
+import { IFriendlyFireSwitcher } from './game-state/switchers/friendly-fire-switcher/abstract/IFriendlyFireSwitcher';
+import { KillerPieceSwitcher } from './game-state/switchers/killer-piece-switcher/KillerPieceSwitcher';
+import { IKillerPieceSwitcher } from './game-state/switchers/killer-piece-switcher/abstract/IKillerPieceSwitcher';
+import { DeathsCounter } from './game-state/counters/deaths-counter/DeathsCounter';
+import { IDeathsCounter } from './game-state/counters/deaths-counter/abstract/IDeathsCounter';
+import { IFellOffTheBoardPieceSwitcher } from './game-state/switchers/fell-off-the-board-piece-switcher/abstract/IFellOffTheBoardPieceSwitcher';
+import { FellOffTheBoardPieceSwitcher } from './game-state/switchers/fell-off-the-board-piece-switcher/FellOffTheBoardPieceSwitcher';
 import { TurnSwitcherHandler } from './handlers/TurnSwitcherHandler';
 
 export class Bootstrapper {
@@ -135,12 +135,14 @@ export class Bootstrapper {
     endOfMoveHandlersNotifier: IEndOfMoveHandlersNotifier,
     turnSwitcher: ITurnSwitcher,
     piecesStorage: IEditablePiecesStorage,
+    playersStorage: IPlayersStorage,
   } {
     return {
       movesCounter: this.movesCounter,
       endOfMoveHandlersNotifier: this.endOfMoveHandlersNotifier,
       turnSwitcher: this.turnSwitcher,
       piecesStorage: this.piecesStorage,
+      playersStorage: this.playersStorage,
     }
   }
 }

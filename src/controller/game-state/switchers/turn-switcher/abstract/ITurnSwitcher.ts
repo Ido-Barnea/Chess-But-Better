@@ -1,4 +1,4 @@
-import { Player } from '../../../storages/players storage/Player';
+import { Player } from '../../../storages/players-storage/Player';
 
 export interface TurnChangeListener {
   onTurnChange: (currentPlayer: Player, turnsCount: number) => void;

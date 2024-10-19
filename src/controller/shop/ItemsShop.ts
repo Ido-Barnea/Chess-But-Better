@@ -1,6 +1,6 @@
 import { InventoryActionResult } from '../inventory/types/InventoryActionResult';
 import { isPlayerAllowedToAct } from '../PieceLogic';
-import { Player } from '../game state/storages/players storage/Player';
+import { Player } from '../game-state/storages/players-storage/Player';
 import { BaseItem } from '../items/abstract/Item';
 import { Shield } from '../items/Shield';
 import { Trap } from '../items/Trap';

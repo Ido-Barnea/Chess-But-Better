@@ -1,7 +1,7 @@
 // import { RuleLog } from '../../ui/logs/Log';
 import { Unicorn } from '../pieces/Unicorn';
-import { IKillerPieceSwitcher } from '../game state/switchers/killer piece switcher/abstract/IKillerPieceSwitcher';
-import { ITurnSwitcher } from '../game state/switchers/turn switcher/abstract/ITurnSwitcher';
+import { IKillerPieceSwitcher } from '../game-state/switchers/killer-piece-switcher/abstract/IKillerPieceSwitcher';
+import { ITurnSwitcher } from '../game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 import { BaseRule } from './abstract/BaseRule';
 
 export class ExperienceOnKillRule extends BaseRule {

@@ -1,11 +1,11 @@
 import { isEqual } from 'lodash';
 import { BasePiece } from '../../model/pieces/abstract/BasePiece';
-import { IEditablePiecesStorage } from '../game state/storages/pieces storage/abstract/IEditablePiecesStorage';
+import { IEditablePiecesStorage } from '../game-state/storages/pieces-storage/abstract/IEditablePiecesStorage';
 import { PermanentlyKillPieceAction } from './PermanentlyKillPieceAction';
 import { TriggerPieceOnItemAction } from './TriggerPieceOnItemAction';
 import { GameAction } from './abstract/GameAction';
 import { ActionResult } from './types/ActionResult';
-import { IDeathsCounter } from '../game state/counters/deaths counter/abstract/IDeathsCounter';
+import { IDeathsCounter } from '../game-state/counters/deaths-counter/abstract/IDeathsCounter';
 
 export class SpawnPieceAction implements GameAction {
   protected piece: BasePiece;
