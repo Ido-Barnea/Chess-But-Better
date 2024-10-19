@@ -29,8 +29,8 @@ import { PiecesCanFallOffTheBoardRule } from './rules/PiecesCanFallOffTheBoardRu
 import { SecretRulesManager } from './rules/SecretRulesManager';
 import { WithAgeComesWisdomRule } from './rules/WithAgeComesWisdomRule';
 import { ISecretRulesManager } from './rules/abstract/ISecretRulesManager';
-import { CastlingSwitcher } from './game-state/switchers/castling switcher/CastlingSwitcher';
-import { ICastlingSwitcher } from './game-state/switchers/castling switcher/abstract/ICastlingSwitcher';
+import { CastlingSwitcher } from './game-state/switchers/castling-switcher/CastlingSwitcher';
+import { ICastlingSwitcher } from './game-state/switchers/castling-switcher/abstract/ICastlingSwitcher';
 import { PlayersTurnSwitcher } from './game-state/switchers/turn-switcher/PlayersTurnSwitcher';
 import { ITurnSwitcher } from './game-state/switchers/turn-switcher/abstract/ITurnSwitcher';
 import { FriendlyFireSwitcher } from './game-state/switchers/friendly-fire-switcher/FriendlyFireSwitcher';
