@@ -10,7 +10,7 @@ export class PlayersTurnSwitcher implements ITurnSwitcher {
   constructor(players: Array<Player>) {
     this.players = players;
     this.currentPlayerIndex = 0;
-    this.turnsCount = 1;
+    this.turnsCount = 0;
     this.turnChangeListeners = [];
   }
 

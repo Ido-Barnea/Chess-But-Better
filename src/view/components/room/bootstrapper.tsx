@@ -19,7 +19,7 @@ export const Bootstrap = () => {
       try {
         setTools(await new Bootstrapper().getTools());
       } catch (error) {
-        console.error('Initialization failed', error);
+        console.error('Initialization failed: ', error);
       }
     };
 
