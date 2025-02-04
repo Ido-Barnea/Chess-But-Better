@@ -6,6 +6,8 @@ import { useGame } from "../../../utility/context/game-context";
 import { EventType } from "../../../controller/events/Events";
 import { BasePiece } from "../../../model/piece/abstract/BasePiece";
 import { Position } from "../../../model/piece/utilities/position/Position";
+import { isEqual } from "lodash";
+import { BoardType } from "../../../model/board/BoardTypes";
 
 interface TileProps {
   position: Position,
@@ -19,12 +21,22 @@ export const Tile: FC<TileProps> = ({position}) => {
 
   const updatePiece = () => {
     setPiece(game.boardService.getPieceAt(position));
+
+    if (isEqual(position.coordinates, {x: 3, y: 3}) && position.board.name === BoardType.OVERWORLD) {
+      console.log(game.boardService.getPieceAt({board: position.board, coordinates: {x: 3, y: 3}}));
+    }
   };
 
   useEffect(() => {
     game.eventEmitter.on(EventType.PIECE_MOVED, updatePiece);
     game.eventEmitter.on(EventType.PIECE_KILLED, updatePiece);
     game.eventEmitter.on(EventType.PIECE_SPAWNED, updatePiece);
+
+    return () => {
+      game.eventEmitter.off(EventType.PIECE_MOVED, updatePiece);
+      game.eventEmitter.off(EventType.PIECE_KILLED, updatePiece);
+      game.eventEmitter.off(EventType.PIECE_SPAWNED, updatePiece);
+    };
   }, []);
 
   const [_, drop] = useDrop(() => ({

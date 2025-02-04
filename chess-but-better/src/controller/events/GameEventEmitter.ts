@@ -18,7 +18,7 @@ export class GameEventEmitter {
     }
   }
 
-  off(event: string, handler: Handler) {
+  off(event: EventType, handler: Handler) {
     if (this.events[event]) {
       this.events[event] = this.events[event].filter((h) => h !== handler);
     }
