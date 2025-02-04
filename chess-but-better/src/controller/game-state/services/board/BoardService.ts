@@ -1,9 +1,9 @@
 import { isEqual } from "lodash";
 import { BaseBoard } from "../../../../model/board/abstract/BaseBoard";
 import { BasePiece } from "../../../../model/piece/abstract/BasePiece";
-import { Coordinates } from "../../../../model/piece/utilities/position/Coordinates";
 import { IPiecesStorage } from "../../../storages/pieces-storage/abstract/IPiecesStorage";
 import { IBoardService } from "./abstract/IBoardService";
+import { Position } from "../../../../model/piece/utilities/position/Position";
 
 export class BoardService implements IBoardService {
   private piecesStorage: IPiecesStorage;
@@ -23,16 +23,20 @@ export class BoardService implements IBoardService {
             }, [] as Array<BaseBoard>);
   }
 
-  getPieceAt(coordinates: Coordinates): BasePiece | undefined {
-    const matchingPieces = this.piecesStorage.getPieces((piece) => isEqual(piece.position.coordinates, coordinates));
+  getPieceAt(position: Position): BasePiece | undefined {
+    const matchingPieces = this.piecesStorage.getPieces((piece) => isEqual(piece.position, position));
     return matchingPieces.length > 0 ? matchingPieces[0] : undefined;
   }
 
-  movePiece(from: Coordinates, to: Coordinates) {
-    const matchingPieces = this.piecesStorage.getPieces((piece) => isEqual(piece.position.coordinates, from));
+  movePiece(from: Position, to: Position) {
+    const matchingPieces = this.piecesStorage.getPieces((piece) => isEqual(piece.position, from));
     if (matchingPieces.length !== 1) return;
 
     const piece = matchingPieces[0];
-    piece.position.coordinates = to;
+    const legalMoves = piece.getLegalMoves(this.piecesStorage);
+    const ITEM_DOES_NOT_EXIST = -1;
+    if (legalMoves.findIndex(position => isEqual(position, to)) === ITEM_DOES_NOT_EXIST) return;
+    
+    piece.position = to;
   }
 }

@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import { BaseBoard } from "../../../model/board/abstract/BaseBoard";
 import { Coordinates } from "../../../model/piece/utilities/position/Coordinates";
 import { Box } from "@mui/material";
 import { useDrop } from "react-dnd";
@@ -7,20 +6,20 @@ import { Piece } from "../pieces/piece";
 import { useGame } from "../../../utility/context/game-context";
 import { EventType } from "../../../controller/events/Events";
 import { BasePiece } from "../../../model/piece/abstract/BasePiece";
+import { Position } from "../../../model/piece/utilities/position/Position";
 
 interface TileProps {
-  board: BaseBoard;
-  coordinates: Coordinates;
+  position: Position,
 }
 
-export const Tile: FC<TileProps> = ({board, coordinates}) => {
-  const isDark = (coordinates.x + coordinates.y) % 2 !== 0;
+export const Tile: FC<TileProps> = ({position}) => {
+  const isDark = (position.coordinates.x + position.coordinates.y) % 2 !== 0;
 
   const { game } = useGame();
-  const [piece, setPiece] = useState<BasePiece | undefined>(game.boardService.getPieceAt(coordinates));
+  const [piece, setPiece] = useState<BasePiece | undefined>(game.boardService.getPieceAt(position));
 
   const updatePiece = () => {
-    setPiece(game.boardService.getPieceAt(coordinates));
+    setPiece(game.boardService.getPieceAt(position));
   };
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export const Tile: FC<TileProps> = ({board, coordinates}) => {
   const [_, drop] = useDrop(() => ({
     accept: 'PIECE',
     drop: (item: { from: Coordinates }) => {
-      game.boardService.movePiece(item.from, coordinates);
+      game.boardService.movePiece({coordinates: item.from, board: position.board}, position);
       game.eventEmitter.emit(EventType.DROP_PIECE);
     },
     collect: (monitor) => ({
@@ -44,7 +43,7 @@ export const Tile: FC<TileProps> = ({board, coordinates}) => {
       sx={{
         width: '5rem',
         height: '5rem',
-        backgroundColor: isDark ? board.colors.dark : board.colors.light,
+        backgroundColor: isDark ? position.board.colors.dark : position.board.colors.light,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
