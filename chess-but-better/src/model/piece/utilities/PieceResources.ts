@@ -1,11 +1,13 @@
-export class PieceResources {
-  resource: string;
-  icon: string;
-  name: string;
+import { FC } from "react";
 
-  constructor(resource: string, icon: string, name: string) {
-    this.resource = resource;
-    this.icon = icon;
+export class PieceResources {
+  name: string;
+  icon: string;
+  resource: FC;
+
+  constructor(name: string, icon: string, resource: FC) {
     this.name = name;
+    this.icon = icon;
+    this.resource = resource;
   }
 }

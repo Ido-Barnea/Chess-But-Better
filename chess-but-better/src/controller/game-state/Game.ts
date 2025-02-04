@@ -76,8 +76,8 @@ export class Game {
 
     // Storage
     this.piecesStorage = new PiecesStorage([
-      new Rook(this.blackTeam, { coordinates: { x: 0, y: 0 }, board: this.heavenBoard }),
-      new Knight(this.blackTeam, { coordinates: { x: 1, y: 0 }, board: this.hellBoard }),
+      new Rook(this.blackTeam, { coordinates: { x: 0, y: 0 }, board: this.overworldBoard }),
+      new Knight(this.blackTeam, { coordinates: { x: 1, y: 0 }, board: this.overworldBoard }),
       new Bishop(this.blackTeam, { coordinates: { x: 2, y: 0 }, board: this.overworldBoard }),
       new Queen(this.blackTeam, { coordinates: { x: 3, y: 0 }, board: this.overworldBoard }),
       new King(this.blackTeam, { coordinates: { x: 4, y: 0 }, board: this.overworldBoard }),

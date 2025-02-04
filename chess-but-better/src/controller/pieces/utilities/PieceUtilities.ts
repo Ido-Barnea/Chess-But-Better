@@ -1,8 +1,13 @@
 import { PieceResources } from "../../../model/piece/utilities/PieceResources";
 import { ITeam } from "../../../model/player/team/abstract/ITeam";
-import { BishopResource, KingResource, KnightResource, PawnResource, QueenResource, RookResource } from "../../../utility/Resources";
 import { PieceIcon } from "../types/PieceIcons";
 import { PieceType } from "../types/Pieces";
+import KingResource from '../../../assets/images/pieces/base/KingResource.svg?react';
+import QueenResource from '../../../assets/images/pieces/base/QueenResource.svg?react';
+import RookResource from '../../../assets/images/pieces/base/RookResource.svg?react';
+import BishopResource from '../../../assets/images/pieces/base/BishopResource.svg?react';
+import KnightResource from '../../../assets/images/pieces/base/KnightResource.svg?react';
+import PawnResource from '../../../assets/images/pieces/base/PawnResource.svg?react';
 
 export class PieceUtilities {
   private static pieceResources: Record<string, PieceResources> = {
