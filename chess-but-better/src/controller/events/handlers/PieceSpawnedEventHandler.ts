@@ -25,6 +25,7 @@ export class PieceSpawnedEventHandler extends BaseEventHandler {
 
     handle(context: Record<string, any>): void {
         const piece: BasePiece = context['piece'];
+        piece.health.restoreHealth(piece.health.maxHealth);
         const pieceSpawnedOn = this.retrievePieceOnSameTile(piece);
 
         if (pieceSpawnedOn) {
