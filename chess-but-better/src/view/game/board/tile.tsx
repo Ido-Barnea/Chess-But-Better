@@ -27,8 +27,8 @@ export const Tile: FC<TileProps> = ({board, coordinates}) => {
     game.eventEmitter.on(EventType.DROP_PIECE, updatePiece);
   }, []);
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "PIECE",
+  const [_, drop] = useDrop(() => ({
+    accept: 'PIECE',
     drop: (item: { from: Coordinates }) => {
       game.boardService.movePiece(item.from, coordinates);
       game.eventEmitter.emit(EventType.DROP_PIECE);

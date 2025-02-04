@@ -9,7 +9,7 @@ interface PieceProps {
 
 export const Piece: FC<PieceProps> = ({piece}) => {
     const [{ isDragging }, drag] = useDrag(() => ({
-        type: "PIECE",
+        type: 'PIECE',
         item: { from: piece.position.coordinates },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
