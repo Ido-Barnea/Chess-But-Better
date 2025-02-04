@@ -1,0 +1,66 @@
+import { Box, Button } from "@mui/material";
+import { FC, useState } from "react";
+import { useGame } from "../../../utility/context/game-context";
+import { Board } from "./board";
+
+export const BoardsView: FC = () => {
+  const { game } = useGame();
+  
+  const populatedBoards = game.boardService.retrievePopulatedBoards();
+  const [activeBoardIndex, setActiveBoardIndex] = useState(0);
+
+  const switchBoard = (index: number) => {
+    setActiveBoardIndex(index);
+  };
+
+  return (
+    <Box sx={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'gray',
+    }}>
+      {/* Left column: Board */}
+      <Box sx={{ width: '80%', display: 'flex', justifyContent: 'center' }}>
+        {populatedBoards.map((board, index) => (
+          <Box
+            key={board.name}
+            sx={{
+              display: activeBoardIndex === index ? 'flex' : 'none',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            <Box>
+              <Board board={board} />
+            </Box>
+          </Box>
+        ))}
+      </Box>
+
+      {/* Right column: Buttons */}
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '15%',
+      }}>
+        {populatedBoards.map((board, index) => (
+          <Button
+            key={board.name}
+            variant="contained"
+            sx={{height: '7.5rem', width: '7.5rem', margin: '5px', background: board.colors.dark }}
+            onClick={() => switchBoard(index)}
+          >
+            {board.name}
+          </Button>
+        ))}
+      </Box>
+    </Box>
+  );
+};
