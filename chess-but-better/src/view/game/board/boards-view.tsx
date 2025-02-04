@@ -1,13 +1,23 @@
 import { Box, Button } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useGame } from "../../../utility/context/game-context";
 import { Board } from "./board";
+import { BaseBoard } from "../../../model/board/abstract/BaseBoard";
+import { EventType } from "../../../controller/events/Events";
 
 export const BoardsView: FC = () => {
   const { game } = useGame();
   
-  const populatedBoards = game.boardService.retrievePopulatedBoards();
+  const [populatedBoards, setPopulatedBoards] = useState<Array<BaseBoard>>(game.boardService.retrievePopulatedBoards());
   const [activeBoardIndex, setActiveBoardIndex] = useState(0);
+  
+    const updateBoards = () => {
+      setPopulatedBoards(game.boardService.retrievePopulatedBoards());
+    };
+  
+    useEffect(() => {
+      game.eventEmitter.on(EventType.PIECE_SPAWNED, updateBoards);
+    }, []);
 
   const switchBoard = (index: number) => {
     setActiveBoardIndex(index);
