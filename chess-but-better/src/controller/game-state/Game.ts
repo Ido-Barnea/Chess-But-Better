@@ -7,10 +7,11 @@ import { IPlayer } from "../../model/player/abstract/IPlayer";
 import { Team } from "../../model/player/team/Team";
 import { TeamType } from "../../model/player/team/TeamTypes";
 import { ITeam } from "../../model/player/team/abstract/ITeam";
-import { EventEmitter } from "../events/EventEmitter";
+import { GameEventEmitter } from "../events/GameEventEmitter";
 import { EventType } from "../events/Events";
-import { IParentEventHandler } from "../events/abstract/IParentEventHandler";
 import { EndOfMoveEventHandler } from "../events/handlers/EndOfMoveEventHandler";
+import { PieceKilledEventHandler } from "../events/handlers/PieceKilledEventHandler";
+import { PieceMovedEventHandler } from "../events/handlers/PieceMovedEventHandler";
 import { TurnCounterHandler } from "../events/handlers/end-of-move-handlers/TurnCounterHandler";
 import { Bishop } from "../pieces/base/Bishop";
 import { King } from "../pieces/base/King";
@@ -26,6 +27,8 @@ import { TurnCounter } from "./counters/turn-counter/TurnCounter";
 import { ITurnCounter } from "./counters/turn-counter/abstract/ITurnCounter";
 import { BoardService } from "./services/board/BoardService";
 import { IBoardService } from "./services/board/abstract/IBoardService";
+import { IPiecesService } from "./services/pieces/abstract/IPiecesService";
+import { PiecesService } from "./services/pieces/PiecesService";
 
 export class Game {
   // Teams
@@ -46,14 +49,14 @@ export class Game {
   public piecesStorage: IPiecesStorage;
 
   // Services
+  public piecesService: IPiecesService;
   public boardService: IBoardService;
 
   // Counters
   private turnCounter: ITurnCounter;
 
   // Event Handlers
-  public eventEmitter: EventEmitter;
-  private endOfMoveEventHandler: IParentEventHandler;
+  public eventEmitter: GameEventEmitter;
 
   constructor() {
     // Teams
@@ -111,15 +114,25 @@ export class Game {
       new Rook(this.whiteTeam, { coordinates: { x: 7, y: 7 }, board: this.overworldBoard }),
     ]);
 
-    // Services
-    this.boardService = new BoardService(this.piecesStorage);
-
     // Event Handlers
-    this.eventEmitter = new EventEmitter();
+    this.eventEmitter = new GameEventEmitter();
 
-    this.endOfMoveEventHandler = new EndOfMoveEventHandler();
-    this.endOfMoveEventHandler.addHandler(new TurnCounterHandler(this.turnCounter));
+    // Services
+    this.piecesService = new PiecesService(this.piecesStorage);
+    this.boardService = new BoardService(this.eventEmitter, this.piecesStorage, this.piecesService);
 
-    this.eventEmitter.on(EventType.END_OF_MOVE, this.endOfMoveEventHandler.handle);
+    // Event Handlers - End Of Move
+    const endOfMoveEventHandler = new EndOfMoveEventHandler();
+    endOfMoveEventHandler.addHandler(new TurnCounterHandler(this.turnCounter));
+
+    this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveEventHandler.handle);
+
+    // Event Handlers - Piece Moved
+    const pieceMovedEventHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesStorage, this.piecesService);
+    this.eventEmitter.on(EventType.PIECE_MOVED, pieceMovedEventHandler.handle);
+
+    // Event Handlers - Piece Killed
+    const pieceKilledEventHandler = new PieceKilledEventHandler(this.piecesStorage);
+    this.eventEmitter.on(EventType.PIECE_KILLED, pieceKilledEventHandler.handle);
   }
 }

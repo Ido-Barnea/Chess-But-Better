@@ -12,7 +12,7 @@ export const Piece: FC<PieceProps> = ({piece}) => {
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'PIECE',
-        item: { from: piece.position },
+        item: { piece: piece },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),

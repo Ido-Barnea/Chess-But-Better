@@ -22,14 +22,13 @@ export const Tile: FC<TileProps> = ({position}) => {
   };
 
   useEffect(() => {
-    game.eventEmitter.on(EventType.DROP_PIECE, updatePiece);
+    game.eventEmitter.on(EventType.PIECE_MOVED, updatePiece);
   }, []);
 
   const [_, drop] = useDrop(() => ({
     accept: 'PIECE',
-    drop: (item: { from: Position }) => {
-      game.boardService.movePiece(item.from, position);
-      game.eventEmitter.emit(EventType.DROP_PIECE);
+    drop: (item: { piece: BasePiece }) => {
+      game.boardService.movePiece(item.piece, position);
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

@@ -1,4 +1,4 @@
 
 export interface IEventHandler {
-  handle(): void;
+  handle(context: Record<string, any>): void;
 }
