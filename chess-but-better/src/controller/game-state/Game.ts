@@ -8,6 +8,7 @@ import { Team } from "../../model/player/team/Team";
 import { TeamType } from "../../model/player/team/TeamTypes";
 import { ITeam } from "../../model/player/team/abstract/ITeam";
 import { EventEmitter } from "../events/EventEmitter";
+import { EventType } from "../events/Events";
 import { IParentEventHandler } from "../events/abstract/IParentEventHandler";
 import { EndOfMoveEventHandler } from "../events/handlers/EndOfMoveEventHandler";
 import { TurnCounterHandler } from "../events/handlers/end-of-move-handlers/TurnCounterHandler";
@@ -118,5 +119,7 @@ export class Game {
 
     this.endOfMoveEventHandler = new EndOfMoveEventHandler();
     this.endOfMoveEventHandler.addHandler(new TurnCounterHandler(this.turnCounter));
+
+    this.eventEmitter.on(EventType.END_OF_MOVE, this.endOfMoveEventHandler.handle);
   }
 }
