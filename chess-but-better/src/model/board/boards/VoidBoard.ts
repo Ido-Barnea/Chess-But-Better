@@ -3,9 +3,9 @@ import { BasePiece } from "../../piece/abstract/BasePiece";
 import { BoardType } from "../BoardTypes";
 import { BaseBoard } from "../abstract/BaseBoard";
 
-export class HeavenBoard extends BaseBoard {
+export class VoidBoard extends BaseBoard {
   constructor() {
-    super(BoardType.HEAVEN, {light: '#a1e3f5', dark: '#0da5ce'});
+    super(BoardType.VOID, {light: '', dark: ''});
   }
 
   determineNextBoard(_: BasePiece, __: CauseOfDeath): BoardType {

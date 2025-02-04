@@ -29,6 +29,9 @@ import { BoardService } from "./services/board/BoardService";
 import { IBoardService } from "./services/board/abstract/IBoardService";
 import { IPiecesService } from "./services/pieces/abstract/IPiecesService";
 import { PiecesService } from "./services/pieces/PiecesService";
+import { BoardType } from "../../model/board/BoardTypes";
+import { VoidBoard } from "../../model/board/boards/VoidBoard";
+import { PieceSpawnedEventHandler } from "../events/handlers/PieceSpawnedEventHandler";
 
 export class Game {
   // Teams
@@ -40,9 +43,7 @@ export class Game {
   private blackPlayer: IPlayer;
 
   // Boards
-  private overworldBoard: BaseBoard;
-  private heavenBoard: BaseBoard;
-  private hellBoard: BaseBoard;
+  private boards: Record<BoardType, BaseBoard>;
 
   // Storage
   public playersStorage: IPlayersStorage;
@@ -68,9 +69,12 @@ export class Game {
     this.blackPlayer = new Player('Player 2', this.blackTeam);
 
     // Boards
-    this.overworldBoard = new OverworldBoard();
-    this.heavenBoard = new HeavenBoard();
-    this.hellBoard = new HellBoard();
+    this.boards = {
+      [BoardType.OVERWORLD]: new OverworldBoard(),
+      [BoardType.HEAVEN]: new HeavenBoard(),
+      [BoardType.HELL]: new HellBoard(),
+      [BoardType.VOID]: new VoidBoard(),
+    } as Record<BoardType, BaseBoard>;
 
     // Storage
     this.playersStorage = new PlayersStorage([this.whitePlayer, this.blackPlayer]);
@@ -80,45 +84,45 @@ export class Game {
 
     // Storage
     this.piecesStorage = new PiecesStorage([
-      new Rook(this.blackTeam, { coordinates: { x: 0, y: 0 }, board: this.overworldBoard }),
-      new Knight(this.blackTeam, { coordinates: { x: 1, y: 0 }, board: this.overworldBoard }),
-      new Bishop(this.blackTeam, { coordinates: { x: 2, y: 0 }, board: this.overworldBoard }),
-      new Queen(this.blackTeam, { coordinates: { x: 3, y: 0 }, board: this.overworldBoard }),
-      new King(this.blackTeam, { coordinates: { x: 4, y: 0 }, board: this.overworldBoard }),
-      new Bishop(this.blackTeam, { coordinates: { x: 5, y: 0 }, board: this.overworldBoard }),
-      new Knight(this.blackTeam, { coordinates: { x: 6, y: 0 }, board: this.overworldBoard }),
-      new Rook(this.blackTeam, { coordinates: { x: 7, y: 0 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 0, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 1, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 2, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 3, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 4, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 5, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 6, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.blackTeam, { coordinates: { x: 7, y: 1 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 0, y: 6 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 1, y: 6 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 2, y: 6 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 3, y: 6 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 4, y: 6 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 5, y: 6 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 6, y: 6 }, board: this.overworldBoard }),
-      new Pawn(this.whiteTeam, { coordinates: { x: 7, y: 6 }, board: this.overworldBoard }),
-      new Rook(this.whiteTeam, { coordinates: { x: 0, y: 7 }, board: this.overworldBoard }),
-      new Knight(this.whiteTeam, { coordinates: { x: 1, y: 7 }, board: this.overworldBoard }),
-      new Bishop(this.whiteTeam, { coordinates: { x: 2, y: 7 }, board: this.overworldBoard }),
-      new Queen(this.whiteTeam, { coordinates: { x: 3, y: 7 }, board: this.overworldBoard }),
-      new King(this.whiteTeam, { coordinates: { x: 4, y: 7 }, board: this.overworldBoard }),
-      new Bishop(this.whiteTeam, { coordinates: { x: 5, y: 7 }, board: this.overworldBoard }),
-      new Knight(this.whiteTeam, { coordinates: { x: 6, y: 7 }, board: this.overworldBoard }),
-      new Rook(this.whiteTeam, { coordinates: { x: 7, y: 7 }, board: this.overworldBoard }),
+      new Rook(this.blackTeam, { coordinates: { x: 0, y: 0 }, board: this.boards.overworld }),
+      new Knight(this.blackTeam, { coordinates: { x: 1, y: 0 }, board: this.boards.overworld }),
+      new Bishop(this.blackTeam, { coordinates: { x: 2, y: 0 }, board: this.boards.overworld }),
+      new Queen(this.blackTeam, { coordinates: { x: 3, y: 0 }, board: this.boards.overworld }),
+      new King(this.blackTeam, { coordinates: { x: 4, y: 0 }, board: this.boards.overworld }),
+      new Bishop(this.blackTeam, { coordinates: { x: 5, y: 0 }, board: this.boards.overworld }),
+      new Knight(this.blackTeam, { coordinates: { x: 6, y: 0 }, board: this.boards.overworld }),
+      new Rook(this.blackTeam, { coordinates: { x: 7, y: 0 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 0, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 1, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 2, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 3, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 4, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 5, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 6, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.blackTeam, { coordinates: { x: 7, y: 1 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 0, y: 6 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 1, y: 6 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 2, y: 6 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 3, y: 6 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 4, y: 6 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 5, y: 6 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 6, y: 6 }, board: this.boards.overworld }),
+      new Pawn(this.whiteTeam, { coordinates: { x: 7, y: 6 }, board: this.boards.overworld }),
+      new Rook(this.whiteTeam, { coordinates: { x: 0, y: 7 }, board: this.boards.overworld }),
+      new Knight(this.whiteTeam, { coordinates: { x: 1, y: 7 }, board: this.boards.overworld }),
+      new Bishop(this.whiteTeam, { coordinates: { x: 2, y: 7 }, board: this.boards.overworld }),
+      new Queen(this.whiteTeam, { coordinates: { x: 3, y: 7 }, board: this.boards.overworld }),
+      new King(this.whiteTeam, { coordinates: { x: 4, y: 7 }, board: this.boards.overworld }),
+      new Bishop(this.whiteTeam, { coordinates: { x: 5, y: 7 }, board: this.boards.overworld }),
+      new Knight(this.whiteTeam, { coordinates: { x: 6, y: 7 }, board: this.boards.overworld }),
+      new Rook(this.whiteTeam, { coordinates: { x: 7, y: 7 }, board: this.boards.overworld }),
     ]);
 
     // Event Handlers
     this.eventEmitter = new GameEventEmitter();
 
     // Services
-    this.piecesService = new PiecesService(this.piecesStorage);
+    this.piecesService = new PiecesService(this.piecesStorage, this.turnCounter);
     this.boardService = new BoardService(this.eventEmitter, this.piecesStorage, this.piecesService);
 
     // Event Handlers - End Of Move
@@ -132,7 +136,11 @@ export class Game {
     this.eventEmitter.on(EventType.PIECE_MOVED, pieceMovedEventHandler.handle);
 
     // Event Handlers - Piece Killed
-    const pieceKilledEventHandler = new PieceKilledEventHandler(this.piecesStorage);
+    const pieceKilledEventHandler = new PieceKilledEventHandler(this.eventEmitter, this.boards);
     this.eventEmitter.on(EventType.PIECE_KILLED, pieceKilledEventHandler.handle);
+
+    // Event Handlers - Piece Spawned
+    const pieceSpawnedEventHandler = new PieceSpawnedEventHandler(this.eventEmitter, this.piecesStorage);
+    this.eventEmitter.on(EventType.PIECE_SPAWNED, pieceSpawnedEventHandler.handle);
   }
 }

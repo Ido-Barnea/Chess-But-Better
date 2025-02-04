@@ -6,6 +6,7 @@ import { EventType } from "../Events";
 import { GameEventEmitter } from "../GameEventEmitter";
 import { IPiecesService } from "../../game-state/services/pieces/abstract/IPiecesService";
 import { BaseEventHandler } from "../abstract/BaseEventHandler";
+import { CauseOfDeath } from "./PieceKilledEventHandler";
 
 export class PieceMovedEventHandler extends BaseEventHandler {
     private eventEmitter: GameEventEmitter;
@@ -35,7 +36,7 @@ export class PieceMovedEventHandler extends BaseEventHandler {
         piece.stats.damageDealt += 1;
 
         if (attackedPiece.health.isDead()) {
-            this.eventEmitter.emit(EventType.PIECE_KILLED, {piece: attackedPiece});
+            this.eventEmitter.emit(EventType.PIECE_KILLED, {piece: attackedPiece, causeOfDeath: CauseOfDeath.PLAYER});
             piece.position = this.piecesService.copyPosition(attackedPiece.position);
         }
     }
