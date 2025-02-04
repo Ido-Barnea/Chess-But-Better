@@ -5,6 +5,8 @@ import { IPiecesStorage } from "../../../storages/pieces-storage/abstract/IPiece
 import { IBoardService } from "./abstract/IBoardService";
 import { Position } from "../../../../model/piece/utilities/position/Position";
 
+const ITEM_DOES_NOT_EXIST = -1;
+
 export class BoardService implements IBoardService {
   private piecesStorage: IPiecesStorage;
 
@@ -34,7 +36,6 @@ export class BoardService implements IBoardService {
 
     const piece = matchingPieces[0];
     const legalMoves = piece.getLegalMoves(this.piecesStorage);
-    const ITEM_DOES_NOT_EXIST = -1;
     if (legalMoves.findIndex(position => isEqual(position, to)) === ITEM_DOES_NOT_EXIST) return;
     
     piece.position = to;
