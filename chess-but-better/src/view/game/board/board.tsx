@@ -17,7 +17,7 @@ export const Board: FC<BoardProps> = ({board}) => {
           <Tile
             key={`${row}-${col}`}
             board={board}
-            coordinates={{x: row, y: col}} />
+            coordinates={{x: col, y: row}} />
         );
       }
       boardElement.push(
