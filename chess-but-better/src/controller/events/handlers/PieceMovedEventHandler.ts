@@ -36,8 +36,8 @@ export class PieceMovedEventHandler extends BaseEventHandler {
         piece.stats.damageDealt += 1;
 
         if (attackedPiece.health.isDead()) {
-            this.eventEmitter.emit(EventType.PIECE_KILLED, {piece: attackedPiece, causeOfDeath: CauseOfDeath.PLAYER});
             piece.position = this.piecesService.copyPosition(attackedPiece.position);
+            this.eventEmitter.emit(EventType.PIECE_KILLED, {piece: attackedPiece, causeOfDeath: CauseOfDeath.PLAYER});
         }
     }
 

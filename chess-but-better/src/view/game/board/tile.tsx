@@ -23,6 +23,8 @@ export const Tile: FC<TileProps> = ({position}) => {
 
   useEffect(() => {
     game.eventEmitter.on(EventType.PIECE_MOVED, updatePiece);
+    game.eventEmitter.on(EventType.PIECE_KILLED, updatePiece);
+    game.eventEmitter.on(EventType.PIECE_SPAWNED, updatePiece);
   }, []);
 
   const [_, drop] = useDrop(() => ({
