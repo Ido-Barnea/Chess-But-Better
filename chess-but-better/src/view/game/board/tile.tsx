@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import { Coordinates } from "../../../model/piece/utilities/position/Coordinates";
 import { Box } from "@mui/material";
 import { useDrop } from "react-dnd";
 import { Piece } from "../pieces/piece";
@@ -28,8 +27,8 @@ export const Tile: FC<TileProps> = ({position}) => {
 
   const [_, drop] = useDrop(() => ({
     accept: 'PIECE',
-    drop: (item: { from: Coordinates }) => {
-      game.boardService.movePiece({coordinates: item.from, board: position.board}, position);
+    drop: (item: { from: Position }) => {
+      game.boardService.movePiece(item.from, position);
       game.eventEmitter.emit(EventType.DROP_PIECE);
     },
     collect: (monitor) => ({

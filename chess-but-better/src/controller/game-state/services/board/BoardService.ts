@@ -4,14 +4,15 @@ import { BasePiece } from "../../../../model/piece/abstract/BasePiece";
 import { IPiecesStorage } from "../../../storages/pieces-storage/abstract/IPiecesStorage";
 import { IBoardService } from "./abstract/IBoardService";
 import { Position } from "../../../../model/piece/utilities/position/Position";
-
-const ITEM_DOES_NOT_EXIST = -1;
+import { PiecesService } from "../pieces/PiecesService";
 
 export class BoardService implements IBoardService {
   private piecesStorage: IPiecesStorage;
+  private piecesService: PiecesService;
 
   constructor(piecesStorage: IPiecesStorage) {
     this.piecesStorage = piecesStorage;
+    this.piecesService = new PiecesService(this.piecesStorage);
   }
 
   retrievePopulatedBoards(): Array<BaseBoard> {
@@ -31,12 +32,9 @@ export class BoardService implements IBoardService {
   }
 
   movePiece(from: Position, to: Position) {
-    const matchingPieces = this.piecesStorage.getPieces((piece) => isEqual(piece.position, from));
-    if (matchingPieces.length !== 1) return;
-
-    const piece = matchingPieces[0];
-    const legalMoves = piece.getLegalMoves(this.piecesStorage);
-    if (legalMoves.findIndex(position => isEqual(position, to)) === ITEM_DOES_NOT_EXIST) return;
+    const piece = this.piecesService.getPieceByPosition(from);
+    if (!piece) return;
+    if (!this.piecesService.isLegalMove(piece, to)) return;
     
     piece.position = to;
   }
