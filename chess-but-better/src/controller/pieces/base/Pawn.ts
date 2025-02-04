@@ -4,25 +4,20 @@ import { PieceHealth } from "../../../model/piece/utilities/PieceHealth";
 import { Position } from "../../../model/piece/utilities/position/Position";
 import { TeamType } from "../../../model/player/team/TeamTypes";
 import { ITeam } from "../../../model/player/team/abstract/ITeam";
-import { ITurnCounter } from "../../game-state/counters/turn-counter/abstract/ITurnCounter";
 import { IPiecesStorage } from "../../storages/pieces-storage/abstract/IPiecesStorage";
 import { Pieces } from "../types/Pieces";
 import { PieceUtilities } from "../utilities/PieceUtilities";
 
 export class Pawn extends BasePiece {
-  turnCounter: ITurnCounter;
-
   public possibleEnPassantPositions: [Position, Position] | undefined;
   public isInitialDoubleStep: boolean;
   public diagonalAttackPosition: Position | undefined;
 
-  constructor(team: ITeam, position: Position, turnCounter: ITurnCounter) {
+  constructor(team: ITeam, position: Position) {
     const resources = PieceUtilities.getPieceResources(Pieces.PAWN, team);
     const health = new PieceHealth(1, 1);
 
     super(resources, team, position, health);
-
-    this.turnCounter = turnCounter;
 
     this.possibleEnPassantPositions = undefined;
     this.isInitialDoubleStep = false;
@@ -48,10 +43,9 @@ export class Pawn extends BasePiece {
   getLegalMoves(piecesStorage: IPiecesStorage): Array<Position> {
     const validMoves: Array<Position> = [];
     const currentCoordinates = this.position.coordinates;
-    const currentPlayer = this.turnCounter.getCurrentPlayer();
 
     // Determine the direction of pawn movement based on the player's color
-    const stepY = currentPlayer.team.name === TeamType.WHITE ? -1 : 1;
+    const stepY = this.team.name === TeamType.WHITE ? -1 : 1;
 
     // Check one square forward
     const oneSquareForward: Position = {
