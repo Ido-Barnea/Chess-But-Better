@@ -1,22 +1,34 @@
 import { isEqual } from "lodash";
 import { BaseBoard } from "../../../../model/board/abstract/BaseBoard";
 import { BasePiece } from "../../../../model/piece/abstract/BasePiece";
-import { IPiecesStorage } from "../../../storages/pieces-storage/abstract/IPiecesStorage";
 import { IBoardService } from "./abstract/IBoardService";
 import { Position } from "../../../../model/piece/utilities/position/Position";
-import { GameEventEmitter } from "../../../events/GameEventEmitter";
 import { EventType } from "../../../events/Events";
+import { BoardType } from "../../../../model/board/BoardTypes";
+import { IPiecesStorage } from "../../../storages/pieces-storage/abstract/IPiecesStorage";
 import { IPiecesService } from "../pieces/abstract/IPiecesService";
+import { GameEventEmitter } from "../../../events/GameEventEmitter";
 
 export class BoardService implements IBoardService {
-  private eventEmitter: GameEventEmitter;
+  private boards: Record<BoardType, BaseBoard>;
   private piecesStorage: IPiecesStorage;
   private piecesService: IPiecesService;
+  private eventEmitter: GameEventEmitter;
 
-  constructor(eventEmitter: GameEventEmitter, piecesStorage: IPiecesStorage, piecesService: IPiecesService) {
-    this.eventEmitter = eventEmitter;
+  constructor(
+    boards: Record<BoardType, BaseBoard>,
+    piecesStorage: IPiecesStorage,
+    piecesService: IPiecesService,
+    eventEmitter: GameEventEmitter,
+  ) {
+    this.boards = boards;
     this.piecesStorage = piecesStorage;
     this.piecesService = piecesService;
+    this.eventEmitter = eventEmitter;
+  }
+
+  getBoard(type: BoardType): BaseBoard {
+    return this.boards[type];
   }
 
   retrievePopulatedBoards(): Array<BaseBoard> {
@@ -40,5 +52,15 @@ export class BoardService implements IBoardService {
     
     this.eventEmitter.emit(EventType.PIECE_MOVED, {piece, to});
     this.eventEmitter.emit(EventType.END_OF_TURN);
+  }
+
+  copyPosition(position: Position): Position {
+    return {
+      coordinates: {
+        x: position.coordinates.x,
+        y: position.coordinates.y,
+      },
+      board: this.getBoard(position.board.name),
+    }
   }
 }

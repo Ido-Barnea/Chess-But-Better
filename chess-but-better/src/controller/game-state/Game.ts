@@ -43,7 +43,7 @@ export class Game {
   private blackPlayer: IPlayer;
 
   // Boards
-  private boards: Record<BoardType, BaseBoard>;
+  public boards: Record<BoardType, BaseBoard>;
 
   // Storage
   public playersStorage: IPlayersStorage;
@@ -123,7 +123,7 @@ export class Game {
 
     // Services
     this.piecesService = new PiecesService(this.piecesStorage, this.turnCounter);
-    this.boardService = new BoardService(this.eventEmitter, this.piecesStorage, this.piecesService);
+    this.boardService = new BoardService(this.boards, this.piecesStorage, this.piecesService, this.eventEmitter);
 
     // Event Handlers - End Of Move
     const endOfMoveEventHandler = new EndOfMoveEventHandler();
@@ -132,7 +132,7 @@ export class Game {
     this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveEventHandler.handle);
 
     // Event Handlers - Piece Moved
-    const pieceMovedEventHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesStorage, this.piecesService);
+    const pieceMovedEventHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesStorage, this.boardService);
     this.eventEmitter.on(EventType.PIECE_MOVED, pieceMovedEventHandler.handle);
 
     // Event Handlers - Piece Killed

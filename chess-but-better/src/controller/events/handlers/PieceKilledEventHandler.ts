@@ -44,5 +44,6 @@ export class PieceKilledEventHandler extends BaseEventHandler {
         const nextBoard = this.determinePieceNextBoard(piece, causeOfDeath);
         piece.position.board = nextBoard;
         this.eventEmitter.emit(EventType.PIECE_SPAWNED, {piece});
+        this.eventEmitter.emit(EventType.AFTER_PIECE_KILLED);
     }
 }

@@ -4,20 +4,20 @@ import { IPiecesStorage } from "../../storages/pieces-storage/abstract/IPiecesSt
 import { Position } from "../../../model/piece/utilities/position/Position";
 import { EventType } from "../Events";
 import { GameEventEmitter } from "../GameEventEmitter";
-import { IPiecesService } from "../../game-state/services/pieces/abstract/IPiecesService";
 import { BaseEventHandler } from "../abstract/BaseEventHandler";
 import { CauseOfDeath } from "./PieceKilledEventHandler";
+import { IBoardService } from "../../game-state/services/board/abstract/IBoardService";
 
 export class PieceMovedEventHandler extends BaseEventHandler {
     private eventEmitter: GameEventEmitter;
     private piecesStorage: IPiecesStorage;
-    private piecesService: IPiecesService;
+    private boardService: IBoardService;
 
-    constructor(eventEmitter: GameEventEmitter, piecesStorage: IPiecesStorage, piecesService: IPiecesService) {
+    constructor(eventEmitter: GameEventEmitter, piecesStorage: IPiecesStorage, boardService: IBoardService) {
         super();
         this.eventEmitter = eventEmitter;
         this.piecesStorage = piecesStorage;
-        this.piecesService = piecesService;
+        this.boardService = boardService;
     }
 
     calculateMovementDistance(from: Position, to: Position): number {
@@ -36,7 +36,7 @@ export class PieceMovedEventHandler extends BaseEventHandler {
         piece.stats.damageDealt += 1;
 
         if (attackedPiece.health.isDead()) {
-            piece.position = this.piecesService.copyPosition(attackedPiece.position);
+            piece.position = this.boardService.copyPosition(attackedPiece.position);
             piece.stats.kills += 1;
             this.eventEmitter.emit(EventType.PIECE_KILLED, {piece: attackedPiece, causeOfDeath: CauseOfDeath.PLAYER});
         }
@@ -55,5 +55,7 @@ export class PieceMovedEventHandler extends BaseEventHandler {
         } else {
             this.handleAttack(piece, piecesInTargetPosition[0]);
         }
+
+        this.eventEmitter.emit(EventType.AFTER_PIECE_MOVED);
     }
 }

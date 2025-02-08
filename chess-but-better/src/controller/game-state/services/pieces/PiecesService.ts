@@ -28,14 +28,4 @@ export class PiecesService implements IPiecesService {
     const legalMoves = piece.getLegalMoves(this.piecesStorage);
     return legalMoves.findIndex(position => isEqual(position, to)) !== ITEM_DOES_NOT_EXIST;
   }
-
-  copyPosition(position: Position): Position {
-    return {
-      coordinates: {
-        x: position.coordinates.x,
-        y: position.coordinates.y,
-      },
-      board: position.board,
-    }
-  }
 }

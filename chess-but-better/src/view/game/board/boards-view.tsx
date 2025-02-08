@@ -11,13 +11,13 @@ export const BoardsView: FC = () => {
   const [populatedBoards, setPopulatedBoards] = useState<Array<BaseBoard>>(game.boardService.retrievePopulatedBoards());
   const [activeBoardIndex, setActiveBoardIndex] = useState(0);
   
-    const updateBoards = () => {
-      setPopulatedBoards(game.boardService.retrievePopulatedBoards());
-    };
-  
-    useEffect(() => {
-      game.eventEmitter.on(EventType.PIECE_SPAWNED, updateBoards);
-    }, []);
+  const updateBoards = () => {
+    setPopulatedBoards(game.boardService.retrievePopulatedBoards());
+  };
+
+  useEffect(() => {
+    game.eventEmitter.on(EventType.PIECE_SPAWNED, updateBoards);
+  }, []);
 
   const switchBoard = (index: number) => {
     setActiveBoardIndex(index);

@@ -31,5 +31,7 @@ export class PieceSpawnedEventHandler extends BaseEventHandler {
         if (pieceSpawnedOn) {
             this.eventEmitter.emit(EventType.PIECE_KILLED, {piece: pieceSpawnedOn, causeOfDeath: CauseOfDeath.PLAYER});
         }
+
+        this.eventEmitter.emit(EventType.AFTER_PIECE_SPAWNED);
     }
 }
