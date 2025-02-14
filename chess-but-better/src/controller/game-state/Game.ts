@@ -54,7 +54,7 @@ export class Game {
   public boardService: IBoardService;
 
   // Counters
-  private turnCounter: ITurnCounter;
+  public turnCounter: ITurnCounter;
 
   // Event Handlers
   public eventEmitter: GameEventEmitter;

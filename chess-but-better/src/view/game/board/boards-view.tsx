@@ -15,9 +15,13 @@ export const BoardsView: FC = () => {
     setPopulatedBoards(game.boardService.retrievePopulatedBoards());
   };
 
-  useEffect(() => {}, [
-    game.eventEmitter.on(EventType.PIECE_SPAWNED, updateBoards),
-  ]);
+  useEffect(() => {
+    game.eventEmitter.on(EventType.PIECE_SPAWNED, updateBoards);
+
+    return () => {
+      game.eventEmitter.off(EventType.PIECE_SPAWNED, updateBoards);
+    }
+  }, []);
 
   const switchBoard = (index: number) => {
     setActiveBoardIndex(index);
@@ -30,7 +34,7 @@ export const BoardsView: FC = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      background: 'gray',
+      backgroundColor: '#bc6a3c',
     }}>
       {/* Left column: Board */}
       <Box sx={{ width: '80%', display: 'flex', justifyContent: 'center' }}>
