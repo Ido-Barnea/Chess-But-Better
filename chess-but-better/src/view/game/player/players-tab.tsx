@@ -26,7 +26,7 @@ export const PlayersTab: FC = () => {
                 }}
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='h6' sx={{ fontWeight: isPlayersTurn(player) ? 'bold' : 'normal' }}>
+                <Typography variant='button' color='#bc6a3c' sx={{ fontWeight: isPlayersTurn(player) ? 'bold' : 'normal' }}>
                     {player.name}
                 </Typography>
                 <Typography>{player.team.gold} Gold</Typography>

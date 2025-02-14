@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { useGame } from '../../../utility/context/game-context';
 import { EventType } from '../../../controller/events/Events';
 import { PlayersTab } from './players-tab';
+import { TurnInfo } from './turn-info';
 
 export const PlayerView: FC = () => {
   const { game } = useGame();
@@ -29,6 +30,7 @@ export const PlayerView: FC = () => {
       paddingRight: '4rem',
       backgroundColor: '#d5b07c',
     }}>
+      <TurnInfo />
       <PlayersTab />
     </Box>
   );
