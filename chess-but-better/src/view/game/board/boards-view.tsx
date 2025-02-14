@@ -15,9 +15,9 @@ export const BoardsView: FC = () => {
     setPopulatedBoards(game.boardService.retrievePopulatedBoards());
   };
 
-  useEffect(() => {
-    game.eventEmitter.on(EventType.PIECE_SPAWNED, updateBoards);
-  }, []);
+  useEffect(() => {}, [
+    game.eventEmitter.on(EventType.PIECE_SPAWNED, updateBoards),
+  ]);
 
   const switchBoard = (index: number) => {
     setActiveBoardIndex(index);

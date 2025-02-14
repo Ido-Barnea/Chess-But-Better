@@ -1,4 +1,3 @@
-import { isEqual } from "lodash";
 import { BaseBoard } from "../../../../model/board/abstract/BaseBoard";
 import { BasePiece } from "../../../../model/piece/abstract/BasePiece";
 import { IBoardService } from "./abstract/IBoardService";
@@ -40,11 +39,6 @@ export class BoardService implements IBoardService {
               }
               return uniqueBoards;
             }, [] as Array<BaseBoard>);
-  }
-
-  getPieceAt(position: Position): BasePiece | undefined {
-    const matchingPieces = this.piecesStorage.getPieces((piece) => isEqual(piece.position, position));
-    return matchingPieces.length > 0 ? matchingPieces[0] : undefined;
   }
 
   movePiece(piece: BasePiece, to: Position) {

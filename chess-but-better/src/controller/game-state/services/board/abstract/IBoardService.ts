@@ -6,7 +6,6 @@ import { Position } from "../../../../../model/piece/utilities/position/Position
 export interface IBoardService {
   getBoard: (type: BoardType) => BaseBoard;
   retrievePopulatedBoards: () => Array<BaseBoard>;
-  getPieceAt(position: Position): BasePiece | undefined;
   movePiece(piece: BasePiece, to: Position): void;
   copyPosition(position: Position): Position;
 }

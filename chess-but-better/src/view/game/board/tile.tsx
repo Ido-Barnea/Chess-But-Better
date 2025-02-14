@@ -5,7 +5,7 @@ import { Piece } from "../pieces/piece";
 import { useGame } from "../../../utility/context/game-context";
 import { BasePiece } from "../../../model/piece/abstract/BasePiece";
 import { Position } from "../../../model/piece/utilities/position/Position";
-import { isEqual } from "lodash";
+import { EventType } from "../../../controller/events/Events";
 
 interface TileProps {
   position: Position,
@@ -15,15 +15,19 @@ export const Tile: FC<TileProps> = ({position}) => {
   const isDark = (position.coordinates.x + position.coordinates.y) % 2 !== 0;
 
   const { game } = useGame();
-  const [piece, setPiece] = useState<BasePiece | undefined>(game.boardService.getPieceAt(position));
+
+  const [piece, setPiece] = useState<BasePiece | undefined>(game.piecesService.getPieceByPosition(position));
 
   const updatePiece = () => {
-    setPiece(game.boardService.getPieceAt(position));
+    const updatedPiece = game.piecesService.getPieceByPosition(position);
+    setPiece(updatedPiece);
   };
 
-  useEffect(() => {
-    updatePiece();
-  }, [game.piecesStorage.getPieces((piece) => isEqual(piece.position, position))]);
+  useEffect(() => {}, [
+    game.eventEmitter.on(EventType.AFTER_PIECE_MOVED, updatePiece),
+    game.eventEmitter.on(EventType.AFTER_PIECE_KILLED, updatePiece),
+    game.eventEmitter.on(EventType.AFTER_PIECE_SPAWNED, updatePiece),
+  ]);
 
   const [_, drop] = useDrop(() => ({
     accept: 'PIECE',
@@ -49,7 +53,7 @@ export const Tile: FC<TileProps> = ({position}) => {
         position: 'relative',
       }}
     >
-      {piece && <Piece piece={piece} />}
+      {piece && <Piece key={piece.resource.name} piece={piece} />}
     </Box>
   );
 };
