@@ -4,6 +4,7 @@ import { useGame } from "../../../utility/context/game-context";
 import { Board } from "./board";
 import { BaseBoard } from "../../../model/board/abstract/BaseBoard";
 import { EventType } from "../../../controller/events/Events";
+import { Colors } from "../../colors";
 
 export const BoardsView: FC = () => {
   const { game } = useGame();
@@ -34,7 +35,7 @@ export const BoardsView: FC = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#bc6a3c',
+      backgroundColor: Colors.SECONDARY,
     }}>
       {/* Left column: Board */}
       <Box sx={{ width: '80%', display: 'flex', justifyContent: 'center' }}>

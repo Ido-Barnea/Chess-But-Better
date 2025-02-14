@@ -2,6 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { FC, useRef } from "react";
 import { Player } from "../../../model/player/Player";
 import { useGame } from "../../../utility/context/game-context";
+import { Colors } from "../../colors";
 
 export const PlayersTab: FC = () => {
     const { game } = useGame();
@@ -26,7 +27,7 @@ export const PlayersTab: FC = () => {
                 }}
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='button' color='#bc6a3c' sx={{ fontWeight: isPlayersTurn(player) ? 'bold' : 'normal' }}>
+                <Typography variant='button' color={Colors.SECONDARY} sx={{ fontWeight: isPlayersTurn(player) ? 'bold' : 'normal' }}>
                     {player.name}
                 </Typography>
                 <Typography>{player.team.gold} Gold</Typography>

@@ -4,6 +4,7 @@ import { useGame } from '../../../utility/context/game-context';
 import { EventType } from '../../../controller/events/Events';
 import { PlayersTab } from './players-tab';
 import { TurnInfo } from './turn-info';
+import { Colors } from '../../colors';
 
 export const PlayerView: FC = () => {
   const { game } = useGame();
@@ -28,7 +29,7 @@ export const PlayerView: FC = () => {
       paddingBottom: '2rem',
       paddingLeft: '4rem',
       paddingRight: '4rem',
-      backgroundColor: '#d5b07c',
+      backgroundColor: Colors.BACKGROUND,
     }}>
       <TurnInfo />
       <PlayersTab />
