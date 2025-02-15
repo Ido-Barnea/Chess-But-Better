@@ -29,7 +29,7 @@ export const PlayerView: FC = () => {
       paddingBottom: '2rem',
       paddingLeft: '4rem',
       paddingRight: '4rem',
-      backgroundColor: Colors.BACKGROUND,
+      backgroundColor: Colors.SECONDARY,
     }}>
       <TurnInfo />
       <PlayersTab />

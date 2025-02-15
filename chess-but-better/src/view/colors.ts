@@ -1,6 +1,7 @@
 export enum Colors {
-    PRIMARY = '#892201',
-    SECONDARY = '#bc6a3c',
-    ACCENT = '#997d59',
-    BACKGROUND = '#d5b07c',
+    PRIMARY = '#da6d42',
+    SECONDARY = '#ffc18c',
+    ACCENT = '#563232',
+    BACKGROUND_DARK = '#1D1616',
+    BACKGROUND_LIGHT = '#FEFAE0',
 }

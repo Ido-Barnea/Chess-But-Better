@@ -35,7 +35,7 @@ export const BoardsView: FC = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: Colors.SECONDARY,
+      backgroundColor: Colors.BACKGROUND_DARK,
     }}>
       {/* Left column: Board */}
       <Box sx={{ width: '80%', display: 'flex', justifyContent: 'center' }}>
