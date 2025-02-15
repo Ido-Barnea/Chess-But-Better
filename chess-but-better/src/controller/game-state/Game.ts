@@ -33,6 +33,7 @@ import { BoardType } from "../../model/board/BoardTypes";
 import { VoidBoard } from "../../model/board/boards/VoidBoard";
 import { PieceSpawnedEventHandler } from "../events/handlers/PieceSpawnedEventHandler";
 import { FirstBloodHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FirstBloodHandler";
+import { VeteranHandler } from "../events/handlers/end-of-move-handlers/secret-rules/VeteranHandler";
 
 export class Game {
   // Teams
@@ -131,6 +132,7 @@ export class Game {
     endOfMoveEventHandler.addHandler(new TurnCounterHandler(this.turnCounter));
     
     endOfMoveEventHandler.addHandler(new FirstBloodHandler(this.piecesStorage));
+    endOfMoveEventHandler.addHandler(new VeteranHandler(this.piecesStorage));
 
     this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveEventHandler.handle);
 
