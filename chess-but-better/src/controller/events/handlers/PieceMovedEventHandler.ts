@@ -40,7 +40,11 @@ export class PieceMovedEventHandler extends BaseEventHandler {
             piece.stats.kills += 1;
             attackedPiece.position = this.boardService.copyPosition(attackedPiece.position); // Trigger component render
 
-            this.eventEmitter.emit(EventType.PIECE_KILLED, {piece: attackedPiece, causeOfDeath: CauseOfDeath.PLAYER});
+            this.eventEmitter.emit(EventType.PIECE_KILLED, {
+                killer: piece,
+                victim: attackedPiece,
+                causeOfDeath: CauseOfDeath.PLAYER,
+            });
         }
     }
 
