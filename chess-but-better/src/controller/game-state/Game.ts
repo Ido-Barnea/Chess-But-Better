@@ -32,6 +32,7 @@ import { PiecesService } from "./services/pieces/PiecesService";
 import { BoardType } from "../../model/board/BoardTypes";
 import { VoidBoard } from "../../model/board/boards/VoidBoard";
 import { PieceSpawnedEventHandler } from "../events/handlers/PieceSpawnedEventHandler";
+import { FirstBloodHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FirstBloodHandler";
 
 export class Game {
   // Teams
@@ -128,6 +129,8 @@ export class Game {
     // Event Handlers - End Of Move
     const endOfMoveEventHandler = new EndOfMoveEventHandler();
     endOfMoveEventHandler.addHandler(new TurnCounterHandler(this.turnCounter));
+    
+    endOfMoveEventHandler.addHandler(new FirstBloodHandler(this.piecesStorage));
 
     this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveEventHandler.handle);
 
