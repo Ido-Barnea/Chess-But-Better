@@ -35,6 +35,7 @@ import { PieceSpawnedEventHandler } from "../events/handlers/PieceSpawnedEventHa
 import { FirstBloodHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FirstBloodHandler";
 import { FriendlyFireHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FriendlyFireHandler";
 import { VeteranHandler } from "../events/handlers/end-of-move-handlers/secret-rules/VeteranHandler";
+import { BeggersHandler } from "../events/handlers/end-of-move-handlers/secret-rules/Beggers";
 
 export class Game {
   // Teams
@@ -155,5 +156,8 @@ export class Game {
 
     const friendlyFireHandler = new FriendlyFireHandler();
     this.eventEmitter.on(EventType.AFTER_PIECE_KILLED, friendlyFireHandler.handle);
+
+    const beggersHandler = new BeggersHandler(this.playersStorage);
+    this.eventEmitter.on(EventType.END_OF_TURN, beggersHandler.handle);
   }
 }
