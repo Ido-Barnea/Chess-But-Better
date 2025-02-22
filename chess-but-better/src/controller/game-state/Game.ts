@@ -32,6 +32,10 @@ import { PiecesService } from "./services/pieces/PiecesService";
 import { BoardType } from "../../model/board/BoardTypes";
 import { VoidBoard } from "../../model/board/boards/VoidBoard";
 import { PieceSpawnedEventHandler } from "../events/handlers/PieceSpawnedEventHandler";
+import { FirstBloodHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FirstBloodHandler";
+import { FriendlyFireHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FriendlyFireHandler";
+import { VeteranHandler } from "../events/handlers/end-of-move-handlers/secret-rules/VeteranHandler";
+import { BeggersHandler } from "../events/handlers/end-of-move-handlers/secret-rules/Beggers";
 
 export class Game {
   // Teams
@@ -126,21 +130,34 @@ export class Game {
     this.boardService = new BoardService(this.boards, this.piecesStorage, this.piecesService, this.eventEmitter);
 
     // Event Handlers - End Of Move
-    const endOfMoveEventHandler = new EndOfMoveEventHandler();
-    endOfMoveEventHandler.addHandler(new TurnCounterHandler(this.turnCounter));
+    const endOfMoveHandler = new EndOfMoveEventHandler();
+    endOfMoveHandler.addHandler(new TurnCounterHandler(this.turnCounter));
 
-    this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveEventHandler.handle);
+    this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveHandler.handle);
 
     // Event Handlers - Piece Moved
-    const pieceMovedEventHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesStorage, this.boardService);
-    this.eventEmitter.on(EventType.PIECE_MOVED, pieceMovedEventHandler.handle);
+    const pieceMovedHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesStorage, this.boardService);
+    this.eventEmitter.on(EventType.PIECE_MOVED, pieceMovedHandler.handle);
 
     // Event Handlers - Piece Killed
-    const pieceKilledEventHandler = new PieceKilledEventHandler(this.eventEmitter, this.boards);
-    this.eventEmitter.on(EventType.PIECE_KILLED, pieceKilledEventHandler.handle);
+    const pieceKilledHandler = new PieceKilledEventHandler(this.eventEmitter, this.boards);
+    this.eventEmitter.on(EventType.PIECE_KILLED, pieceKilledHandler.handle);
 
     // Event Handlers - Piece Spawned
-    const pieceSpawnedEventHandler = new PieceSpawnedEventHandler(this.eventEmitter, this.piecesStorage);
-    this.eventEmitter.on(EventType.PIECE_SPAWNED, pieceSpawnedEventHandler.handle);
+    const pieceSpawnedHandler = new PieceSpawnedEventHandler(this.eventEmitter, this.piecesStorage);
+    this.eventEmitter.on(EventType.PIECE_SPAWNED, pieceSpawnedHandler.handle);
+
+    // Event Handlers - Secret Rules
+    const firstBloodHandler = new FirstBloodHandler();
+    this.eventEmitter.on(EventType.AFTER_PIECE_KILLED, firstBloodHandler.handle);
+
+    const veteranHandler = new VeteranHandler();
+    this.eventEmitter.on(EventType.AFTER_PIECE_KILLED, veteranHandler.handle);
+
+    const friendlyFireHandler = new FriendlyFireHandler();
+    this.eventEmitter.on(EventType.AFTER_PIECE_KILLED, friendlyFireHandler.handle);
+
+    const beggersHandler = new BeggersHandler(this.playersStorage);
+    this.eventEmitter.on(EventType.END_OF_TURN, beggersHandler.handle);
   }
 }

@@ -38,13 +38,14 @@ export class PieceKilledEventHandler extends BaseEventHandler {
     }
 
     handle(context: Record<string, any>): void {
-        const attackedPiece: BasePiece = context['piece'];
+        const killer: BasePiece | undefined = context['killer'];
+        const victim: BasePiece = context['victim'];
         const causeOfDeath: CauseOfDeath = context['causeOfDeath'];
 
-        const nextBoard = this.determinePieceNextBoard(attackedPiece, causeOfDeath);
-        attackedPiece.position.board = nextBoard;
+        const nextBoard = this.determinePieceNextBoard(victim, causeOfDeath);
+        victim.position.board = nextBoard;
 
-        this.eventEmitter.emit(EventType.PIECE_SPAWNED, {piece: attackedPiece});
-        this.eventEmitter.emit(EventType.AFTER_PIECE_KILLED);
+        this.eventEmitter.emit(EventType.PIECE_SPAWNED, {piece: victim});
+        this.eventEmitter.emit(EventType.AFTER_PIECE_KILLED, {killer, victim});
     }
 }
