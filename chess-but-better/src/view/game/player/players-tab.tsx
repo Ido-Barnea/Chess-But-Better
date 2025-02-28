@@ -34,14 +34,14 @@ export const PlayersTab: FC = () => {
                 <Typography>{player.team.experience} XP</Typography>
                 </Box>
                 <Box sx={{
-                position: 'absolute',
-                left: '100%',
-                bottom: 0, 
-                width: '4px',
-                backgroundColor: player.team.name,
-                height: '60%',
-                }} />
-            </Box>
+                    position: 'absolute',
+                    left: '100%',
+                    bottom: 0, 
+                    width: '4px',
+                    backgroundColor: player.team.name,
+                    height: '60%',
+                    }} />
+                </Box>
             ))}
         </Stack>
     );
