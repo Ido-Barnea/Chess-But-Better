@@ -9,5 +9,5 @@ export abstract class BaseItem implements ItemBehavior {
     this.resource = resource;
   }
 
-  abstract onTrigger: (agent: BasePiece) => void;
+  abstract onTrigger(agent: BasePiece): void;
 }
