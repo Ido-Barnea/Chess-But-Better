@@ -6,6 +6,8 @@ import { useGame } from "../../../utility/context/game-context";
 import { BasePiece } from "../../../model/piece/abstract/BasePiece";
 import { Position } from "../../../model/piece/utilities/position/Position";
 import { EventType } from "../../../controller/events/Events";
+import { BaseItem } from "../../../model/player/inventory/abstract/BaseItem";
+import { Key } from "../../../utility/keys";
 
 interface TileProps {
   position: Position,
@@ -29,10 +31,18 @@ export const Tile: FC<TileProps> = ({position}) => {
     game.eventEmitter.on(EventType.AFTER_PIECE_SPAWNED, updatePiece),
   ]);
 
+  const tileDropCases: Record<Key, Function> = {
+    [Key.PIECE_KEY]: (piece: BasePiece) => game.boardService.movePiece(piece, position),
+    [Key.ITEM_KEY]: (item: BaseItem) => console.log(item),
+  }
+
   const [_, drop] = useDrop(() => ({
-    accept: 'PIECE',
-    drop: (item: { piece: BasePiece }) => {
-      game.boardService.movePiece(item.piece, position);
+    accept: [Key.PIECE_KEY, Key.ITEM_KEY],
+    drop: (item: {
+      type: Key,
+      value: BasePiece | BaseItem,
+    }) => {
+      tileDropCases[item.type](item.value);
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

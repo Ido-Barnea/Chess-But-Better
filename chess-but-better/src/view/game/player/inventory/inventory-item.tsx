@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { FC } from "react";
 import { useDrag } from "react-dnd";
 import { BaseItem } from "../../../../model/player/inventory/abstract/BaseItem";
+import { Key } from "../../../../utility/keys";
 
 interface InventoryItemProps {
     item: BaseItem;
@@ -11,8 +12,8 @@ export const InventoryItem: FC<InventoryItemProps> = ({item}) => {
     const Resource = item.resource.resource;
 
     const [{ isDragging }, drag] = useDrag({
-        type: 'ITEM',
-        item,
+        type: Key.ITEM_KEY,
+        item: { type: Key.ITEM_KEY, value: item },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),

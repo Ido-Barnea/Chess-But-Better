@@ -3,6 +3,7 @@ import { useDrop } from "react-dnd";
 import { Paper, Typography } from "@mui/material";
 import { InventoryItem } from "./inventory-item";
 import { BaseItem } from "../../../../model/player/inventory/abstract/BaseItem";
+import { Key } from "../../../../utility/keys";
 
 interface InventorySlotProps {
     index: number;
@@ -12,7 +13,7 @@ interface InventorySlotProps {
 
 export const InventorySlot: FC<InventorySlotProps> = ({index, item, onDrop}) => {
     const [, drop] = useDrop({
-        accept: 'ITEM',
+        accept: Key.ITEM_KEY,
         drop: (draggedItem: BaseItem) => onDrop(index, draggedItem),
     });
 
