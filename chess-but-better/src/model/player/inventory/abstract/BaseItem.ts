@@ -13,4 +13,5 @@ export abstract class BaseItem implements ItemBehavior {
   }
 
   abstract onTrigger(agent: BasePiece): void;
+  abstract isValidPlacement(target: BasePiece | undefined): boolean;
 }
