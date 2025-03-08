@@ -33,7 +33,7 @@ export const Tile: FC<TileProps> = ({position}) => {
 
   const tileDropCases: Record<Key, Function> = {
     [Key.PIECE_KEY]: (piece: BasePiece) => game.boardService.movePiece(piece, position),
-    [Key.ITEM_KEY]: (item: BaseItem) => console.log(item),
+    [Key.ITEM_KEY]: (item: BaseItem) => game.boardService.placeItem(item, position),
   }
 
   const [_, drop] = useDrop(() => ({

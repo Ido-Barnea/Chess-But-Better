@@ -36,6 +36,9 @@ import { FirstBloodHandler } from "../events/handlers/end-of-move-handlers/secre
 import { FriendlyFireHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FriendlyFireHandler";
 import { VeteranHandler } from "../events/handlers/end-of-move-handlers/secret-rules/VeteranHandler";
 import { BeggersHandler } from "../events/handlers/end-of-move-handlers/secret-rules/Beggers";
+import { IItemsStorage } from "../storages/items-storage/abstract/IItemsStorage";
+import { ItemsStorage } from "../storages/items-storage/ItemsStorage";
+import { PiggyBank } from "../items/PiggyBank";
 
 export class Game {
   // Teams
@@ -52,6 +55,7 @@ export class Game {
   // Storage
   public playersStorage: IPlayersStorage;
   public piecesStorage: IPiecesStorage;
+  public itemsStorage: IItemsStorage;
 
   // Services
   public piecesService: IPiecesService;
@@ -82,6 +86,7 @@ export class Game {
 
     // Storage
     this.playersStorage = new PlayersStorage([this.whitePlayer, this.blackPlayer]);
+    this.itemsStorage = new ItemsStorage([new PiggyBank()]);
 
     // Counters
     this.turnCounter = new TurnCounter(this.playersStorage);

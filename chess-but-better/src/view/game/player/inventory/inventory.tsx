@@ -1,11 +1,24 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { InventorySlot } from "./inventory-slot";
 import { BaseItem } from "../../../../model/player/inventory/abstract/BaseItem";
-import { PiggyBank } from "../../../../controller/items/PiggyBank";
+import { useGame } from "../../../../utility/context/game-context";
 
 export const Inventory: FC = () => {
-    const [items, setItems] = useState<(Array<BaseItem | undefined>)>([new PiggyBank(), undefined, undefined, undefined]);
+    const { game } = useGame();
+    const [items, setItems] = useState<(Array<BaseItem | undefined>)>([]);
+
+    useEffect(() => {
+        const inventorySize = 4;
+        const currentItems = game.itemsStorage.getItems();
+        
+        const filledItems = new Array(inventorySize).fill(undefined);
+        currentItems.forEach((item, index) => {
+            filledItems[index] = item;
+        });
+        
+        setItems(filledItems);
+    }, [game.itemsStorage]);
 
     const handleDrop = (index: number, draggedItem: BaseItem) => {
         setItems((prev) => {

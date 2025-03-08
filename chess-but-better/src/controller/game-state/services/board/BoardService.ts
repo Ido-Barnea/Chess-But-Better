@@ -7,6 +7,7 @@ import { BoardType } from "../../../../model/board/BoardTypes";
 import { IPiecesStorage } from "../../../storages/pieces-storage/abstract/IPiecesStorage";
 import { IPiecesService } from "../pieces/abstract/IPiecesService";
 import { GameEventEmitter } from "../../../events/GameEventEmitter";
+import { BaseItem } from "../../../../model/player/inventory/abstract/BaseItem";
 
 export class BoardService implements IBoardService {
   private boards: Record<BoardType, BaseBoard>;
@@ -41,7 +42,7 @@ export class BoardService implements IBoardService {
             }, [] as Array<BaseBoard>);
   }
 
-  movePiece(piece: BasePiece, to: Position) {
+  movePiece(piece: BasePiece, to: Position): void {
     if (!this.piecesService.isLegalMove(piece, to)) return;
     
     this.eventEmitter.emit(EventType.PIECE_MOVED, {piece, to});
@@ -56,5 +57,10 @@ export class BoardService implements IBoardService {
       },
       board: this.getBoard(position.board.name),
     }
+  }
+
+  placeItem(item: BaseItem, position: Position): void {
+    const pieceTarget = this.piecesService.getPieceByPosition(position);
+    // TODO: check for item target as well
   }
 }
