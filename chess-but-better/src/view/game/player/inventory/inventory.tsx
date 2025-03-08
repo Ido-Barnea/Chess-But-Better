@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
-import { Item } from "../../../../model/player/inventory/item";
 import { Grid } from "@mui/material";
 import { InventorySlot } from "./inventory-slot";
+import { BaseItem } from "../../../../model/player/inventory/abstract/BaseItem";
 
 export const Inventory: FC = () => {
-    const [items, setItems] = useState<(Array<Item | undefined>)>([undefined, undefined, undefined, undefined]);
+    const [items, setItems] = useState<(Array<BaseItem | undefined>)>([undefined, undefined, undefined, undefined]);
 
-    const handleDrop = (index: number, draggedItem: Item) => {
+    const handleDrop = (index: number, draggedItem: BaseItem) => {
         setItems((prev) => {
             const newItems = [...prev];
             const oldIndex = newItems.findIndex((i) => i?.id === draggedItem.id);

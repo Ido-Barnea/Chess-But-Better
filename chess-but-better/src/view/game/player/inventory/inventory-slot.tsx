@@ -1,19 +1,19 @@
 import { FC } from "react";
 import { useDrop } from "react-dnd";
-import { Item } from "../../../../model/player/inventory/item";
 import { Paper, Typography } from "@mui/material";
 import { InventoryItem } from "./inventory-item";
+import { BaseItem } from "../../../../model/player/inventory/abstract/BaseItem";
 
 interface InventorySlotProps {
     index: number;
-    item: Item | undefined;
-    onDrop: (index: number, item: Item) => void;
+    item: BaseItem | undefined;
+    onDrop: (index: number, item: BaseItem) => void;
 }
 
 export const InventorySlot: FC<InventorySlotProps> = ({index, item, onDrop}) => {
     const [, drop] = useDrop({
         accept: 'ITEM',
-        drop: (draggedItem: Item) => onDrop(index, draggedItem),
+        drop: (draggedItem: BaseItem) => onDrop(index, draggedItem),
     });
 
     return (
