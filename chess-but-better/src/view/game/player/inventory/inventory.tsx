@@ -21,8 +21,7 @@ export const Inventory: FC = () => {
         setItems(filledItems);
     };
 
-    useEffect(() => updateItems, []);
-
+    useEffect(() => {updateItems()}, []);
     useEffect(() => {}, [
         game.eventEmitter.on(EventType.AFTER_ITEM_PLACED, updateItems),
     ]);

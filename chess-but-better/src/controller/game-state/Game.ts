@@ -146,7 +146,7 @@ export class Game {
     this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveHandler.handle);
 
     // Event Handlers - Piece Moved
-    const pieceMovedHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesStorage, this.boardService);
+    const pieceMovedHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesService, this.boardService, this.itemsService);
     this.eventEmitter.on(EventType.PIECE_MOVED, pieceMovedHandler.handle);
 
     // Event Handlers - Piece Killed
