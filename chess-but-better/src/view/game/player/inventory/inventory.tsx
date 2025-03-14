@@ -3,14 +3,15 @@ import { Grid } from "@mui/material";
 import { InventorySlot } from "./inventory-slot";
 import { BaseItem } from "../../../../model/player/inventory/abstract/BaseItem";
 import { useGame } from "../../../../utility/context/game-context";
+import { EventType } from "../../../../controller/events/Events";
 
 export const Inventory: FC = () => {
     const { game } = useGame();
     const [items, setItems] = useState<(Array<BaseItem | undefined>)>([]);
 
-    useEffect(() => {
+    const updateItems = () => {
         const inventorySize = 4;
-        const currentItems = game.itemsStorage.getItems();
+        const currentItems = game.itemsStorage.getItems((item) => !item.position);
         
         const filledItems = new Array(inventorySize).fill(undefined);
         currentItems.forEach((item, index) => {
@@ -18,7 +19,13 @@ export const Inventory: FC = () => {
         });
         
         setItems(filledItems);
-    }, [game.itemsStorage]);
+    };
+
+    useEffect(() => updateItems, []);
+
+    useEffect(() => {}, [
+        game.eventEmitter.on(EventType.AFTER_ITEM_PLACED, updateItems),
+    ]);
 
     const handleDrop = (index: number, draggedItem: BaseItem) => {
         setItems((prev) => {
