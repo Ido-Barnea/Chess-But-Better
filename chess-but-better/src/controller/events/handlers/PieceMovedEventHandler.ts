@@ -34,7 +34,8 @@ export class PieceMovedEventHandler extends BaseEventHandler {
 
         const itemInTargetPosition = this.itemsService.getItemByPosition(movedTo);
         if (itemInTargetPosition) {
-            itemInTargetPosition.onTrigger(piece);
+            this.itemsService.useItem(itemInTargetPosition, piece);
+            this.eventEmitter.emit(EventType.ITEM_TRIGGERED);
         }
     }
     

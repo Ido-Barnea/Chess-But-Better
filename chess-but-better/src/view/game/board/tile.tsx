@@ -37,6 +37,7 @@ export const Tile: FC<TileProps> = ({position}) => {
     game.eventEmitter.on(EventType.AFTER_PIECE_KILLED, updatePiece),
     game.eventEmitter.on(EventType.AFTER_PIECE_SPAWNED, updatePiece),
     game.eventEmitter.on(EventType.AFTER_ITEM_PLACED, updateItem),
+    game.eventEmitter.on(EventType.ITEM_TRIGGERED, updateItem),
   ]);
 
   const tileDropCases: Record<Key, Function> = {

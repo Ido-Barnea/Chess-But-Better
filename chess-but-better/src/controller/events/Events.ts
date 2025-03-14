@@ -8,4 +8,5 @@ export enum EventType {
   AFTER_PIECE_SPAWNED,
   ITEM_PLACED,
   AFTER_ITEM_PLACED,
+  ITEM_TRIGGERED,
 }
