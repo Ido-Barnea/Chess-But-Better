@@ -158,7 +158,7 @@ export class Game {
     this.eventEmitter.on(EventType.PIECE_SPAWNED, pieceSpawnedHandler.handle);
 
     // Event Handler - Item Placed
-    const itemPlacedHandler = new ItemPlacedEventHandler(this.piecesService, this.itemsService);
+    const itemPlacedHandler = new ItemPlacedEventHandler(this.eventEmitter, this.piecesService, this.itemsService);
     this.eventEmitter.on(EventType.ITEM_PLACED, itemPlacedHandler.handle);
 
     // Event Handlers - Secret Rules

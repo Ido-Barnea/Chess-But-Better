@@ -4,13 +4,17 @@ import { BaseItem } from "../../../model/player/inventory/abstract/BaseItem";
 import { TileOccupantType } from "../../game-state/services/board/TileOccupantType";
 import { IPiecesService } from "../../game-state/services/pieces/abstract/IPiecesService";
 import { IItemsService } from "../../game-state/services/items/abstract/IItemsService";
+import { GameEventEmitter } from "../GameEventEmitter";
+import { EventType } from "../Events";
 
 export class ItemPlacedEventHandler extends BaseEventHandler {
+    private eventEmitter: GameEventEmitter;
     private piecesService: IPiecesService;
     private itemsService: IItemsService;
 
-    constructor(piecesService: IPiecesService, itemsService: IItemsService) {
+    constructor(eventEmitter: GameEventEmitter, piecesService: IPiecesService, itemsService: IItemsService) {
         super();
+        this.eventEmitter = eventEmitter;
         this.piecesService = piecesService;
         this.itemsService = itemsService;
     }
@@ -29,11 +33,10 @@ export class ItemPlacedEventHandler extends BaseEventHandler {
         const item: BaseItem = context['item'];
         const position: Position = context['position'];
 
-        console.log(item, position);
-
         const occupantType = this.determineTileOccupantByPosition(position);
         if (item.isValidPlacement(occupantType)) {
             item.position = position;
+            this.eventEmitter.emit(EventType.AFTER_ITEM_PLACED);
         }
     }
 }
