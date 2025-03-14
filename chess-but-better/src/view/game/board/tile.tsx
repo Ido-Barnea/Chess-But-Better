@@ -6,6 +6,9 @@ import { useGame } from "../../../utility/context/game-context";
 import { BasePiece } from "../../../model/piece/abstract/BasePiece";
 import { Position } from "../../../model/piece/utilities/position/Position";
 import { EventType } from "../../../controller/events/Events";
+import { BaseItem } from "../../../model/player/inventory/abstract/BaseItem";
+import { Key } from "../../../utility/keys";
+import { Item } from "../player/inventory/item";
 
 interface TileProps {
   position: Position,
@@ -17,22 +20,38 @@ export const Tile: FC<TileProps> = ({position}) => {
   const { game } = useGame();
 
   const [piece, setPiece] = useState<BasePiece | undefined>(game.piecesService.getPieceByPosition(position));
+  const [item, setItem] = useState<BaseItem | undefined>(game.itemsService.getItemByPosition(position));
 
   const updatePiece = () => {
     const updatedPiece = game.piecesService.getPieceByPosition(position);
     setPiece(updatedPiece);
   };
 
+  const updateItem = () => {
+    const updatedItem = game.itemsService.getItemByPosition(position);
+    setItem(updatedItem);
+  }
+
   useEffect(() => {}, [
     game.eventEmitter.on(EventType.AFTER_PIECE_MOVED, updatePiece),
     game.eventEmitter.on(EventType.AFTER_PIECE_KILLED, updatePiece),
     game.eventEmitter.on(EventType.AFTER_PIECE_SPAWNED, updatePiece),
+    game.eventEmitter.on(EventType.AFTER_ITEM_PLACED, updateItem),
+    game.eventEmitter.on(EventType.ITEM_TRIGGERED, updateItem),
   ]);
 
+  const tileDropCases: Record<Key, Function> = {
+    [Key.PIECE_KEY]: (piece: BasePiece) => game.boardService.movePiece(piece, position),
+    [Key.ITEM_KEY]: (item: BaseItem) => game.boardService.placeItem(item, position),
+  }
+
   const [_, drop] = useDrop(() => ({
-    accept: 'PIECE',
-    drop: (item: { piece: BasePiece }) => {
-      game.boardService.movePiece(item.piece, position);
+    accept: [Key.PIECE_KEY, Key.ITEM_KEY],
+    drop: (item: {
+      type: Key,
+      value: any,
+    }) => {
+      tileDropCases[item.type](item.value);
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -54,6 +73,7 @@ export const Tile: FC<TileProps> = ({position}) => {
       }}
     >
       {piece && <Piece key={piece.resource.name} piece={piece} />}
+      {item && <Item key={item.resource.name} item={item} />}
     </Box>
   );
 };

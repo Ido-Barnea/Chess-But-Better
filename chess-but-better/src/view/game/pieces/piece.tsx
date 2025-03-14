@@ -2,6 +2,7 @@ import { FC } from "react";
 import { BasePiece } from "../../../model/piece/abstract/BasePiece";
 import { useDrag } from "react-dnd";
 import { Box } from "@mui/material";
+import { Key } from "../../../utility/keys";
 
 interface PieceProps {
     piece: BasePiece;
@@ -11,8 +12,8 @@ export const Piece: FC<PieceProps> = ({piece}) => {
     const Resource = piece.resource.resource;
 
     const [{ isDragging }, drag] = useDrag(() => ({
-        type: 'PIECE',
-        item: { piece },
+        type: Key.PIECE_KEY,
+        item: { type: Key.PIECE_KEY, value: piece },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),

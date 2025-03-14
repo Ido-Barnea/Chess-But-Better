@@ -1,23 +1,25 @@
-import { isEqual } from "lodash";
 import { BasePiece } from "../../../model/piece/abstract/BasePiece";
-import { IPiecesStorage } from "../../storages/pieces-storage/abstract/IPiecesStorage";
 import { Position } from "../../../model/piece/utilities/position/Position";
 import { EventType } from "../Events";
 import { GameEventEmitter } from "../GameEventEmitter";
 import { BaseEventHandler } from "../abstract/BaseEventHandler";
 import { CauseOfDeath } from "./PieceKilledEventHandler";
 import { IBoardService } from "../../game-state/services/board/abstract/IBoardService";
+import { IPiecesService } from "../../game-state/services/pieces/abstract/IPiecesService";
+import { IItemsService } from "../../game-state/services/items/abstract/IItemsService";
 
 export class PieceMovedEventHandler extends BaseEventHandler {
     private eventEmitter: GameEventEmitter;
-    private piecesStorage: IPiecesStorage;
+    private piecesService: IPiecesService;
     private boardService: IBoardService;
+    private itemsService: IItemsService;
 
-    constructor(eventEmitter: GameEventEmitter, piecesStorage: IPiecesStorage, boardService: IBoardService) {
+    constructor(eventEmitter: GameEventEmitter, piecesService: IPiecesService, boardService: IBoardService, itemsService: IItemsService) {
         super();
         this.eventEmitter = eventEmitter;
-        this.piecesStorage = piecesStorage;
+        this.piecesService = piecesService;
         this.boardService = boardService;
+        this.itemsService = itemsService;
     }
 
     calculateMovementDistance(from: Position, to: Position): number {
@@ -29,6 +31,12 @@ export class PieceMovedEventHandler extends BaseEventHandler {
     
     handleMove(piece: BasePiece, movedTo: Position) {
         piece.position = movedTo;
+
+        const itemInTargetPosition = this.itemsService.getItemByPosition(movedTo);
+        if (itemInTargetPosition) {
+            this.itemsService.useItem(itemInTargetPosition, piece);
+            this.eventEmitter.emit(EventType.ITEM_TRIGGERED);
+        }
     }
     
     handleAttack(piece: BasePiece, attackedPiece: BasePiece) {
@@ -55,11 +63,11 @@ export class PieceMovedEventHandler extends BaseEventHandler {
         const movementDistance = this.calculateMovementDistance(piece.position, movedTo);
         piece.stats.tilesMoved += movementDistance;
 
-        const piecesInTargetPosition = this.piecesStorage.getPieces((p) => isEqual(p.position, movedTo));
-        if (piecesInTargetPosition.length === 0) {
+        const pieceInTargetPosition = this.piecesService.getPieceByPosition(movedTo);
+        if (!pieceInTargetPosition) {
             this.handleMove(piece, movedTo);
         } else {
-            this.handleAttack(piece, piecesInTargetPosition[0]);
+            this.handleAttack(piece, pieceInTargetPosition);
         }
 
         this.eventEmitter.emit(EventType.AFTER_PIECE_MOVED);

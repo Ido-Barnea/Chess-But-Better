@@ -11,21 +11,21 @@ import PawnResource from '../../../assets/images/pieces/base/PawnResource.svg?re
 
 export class PieceUtilities {
   private static pieceResources: Record<string, PieceResources> = {
-    'pawn-white': new PieceResources(Pieces.PAWN, PieceIcon.WHITE_PAWN, PawnResource),
-    'pawn-black': new PieceResources(Pieces.PAWN, PieceIcon.BLACK_PAWN, PawnResource),
-    'knight-white': new PieceResources(Pieces.KNIGHT, PieceIcon.WHITE_KNIGHT, KnightResource),
-    'knight-black': new PieceResources(Pieces.KNIGHT, PieceIcon.BLACK_KNIGHT, KnightResource),
-    'bishop-white': new PieceResources(Pieces.BISHOP, PieceIcon.WHITE_BISHOP, BishopResource),
-    'bishop-black': new PieceResources(Pieces.BISHOP, PieceIcon.BLACK_BISHOP, BishopResource),
-    'rook-white': new PieceResources(Pieces.ROOK, PieceIcon.WHITE_ROOK, RookResource),
-    'rook-black': new PieceResources(Pieces.ROOK, PieceIcon.BLACK_ROOK, RookResource),
-    'queen-white': new PieceResources(Pieces.QUEEN, PieceIcon.WHITE_QUEEN, QueenResource),
-    'queen-black': new PieceResources(Pieces.QUEEN, PieceIcon.BLACK_QUEEN, QueenResource),
-    'king-white': new PieceResources(Pieces.KING, PieceIcon.WHITE_KING, KingResource),
-    'king-black': new PieceResources(Pieces.KING, PieceIcon.BLACK_KING, KingResource),
+    'pawn-white': {name: Pieces.PAWN, icon: PieceIcon.WHITE_PAWN, resource: PawnResource},
+    'pawn-black': {name: Pieces.PAWN, icon: PieceIcon.BLACK_PAWN, resource: PawnResource},
+    'knight-white': {name: Pieces.KNIGHT, icon: PieceIcon.WHITE_KNIGHT, resource: KnightResource},
+    'knight-black': {name: Pieces.KNIGHT, icon: PieceIcon.BLACK_KNIGHT, resource: KnightResource},
+    'bishop-white': {name: Pieces.BISHOP, icon: PieceIcon.WHITE_BISHOP, resource: BishopResource},
+    'bishop-black': {name: Pieces.BISHOP, icon: PieceIcon.BLACK_BISHOP, resource: BishopResource},
+    'rook-white': {name: Pieces.ROOK, icon: PieceIcon.WHITE_ROOK, resource: RookResource},
+    'rook-black': {name: Pieces.ROOK, icon: PieceIcon.BLACK_ROOK, resource: RookResource},
+    'queen-white': {name: Pieces.QUEEN, icon: PieceIcon.WHITE_QUEEN, resource: QueenResource},
+    'queen-black': {name: Pieces.QUEEN, icon: PieceIcon.BLACK_QUEEN, resource: QueenResource},
+    'king-white': {name: Pieces.KING, icon: PieceIcon.WHITE_KING, resource: KingResource},
+    'king-black': {name: Pieces.KING, icon: PieceIcon.BLACK_KING, resource: KingResource},
   };
 
-  static getPieceResources(pieceType: PieceType, team: ITeam) {
+  static getPieceResources(pieceType: PieceType, team: ITeam): PieceResources {
     const key = `${pieceType}-${team.name.toLowerCase()}`;
     const resource = PieceUtilities.pieceResources[key];
 

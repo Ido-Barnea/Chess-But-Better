@@ -5,6 +5,7 @@ import { EventType } from '../../../controller/events/Events';
 import { PlayersTab } from './players-tab';
 import { TurnInfo } from './turn-info';
 import { Colors } from '../../colors';
+import { Inventory } from './inventory/inventory';
 
 export const PlayerView: FC = () => {
   const { game } = useGame();
@@ -33,6 +34,7 @@ export const PlayerView: FC = () => {
     }}>
       <TurnInfo />
       <PlayersTab />
+      <Inventory />
     </Box>
   );
 };

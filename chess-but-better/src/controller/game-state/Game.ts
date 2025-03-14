@@ -36,6 +36,12 @@ import { FirstBloodHandler } from "../events/handlers/end-of-move-handlers/secre
 import { FriendlyFireHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FriendlyFireHandler";
 import { VeteranHandler } from "../events/handlers/end-of-move-handlers/secret-rules/VeteranHandler";
 import { BeggersHandler } from "../events/handlers/end-of-move-handlers/secret-rules/Beggers";
+import { IItemsStorage } from "../storages/items-storage/abstract/IItemsStorage";
+import { ItemsStorage } from "../storages/items-storage/ItemsStorage";
+import { PiggyBank } from "../items/PiggyBank";
+import { ItemsService } from "./services/items/ItemsService";
+import { IItemsService } from "./services/items/abstract/IItemsService";
+import { ItemPlacedEventHandler } from "../events/handlers/ItemPlacedEventHandler";
 
 export class Game {
   // Teams
@@ -51,11 +57,13 @@ export class Game {
 
   // Storage
   public playersStorage: IPlayersStorage;
-  public piecesStorage: IPiecesStorage;
+  private piecesStorage: IPiecesStorage;
+  public itemsStorage: IItemsStorage;
 
   // Services
   public piecesService: IPiecesService;
   public boardService: IBoardService;
+  public itemsService: IItemsService;
 
   // Counters
   public turnCounter: ITurnCounter;
@@ -82,6 +90,7 @@ export class Game {
 
     // Storage
     this.playersStorage = new PlayersStorage([this.whitePlayer, this.blackPlayer]);
+    this.itemsStorage = new ItemsStorage([new PiggyBank(undefined)]);
 
     // Counters
     this.turnCounter = new TurnCounter(this.playersStorage);
@@ -128,6 +137,7 @@ export class Game {
     // Services
     this.piecesService = new PiecesService(this.piecesStorage, this.turnCounter);
     this.boardService = new BoardService(this.boards, this.piecesStorage, this.piecesService, this.eventEmitter);
+    this.itemsService = new ItemsService(this.itemsStorage);
 
     // Event Handlers - End Of Move
     const endOfMoveHandler = new EndOfMoveEventHandler();
@@ -136,7 +146,7 @@ export class Game {
     this.eventEmitter.on(EventType.END_OF_TURN, endOfMoveHandler.handle);
 
     // Event Handlers - Piece Moved
-    const pieceMovedHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesStorage, this.boardService);
+    const pieceMovedHandler = new PieceMovedEventHandler(this.eventEmitter, this.piecesService, this.boardService, this.itemsService);
     this.eventEmitter.on(EventType.PIECE_MOVED, pieceMovedHandler.handle);
 
     // Event Handlers - Piece Killed
@@ -146,6 +156,10 @@ export class Game {
     // Event Handlers - Piece Spawned
     const pieceSpawnedHandler = new PieceSpawnedEventHandler(this.eventEmitter, this.piecesStorage);
     this.eventEmitter.on(EventType.PIECE_SPAWNED, pieceSpawnedHandler.handle);
+
+    // Event Handler - Item Placed
+    const itemPlacedHandler = new ItemPlacedEventHandler(this.eventEmitter, this.piecesService, this.itemsService);
+    this.eventEmitter.on(EventType.ITEM_PLACED, itemPlacedHandler.handle);
 
     // Event Handlers - Secret Rules
     const firstBloodHandler = new FirstBloodHandler();
