@@ -39,6 +39,8 @@ import { BeggersHandler } from "../events/handlers/end-of-move-handlers/secret-r
 import { IItemsStorage } from "../storages/items-storage/abstract/IItemsStorage";
 import { ItemsStorage } from "../storages/items-storage/ItemsStorage";
 import { PiggyBank } from "../items/PiggyBank";
+import { ItemsService } from "./services/items/ItemsService";
+import { IItemsService } from "./services/items/abstract/IItemsService";
 
 export class Game {
   // Teams
@@ -54,12 +56,13 @@ export class Game {
 
   // Storage
   public playersStorage: IPlayersStorage;
-  public piecesStorage: IPiecesStorage;
+  private piecesStorage: IPiecesStorage;
   public itemsStorage: IItemsStorage;
 
   // Services
   public piecesService: IPiecesService;
   public boardService: IBoardService;
+  public itemsService: IItemsService;
 
   // Counters
   public turnCounter: ITurnCounter;
@@ -86,7 +89,7 @@ export class Game {
 
     // Storage
     this.playersStorage = new PlayersStorage([this.whitePlayer, this.blackPlayer]);
-    this.itemsStorage = new ItemsStorage([new PiggyBank()]);
+    this.itemsStorage = new ItemsStorage([new PiggyBank(undefined)]);
 
     // Counters
     this.turnCounter = new TurnCounter(this.playersStorage);
@@ -133,6 +136,7 @@ export class Game {
     // Services
     this.piecesService = new PiecesService(this.piecesStorage, this.turnCounter);
     this.boardService = new BoardService(this.boards, this.piecesStorage, this.piecesService, this.eventEmitter);
+    this.itemsService = new ItemsService(this.itemsStorage);
 
     // Event Handlers - End Of Move
     const endOfMoveHandler = new EndOfMoveEventHandler();

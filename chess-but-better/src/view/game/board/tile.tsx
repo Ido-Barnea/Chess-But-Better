@@ -8,6 +8,7 @@ import { Position } from "../../../model/piece/utilities/position/Position";
 import { EventType } from "../../../controller/events/Events";
 import { BaseItem } from "../../../model/player/inventory/abstract/BaseItem";
 import { Key } from "../../../utility/keys";
+import { Item } from "../player/inventory/item";
 
 interface TileProps {
   position: Position,
@@ -19,16 +20,23 @@ export const Tile: FC<TileProps> = ({position}) => {
   const { game } = useGame();
 
   const [piece, setPiece] = useState<BasePiece | undefined>(game.piecesService.getPieceByPosition(position));
+  const [item, setItem] = useState<BaseItem | undefined>(game.itemsService.getItemByPosition(position));
 
   const updatePiece = () => {
     const updatedPiece = game.piecesService.getPieceByPosition(position);
     setPiece(updatedPiece);
   };
 
+  const updateItem = () => {
+    const updatedItem = game.itemsService.getItemByPosition(position);
+    setItem(updatedItem);
+  }
+
   useEffect(() => {}, [
     game.eventEmitter.on(EventType.AFTER_PIECE_MOVED, updatePiece),
     game.eventEmitter.on(EventType.AFTER_PIECE_KILLED, updatePiece),
     game.eventEmitter.on(EventType.AFTER_PIECE_SPAWNED, updatePiece),
+    game.eventEmitter.on(EventType.AFTER_ITEM_PLACED, updateItem),
   ]);
 
   const tileDropCases: Record<Key, Function> = {
@@ -64,6 +72,7 @@ export const Tile: FC<TileProps> = ({position}) => {
       }}
     >
       {piece && <Piece key={piece.resource.name} piece={piece} />}
+      {item && <Item key={item.resource.name} item={item} />}
     </Box>
   );
 };
