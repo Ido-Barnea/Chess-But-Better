@@ -4,19 +4,21 @@ import { ItemResources } from "../../model/player/inventory/utilities/ItemResour
 import { ItemIcon } from "./types/ItemIcons";
 import { Items } from "./types/Items";
 import PiggyBankResource from '../../assets/images/items/PiggyBankResource.svg?react';
+import { TileOccupantType } from "../game-state/services/board/TileOccupantType";
+import { Position } from "../../model/piece/utilities/position/Position";
 
 export class PiggyBank extends BaseItem {
   private MIN_COIN_COUNT = 1;
   private MAX_COIN_COUNT = 5;
 
-  constructor() {
+  constructor(position: Position | undefined) {
     const resource: ItemResources = {
       name: Items.PIGGY_BANK,
       icon: ItemIcon.PIGGY_BANK,
       resource: PiggyBankResource,
     };
 
-    super(resource);
+    super(resource, position);
   }
 
   private getRandomGoldAmount = (min: number, max: number): number => {
@@ -28,7 +30,7 @@ export class PiggyBank extends BaseItem {
     agent.team.gold += goldCount;
   }
 
-  isValidPlacement(target: BasePiece | undefined): boolean {
-    return !target;
+  isValidPlacement(occupantType: TileOccupantType): boolean {
+    return occupantType === TileOccupantType.EMPTY; 
   }
 }

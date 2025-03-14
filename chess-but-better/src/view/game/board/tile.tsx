@@ -40,7 +40,7 @@ export const Tile: FC<TileProps> = ({position}) => {
     accept: [Key.PIECE_KEY, Key.ITEM_KEY],
     drop: (item: {
       type: Key,
-      value: BasePiece | BaseItem,
+      value: any,
     }) => {
       tileDropCases[item.type](item.value);
     },

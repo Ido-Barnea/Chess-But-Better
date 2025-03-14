@@ -60,7 +60,8 @@ export class BoardService implements IBoardService {
   }
 
   placeItem(item: BaseItem, position: Position): void {
-    const pieceTarget = this.piecesService.getPieceByPosition(position);
-    // TODO: check for item target as well
+    if (!item) return;
+
+    this.eventEmitter.emit(EventType.ITEM_PLACED, {item, position});
   }
 }
