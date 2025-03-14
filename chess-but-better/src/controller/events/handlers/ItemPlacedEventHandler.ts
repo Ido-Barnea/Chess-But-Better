@@ -1,27 +1,26 @@
-import { isEqual } from "lodash";
-import { IPiecesStorage } from "../../storages/pieces-storage/abstract/IPiecesStorage";
 import { Position } from "../../../model/piece/utilities/position/Position";
 import { BaseEventHandler } from "../abstract/BaseEventHandler";
-import { IItemsStorage } from "../../storages/items-storage/abstract/IItemsStorage";
 import { BaseItem } from "../../../model/player/inventory/abstract/BaseItem";
 import { TileOccupantType } from "../../game-state/services/board/TileOccupantType";
+import { IPiecesService } from "../../game-state/services/pieces/abstract/IPiecesService";
+import { IItemsService } from "../../game-state/services/items/abstract/IItemsService";
 
 export class ItemPlacedEventHandler extends BaseEventHandler {
-    private piecesStorage: IPiecesStorage;
-    private itemsStorage: IItemsStorage;
+    private piecesService: IPiecesService;
+    private itemsService: IItemsService;
 
-    constructor(piecesStorage: IPiecesStorage, itemsStorage: IItemsStorage) {
+    constructor(piecesService: IPiecesService, itemsService: IItemsService) {
         super();
-        this.piecesStorage = piecesStorage;
-        this.itemsStorage = itemsStorage;
+        this.piecesService = piecesService;
+        this.itemsService = itemsService;
     }
     
     determineTileOccupantByPosition(position: Position): TileOccupantType {
-        const matchingPieces = this.piecesStorage.getPieces((piece) => isEqual(piece.position, position));
-        if (matchingPieces.length > 0) TileOccupantType.PIECE;
+        const matchingPiece = this.piecesService.getPieceByPosition(position);
+        if (matchingPiece) TileOccupantType.PIECE;
 
-        const matchingItems = this.itemsStorage.getItems((item) => isEqual(item.position, position));
-        if (matchingItems.length > 0) return TileOccupantType.ITEM;
+        const matchingItem = this.itemsService.getItemByPosition(position);
+        if (matchingItem) return TileOccupantType.ITEM;
 
         return TileOccupantType.EMPTY;
     }
@@ -29,6 +28,8 @@ export class ItemPlacedEventHandler extends BaseEventHandler {
     handle(context: Record<string, any>): void {
         const item: BaseItem = context['item'];
         const position: Position = context['position'];
+
+        console.log(item, position);
 
         const occupantType = this.determineTileOccupantByPosition(position);
         if (item.isValidPlacement(occupantType)) {

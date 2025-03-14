@@ -41,6 +41,7 @@ import { ItemsStorage } from "../storages/items-storage/ItemsStorage";
 import { PiggyBank } from "../items/PiggyBank";
 import { ItemsService } from "./services/items/ItemsService";
 import { IItemsService } from "./services/items/abstract/IItemsService";
+import { ItemPlacedEventHandler } from "../events/handlers/ItemPlacedEventHandler";
 
 export class Game {
   // Teams
@@ -155,6 +156,10 @@ export class Game {
     // Event Handlers - Piece Spawned
     const pieceSpawnedHandler = new PieceSpawnedEventHandler(this.eventEmitter, this.piecesStorage);
     this.eventEmitter.on(EventType.PIECE_SPAWNED, pieceSpawnedHandler.handle);
+
+    // Event Handler - Item Placed
+    const itemPlacedHandler = new ItemPlacedEventHandler(this.piecesService, this.itemsService);
+    this.eventEmitter.on(EventType.ITEM_PLACED, itemPlacedHandler.handle);
 
     // Event Handlers - Secret Rules
     const firstBloodHandler = new FirstBloodHandler();
