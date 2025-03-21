@@ -36,12 +36,12 @@ import { FirstBloodHandler } from "../events/handlers/end-of-move-handlers/secre
 import { FriendlyFireHandler } from "../events/handlers/end-of-move-handlers/secret-rules/FriendlyFireHandler";
 import { VeteranHandler } from "../events/handlers/end-of-move-handlers/secret-rules/VeteranHandler";
 import { BeggersHandler } from "../events/handlers/end-of-move-handlers/secret-rules/Beggers";
-import { IItemsStorage } from "../storages/items-storage/abstract/IItemsStorage";
 import { ItemsStorage } from "../storages/items-storage/ItemsStorage";
 import { PiggyBank } from "../items/PiggyBank";
 import { ItemsService } from "./services/items/ItemsService";
 import { IItemsService } from "./services/items/abstract/IItemsService";
 import { ItemPlacedEventHandler } from "../events/handlers/ItemPlacedEventHandler";
+import { IEditableItemsStorage } from "../storages/items-storage/abstract/IEditableItemsStorage";
 
 export class Game {
   // Teams
@@ -58,7 +58,7 @@ export class Game {
   // Storage
   public playersStorage: IPlayersStorage;
   private piecesStorage: IPiecesStorage;
-  public itemsStorage: IItemsStorage;
+  public itemsStorage: IEditableItemsStorage;
 
   // Services
   public piecesService: IPiecesService;
